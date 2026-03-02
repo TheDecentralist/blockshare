@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vancouver Neighbourhood Voting</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
+
+/* Header */
+.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px 20px 0; text-align: center; }
+.header h1 { font-size: 1.8rem; margin-bottom: 6px; }
+.header p { opacity: 0.85; font-size: 0.95rem; margin-bottom: 14px; }
+.location-bar { background: rgba(0,0,0,0.15); padding: 12px 20px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.location-bar label { color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 600; }
+.location-bar select { padding: 7px 14px; border-radius: 20px; border: none; background: white; color: #333; font-size: 0.9rem; cursor: pointer; min-width: 180px; }
+
+/* Nav */
+.nav { display: flex; justify-content: center; background: white; border-bottom: 2px solid #e0e0e0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.nav-btn { padding: 14px 22px; border: none; background: none; cursor: pointer; font-size: 0.92rem; color: #666; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+.nav-btn:hover { color: #764ba2; background: #f8f5ff; }
+.nav-btn.active { color: #764ba2; border-bottom-color: #764ba2; font-weight: 600; }
+
+/* Sections */
+.section { display: none; padding: 24px; max-width: 1100px; margin: 0 auto; }
+.section.active { display: block; }
+.section-title { font-size: 1.3rem; font-weight: 700; color: #333; margin-bottom: 4px; }
+.section-subtitle { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+
+/* Map */
+.map-scroll { overflow-x: auto; text-align: center; padding-bottom: 8px; }
+.map-title { margin-bottom: 14px; }
+.map-title h2 { font-size: 1.2rem; color: #333; }
+.map-title p { color: #666; font-size: 0.88rem; margin-top: 4px; }
+.map-grid { display: inline-grid; grid-template-columns: repeat(8, 108px); grid-template-rows: repeat(6, 65px); gap: 4px; padding: 14px; background: linear-gradient(135deg, #e8f4fd 0%, #dceefb 100%); border-radius: 14px; border: 2px solid #b3d9f0; }
+.map-cell { border-radius: 7px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.68rem; font-weight: 500; padding: 4px 3px; transition: all 0.18s; line-height: 1.25; }
+.map-cell.area { background: #9b8ec4; color: white; border: 2px solid transparent; cursor: pointer; }
+.map-cell.area:hover { background: #764ba2; transform: scale(1.06); z-index: 2; box-shadow: 0 4px 14px rgba(118,75,162,0.45); position: relative; }
+.map-cell.area.selected-a { background: #d63384; border-color: #b0236c; box-shadow: 0 0 0 3px rgba(214,51,132,0.35); }
+.map-cell.area.selected-b { background: #0d6efd; border-color: #0a53be; box-shadow: 0 0 0 3px rgba(13,110,253,0.35); }
+.map-cell.area.user-area { border: 2px solid #ffd700; box-shadow: 0 0 0 2px #ffd700; }
+.map-cell.area.adjacent { background: #b8a9d9; }
+.map-cell.water { background: rgba(183,222,243,0.55); cursor: default; }
+.map-legend { display: flex; gap: 14px; justify-content: center; margin-top: 12px; flex-wrap: wrap; font-size: 0.8rem; color: #555; }
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-dot { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+.map-info { margin-top: 16px; background: white; border-radius: 12px; padding: 16px 20px; text-align: left; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.map-info h3 { color: #764ba2; font-size: 1.1rem; margin-bottom: 8px; }
+.map-info p { color: #555; font-size: 0.88rem; line-height: 1.5; }
+.map-info .action-btns { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-action { padding: 7px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: opacity 0.15s; }
+.btn-action:hover { opacity: 0.88; }
+
+/* Compare */
+.compare-controls { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.compare-controls label { font-weight: 600; font-size: 0.9rem; }
+.compare-controls select { padding: 8px 14px; border-radius: 8px; border: 2px solid #ddd; font-size: 0.9rem; min-width: 160px; }
+.compare-controls select:focus { outline: none; border-color: #764ba2; }
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 680px) { .compare-grid { grid-template-columns: 1fr; } }
+.compare-card { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.compare-card h3 { font-size: 1.1rem; margin-bottom: 2px; }
+.card-subtitle { color: #888; font-size: 0.82rem; margin-bottom: 14px; }
+.stat-big { font-size: 1.7rem; font-weight: 700; color: #764ba2; }
+.stat-big-label { color: #888; font-size: 0.78rem; margin-bottom: 16px; }
+.stat-row { margin-bottom: 11px; }
+.stat-label { font-size: 0.8rem; color: #555; margin-bottom: 4px; display: flex; justify-content: space-between; }
+.stat-bar-bg { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+.stat-bar { height: 8px; border-radius: 4px; transition: width 0.5s ease; }
+.amenities-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.amenity-tag { background: #f0ebff; color: #764ba2; padding: 3px 9px; border-radius: 12px; font-size: 0.77rem; }
+.no-data { text-align: center; padding: 40px; color: #aaa; grid-column: 1 / -1; font-size: 1rem; }
+
+/* Vote */
+.vote-filter { display: flex; gap: 7px; margin-bottom: 20px; flex-wrap: wrap; }
+.filter-btn { padding: 7px 14px; border-radius: 20px; border: 2px solid #ddd; background: white; cursor: pointer; font-size: 0.83rem; color: #555; transition: all 0.18s; }
+.filter-btn:hover { border-color: #764ba2; color: #764ba2; }
+.filter-btn.active { background: #764ba2; color: white; border-color: #764ba2; }
+.proposals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.proposal-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-left: 4px solid #ddd; transition: box-shadow 0.2s; }
+.proposal-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.12); }
+.proposal-card.my-area { border-left-color: #d63384; }
+.proposal-card.adjacent-area { border-left-color: #764ba2; }
+.proposal-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.area-tag { font-size: 0.73rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; line-height: 1.4; }
+.tag-my-area { background: #fde8f3; color: #b0236c; }
+.tag-adjacent { background: #f0ebff; color: #5a3d9e; }
+.tag-other { background: #f0f4ff; color: #555; }
+.cat-tag { font-size: 0.73rem; color: #999; }
+.proposal-title { font-size: 0.97rem; font-weight: 700; color: #222; margin-bottom: 6px; }
+.proposal-desc { font-size: 0.83rem; color: #666; margin-bottom: 13px; line-height: 1.45; }
+.vote-row { display: flex; gap: 8px; align-items: center; }
+.vote-btn { flex: 1; padding: 8px 4px; border: 2px solid; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; transition: all 0.18s; background: white; }
+.vote-btn.support { color: #198754; border-color: #198754; }
+.vote-btn.support:hover:not(:disabled), .vote-btn.support.voted { background: #198754; color: white; }
+.vote-btn.oppose { color: #dc3545; border-color: #dc3545; }
+.vote-btn.oppose:hover:not(:disabled), .vote-btn.oppose.voted { background: #dc3545; color: white; }
+.vote-btn:disabled { cursor: not-allowed; opacity: 0.65; }
+.vote-btn.voted:disabled { opacity: 1; }
+.vote-tally { font-size: 0.78rem; color: #888; text-align: center; min-width: 58px; line-height: 1.4; }
+.vote-tally strong { display: block; color: #198754; font-size: 0.88rem; }
+.vote-bar { height: 4px; background: #eee; border-radius: 2px; margin-top: 9px; overflow: hidden; }
+.vote-bar-fill { height: 4px; background: linear-gradient(90deg, #198754, #20c997); border-radius: 2px; transition: width 0.4s ease; }
+.no-proposals { text-align: center; padding: 48px 20px; color: #aaa; grid-column: 1 / -1; }
+.no-proposals p { font-size: 1rem; }
+
+/* Results */
+.results-filter { display: flex; gap: 12px; align-items: center; margin-bottom: 22px; flex-wrap: wrap; }
+.results-filter label { font-weight: 600; font-size: 0.9rem; }
+.results-filter select { padding: 8px 14px; border-radius: 8px; border: 2px solid #ddd; font-size: 0.9rem; min-width: 160px; }
+.results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.result-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+.result-card h3 { font-size: 0.95rem; font-weight: 700; color: #222; margin-bottom: 3px; }
+.result-area-label { font-size: 0.8rem; color: #888; margin-bottom: 13px; }
+.result-bar-row { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; font-size: 0.83rem; }
+.result-label { width: 72px; color: #555; flex-shrink: 0; }
+.result-track { flex: 1; height: 18px; background: #f5f5f5; border-radius: 4px; overflow: hidden; }
+.bar-support { height: 100%; background: linear-gradient(90deg, #198754, #20c997); border-radius: 4px; transition: width 0.5s ease; }
+.bar-oppose { height: 100%; background: linear-gradient(90deg, #dc3545, #e05a67); border-radius: 4px; transition: width 0.5s ease; }
+.result-pct { width: 38px; text-align: right; font-weight: 700; flex-shrink: 0; }
+.result-count { width: 36px; text-align: right; color: #aaa; font-size: 0.78rem; flex-shrink: 0; }
+.result-total { font-size: 0.78rem; color: #aaa; margin-top: 6px; text-align: right; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏙 Vancouver Block Area Voting</h1>
+  <p>Compare neighbourhoods and vote on proposals in your community</p>
+  <div class="location-bar">
+    <label for="user-area-select">Your area:</label>
+    <select id="user-area-select" onchange="setUserArea(this.value)">
+      <option value="">— Select your neighbourhood —</option>
+    </select>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" data-section="map" onclick="showSection('map')">🗺 Map</button>
+  <button class="nav-btn" data-section="compare" onclick="showSection('compare')">📊 Compare</button>
+  <button class="nav-btn" data-section="vote" onclick="showSection('vote')">🗳 Vote</button>
+  <button class="nav-btn" data-section="results" onclick="showSection('results')">📈 Results</button>
+</nav>
+
+<!-- MAP -->
+<div id="section-map" class="section active">
+  <div class="map-title">
+    <h2>Vancouver 10-Block Areas</h2>
+    <p>Click any area to see its stats. Click a second area to compare, or use the buttons below the map.</p>
+  </div>
+  <div class="map-scroll">
+    <div class="map-grid" id="map-grid"></div>
+  </div>
+  <div class="map-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#9b8ec4"></div> Neighbourhood</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d63384"></div> Selected A</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0d6efd"></div> Selected B</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b8a9d9"></div> Adjacent to A</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#9b8ec4; outline:2px solid #ffd700; outline-offset:1px"></div> Your area</div>
+  </div>
+  <div class="map-info" id="map-info" style="display:none"></div>
+</div>
+
+<!-- COMPARE -->
+<div id="section-compare" class="section">
+  <div class="section-title">Compare Areas</div>
+  <div class="section-subtitle">Select two neighbourhood areas to compare their community statistics side by side.</div>
+  <div class="compare-controls">
+    <div>
+      <label style="color:#d63384">● Area A: </label>
+      <select id="compare-a" onchange="renderCompare()">
+        <option value="">Select area…</option>
+      </select>
+    </div>
+    <div>
+      <label style="color:#0d6efd">● Area B: </label>
+      <select id="compare-b" onchange="renderCompare()">
+        <option value="">Select area…</option>
+      </select>
+    </div>
+  </div>
+  <div class="compare-grid" id="compare-grid">
+    <div class="no-data">Select two areas above to compare statistics</div>
+  </div>
+</div>
+
+<!-- VOTE -->
+<div id="section-vote" class="section">
+  <div class="section-title">Community Proposals</div>
+  <div class="section-subtitle" id="vote-subtitle">Vote on proposals in your neighbourhood and adjacent areas. Set your location in the header to filter what's relevant to you.</div>
+  <div class="vote-filter" id="vote-filter">
+    <button class="filter-btn active" onclick="filterProposals('all', this)">All Proposals</button>
+    <button class="filter-btn" onclick="filterProposals('my-area', this)">My Area</button>
+    <button class="filter-btn" onclick="filterProposals('adjacent', this)">Adjacent Areas</button>
+    <button class="filter-btn" onclick="filterProposals('green', this)">🌿 Green Space</button>
+    <button class="filter-btn" onclick="filterProposals('transport', this)">🚲 Transport</button>
+    <button class="filter-btn" onclick="filterProposals('community', this)">🏘 Community</button>
+  </div>
+  <div class="proposals-grid" id="proposals-grid"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="section-results" class="section">
+  <div class="section-title">Voting Results</div>
+  <div class="section-subtitle">Current vote tallies for all community proposals.</div>
+  <div class="results-filter">
+    <label for="results-filter-select">Filter by area:</label>
+    <select id="results-filter-select" onchange="renderResults()">
+      <option value="">All areas</option>
+    </select>
+  </div>
+  <div class="results-grid" id="results-grid"></div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+
+const AREAS = [
+  { id: 'coal-harbour',        name: 'Coal Harbour',            row: 0, col: 2,
+    stats: { population: 12000, density: 7200,  green: 18, transit: 92, walk: 96, bike: 80, income: 110000, biz: 380,  amenities: ['Seawall', 'Marina', 'Convention Ctr', 'Library Square'] } },
+  { id: 'downtown',            name: 'Downtown Core',           row: 0, col: 3,
+    stats: { population: 25000, density: 9500,  green: 8,  transit: 99, walk: 99, bike: 85, income: 72000,  biz: 2800, amenities: ['Robson Square', 'Art Gallery', 'Public Library', 'SkyTrain'] } },
+  { id: 'gastown',             name: 'Gastown',                 row: 0, col: 4,
+    stats: { population: 8000,  density: 6500,  green: 6,  transit: 90, walk: 97, bike: 78, income: 65000,  biz: 420,  amenities: ['Steam Clock', 'Water Street', 'Heritage District'] } },
+  { id: 'west-end',            name: 'West End',                row: 1, col: 1,
+    stats: { population: 44000, density: 20000, green: 22, transit: 95, walk: 99, bike: 90, income: 58000,  biz: 650,  amenities: ['English Bay Beach', 'Davie Village', 'Denman St', 'Seawall'] } },
+  { id: 'yaletown',            name: 'Yaletown',                row: 1, col: 2,
+    stats: { population: 18000, density: 12000, green: 12, transit: 93, walk: 98, bike: 88, income: 95000,  biz: 520,  amenities: ['David Lam Park', 'False Creek Seawall', 'SkyTrain'] } },
+  { id: 'strathcona',          name: 'Strathcona',              row: 1, col: 3,
+    stats: { population: 11000, density: 5500,  green: 14, transit: 85, walk: 91, bike: 82, income: 48000,  biz: 290,  amenities: ['Strathcona Park', 'Mural Route', 'Community Garden'] } },
+  { id: 'chinatown',           name: 'Chinatown',               row: 1, col: 4,
+    stats: { population: 9500,  density: 7000,  green: 10, transit: 87, walk: 94, bike: 79, income: 42000,  biz: 340,  amenities: ['Dr. Sun Yat-Sen Garden', 'Night Market', 'Millennium Gate'] } },
+  { id: 'kitsilano',           name: 'Kitsilano',               row: 2, col: 1,
+    stats: { population: 42000, density: 5800,  green: 28, transit: 78, walk: 93, bike: 92, income: 82000,  biz: 780,  amenities: ['Kits Beach', 'Kits Pool', '4th Ave', 'Arbutus Greenway'] } },
+  { id: 'fairview',            name: 'Fairview',                row: 2, col: 2,
+    stats: { population: 28000, density: 7200,  green: 16, transit: 84, walk: 90, bike: 85, income: 74000,  biz: 480,  amenities: ['Broadway SkyTrain', 'Heather Park', 'VGH Area'] } },
+  { id: 'mount-pleasant',      name: 'Mount Pleasant',          row: 2, col: 3,
+    stats: { population: 32000, density: 6800,  green: 18, transit: 82, walk: 92, bike: 88, income: 68000,  biz: 620,  amenities: ['Jonathan Rogers Park', 'Arts District', 'Brewery District'] } },
+  { id: 'grandview-woodland',  name: 'Grandview-Woodland',      row: 2, col: 4,
+    stats: { population: 29000, density: 5900,  green: 20, transit: 79, walk: 90, bike: 84, income: 58000,  biz: 540,  amenities: ['Commercial Drive', 'Grandview Park', 'Trout Lake'] } },
+  { id: 'hastings-sunrise',    name: 'Hastings-Sunrise',        row: 2, col: 5,
+    stats: { population: 34000, density: 4800,  green: 22, transit: 71, walk: 82, bike: 72, income: 54000,  biz: 380,  amenities: ['Hastings Park', 'New Brighton Pool', 'PNE Grounds'] } },
+  { id: 'dunbar',              name: 'Dunbar-Southlands',       row: 3, col: 1,
+    stats: { population: 22000, density: 3400,  green: 35, transit: 58, walk: 76, bike: 66, income: 98000,  biz: 220,  amenities: ['Pacific Spirit Park', 'UBC Endowment Lands', 'Dunbar Comm. Ctr'] } },
+  { id: 'riley-park',          name: 'Riley Park',              row: 3, col: 2,
+    stats: { population: 26000, density: 4900,  green: 24, transit: 73, walk: 86, bike: 80, income: 72000,  biz: 350,  amenities: ['Queen Elizabeth Park', 'Nat Bailey Stadium', 'Hillcrest Centre'] } },
+  { id: 'cambie',              name: 'Cambie',                  row: 3, col: 3,
+    stats: { population: 24000, density: 5200,  green: 26, transit: 80, walk: 85, bike: 78, income: 88000,  biz: 310,  amenities: ['Cambie Village', 'Canada Line', 'Langara Golf'] } },
+  { id: 'kensington',          name: 'Kensington–Cedar Cottage', row: 3, col: 4,
+    stats: { population: 36000, density: 5400,  green: 20, transit: 72, walk: 84, bike: 75, income: 62000,  biz: 410,  amenities: ['Trout Lake', 'Cedar Cottage Park', 'Clark Park'] } },
+  { id: 'commercial-drive',    name: 'Commercial Drive',        row: 3, col: 5,
+    stats: { population: 21000, density: 6100,  green: 16, transit: 78, walk: 92, bike: 82, income: 56000,  biz: 560,  amenities: ['Commercial-Broadway SkyTrain', 'McSpadden Park', 'The Drive'] } },
+  { id: 'kerrisdale',          name: 'Kerrisdale',              row: 4, col: 0,
+    stats: { population: 13000, density: 3200,  green: 30, transit: 60, walk: 78, bike: 62, income: 105000, biz: 180,  amenities: ['Kerrisdale Village', 'Maple Grove Park', 'Arbutus Greenway'] } },
+  { id: 'shaughnessy',         name: 'Shaughnessy',             row: 4, col: 1,
+    stats: { population: 8500,  density: 2200,  green: 40, transit: 55, walk: 70, bike: 58, income: 140000, biz: 90,   amenities: ['VanDusen Garden', 'Heritage Buildings', 'Shaughnessy Park'] } },
+  { id: 'oakridge',            name: 'Oakridge',                row: 4, col: 2,
+    stats: { population: 18000, density: 4800,  green: 22, transit: 82, walk: 82, bike: 70, income: 76000,  biz: 290,  amenities: ['Oakridge Centre', 'Langara College', 'Canada Line'] } },
+  { id: 'langara',             name: 'Langara',                 row: 4, col: 3,
+    stats: { population: 20000, density: 5100,  green: 24, transit: 78, walk: 80, bike: 68, income: 70000,  biz: 260,  amenities: ['Langara Golf Course', 'Canada Line', 'Ross Park'] } },
+  { id: 'fraser',              name: 'Fraser',                  row: 4, col: 4,
+    stats: { population: 24000, density: 5600,  green: 18, transit: 68, walk: 78, bike: 70, income: 58000,  biz: 340,  amenities: ['Fraserhood', 'Norquay Park', 'Fraser Street Market'] } },
+  { id: 'collingwood',         name: 'Collingwood',             row: 4, col: 5,
+    stats: { population: 28000, density: 5800,  green: 16, transit: 74, walk: 80, bike: 68, income: 55000,  biz: 310,  amenities: ['29th Ave SkyTrain', 'Norquay Park', 'Renfrew Ravine'] } },
+  { id: 'marpole',             name: 'Marpole',                 row: 5, col: 1,
+    stats: { population: 26000, density: 5600,  green: 14, transit: 65, walk: 78, bike: 65, income: 60000,  biz: 290,  amenities: ['Marpole Comm. Ctr', 'Marine Gateway', 'Oak Street'] } },
+  { id: 'sunset',              name: 'Sunset',                  row: 5, col: 2,
+    stats: { population: 30000, density: 5200,  green: 16, transit: 67, walk: 76, bike: 62, income: 58000,  biz: 320,  amenities: ['Sunset Comm. Ctr', 'Memorial South Park', 'SE Marine Dr'] } },
+  { id: 'victoria-fraserview', name: 'Victoria-Fraserview',     row: 5, col: 3,
+    stats: { population: 27000, density: 4800,  green: 20, transit: 64, walk: 72, bike: 58, income: 62000,  biz: 240,  amenities: ['Fraserview Golf', 'Everett Crowley Park', 'Fraser River Park'] } },
+];
+
+const PROPOSALS = [
+  { id:'p1',  areaId:'coal-harbour',       cat:'green',     title:'Extend Seawall Solar Lighting',                  desc:'Add solar-powered lighting along the Coal Harbour seawall from Canada Place to Stanley Park entrance for safer evening use.' },
+  { id:'p2',  areaId:'downtown',           cat:'community', title:'Convert Parking Lot to Public Plaza',            desc:'Transform the surface parking lot at Granville & Robson into a vibrant public gathering space with trees, seating, and local art.' },
+  { id:'p3',  areaId:'gastown',            cat:'transport', title:'Pedestrian-Only Water Street Weekends',          desc:'Close Water Street to vehicles on summer weekends, creating a pedestrian festival zone with local vendors and cultural programming.' },
+  { id:'p4',  areaId:'west-end',           cat:'green',     title:'New Community Garden at Nelson Park',            desc:'Create a 30-plot community garden in the underutilized eastern section of Nelson Park, with accessible beds and composting facilities.' },
+  { id:'p5',  areaId:'yaletown',           cat:'transport', title:'Protected Bike Lanes on Pacific Blvd',           desc:'Install separated, protected cycling infrastructure along Pacific Boulevard connecting to the seawall and False Creek crossings.' },
+  { id:'p6',  areaId:'strathcona',         cat:'community', title:'Strathcona Mural Arts Program',                  desc:'Commission local artists to create 10 new murals celebrating Strathcona\'s cultural history and diversity on blank building walls.' },
+  { id:'p7',  areaId:'chinatown',          cat:'community', title:'Chinatown Heritage Preservation Fund',           desc:'Establish a dedicated heritage preservation fund for Chinatown\'s historic buildings, supported by new development levies.' },
+  { id:'p8',  areaId:'kitsilano',          cat:'green',     title:'Arbutus Greenway Amenities Upgrade',             desc:'Add water fountains, rest areas, community notice boards, and native plantings along the Arbutus Greenway through Kitsilano.' },
+  { id:'p9',  areaId:'fairview',           cat:'transport', title:'Traffic Calming on 7th Ave',                     desc:'Install traffic calming measures including speed tables, painted crossings, and signage along 7th Ave between Granville and Oak.' },
+  { id:'p10', areaId:'mount-pleasant',     cat:'community', title:'Arts District Heritage Designation',             desc:'Formally designate the Main Street corridor as a protected Arts District with incentives for studios, galleries, and creative businesses.' },
+  { id:'p11', areaId:'mount-pleasant',     cat:'transport', title:'Protected Cycling on 10th Ave',                  desc:'Upgrade the existing painted bike lanes on 10th Ave to protected infrastructure with physical separation between cyclists and traffic.' },
+  { id:'p12', areaId:'grandview-woodland', cat:'transport', title:'Expand Commercial Drive Car-Free Sundays',       desc:'Extend the car-free Sunday market on Commercial Drive from April to November, adding more blocks and programming.' },
+  { id:'p13', areaId:'hastings-sunrise',   cat:'community', title:'New Year-Round Hub at Hastings Park',            desc:'Develop a year-round community hub at Hastings Park with indoor gathering spaces, kitchen facilities, and programming for all ages.' },
+  { id:'p14', areaId:'dunbar',             cat:'green',     title:'200 New Street Trees on Dunbar',                 desc:'Plant 200 new street trees along Dunbar St and 41st Ave corridors to improve shade, air quality, and pedestrian comfort.' },
+  { id:'p15', areaId:'riley-park',         cat:'community', title:'QE Park Accessibility Upgrades',                 desc:'Improve accessibility at Queen Elizabeth Park with paved paths, accessible washrooms near the quarry garden, and better parking.' },
+  { id:'p16', areaId:'cambie',             cat:'community', title:'New Inclusive Playground at Cambie Park',        desc:'Replace aging playground equipment at Cambie Park with modern inclusive play structures suitable for all ages and abilities.' },
+  { id:'p17', areaId:'kensington',         cat:'green',     title:'Trout Lake Off-Leash Area Expansion',            desc:'Expand the off-leash dog area at Trout Lake Park and add improved fencing, water stations, and waste disposal facilities.' },
+  { id:'p18', areaId:'commercial-drive',   cat:'green',     title:'The Drive Streetscape Beautification',           desc:'Enhance Commercial Drive with new planters, street furniture, additional trees, and improved lighting from 1st to 6th Ave.' },
+  { id:'p19', areaId:'kerrisdale',         cat:'community', title:'Kerrisdale Village Placemaking Initiative',      desc:'Revitalize Kerrisdale Village with public art, improved sidewalks, outdoor seating areas, and seasonal market programming.' },
+  { id:'p20', areaId:'shaughnessy',        cat:'green',     title:'VanDusen Garden Free Community Days',            desc:'Establish monthly free admission days at VanDusen Botanical Garden for all Vancouver residents, prioritizing underserved communities.' },
+  { id:'p21', areaId:'oakridge',           cat:'community', title:'New Branch Library at Oakridge Centre',          desc:'Negotiate with the Oakridge Centre redevelopment to include a 10,000 sq ft public library branch within the new complex.' },
+  { id:'p22', areaId:'langara',            cat:'green',     title:'Langara Golf Course Greening Project',           desc:'Convert 5 acres of Langara Golf Course to native plant habitat, community garden plots, and passive recreation space.' },
+  { id:'p23', areaId:'fraser',             cat:'community', title:'Fraserhood Weekly Night Market',                 desc:'Launch a weekly night market on Fraser Street between 41st and 49th Ave celebrating the neighbourhood\'s multicultural food culture.' },
+  { id:'p24', areaId:'collingwood',        cat:'green',     title:'Renfrew Ravine Trail Improvements',              desc:'Upgrade the Renfrew Ravine trail with better surfacing, lighting, erosion control, and native plant restoration.' },
+  { id:'p25', areaId:'marpole',            cat:'green',     title:'Fraser River Park Waterfront Access',            desc:'Improve public access to the Fraser River waterfront in Marpole with a new viewing platform, kayak launch, and riverside trail.' },
+  { id:'p26', areaId:'sunset',             cat:'community', title:'Multilingual Community Resource Hub',            desc:'Establish a multilingual community resource centre in Sunset with services in English, Punjabi, Vietnamese, and Tagalog.' },
+  { id:'p27', areaId:'victoria-fraserview',cat:'community', title:'Fraserview Sports Complex Expansion',           desc:'Expand Fraserview Community Centre with a new gymnasium, fitness centre, and indoor sport courts to serve the growing population.' },
+  { id:'p28', areaId:'kitsilano',          cat:'community', title:'New Beach Volleyball Courts at Kits',            desc:'Add 4 additional beach volleyball courts at Kits Beach to address high demand and reduce summer wait times.' },
+];
+
+const CAT_ICONS = { green: '🌿', transport: '🚲', community: '🏘' };
+const STAT_DEFS = [
+  { key: 'density',  label: 'Pop. Density',      unit: '/km²', max: 22000, color: '#764ba2' },
+  { key: 'green',    label: 'Green Space',        unit: '%',    max: 50,    color: '#198754' },
+  { key: 'transit',  label: 'Transit Score',      unit: '/100', max: 100,   color: '#0d6efd' },
+  { key: 'walk',     label: 'Walk Score',         unit: '/100', max: 100,   color: '#fd7e14' },
+  { key: 'bike',     label: 'Bike Score',         unit: '/100', max: 100,   color: '#20c997' },
+  { key: 'biz',      label: 'Local Businesses',   unit: '',     max: 3000,  color: '#6f42c1' },
+];
+
+// ─────────────────────────────────────────────
+// STORAGE
+// ─────────────────────────────────────────────
+
+function getVotes()   { try { return JSON.parse(localStorage.getItem('vcv_votes')   || '{}'); } catch(e) { return {}; } }
+function getTallies() { try { return JSON.parse(localStorage.getItem('vcv_tallies') || '{}'); } catch(e) { return {}; } }
+
+function saveVote(pid, type) {
+  const v = getVotes(); v[pid] = type; localStorage.setItem('vcv_votes', JSON.stringify(v));
+}
+
+function updateTally(pid, type, delta) {
+  const t = getTallies();
+  if (!t[pid]) t[pid] = { support: 0, oppose: 0 };
+  t[pid][type] = Math.max(0, t[pid][type] + delta);
+  localStorage.setItem('vcv_tallies', JSON.stringify(t));
+}
+
+function seedTallies() {
+  const t = getTallies();
+  let changed = false;
+  PROPOSALS.forEach(p => {
+    if (!t[p.id]) {
+      const total = 20 + Math.floor(Math.random() * 90);
+      const spct  = 0.38 + Math.random() * 0.44;
+      t[p.id] = { support: Math.round(total * spct), oppose: Math.round(total * (1 - spct)) };
+      changed = true;
+    }
+  });
+  if (changed) localStorage.setItem('vcv_tallies', JSON.stringify(t));
+}
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+
+let userAreaId  = localStorage.getItem('vcv_user_area') || '';
+let selectedA   = '';
+let selectedB   = '';
+let activeFilter = 'all';
+
+// ─────────────────────────────────────────────
+// UTILITIES
+// ─────────────────────────────────────────────
+
+function areaById(id) { return AREAS.find(a => a.id === id); }
+
+function adjacentIds(areaId) {
+  const area = areaById(areaId);
+  if (!area) return [];
+  const { row, col } = area;
+  const dirs = [{ row: row-1, col }, { row: row+1, col }, { row, col: col-1 }, { row, col: col+1 }];
+  return AREAS.filter(a => dirs.some(d => d.row === a.row && d.col === a.col)).map(a => a.id);
+}
+
+// ─────────────────────────────────────────────
+// NAV
+// ─────────────────────────────────────────────
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.querySelector(`.nav-btn[data-section="${id}"]`).classList.add('active');
+  if (id === 'compare') renderCompare();
+  if (id === 'vote')    renderVoting();
+  if (id === 'results') renderResults();
+}
+
+// ─────────────────────────────────────────────
+// MAP
+// ─────────────────────────────────────────────
+
+function renderMap() {
+  const grid = document.getElementById('map-grid');
+  grid.innerHTML = '';
+  const ROWS = 6, COLS = 8;
+  const cellMap = {};
+  AREAS.forEach(a => { cellMap[`${a.row},${a.col}`] = a; });
+  const adjSet = new Set(userAreaId ? adjacentIds(userAreaId) : []);
+
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      const area = cellMap[`${r},${c}`];
+      if (area) {
+        cell.className = 'map-cell area';
+        cell.textContent = area.name;
+        if      (area.id === selectedA)  cell.classList.add('selected-a');
+        else if (area.id === selectedB)  cell.classList.add('selected-b');
+        else if (adjSet.has(area.id))    cell.classList.add('adjacent');
+        if (area.id === userAreaId)      cell.classList.add('user-area');
+        cell.onclick = () => handleMapClick(area.id);
+      } else {
+        cell.className = 'map-cell water';
+      }
+      grid.appendChild(cell);
+    }
+  }
+  updateMapInfo();
+}
+
+function handleMapClick(id) {
+  if      (selectedA === id)  { selectedA = selectedB; selectedB = ''; }
+  else if (selectedB === id)  { selectedB = ''; }
+  else if (!selectedA)        { selectedA = id; }
+  else if (!selectedB)        { selectedB = id; }
+  else                        { selectedA = id; selectedB = ''; }
+  renderMap();
+}
+
+function updateMapInfo() {
+  const info = document.getElementById('map-info');
+  if (!selectedA) { info.style.display = 'none'; return; }
+  info.style.display = 'block';
+  const area = areaById(selectedA);
+  const adj  = adjacentIds(area.id).map(id => areaById(id)?.name).filter(Boolean);
+  const proposals = PROPOSALS.filter(p => p.areaId === area.id);
+  info.innerHTML = `
+    <h3>${area.name}</h3>
+    <p>Population: ~${area.stats.population.toLocaleString()} &nbsp;·&nbsp; Density: ${area.stats.density.toLocaleString()}/km² &nbsp;·&nbsp; Walk Score: ${area.stats.walk} &nbsp;·&nbsp; Transit: ${area.stats.transit}</p>
+    <p style="margin-top:5px; color:#888; font-size:0.85rem">Adjacent areas: ${adj.join(', ') || '—'}</p>
+    <p style="margin-top:5px; color:#888; font-size:0.85rem">Active proposals: ${proposals.length}</p>
+    <div class="action-btns">
+      <button class="btn-action" style="background:#d63384;color:white" onclick="goCompare()">📊 Compare Areas</button>
+      <button class="btn-action" style="background:#764ba2;color:white" onclick="goVote()">🗳 Vote on Proposals</button>
+    </div>
+  `;
+}
+
+function goCompare() {
+  if (selectedA) document.getElementById('compare-a').value = selectedA;
+  if (selectedB) document.getElementById('compare-b').value = selectedB;
+  showSection('compare');
+}
+function goVote() { showSection('vote'); }
+
+// ─────────────────────────────────────────────
+// USER AREA
+// ─────────────────────────────────────────────
+
+function setUserArea(id) {
+  userAreaId = id;
+  localStorage.setItem('vcv_user_area', id);
+  renderMap();
+  if (document.getElementById('section-vote').classList.contains('active')) renderVoting();
+}
+
+// ─────────────────────────────────────────────
+// SELECTS POPULATION
+// ─────────────────────────────────────────────
+
+function populateSelects() {
+  const sorted = [...AREAS].sort((a, b) => a.name.localeCompare(b.name));
+  ['user-area-select', 'compare-a', 'compare-b', 'results-filter-select'].forEach(selId => {
+    const sel = document.getElementById(selId);
+    if (!sel) return;
+    const first = sel.options[0];
+    sel.innerHTML = '';
+    sel.appendChild(first);
+    sorted.forEach(area => {
+      const opt = document.createElement('option');
+      opt.value = area.id;
+      opt.textContent = area.name;
+      sel.appendChild(opt);
+    });
+  });
+  if (userAreaId) document.getElementById('user-area-select').value = userAreaId;
+}
+
+// ─────────────────────────────────────────────
+// COMPARE
+// ─────────────────────────────────────────────
+
+function renderCompare() {
+  const idA = document.getElementById('compare-a').value;
+  const idB = document.getElementById('compare-b').value;
+  const container = document.getElementById('compare-grid');
+  if (!idA || !idB) {
+    container.innerHTML = '<div class="no-data">Select two areas above to compare statistics</div>';
+    return;
+  }
+  const aA = areaById(idA), aB = areaById(idB);
+  if (!aA || !aB) return;
+
+  container.innerHTML = [aA, aB].map((area, i) => {
+    const color = i === 0 ? '#d63384' : '#0d6efd';
+    return `
+      <div class="compare-card" style="border-top:4px solid ${color}">
+        <h3>${area.name}</h3>
+        <div class="card-subtitle">~${area.stats.population.toLocaleString()} residents</div>
+        <div class="stat-big">$${(area.stats.income/1000).toFixed(0)}k</div>
+        <div class="stat-big-label">median household income</div>
+        ${STAT_DEFS.map(s => `
+          <div class="stat-row">
+            <div class="stat-label"><span>${s.label}</span><span>${area.stats[s.key].toLocaleString()}${s.unit}</span></div>
+            <div class="stat-bar-bg"><div class="stat-bar" style="width:${Math.min(100,(area.stats[s.key]/s.max)*100).toFixed(1)}%;background:${s.color}"></div></div>
+          </div>
+        `).join('')}
+        <div style="margin-top:14px;font-size:0.8rem;color:#555;font-weight:700">Key Amenities</div>
+        <div class="amenities-list">${area.stats.amenities.map(a => `<span class="amenity-tag">${a}</span>`).join('')}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// VOTE
+// ─────────────────────────────────────────────
+
+function filterProposals(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVoting();
+}
+
+function renderVoting() {
+  const container = document.getElementById('proposals-grid');
+  const adjSet = new Set(userAreaId ? adjacentIds(userAreaId) : []);
+  const myVotes = getVotes();
+  const tallies = getTallies();
+
+  let filtered = PROPOSALS.filter(p => {
+    const isMine = p.areaId === userAreaId;
+    const isAdj  = adjSet.has(p.areaId);
+    if (activeFilter === 'my-area')  return isMine;
+    if (activeFilter === 'adjacent') return isAdj && !isMine;
+    if (['green','transport','community'].includes(activeFilter)) return p.cat === activeFilter;
+    return true;
+  });
+
+  if ((activeFilter === 'my-area' || activeFilter === 'adjacent') && !userAreaId) {
+    container.innerHTML = '<div class="no-proposals"><p>Please select your neighbourhood in the header to use this filter.</p></div>';
+    return;
+  }
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="no-proposals"><p>No proposals match this filter.</p></div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => {
+    const area    = areaById(p.areaId);
+    const isMine  = p.areaId === userAreaId;
+    const isAdj   = adjSet.has(p.areaId);
+    const canVote = !userAreaId || isMine || isAdj;
+    const tally   = tallies[p.id] || { support: 0, oppose: 0 };
+    const total   = tally.support + tally.oppose;
+    const spct    = total > 0 ? Math.round(tally.support / total * 100) : 0;
+    const myVote  = myVotes[p.id];
+
+    let tagClass = 'tag-other', tagLabel = area?.name;
+    if (isMine)     { tagClass = 'tag-my-area'; tagLabel = '📍 ' + area?.name; }
+    else if (isAdj) { tagClass = 'tag-adjacent'; tagLabel = '↔ ' + area?.name; }
+
+    return `
+      <div class="proposal-card ${isMine ? 'my-area' : isAdj ? 'adjacent-area' : ''}">
+        <div class="proposal-meta">
+          <span class="area-tag ${tagClass}">${tagLabel}</span>
+          <span class="cat-tag">${CAT_ICONS[p.cat] || ''} ${p.cat}</span>
+        </div>
+        <div class="proposal-title">${p.title}</div>
+        <div class="proposal-desc">${p.desc}</div>
+        <div class="vote-row">
+          <button class="vote-btn support ${myVote === 'support' ? 'voted' : ''}"
+            onclick="castVote('${p.id}','support')"
+            ${myVote || !canVote ? 'disabled' : ''}>
+            ${myVote === 'support' ? '✓ Supported' : '👍 Support'}
+          </button>
+          <div class="vote-tally">
+            <strong>${spct}%</strong>${total} votes
+          </div>
+          <button class="vote-btn oppose ${myVote === 'oppose' ? 'voted' : ''}"
+            onclick="castVote('${p.id}','oppose')"
+            ${myVote || !canVote ? 'disabled' : ''}>
+            ${myVote === 'oppose' ? '✓ Opposed' : '👎 Oppose'}
+          </button>
+        </div>
+        <div class="vote-bar"><div class="vote-bar-fill" style="width:${spct}%"></div></div>
+        ${!canVote && !myVote ? '<div style="font-size:0.75rem;color:#aaa;margin-top:6px">Set your location to vote on this proposal</div>' : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function castVote(pid, type) {
+  const myVotes = getVotes();
+  if (myVotes[pid]) return;
+  updateTally(pid, type, 1);
+  saveVote(pid, type);
+  renderVoting();
+  if (document.getElementById('section-results').classList.contains('active')) renderResults();
+}
+
+// ─────────────────────────────────────────────
+// RESULTS
+// ─────────────────────────────────────────────
+
+function renderResults() {
+  const filterArea = document.getElementById('results-filter-select').value;
+  const tallies = getTallies();
+  const proposals = filterArea ? PROPOSALS.filter(p => p.areaId === filterArea) : PROPOSALS;
+  const container = document.getElementById('results-grid');
+
+  if (proposals.length === 0) {
+    container.innerHTML = '<div class="no-data" style="grid-column:1/-1">No results to display.</div>';
+    return;
+  }
+
+  // Sort by total votes descending
+  const sorted = [...proposals].sort((a, b) => {
+    const ta = tallies[a.id] || { support: 0, oppose: 0 };
+    const tb = tallies[b.id] || { support: 0, oppose: 0 };
+    return (tb.support + tb.oppose) - (ta.support + ta.oppose);
+  });
+
+  container.innerHTML = sorted.map(p => {
+    const area   = areaById(p.areaId);
+    const tally  = tallies[p.id] || { support: 0, oppose: 0 };
+    const total  = tally.support + tally.oppose;
+    const spct   = total > 0 ? Math.round(tally.support / total * 100) : 50;
+    const opct   = 100 - spct;
+
+    return `
+      <div class="result-card">
+        <h3>${CAT_ICONS[p.cat] || ''} ${p.title}</h3>
+        <div class="result-area-label">${area?.name} · ${total} votes cast</div>
+        <div class="result-bar-row">
+          <div class="result-label">👍 Support</div>
+          <div class="result-track"><div class="bar-support" style="width:${spct}%"></div></div>
+          <div class="result-pct" style="color:#198754">${spct}%</div>
+          <div class="result-count">${tally.support}</div>
+        </div>
+        <div class="result-bar-row">
+          <div class="result-label">👎 Oppose</div>
+          <div class="result-track"><div class="bar-oppose" style="width:${opct}%"></div></div>
+          <div class="result-pct" style="color:#dc3545">${opct}%</div>
+          <div class="result-count">${tally.oppose}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+
+seedTallies();
+populateSelects();
+renderMap();
+renderVoting();
+renderResults();
+</script>
+</body>
+</html>
