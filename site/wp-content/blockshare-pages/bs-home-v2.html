@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block Share — The Power Was Always Yours</title>
+<meta name="description" content="For 7,000 generations, neighbours decided at the scale of the block. That's not a radical future — it's the original operating system of human organisation. Block Share is the return.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+<style>
+  :root {
+    --forest: #0f2b1d;
+    --forest-deep: #081810;
+    --navy: #12243a;
+    --navy-deep: #0a1826;
+    --cream: #f4ead5;
+    --paper: #faf6ea;
+    --gold: #d4a24c;
+    --gold-bright: #f9a825;
+    --lake: #2c5f7c;
+    --red-flag: #c44536;
+    --green-go: #5a8a4a;
+    --ink: #1a1a1a;
+    --mute: #6b6358;
+
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ===================================================== */
+  /* HERO — The reclamation */
+  /* ===================================================== */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy-deep);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 9rem 2rem 5rem;
+  }
+
+  /* Ancient-feeling atmospheric wash — warmed up for depth */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      /* Warm amber glow rising from bottom-left — like firelight */
+      radial-gradient(ellipse 70% 60% at 15% 110%, rgba(249, 168, 37, 0.28) 0%, rgba(212, 162, 76, 0.12) 30%, transparent 65%),
+      /* Cool lake blue wash top-right */
+      radial-gradient(ellipse 80% 70% at 90% 0%, rgba(44, 95, 124, 0.38) 0%, rgba(44, 95, 124, 0.12) 35%, transparent 70%),
+      /* Gentle cream highlight behind the type to lift it */
+      radial-gradient(ellipse 60% 45% at 50% 45%, rgba(244, 234, 213, 0.07) 0%, transparent 70%),
+      /* Bottom vignette for grounding */
+      linear-gradient(to top, rgba(8, 24, 16, 0.5) 0%, transparent 30%);
+    pointer-events: none;
+  }
+
+  /* Star-field grain — slightly more present */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><circle cx='60' cy='60' r='0.5' fill='%23f4ead5' opacity='0.14'/><circle cx='20' cy='30' r='0.4' fill='%23d4a24c' opacity='0.2'/><circle cx='100' cy='90' r='0.3' fill='%23f4ead5' opacity='0.1'/></svg>");
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    width: 2.5rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.75rem, 7vw, 5.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin-bottom: 2rem;
+    max-width: 22ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-bright);
+  }
+
+  .hero-lead {
+    font-size: 1.3rem;
+    line-height: 1.55;
+    color: rgba(244, 234, 213, 0.88);
+    margin: 0 auto 2rem;
+    max-width: 46rem;
+  }
+
+  .hero-lead strong {
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  .hero-stat-line {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 3rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat-line span {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-stat-line .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.05rem 1.9rem;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary {
+    background: var(--gold-bright);
+    color: var(--navy-deep);
+    border: 2px solid var(--gold-bright);
+  }
+
+  .btn-primary:hover {
+    background: var(--cream);
+    border-color: var(--cream);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border: 2px solid rgba(244, 234, 213, 0.3);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--cream);
+    background: rgba(244, 234, 213, 0.05);
+  }
+
+  /* Generations timeline beneath hero text */
+  .generations-line {
+    margin-top: 4rem;
+    position: relative;
+    padding: 2rem 0 1rem;
+  }
+
+  .generations-line::before {
+    content: '';
+    position: absolute;
+    top: 2.5rem;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 10%, var(--gold) 90%, transparent 100%);
+    opacity: 0.5;
+  }
+
+  .gen-ticks {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  .gen-tick {
+    text-align: center;
+    position: relative;
+    background: var(--navy-deep);
+    padding: 0 0.75rem;
+  }
+
+  .gen-tick-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin: 0 auto 0.75rem;
+    border: 2px solid var(--navy-deep);
+    box-shadow: 0 0 0 1px var(--gold);
+  }
+
+  .gen-tick.now .gen-tick-dot {
+    background: var(--red-flag);
+    box-shadow: 0 0 0 1px var(--red-flag);
+  }
+
+  .gen-tick-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  .gen-tick.now .gen-tick-label {
+    color: var(--red-flag);
+  }
+
+  .gen-tick-sub {
+    font-size: 0.7rem;
+    color: rgba(244, 234, 213, 0.55);
+    margin-top: 0.25rem;
+    font-family: var(--sans);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* ===================================================== */
+  /* MEDIA BAR — Block Beats collapsible toggle bar */
+  /* ===================================================== */
+  .media-bar {
+    background: var(--forest-deep);
+    color: var(--cream);
+    border-top: 3px solid var(--gold-bright);
+    border-bottom: 3px solid var(--gold-bright);
+    padding: 1.5rem 2rem;
+    position: relative;
+  }
+
+  .media-bar-header {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .media-bar-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    white-space: nowrap;
+  }
+
+  .media-bar-toggles {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .media-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.6rem 1.15rem;
+    background: transparent;
+    border: 1px solid rgba(244, 234, 213, 0.25);
+    border-radius: 2rem;
+    color: var(--cream);
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .media-toggle:hover {
+    border-color: var(--gold);
+    background: rgba(212, 162, 76, 0.08);
+  }
+
+  .media-toggle.active {
+    background: var(--gold-bright);
+    border-color: var(--gold-bright);
+    color: var(--forest-deep);
+  }
+
+  .media-toggle .icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .media-bar-expand {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: rgba(244, 234, 213, 0.7);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: lowercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.75rem;
+    transition: color 0.2s ease;
+  }
+
+  .media-bar-expand:hover {
+    color: var(--gold-bright);
+  }
+
+  .media-bar-expand .caret {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 0.7rem;
+  }
+
+  .media-bar.expanded .media-bar-expand .caret {
+    transform: rotate(180deg);
+  }
+
+  .media-panel {
+    max-width: 1100px;
+    margin: 0 auto;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, margin-top 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .media-bar.expanded .media-panel {
+    max-height: 800px;
+    margin-top: 1.5rem;
+    opacity: 1;
+  }
+
+  /* Audio panel */
+  .media-content-audio {
+    background: rgba(244, 234, 213, 0.04);
+    border: 1px solid rgba(212, 162, 76, 0.25);
+    border-radius: 6px;
+    padding: 1.75rem;
+    display: none;
+  }
+
+  .media-content-audio.active { display: block; }
+
+  .media-content-audio h3 {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+
+  .media-content-audio p {
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: rgba(244, 234, 213, 0.8);
+    margin-bottom: 1.25rem;
+  }
+
+  .media-content-audio audio {
+    width: 100%;
+    height: 42px;
+    border-radius: 8px;
+    filter: invert(0.9) hue-rotate(180deg) saturate(0.5);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .substack-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.15rem;
+    background: var(--gold-bright);
+    color: var(--forest-deep);
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .substack-btn:hover {
+    background: var(--cream);
+    transform: translateY(-1px);
+  }
+
+  /* Video panel */
+  .media-content-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 162, 76, 0.25);
+    display: none;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .media-content-video.active { display: block; }
+
+  .media-content-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* ===================================================== */
+  /* SECTION FRAME */
+  /* ===================================================== */
+  section {
+    padding: 7rem 2rem;
+    position: relative;
+  }
+
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    margin-bottom: 1.75rem;
+    max-width: 26ch;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold-bright);
+  }
+
+  .section-deck {
+    font-size: 1.18rem;
+    line-height: 1.6;
+    color: var(--mute);
+    max-width: 42rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-deck strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ===================================================== */
+  /* DAVOS VS BLOCK — the contrast */
+  /* ===================================================== */
+  .davos {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .davos .section-title em { color: var(--red-flag); }
+
+  .davos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 3rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .davos-col {
+    padding: 3rem 2.5rem;
+    position: relative;
+  }
+
+  .davos-col.them {
+    background: #fbf4f1;
+    border-right: 1px solid rgba(196, 69, 54, 0.15);
+  }
+
+  .davos-col.you {
+    background: #f2f6ed;
+  }
+
+  .davos-col .tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+  }
+
+  .davos-col.them .tag {
+    background: var(--red-flag);
+    color: white;
+  }
+
+  .davos-col.you .tag {
+    background: var(--green-go);
+    color: white;
+  }
+
+  .davos-col h3 {
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.15;
+  }
+
+  .davos-col .subtitle {
+    font-size: 0.95rem;
+    color: var(--mute);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .davos-col ul {
+    list-style: none;
+  }
+
+  .davos-col li {
+    padding: 0.8rem 0;
+    border-top: 1px dashed rgba(0,0,0,0.1);
+    font-size: 0.98rem;
+    line-height: 1.5;
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1rem;
+  }
+
+  .davos-col li:first-child { border-top: none; }
+
+  .davos-col li strong {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--mute);
+    font-weight: 500;
+    padding-top: 0.15rem;
+  }
+
+  /* ===================================================== */
+  /* PULLQUOTE — navy */
+  /* ===================================================== */
+  .pullquote {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .pullquote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4rem;
+    height: 4px;
+    background: var(--gold-bright);
+  }
+
+  .pullquote blockquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.75rem, 3.5vw, 2.85rem);
+    line-height: 1.22;
+    max-width: 52rem;
+    margin: 0 auto;
+    letter-spacing: -0.01em;
+  }
+
+  .pullquote blockquote em {
+    color: var(--gold-bright);
+    font-style: italic;
+  }
+
+  .pullquote cite {
+    display: block;
+    margin-top: 2rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ===================================================== */
+  /* ANTIDOTE — forest — why the block is the answer */
+  /* ===================================================== */
+  .antidote {
+    background: var(--forest);
+    color: var(--cream);
+  }
+
+  .antidote .section-eyebrow { color: var(--gold-bright); }
+  .antidote .section-deck { color: rgba(244, 234, 213, 0.78); }
+  .antidote .section-deck strong { color: var(--cream); }
+  .antidote .section-title em { color: var(--gold-bright); }
+
+  .antidote-principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .antidote-card {
+    padding: 2.25rem 2rem;
+    border: 1px solid rgba(212, 162, 76, 0.22);
+    border-radius: 4px;
+    background: rgba(244, 234, 213, 0.02);
+    transition: all 0.3s ease;
+  }
+
+  .antidote-card:hover {
+    border-color: var(--gold);
+    background: rgba(244, 234, 213, 0.04);
+    transform: translateY(-3px);
+  }
+
+  .antidote-card .number {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--gold-bright);
+    letter-spacing: 0.18em;
+    margin-bottom: 1.25rem;
+  }
+
+  .antidote-card h3 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    margin-bottom: 0.9rem;
+    line-height: 1.2;
+    color: var(--cream);
+  }
+
+  .antidote-card p {
+    font-size: 0.96rem;
+    line-height: 1.6;
+    color: rgba(244, 234, 213, 0.78);
+  }
+
+  .antidote-card p strong {
+    color: var(--gold-bright);
+    font-weight: 500;
+  }
+
+  /* ===================================================== */
+  /* STAKES — LTE — what extraction costs you */
+  /* ===================================================== */
+  .stakes {
+    background: var(--paper);
+  }
+
+  .stakes .section-title em {
+    color: var(--red-flag);
+    font-style: italic;
+  }
+
+  .lte-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 3rem;
+    align-items: center;
+  }
+
+  .lte-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .lte-city {
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 2rem;
+    background: white;
+    border-radius: 4px;
+  }
+
+  .lte-city-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+  }
+
+  .lte-city-name {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+  }
+
+  .lte-city-value {
+    font-family: var(--mono);
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .lte-city.vancouver .lte-city-value { color: var(--red-flag); }
+  .lte-city.copenhagen .lte-city-value { color: var(--green-go); }
+
+  .lte-bar {
+    height: 0.5rem;
+    background: #ece6d8;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .lte-bar-fill {
+    height: 100%;
+    width: 0;
+    transition: width 1.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+
+  .lte-city.vancouver.animated .lte-bar-fill {
+    width: 99.9%;
+    background: linear-gradient(90deg, var(--red-flag), #8b2e24);
+  }
+
+  .lte-city.copenhagen.animated .lte-bar-fill {
+    width: 63.7%;
+    background: linear-gradient(90deg, var(--green-go), #3d6830);
+  }
+
+  .lte-city-caption {
+    font-size: 0.88rem;
+    color: var(--mute);
+    font-style: italic;
+  }
+
+  .lte-explainer h3 {
+    font-family: var(--serif);
+    font-size: 1.9rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .lte-explainer h3 em {
+    color: var(--red-flag);
+    font-style: italic;
+  }
+
+  .lte-explainer p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  .lte-explainer p strong {
+    font-weight: 600;
+  }
+
+  /* ===================================================== */
+  /* INFOGRAPHIC — full-width image section */
+  /* ===================================================== */
+  .infographic-section {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 6rem 2rem;
+  }
+
+  .infographic-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .infographic-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .infographic-title {
+    font-family: var(--serif);
+    font-size: clamp(1.85rem, 3.5vw, 2.85rem);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    margin-bottom: 1.25rem;
+    color: var(--cream);
+  }
+
+  .infographic-title em {
+    color: var(--gold-bright);
+    font-style: italic;
+  }
+
+  .infographic-deck {
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: rgba(244, 234, 213, 0.78);
+    max-width: 38rem;
+    margin: 0 auto;
+  }
+
+  .infographic-frame {
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 162, 76, 0.3);
+    background: #fff;
+    box-shadow: 0 8px 48px rgba(0, 0, 0, 0.4);
+    /* Subtle zoom-in on hover — draws the eye in */
+    transition: box-shadow 0.4s ease;
+  }
+
+  .infographic-frame:hover {
+    box-shadow: 0 12px 64px rgba(0, 0, 0, 0.55);
+  }
+
+  .infographic-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .infographic-caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.25rem;
+    padding: 0 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(244, 234, 213, 0.5);
+  }
+
+  .infographic-caption .caption-divider {
+    color: var(--gold);
+  }
+
+  @media (max-width: 900px) {
+    .infographic-section { padding: 4rem 1.5rem; }
+    .infographic-caption { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
+  /* ===================================================== */
+  /* DOABLE — four steps */
+  /* ===================================================== */
+  .doable {
+    background: var(--paper);
+    padding-top: 0;
+  }
+
+  .doable .section-title em { color: var(--gold-bright); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .step {
+    position: relative;
+    padding-top: 2rem;
+  }
+
+  .step::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3rem;
+    height: 3px;
+    background: var(--gold-bright);
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--mute);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+
+  .step h3 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .step p {
+    font-size: 0.96rem;
+    line-height: 1.55;
+    color: var(--mute);
+  }
+
+  /* ===================================================== */
+  /* FINAL CTA */
+  /* ===================================================== */
+  .closer {
+    background: var(--forest-deep);
+    color: var(--cream);
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .closer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 30% 50%, rgba(212, 162, 76, 0.1) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 50%, rgba(244, 234, 213, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .closer-inner {
+    max-width: 44rem;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .closer h2 {
+    font-family: var(--serif);
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+  }
+
+  .closer h2 em {
+    color: var(--gold-bright);
+    font-style: italic;
+  }
+
+  .closer p {
+    font-size: 1.2rem;
+    line-height: 1.55;
+    color: rgba(244, 234, 213, 0.85);
+    margin-bottom: 3rem;
+  }
+
+  .closer .cta-row {
+    justify-content: center;
+  }
+
+  /* ===================================================== */
+  /* RESPONSIVE */
+  /* ===================================================== */
+  @media (max-width: 900px) {
+    .hero { padding: 7rem 1.5rem 4rem; }
+    section { padding: 4.5rem 1.5rem; }
+    .davos-grid,
+    .antidote-principles,
+    .lte-visual,
+    .steps { grid-template-columns: 1fr; gap: 1.25rem; }
+    .media-bar { padding: 1rem 1.25rem; }
+    .media-bar-header { gap: 0.75rem; }
+    .media-bar-expand { margin-left: 0; }
+    .davos-col.them { border-right: none; border-bottom: 1px solid rgba(196, 69, 54, 0.15); }
+    .pullquote, .closer { padding: 5rem 1.5rem; }
+    .davos-col li { grid-template-columns: 1fr; gap: 0.25rem; }
+    .hero-stat-line { flex-direction: column; gap: 0.75rem; }
+    .gen-ticks { gap: 0.5rem; }
+    .gen-tick { padding: 0 0.25rem; }
+    .gen-tick-label { font-size: 0.6rem; }
+  }
+
+  /* ===================================================== */
+  /* SCROLL REVEAL */
+  /* ===================================================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV injected by bs-nav-footer.js -->
+<nav id="bs-nav"></nav>
+
+<!-- ===================================================== -->
+<!-- HERO — The Reclamation -->
+<!-- ===================================================== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Block Share · The Return</div>
+
+    <h1>The power was <em>always</em> yours.</h1>
+
+    <p class="hero-lead">
+      For <strong>7,000 generations</strong>, neighbours made decisions at the scale of the block. The Citizen Circle was not an experiment. It was the standard operating system of human organisation — and it worked.
+      <br><br>
+      You are not being asked to try something radical. You are being invited to <strong>exercise a muscle your ancestors used every day</strong> — the one we stopped using a few short generations ago.
+    </p>
+
+    <div class="cta-row">
+      <a href="/onboarding/" class="btn btn-primary">Find Your Block →</a>
+      <a href="#antidote" class="btn btn-secondary">Why the Block</a>
+    </div>
+
+    <div class="generations-line" aria-label="Timeline of human organisation">
+      <div class="gen-ticks">
+        <div class="gen-tick">
+          <div class="gen-tick-dot"></div>
+          <div class="gen-tick-label">—7,000 gens</div>
+          <div class="gen-tick-sub">Citizen Circles</div>
+        </div>
+        <div class="gen-tick">
+          <div class="gen-tick-dot"></div>
+          <div class="gen-tick-label">—1,000 gens</div>
+          <div class="gen-tick-sub">Village councils</div>
+        </div>
+        <div class="gen-tick">
+          <div class="gen-tick-dot"></div>
+          <div class="gen-tick-label">—100 gens</div>
+          <div class="gen-tick-sub">Commons, guilds</div>
+        </div>
+        <div class="gen-tick">
+          <div class="gen-tick-dot"></div>
+          <div class="gen-tick-label">—10 gens</div>
+          <div class="gen-tick-sub">Neighbourhoods</div>
+        </div>
+        <div class="gen-tick now">
+          <div class="gen-tick-dot"></div>
+          <div class="gen-tick-label">Now</div>
+          <div class="gen-tick-sub">Davos Man</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- MEDIA BAR — Block Beats collapsible toggle -->
+<!-- ===================================================== -->
+<section class="media-bar" id="mediaBar" aria-label="Watch or listen to this piece">
+  <div class="media-bar-header">
+    <span class="media-bar-label">Watch or Listen</span>
+
+    <div class="media-bar-toggles" role="tablist">
+      <button type="button" class="media-toggle active" data-target="video" role="tab" aria-selected="true">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21.582 6.186a2.506 2.506 0 0 0-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418a2.506 2.506 0 0 0-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814a2.506 2.506 0 0 0 1.768 1.768C5.746 20 12 20 12 20s6.254 0 7.814-.418a2.506 2.506 0 0 0 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM10 15.464V8.536L15.856 12 10 15.464z"/>
+        </svg>
+        YouTube Explainer
+      </button>
+
+      <button type="button" class="media-toggle" data-target="audio" role="tab" aria-selected="false">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+        Podcast · The Decentralist
+      </button>
+    </div>
+
+    <button type="button" class="media-bar-expand" id="mediaExpandBtn" aria-expanded="false" aria-controls="mediaPanel">
+      <span class="caret">▾</span>
+      <span class="expand-label">expand</span>
+    </button>
+  </div>
+
+  <div class="media-panel" id="mediaPanel">
+    <!-- Video panel -->
+    <div class="media-content-video active" id="videoPanel">
+      <iframe
+        src="https://www.youtube.com/embed/p_fcmFkXHH8?rel=0&modestbranding=1"
+        title="The Secret Millions on Your City Block"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+    </div>
+
+    <!-- Audio panel -->
+    <div class="media-content-audio" id="audioPanel">
+      <h3>The Decentralist · The Secret Millions on Your City Block</h3>
+      <p>The case for block-scale democracy, participatory budgeting, and reclaiming the power that was always ours.</p>
+      <audio controls preload="none">
+        <source src="https://app.blockshare.ca/wp-content/uploads/2026/04/The_Secret_Millions_on_Your_City_Block.mp3" type="audio/mpeg">
+        Your browser doesn't support audio playback. <a href="https://app.blockshare.ca/wp-content/uploads/2026/04/The_Secret_Millions_on_Your_City_Block.mp3" style="color: var(--gold-bright);">Download the MP3</a>.
+      </audio>
+      <a href="https://open.substack.com/pub/thedecentralistnet/p/people-power-at-human-scale"
+         target="_blank"
+         rel="noopener"
+         class="substack-btn">
+        Also available on Substack →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- PULLQUOTE 1 — the thesis in one line -->
+<!-- ===================================================== -->
+<div class="pullquote">
+  <blockquote>
+    The antidote to <em>Davos</em> is not another Davos.<br>
+    It is the <em>block</em>.
+  </blockquote>
+  <cite>The Core Wager</cite>
+</div>
+
+<!-- ===================================================== -->
+<!-- DAVOS vs YOU — the contrast -->
+<!-- ===================================================== -->
+<section class="davos" id="davos">
+  <div class="section-inner">
+    <div class="section-eyebrow">The Era We're Living In</div>
+    <h2 class="section-title">Decisions made <em>about you</em>, in rooms you will never enter.</h2>
+    <p class="section-deck">
+      The last few generations have handed authority over your life to strangers in distant cities — executives in Zurich, fund managers in New York, lobbyists in Ottawa, algorithms in no city at all. It didn't happen overnight. It happened <strong>one small surrender at a time</strong>.
+    </p>
+    <p class="section-deck">
+      The cure is not to replace one distant power with another. It is to restore the proximity that was always supposed to be there.
+    </p>
+
+    <div class="davos-grid">
+      <div class="davos-col them">
+        <div class="tag">The Davos Model</div>
+        <h3>Decisions at the scale of the planet</h3>
+        <div class="subtitle">Remote. Synthetic. Unaccountable.</div>
+        <ul>
+          <li><strong>Scale</strong><span>Global institutions, faceless entities</span></li>
+          <li><strong>Distance</strong><span>Oceans between cause and consequence</span></li>
+          <li><strong>Input</strong><span>Filtered through lobbyists and party whips</span></li>
+          <li><strong>Timing</strong><span>Your vote, once every four years</span></li>
+          <li><strong>Accountability</strong><span>Delayed, performative, institutional</span></li>
+        </ul>
+      </div>
+
+      <div class="davos-col you">
+        <div class="tag">The Block Model</div>
+        <h3>Decisions at the scale of the lane</h3>
+        <div class="subtitle">Local. Human. Immediate.</div>
+        <ul>
+          <li><strong>Scale</strong><span>Neighbours you actually know</span></li>
+          <li><strong>Distance</strong><span>Metres between cause and consequence</span></li>
+          <li><strong>Input</strong><span>Direct debate, face-to-face consensus</span></li>
+          <li><strong>Timing</strong><span>Continuous — whenever it matters</span></li>
+          <li><strong>Accountability</strong><span>Immediate, earned, personal</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- ANTIDOTE — why the block works -->
+<!-- ===================================================== -->
+<section class="antidote" id="antidote">
+  <div class="section-inner">
+    <div class="section-eyebrow">The Antidote</div>
+    <h2 class="section-title">Start <em>local</em>. Start small. Start now.</h2>
+    <p class="section-deck">
+      The block is not nostalgic. It is not utopian. It is simply the <strong>smallest unit of political and economic life</strong> that still contains everything a community needs — people, resources, decisions, consequences. Everything larger is derivative.
+    </p>
+
+    <div class="antidote-principles">
+      <div class="antidote-card">
+        <div class="number">01 / PROXIMITY</div>
+        <h3>The people closest to the consequence make the decision</h3>
+        <p>Distance dilutes care. The block collapses the distance. <strong>Good governance is not a theory — it's a geography.</strong></p>
+      </div>
+
+      <div class="antidote-card">
+        <div class="number">02 / VISIBILITY</div>
+        <h3>What you cannot see, you cannot steward</h3>
+        <p>The average Vancouver block already holds <strong>$2.4 million</strong> in annual spending power. Invisible, until now. Blockonomics opens the neighbourhood's secret books.</p>
+      </div>
+
+      <div class="antidote-card">
+        <div class="number">03 / DOABILITY</div>
+        <h3>Small enough to start on Tuesday</h3>
+        <p>You cannot redesign a nation by Tuesday. You can <strong>absolutely share a ladder, split a grocery order, or organise a block meeting</strong> by Tuesday. Change that lasts is change that begins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- INFOGRAPHIC — Reclaiming Your Life -->
+<!-- ===================================================== -->
+<section class="infographic-section">
+  <div class="infographic-inner">
+    <div class="infographic-header">
+      <div class="section-eyebrow" style="color: var(--gold-bright);">The Full Picture</div>
+      <h2 class="infographic-title">From extraction to equilibrium —<br><em>the complete system, at a glance.</em></h2>
+      <p class="infographic-deck">The left side shows what's happening to your block right now. The right side shows what 5% redirected can build. Two panels. One choice.</p>
+    </div>
+    <div class="infographic-frame">
+      <img
+        src="https://app.blockshare.ca/wp-content/uploads/2026/04/Reclaiming-your-power-scaled.png"
+        alt="Reclaiming Your Life: The 3rd Way to Neighbourhood Power — an infographic showing the $2.4M block budget leaking to remote corporations on the left, and the 5% redirect building community wealth through the 2.6x multiplier and 33/33/33 Community Credits formula on the right."
+        class="infographic-img"
+        loading="lazy"
+      >
+    </div>
+    <div class="infographic-caption">
+      <span class="caption-left">← Your block's spending, leaking now</span>
+      <span class="caption-divider">·</span>
+      <span class="caption-right">The 5% redirect builds the Community Fortress →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- PULLQUOTE 2 — historical anchor -->
+<!-- ===================================================== -->
+<div class="pullquote">
+  <blockquote>
+    We are not inventing a new theory. We are <em>resequencing</em> our economic DNA to its original, durable state.
+  </blockquote>
+  <cite>The Historical Equilibrium</cite>
+</div>
+
+<!-- ===================================================== -->
+<!-- STAKES — LTE extraction -->
+<!-- ===================================================== -->
+<section class="stakes">
+  <div class="section-inner">
+    <div class="section-eyebrow">What's At Stake</div>
+    <h2 class="section-title">Every dollar extracted is a piece of your <em>life</em>.</h2>
+    <p class="section-deck">
+      The Lifetime Efficiency Index translates rent, interest, and hidden fees into the only currency that actually matters — the hours of your working life they consume. Two cities, same planet. Radically different outcomes for the people who live in them.
+    </p>
+
+    <div class="lte-visual">
+      <div class="lte-bars">
+        <div class="lte-city vancouver">
+          <div class="lte-city-header">
+            <div class="lte-city-name">Vancouver</div>
+            <div class="lte-city-value">99.9%</div>
+          </div>
+          <div class="lte-bar"><div class="lte-bar-fill"></div></div>
+          <div class="lte-city-caption">Nearly all of a working life, consumed by survival.</div>
+        </div>
+
+        <div class="lte-city copenhagen">
+          <div class="lte-city-header">
+            <div class="lte-city-name">Copenhagen</div>
+            <div class="lte-city-value">63.7%</div>
+          </div>
+          <div class="lte-bar"><div class="lte-bar-fill"></div></div>
+          <div class="lte-city-caption">A third of a life, liberated for family and community.</div>
+        </div>
+      </div>
+
+      <div class="lte-explainer">
+        <h3>The tax you never voted for — and <em>never agreed to pay</em>.</h3>
+        <p>We are trained to see <strong>public taxes</strong> as the great drain. But the average resident pays far more in <strong>private taxes</strong>: rent to absentee landlords, interest to distant banks, platform fees to offshore shareholders.</p>
+        <p>Public taxes return as roads, schools, and parks. Private taxes return as dividends. Once you see the difference, you cannot un-see it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- DOABLE — Four Steps -->
+<!-- ===================================================== -->
+<section class="doable">
+  <div class="section-inner">
+    <div class="section-eyebrow">The Practice</div>
+    <h2 class="section-title">Four steps. Your block. <em>This week</em>.</h2>
+    <p class="section-deck">
+      This is not a manifesto waiting for the revolution. It is a blueprint that begins on your block, this week, with the neighbours you already have.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">STEP 01</div>
+        <h3>See your block's budget</h3>
+        <p>Enter your postal code. Discover the millions of dollars already flowing through your block — and what 5% redirected could fund.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 02</div>
+        <h3>Complete the block survey</h3>
+        <p>Nineteen questions. Builds the collective intelligence of the block. Earns your first Community Credyts.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 03</div>
+        <h3>Share, save, trade</h3>
+        <p>Access the pooled tool library. Split a group grocery order. Trade a skill. Every exchange deepens trust and liberates time.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 04</div>
+        <h3>Build block power</h3>
+        <p>As participation compounds, blocks graduate to self-governance: community budgets, collective investment, economic sovereignty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- CLOSER — The Invitation -->
+<!-- ===================================================== -->
+<section class="closer">
+  <div class="closer-inner">
+    <h2>You are <em>choosing</em> to exercise it again.</h2>
+    <p>Not inventing. Not revolutionising. Not waiting for someone in Zurich or Ottawa to hand it back to you. Simply — and quietly — returning to the way human beings have organised themselves for as long as there have been human beings.</p>
+    <div class="cta-row">
+      <a href="/onboarding/" class="btn btn-primary">Find Your Block →</a>
+      <a href="/blockonomics/" class="btn btn-secondary">Read the Framework</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER injected by bs-nav-footer.js -->
+<footer id="bs-footer"></footer>
+
+<!-- Shared nav/footer injector -->
+<script src="/bs-nav-footer.js"></script>
+
+<script>
+  // ========== Media bar: toggle + expand ==========
+  (function() {
+    const bar = document.getElementById('mediaBar');
+    const expandBtn = document.getElementById('mediaExpandBtn');
+    const expandLabel = expandBtn.querySelector('.expand-label');
+    const toggles = bar.querySelectorAll('.media-toggle');
+    const videoPanel = document.getElementById('videoPanel');
+    const audioPanel = document.getElementById('audioPanel');
+
+    function setExpanded(expanded) {
+      bar.classList.toggle('expanded', expanded);
+      expandBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      expandLabel.textContent = expanded ? 'close' : 'expand';
+    }
+
+    function switchTo(target) {
+      toggles.forEach(t => {
+        const active = t.dataset.target === target;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      videoPanel.classList.toggle('active', target === 'video');
+      audioPanel.classList.toggle('active', target === 'audio');
+    }
+
+    // Toggle button clicks — switch panel AND ensure bar is expanded
+    toggles.forEach(t => {
+      t.addEventListener('click', () => {
+        switchTo(t.dataset.target);
+        if (!bar.classList.contains('expanded')) setExpanded(true);
+      });
+    });
+
+    // Expand/collapse button
+    expandBtn.addEventListener('click', () => {
+      setExpanded(!bar.classList.contains('expanded'));
+    });
+  })();
+
+  // ========== Scroll reveal ==========
+  const revealEls = document.querySelectorAll('.section-title, .section-deck, .davos-col, .antidote-card, .lte-city, .lte-explainer, .step');
+  revealEls.forEach(el => el.classList.add('reveal'));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        // Trigger LTE bar animations when they come into view
+        if (entry.target.classList.contains('lte-city')) {
+          setTimeout(() => entry.target.classList.add('animated'), 300);
+        }
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

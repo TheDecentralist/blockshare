@@ -66,6 +66,15 @@ add_filter('query_vars', function($vars) {
 // ── Serve pages ───────────────────────────────────────────────────────────────
 add_action('template_redirect', function() {
     $page = get_query_var('bs_page');
+    if (!$page && is_front_page()) {
+        $home = BS_PAGES_DIR . 'bs-home-v2.html';
+        if (file_exists($home)) {
+            header('Content-Type: text/html; charset=UTF-8');
+            header('Cache-Control: public, max-age=300');
+            readfile($home);
+            exit;
+        }
+    }
     if (!$page) return;
 
     $map = bs_get_page_map();
