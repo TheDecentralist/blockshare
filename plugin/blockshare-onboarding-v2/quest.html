@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quest — Block Share</title><meta name="theme-color" content="#0a5e3e"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>:root{--green:#0a5e3e;--cream:#F3EFE6;--rust:#C4522A;--card:#fff;--text:#1a1a0e;--muted:#7a7560;--border:#ede9e0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Plus Jakarta Sans",-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+.wrap{max-width:480px;margin:0 auto;padding:0 0 40px}
+.top{background:var(--green);color:#fff;padding:48px 22px 26px}
+.top h1{font-family:Fraunces,Georgia,serif;font-size:26px;line-height:1.15;margin-bottom:6px}
+.top p{font-size:14px;opacity:.85;line-height:1.45}
+.body{padding:20px}
+.card{background:var(--card);border-radius:14px;padding:18px;margin-bottom:12px}
+label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 5px}
+input[type=text],input[type=email],input[type=tel]{width:100%;padding:13px;border:1.5px solid var(--border);border-radius:10px;font:inherit;font-size:16px;background:#fff}
+input:focus{outline:none;border-color:var(--green)}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:15px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px;background:var(--rust);color:#fff}
+.btn.green{background:var(--green)}.btn:disabled{opacity:.5}
+.err{background:#ffebee;color:#c62828;padding:12px 14px;border-radius:10px;font-size:14px;margin-top:12px;display:none}
+.small{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}
+.hide{display:none}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:13px;font:inherit;font-size:15px;margin-top:8px;cursor:pointer}
+.opt.sel{border-color:var(--green);background:#eaf6ef;font-weight:600}
+.prog{background:var(--border);border-radius:99px;height:6px;margin:0 0 4px}.prog i{display:block;background:var(--green);height:6px;border-radius:99px;transition:width .3s}
+.cc{display:inline-block;background:#d6f0e0;color:var(--green);font-weight:700;font-size:12px;padding:3px 10px;border-radius:99px}</style></head><body><div class="wrap">
+<div class="top"><h1>Save Our Pond quest</h1><p>Five quick questions · <span id="ccper">3</span> CC each</p></div>
+<div class="body"><div class="prog"><i id="bar" style="width:0"></i></div><p class="small" id="count"></p>
+<div class="card" id="qcard"></div><div class="err" id="err"></div></div></div>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search),sg=function(k){return sessionStorage.getItem(k)};
+  var uid=q.get('uid')||sg('bs_uid'),token=q.get('token')||sg('bs_token');
+  if(token)sessionStorage.setItem('bs_token',token);if(uid)sessionStorage.setItem('bs_uid',uid);
+  var Q=[
+   {t:'Have you visited a Vancouver park pond in the last year?',o:['Yes, often','Once or twice','No']},
+   {t:'How important is it to keep park ponds alive through summer?',o:['Essential','Important','Somewhat','Not a priority']},
+   {t:'Which alternative to shutting the water off would you back first?',o:['Conservation','Rainwater cisterns','Groundwater wells','Drainage redirection','Grey-water recovery']},
+   {t:'How could you help?',o:['Time (volunteer)','Cash','Assets / skills','Just keep me informed']},
+   {t:'Would you join a Save Our Pond Saturday?',o:['Yes, count me in','Maybe, tell me more','Not right now']}
+  ];
+  var i=0;
+  function err(m){var e=document.getElementById('err');e.textContent=m;e.style.display='block'}
+  if(!token){document.getElementById('qcard').innerHTML='<p>Session expired. Please <a href="/join/">sign up again</a> or scan your QR code.</p>';return}
+  function render(){
+    document.getElementById('bar').style.width=(i/Q.length*100)+'%';
+    document.getElementById('count').textContent='Question '+(i+1)+' of '+Q.length;
+    var c=document.getElementById('qcard'),h='<p style="font-weight:600;font-size:17px;line-height:1.35">'+Q[i].t+'</p>';
+    Q[i].o.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+o+'</button>'});c.innerHTML=h;
+    c.querySelectorAll('.opt').forEach(function(b){b.onclick=function(){c.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add('sel');submit(Q[i].o[b.dataset.k])}});
+  }
+  function submit(ans){
+    fetch('/wp-json/blockshare/v1/survey',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({uid:uid,token:token,question_id:i+1,section:'A',project:'save-the-pond',answer:ans})})
+    .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})}).then(function(x){
+      if(!x.ok)throw new Error(x.d.error||'Could not save');
+      i++;if(i<Q.length)setTimeout(render,250);else done(x.d);
+    }).catch(function(e){err(e.message);document.querySelectorAll('.opt').forEach(function(b){b.disabled=false})});
+  }
+  function done(d){
+    document.getElementById('bar').style.width='100%';document.getElementById('count').textContent='Quest complete';
+    document.getElementById('qcard').innerHTML='<p style="font-size:17px;font-weight:600">Nice work — your Community Credits are unlocked.</p><p class="small">Balance: <span class="cc">'+d.new_balance+' CC</span></p><button class="btn green" id="h">Go to my Block Home →</button>';
+    document.getElementById('h').onclick=function(){location.href='/home/?uid='+uid+'&token='+encodeURIComponent(token)};
+  }
+  render();
+})();
+</script></body></html>

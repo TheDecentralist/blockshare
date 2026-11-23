@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Block Home</title>
+  <link rel="manifest" href="/bs-manifest.json">
+  <meta name="theme-color" content="#0a5e3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:  #0a5e3e;
+      --cream:  #F3EFE6;
+      --rust:   #C4522A;
+      --card:   #ffffff;
+      --text:   #1a1a0e;
+      --muted:  #7a7560;
+      --border: #ede9e0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────────── */
+    .header {
+      background: var(--green);
+      color: #fff;
+      padding: 52px 20px 0;
+    }
+    .header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-bottom: 14px;
+    }
+    .greeting { font-size: 13px; opacity: 0.75; margin-bottom: 2px; }
+    .block-id {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      line-height: 1.15;
+    }
+    .nbrs { color: var(--rust); }
+    .avatar {
+      width: 38px; height: 38px;
+      background: var(--rust);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; color: #fff;
+      flex-shrink: 0; margin-top: 2px;
+    }
+
+    /* ── Activity strip ─────────────────────────────────────────────────── */
+    .activity-strip {
+      display: flex; gap: 8px;
+      padding: 0 20px 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .activity-strip::-webkit-scrollbar { display: none; }
+    .activity-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.14);
+      border-radius: 99px;
+      padding: 5px 12px 5px 8px;
+      white-space: nowrap;
+      font-size: 12px;
+      color: rgba(255,255,255,0.88);
+      flex-shrink: 0;
+    }
+    .pill-icon { font-size: 15px; line-height: 1; }
+
+    /* ── Page body ──────────────────────────────────────────────────────── */
+    .body { padding: 16px 20px 96px; }
+
+    /* ── Impact card ────────────────────────────────────────────────────── */
+    .impact-card {
+      background: var(--rust);
+      color: #fff;
+      border-radius: 18px;
+      padding: 22px 20px 20px;
+      margin-bottom: 24px;
+    }
+    .impact-amount {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+    .impact-unit { font-size: 22px; font-weight: 400; letter-spacing: 0; }
+    .impact-sub { font-size: 13px; opacity: 0.82; margin-top: 6px; }
+    .impact-locked {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.22);
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    /* ── Section ────────────────────────────────────────────────────────── */
+    .section { margin-bottom: 24px; }
+    .section-hd {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .see-all { font-size: 13px; color: var(--rust); font-weight: 600; cursor: pointer; }
+
+    /* ── Item grid (2-col) ──────────────────────────────────────────────── */
+    .item-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 16px 14px 14px;
+      position: relative;
+    }
+    .grid-emoji { font-size: 34px; display: block; margin-bottom: 10px; }
+    .grid-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 14px; font-weight: 600; line-height: 1.25;
+      margin-bottom: 3px;
+    }
+    .grid-sub { font-size: 11px; color: var(--muted); }
+    .grid-badge {
+      position: absolute; top: 10px; right: 10px;
+      font-size: 10px; font-weight: 700; letter-spacing: .3px;
+      padding: 2px 8px; border-radius: 99px;
+    }
+    .badge-out  { background: var(--text); color: #fff; }
+    .badge-avail { background: #d6f0e0; color: var(--green); }
+
+    /* ── Share items (list) ─────────────────────────────────────────────── */
+    .share-row {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 8px;
+    }
+    .share-emoji { font-size: 26px; flex-shrink: 0; }
+    .share-info { flex: 1; min-width: 0; }
+    .share-name { font-weight: 600; font-size: 14px; }
+    .share-desc { font-size: 12px; color: var(--muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .status-pill { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; flex-shrink: 0; }
+    .s-avail { background: #d6f0e0; color: var(--green); }
+    .s-out   { background: #fdebd0; color: #a04010; }
+
+    /* ── Feed card ──────────────────────────────────────────────────────── */
+    .feed-card { background: var(--card); border-radius: 14px; padding: 2px 16px; }
+    .feed-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .feed-row:last-child { border-bottom: none; }
+    .feed-icon { font-size: 18px; flex-shrink: 0; width: 24px; text-align: center; padding-top: 1px; }
+    .feed-text { font-size: 13px; color: var(--text); line-height: 1.4; }
+    .feed-ago  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Projects ───────────────────────────────────────────────────────── */
+    .project-card { background: var(--card); border-radius: 14px; padding: 18px; }
+    .project-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 18px; font-weight: 700; margin-bottom: 3px;
+    }
+    .project-tag { font-size: 13px; color: var(--muted); }
+    .prog-bar { background: var(--border); border-radius: 99px; height: 6px; margin: 14px 0 6px; }
+    .prog-fill { background: var(--green); height: 6px; border-radius: 99px; transition: width .4s ease; }
+    .prog-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .quest-pill {
+      display: inline-block; margin-top: 12px;
+      padding: 4px 12px; border-radius: 99px;
+      font-size: 12px; font-weight: 700;
+    }
+    .q-done { background: #d6f0e0; color: var(--green); }
+    .q-prog { background: #fdebd0; color: #a04010; }
+
+    /* ── Buttons ────────────────────────────────────────────────────────── */
+    .btn-rust, .btn-green {
+      border: none; border-radius: 12px;
+      padding: 14px; font-size: 15px; font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer; width: 100%; margin-top: 10px;
+    }
+    .btn-rust  { background: var(--rust);  color: #fff; }
+    .btn-green { background: var(--green); color: #fff; }
+
+    /* ── Bottom nav ─────────────────────────────────────────────────────── */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      padding: 10px 0 env(safe-area-inset-bottom, 16px);
+      z-index: 100;
+    }
+    .nav-item {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+      font-size: 10px; font-weight: 600; color: var(--muted); cursor: pointer;
+      text-transform: uppercase; letter-spacing: .5px;
+    }
+    .nav-item.active { color: var(--green); }
+    .nav-icon { font-size: 22px; line-height: 1; }
+
+    /* ── Misc ───────────────────────────────────────────────────────────── */
+    .empty-card {
+      background: var(--card); border-radius: 14px;
+      padding: 20px; text-align: center;
+      color: var(--muted); font-size: 13px;
+    }
+    .install-card { background: var(--card); border-radius: 14px; padding: 18px; text-align: center; }
+    .install-card p { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+    .loading { text-align: center; padding: 80px 20px; color: var(--muted); }
+    .error-msg {
+      background: #ffebee; color: #c62828;
+      padding: 14px 16px; border-radius: 12px; margin: 20px; font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div id="app"><div class="loading">Loading your block...</div></div>
+<script>
+(function () {
+  var HOME_API  = '/wp-json/blockshare/v1/home';
+  var ITEMS_API = '/wp-json/blockshare/v1/items';
+  var FEED_API  = '/wp-json/blockshare/v1/feed';
+
+  var params = new URLSearchParams(location.search);
+  var token = params.get('token') || sessionStorage.getItem('bs_token');
+  var uid   = params.get('uid')   || sessionStorage.getItem('bs_uid');
+  if (token) sessionStorage.setItem('bs_token', token);
+  if (uid)   sessionStorage.setItem('bs_uid', uid);
+
+  function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+  var hour = new Date().getHours();
+  var greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+  var EMOJI = {
+    tools:'&#x1F527;', camping:'&#x26FA;', kitchen:'&#x1F373;', bikes:'&#x1F6B2;',
+    vehicles:'&#x1F697;', sports:'&#x26BD;', garden:'&#x1F331;', furniture:'&#x1F6CB;',
+    party:'&#x1F389;', medical:'&#x1F3E5;', watercraft:'&#x1F6A4;', patio:'&#x2600;'
+  };
+  function catEmoji(c) { return EMOJI[c] || '&#x1F4E6;'; }
+
+  function render(home, items, feedData) {
+    var u      = home.user;
+    var proj   = (home.projects || [])[0] || null;
+    var nbrs   = (home.block_pulse || {}).members || 0;
+    var nearby = (items && items.nearby) || [];
+    var mine   = (items && items.mine)   || [];
+    var feed   = (feedData && feedData.feed) || [];
+    var pct    = proj ? Math.round((proj.your_q_done / 5) * 100) : 0;
+    var initial = (u.first_name || 'U')[0].toUpperCase();
+
+    var h = '';
+
+    // ── Header ──
+    h += '<div class="header">' +
+      '<div class="header-row">' +
+        '<div>' +
+          '<div class="greeting">' + greeting + ', ' + esc(u.first_name) + '</div>' +
+          '<div class="block-id">Block ' + esc(u.block_number) +
+            (nbrs ? ' &middot; <span class="nbrs">' + nbrs + ' nbrs</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="avatar">' + esc(initial) + '</div>' +
+      '</div>';
+
+    // Activity strip (feed pills, on green)
+    if (feed.length) {
+      h += '<div class="activity-strip">';
+      feed.slice(0, 8).forEach(function(f) {
+        h += '<div class="activity-pill"><span class="pill-icon">' + f.icon + '</span>' + esc(f.text) + '</div>';
+      });
+      h += '</div>';
+    } else {
+      h += '<div style="height:16px"></div>';
+    }
+
+    h += '</div>'; // .header
+
+    h += '<div class="body">';
+
+    // ── Impact / CC card ──
+    h += '<div class="impact-card">' +
+      '<div class="impact-amount">' + u.cc_spendable + ' <span class="impact-unit">CC</span></div>' +
+      '<div class="impact-sub">Spendable &middot; +' + u.cc_earned_today + ' earned today</div>';
+    if (u.cc_locked > 0) {
+      h += '<div class="impact-locked">&#x1F512; ' + u.cc_locked + ' CC locked &mdash; complete your quest to unlock</div>';
+    }
+    h += '</div>';
+
+    // ── Available nearby ──
+    h += '<div class="section">' +
+      '<div class="section-hd">' +
+        '<div class="section-title">Available nearby</div>' +
+        (nearby.length ? '<div class="see-all">See all</div>' : '') +
+      '</div>';
+    if (nearby.length) {
+      h += '<div class="item-grid">';
+      nearby.slice(0, 4).forEach(function(item) {
+        var badge = item.status === 'available'
+          ? '<span class="grid-badge badge-avail">Free</span>'
+          : '<span class="grid-badge badge-out">Out</span>';
+        var sub = (item.description || '').slice(0, 28) || item.category;
+        h += '<div class="grid-card">' + badge +
+          '<span class="grid-emoji">' + catEmoji(item.category) + '</span>' +
+          '<div class="grid-name">' + esc(item.title) + '</div>' +
+          '<div class="grid-sub">' + esc(sub) + '</div>' +
+          '</div>';
+      });
+      h += '</div>';
+    } else {
+      h += '<div class="empty-card">No items nearby yet &mdash; invite neighbours to join!</div>';
+    }
+    h += '</div>';
+
+    // ── You're sharing ──
+    h += '<div class="section">' +
+      '<div class="section-hd"><div class="section-title">You\'re sharing</div></div>';
+    if (mine.length) {
+      mine.forEach(function(item) {
+        var pill = item.status === 'available'
+          ? '<span class="status-pill s-avail">Available</span>'
+          : '<span class="status-pill s-out">Borrowed</span>';
+        h += '<div class="share-row">' +
+          '<div class="share-emoji">' + catEmoji(item.category) + '</div>' +
+          '<div class="share-info">' +
+            '<div class="share-name">' + esc(item.title) + '</div>' +
+            '<div class="share-desc">' + esc(item.description || '') + '</div>' +
+          '</div>' + pill + '</div>';
+      });
+    } else {
+      h += '<div class="empty-card">Share your first item with your block!</div>';
+    }
+    h += '<button class="btn-green">+ Share an Item</button>';
+    h += '</div>';
+
+    // ── Block Pulse (full feed) ──
+    if (feed.length) {
+      h += '<div class="section">' +
+        '<div class="section-hd"><div class="section-title">Block Pulse</div></div>' +
+        '<div class="feed-card">';
+      feed.forEach(function(f) {
+        h += '<div class="feed-row">' +
+          '<div class="feed-icon">' + f.icon + '</div>' +
+          '<div><div class="feed-text">' + esc(f.text) + '</div>' +
+          '<div class="feed-ago">' + esc(f.ago) + '</div></div>' +
+          '</div>';
+      });
+      h += '</div></div>';
+    }
+
+    // ── Projects & Quests ──
+    if (proj) {
+      var qbadge = proj.quest_done
+        ? '<span class="quest-pill q-done">&#10003; Quest complete</span>'
+        : '<span class="quest-pill q-prog">Quest in progress</span>';
+      h += '<div class="section">' +
+        '<div class="section-hd"><div class="section-title">Projects &amp; Quests</div></div>' +
+        '<div class="project-card">' +
+          '<div class="project-name">' + esc(proj.name) + '</div>' +
+          '<div class="project-tag">' + esc(proj.tagline) + '</div>' +
+          '<div class="prog-bar"><div class="prog-fill" style="width:' + pct + '%"></div></div>' +
+          '<div class="prog-meta"><span>' + proj.participants + ' neighbours</span><span>' + proj.your_q_done + '/5 quests</span></div>' +
+          qbadge +
+        '</div></div>';
+    }
+
+    // ── PWA Install ──
+    h += '<div class="install-card">' +
+      '<p>Add Block Share to your home screen.</p>' +
+      '<button class="btn-rust" id="installBtn">Add to Home Screen</button>' +
+      '</div>';
+
+    h += '</div>'; // .body
+
+    // ── Bottom nav ──
+    h += '<nav class="bottom-nav">' +
+      '<div class="nav-item active"><span class="nav-icon">&#x1F3E0;</span>Home</div>' +
+      '<div class="nav-item"><span class="nav-icon">&#x1F4E6;</span>Stuff</div>' +
+      '<div class="nav-item"><span class="nav-icon">&#x1F96C;</span>Food</div>' +
+      '<div class="nav-item"><span class="nav-icon">&#x1F464;</span>Me</div>' +
+    '</nav>';
+
+    document.getElementById('app').innerHTML = h;
+
+    var deferred = null;
+    window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); deferred = e; });
+    var btn = document.getElementById('installBtn');
+    if (btn) btn.addEventListener('click', function() {
+      deferred ? deferred.prompt() : alert('Tap Share then Add to Home Screen.');
+    });
+  }
+
+  function showError(msg) {
+    document.getElementById('app').innerHTML = '<div class="error-msg">' + msg + '</div>';
+  }
+
+  if (!token) { showError('Session expired. Please scan your QR code again.'); return; }
+
+  var homeData = null, itemsData = null, feedData = null, homeReady = false;
+  var auth = '?uid=' + uid + '&token=' + token;
+  function tryRender() { if (homeReady) render(homeData, itemsData, feedData); }
+
+  fetch(HOME_API + auth)
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function(d) { homeData = d; homeReady = true; tryRender(); })
+    .catch(function(e) { showError('Could not load your home page. (' + e + ')'); });
+
+  fetch(ITEMS_API + auth)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) { itemsData = d; tryRender(); })
+    .catch(function() { tryRender(); });
+
+  fetch(FEED_API + auth)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) { feedData = d; tryRender(); })
+    .catch(function() { tryRender(); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Join your Block — Block Share</title><meta name="theme-color" content="#0a5e3e"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>:root{--green:#0a5e3e;--cream:#F3EFE6;--rust:#C4522A;--card:#fff;--text:#1a1a0e;--muted:#7a7560;--border:#ede9e0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Plus Jakarta Sans",-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+.wrap{max-width:480px;margin:0 auto;padding:0 0 40px}
+.top{background:var(--green);color:#fff;padding:48px 22px 26px}
+.top h1{font-family:Fraunces,Georgia,serif;font-size:26px;line-height:1.15;margin-bottom:6px}
+.top p{font-size:14px;opacity:.85;line-height:1.45}
+.body{padding:20px}
+.card{background:var(--card);border-radius:14px;padding:18px;margin-bottom:12px}
+label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 5px}
+input[type=text],input[type=email],input[type=tel]{width:100%;padding:13px;border:1.5px solid var(--border);border-radius:10px;font:inherit;font-size:16px;background:#fff}
+input:focus{outline:none;border-color:var(--green)}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:15px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px;background:var(--rust);color:#fff}
+.btn.green{background:var(--green)}.btn:disabled{opacity:.5}
+.err{background:#ffebee;color:#c62828;padding:12px 14px;border-radius:10px;font-size:14px;margin-top:12px;display:none}
+.small{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}
+.hide{display:none}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:13px;font:inherit;font-size:15px;margin-top:8px;cursor:pointer}
+.opt.sel{border-color:var(--green);background:#eaf6ef;font-weight:600}
+.prog{background:var(--border);border-radius:99px;height:6px;margin:0 0 4px}.prog i{display:block;background:var(--green);height:6px;border-radius:99px;transition:width .3s}
+.cc{display:inline-block;background:#d6f0e0;color:var(--green);font-weight:700;font-size:12px;padding:3px 10px;border-radius:99px}</style></head><body><div class="wrap">
+
+<section id="s1"><div class="top"><h1 id="h1">Join your Block</h1><p id="sub">Block Share connects neighbours to share, grow and decide together — one block at a time.</p></div>
+<div class="body"><div class="card" id="invite" style="display:none"></div>
+<button class="btn green" id="go">Get started →</button></div></section>
+
+<section id="s2" class="hide"><div class="top"><h1>Tell us who you are</h1><p>Just enough to find your block and keep your Community Credits safe.</p></div>
+<div class="body"><div class="card">
+<label for="fn">First name</label><input type="text" id="fn" autocomplete="given-name">
+<label for="ln">Last name <span style="text-transform:none;font-weight:400">(optional)</span></label><input type="text" id="ln" autocomplete="family-name">
+<label for="em">Email</label><input type="email" id="em" autocomplete="email">
+<label for="ph">Mobile <span style="text-transform:none;font-weight:400">(optional if you gave email)</span></label><input type="tel" id="ph" autocomplete="tel" placeholder="604 555 1234">
+<label for="pc">Postal code</label><input type="text" id="pc" autocomplete="postal-code" placeholder="V6H 1A1" maxlength="7">
+<p class="small">Your first three postal-code characters place you on a block. We never sell or share your data.</p>
+<div class="err" id="err"></div>
+<button class="btn" id="submit">Create my account</button></div></div></section>
+
+<section id="s3" class="hide"><div class="top"><h1 id="wh">Welcome!</h1><p id="wp"></p></div>
+<div class="body"><div class="card"><p style="font-size:15px;line-height:1.5">You've got <span class="cc" id="wcc">20 CC</span> waiting. Answer five quick questions to unlock them.</p></div>
+<button class="btn green" id="toq">Start the quest →</button></div></section>
+
+</div>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), ref=q.get('ref')||sessionStorage.getItem('bs_ref')||'', project=q.get('project')||sessionStorage.getItem('bs_project')||'save-the-pond';
+  if(ref)sessionStorage.setItem('bs_ref',ref); sessionStorage.setItem('bs_project',project);
+  function show(n){['s1','s2','s3'].forEach(function(i){document.getElementById(i).classList.toggle('hide',i!=='s'+n)});window.scrollTo(0,0)}
+  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  if(ref){fetch('/wp-json/blockshare/v1/referral-info?ref='+encodeURIComponent(ref)+'&project='+encodeURIComponent(project)).then(function(r){return r.json()}).then(function(d){
+    if(d&&d.valid){var c=document.getElementById('invite');c.style.display='block';
+      c.innerHTML='<strong>Invited by '+esc(d.referrer_first_name)+'</strong><br><span style="color:#7a7560;font-size:14px">Block '+esc(d.block_number)+' · '+esc(d.project.name)+'</span>';
+      document.getElementById('h1').textContent='You’re invited';}
+  }).catch(function(){})}
+  document.getElementById('go').onclick=function(){show(2)};
+  document.getElementById('submit').onclick=function(){
+    var b=this,e=document.getElementById('err');e.style.display='none';
+    var body={first_name:fn.value.trim(),last_name:ln.value.trim(),email:em.value.trim(),phone:ph.value.trim(),postal_code:pc.value.trim(),ref:ref,project:project};
+    if(!body.first_name||(!body.email&&!body.phone)||body.postal_code.replace(/\W/g,'').length<3){e.textContent='Please add your first name, an email or mobile, and your postal code.';e.style.display='block';return}
+    b.disabled=true;b.textContent='Creating…';
+    fetch('/wp-json/blockshare/v1/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})}).then(function(x){
+      if(!x.ok||!x.d.success){throw new Error(x.d.error||'Something went wrong')}
+      sessionStorage.setItem('bs_token',x.d.token);sessionStorage.setItem('bs_uid',x.d.uid);
+      document.getElementById('wh').textContent='Welcome, '+body.first_name+'!';
+      document.getElementById('wp').textContent='You’re on Block '+x.d.block_number+'. Your referral code is '+x.d.referral_code+'.';
+      document.getElementById('wcc').textContent=x.d.cc_locked+' CC';show(3);
+    }).catch(function(err){e.textContent=err.message;e.style.display='block';b.disabled=false;b.textContent='Create my account'});
+  };
+  document.getElementById('toq').onclick=function(){location.href='/quest/?uid='+sessionStorage.getItem('bs_uid')+'&token='+encodeURIComponent(sessionStorage.getItem('bs_token'))+'&ref='+encodeURIComponent(ref)};
+})();
+</script></body></html>
