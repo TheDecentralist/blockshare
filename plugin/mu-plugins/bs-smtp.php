@@ -12,7 +12,7 @@ add_action('phpmailer_init', function ($m) {
     if (!defined('BS_SMTP_USER') || !defined('BS_SMTP_PASS')) return;
     $m->isSMTP();
     $m->Host       = 'smtp-relay.brevo.com';
-    $m->Port       = 587;
+    $m->Port       = 2525;
     $m->SMTPAuth   = true;
     $m->SMTPSecure = 'tls';
     $m->Username   = BS_SMTP_USER;
