@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Dashboard - Block Share</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3498DB;
+            text-decoration: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1ABC9C, #27AE60);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-role {
+            font-size: 0.85rem;
+            color: #1ABC9C;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Welcome Section */
+        .welcome {
+            background: linear-gradient(135deg, #1ABC9C, #27AE60);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .welcome h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .trend-up {
+            background: #d4edda;
+            color: #28a745;
+        }
+
+        .trend-down {
+            background: #f8d7da;
+            color: #dc3545;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: #333;
+        }
+
+        .tab.active {
+            color: #1ABC9C;
+            border-bottom-color: #1ABC9C;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Block Cards */
+        .blocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .block-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .block-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .block-header {
+            background: linear-gradient(135deg, #3498DB, #27AE60);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .block-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .block-subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .block-body {
+            padding: 1.5rem;
+        }
+
+        .block-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .block-metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .block-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary-small {
+            background: #1ABC9C;
+            color: white;
+        }
+
+        .btn-secondary-small {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Orders Table */
+        .orders-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #1ABC9C;
+            color: white;
+            border-color: #1ABC9C;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.share {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .activity-icon.food {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .activity-icon.member {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .blocks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-right {
+                gap: 1rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-action {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .quick-action:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+
+        .quick-action-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-action-label {
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <a href="blockshare-homepage.html" class="logo">Block Share</a>
+        <div class="header-right">
+            <div class="user-info">
+                <div class="avatar">SW</div>
+                <div>
+                    <div class="user-name">Sarah Wilson</div>
+                    <div class="user-role">Block Host</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Welcome -->
+        <div class="welcome">
+            <h1>Welcome back, Sarah!</h1>
+            <p>You're hosting 2 blocks across Renfrew-Collingwood</p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-icon">👥</span>
+                    <span class="stat-trend trend-up">+12%</span>
+                </div>
+                <div class="stat-number">47</div>
+                <div class="stat-label">Active Residents</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-icon">🔧</span>
+                    <span class="stat-trend trend-up">+8</span>
+                </div>
+                <div class="stat-number">124</div>
+                <div class="stat-label">Shared Items</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-icon">🥩</span>
+                    <span class="stat-trend trend-up">+3</span>
+                </div>
+                <div class="stat-number">15</div>
+                <div class="stat-label">Pending Food Orders</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-trend trend-up">+850</span>
+                </div>
+                <div class="stat-number">3,420</div>
+                <div class="stat-label">Credits Earned</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="#" class="quick-action">
+                <div class="quick-action-icon">📢</div>
+                <div class="quick-action-label">Send Message</div>
+            </a>
+            <a href="#" class="quick-action">
+                <div class="quick-action-icon">➕</div>
+                <div class="quick-action-label">Add Item to Pool</div>
+            </a>
+            <a href="#" class="quick-action">
+                <div class="quick-action-icon">🗳️</div>
+                <div class="quick-action-label">Create Vote</div>
+            </a>
+            <a href="#" class="quick-action">
+                <div class="quick-action-icon">📋</div>
+                <div class="quick-action-label">View Reports</div>
+            </a>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('blocks')">My Blocks</button>
+            <button class="tab" onclick="switchTab('orders')">Food Orders</button>
+            <button class="tab" onclick="switchTab('residents')">Residents</button>
+            <button class="tab" onclick="switchTab('activity')">Activity</button>
+        </div>
+
+        <!-- Tab: My Blocks -->
+        <div id="tab-blocks" class="tab-content active">
+            <div class="blocks-grid">
+                <!-- Block 140 -->
+                <div class="block-card">
+                    <div class="block-header">
+                        <div class="block-title">Block 140</div>
+                        <div class="block-subtitle">Harbour Terrace Apartments</div>
+                    </div>
+                    <div class="block-body">
+                        <div class="block-metric">
+                            <span class="metric-label">Active Residents</span>
+                            <span class="metric-value">28</span>
+                        </div>
+                        <div class="block-metric">
+                            <span class="metric-label">Shared Items</span>
+                            <span class="metric-value">73</span>
+                        </div>
+                        <div class="block-metric">
+                            <span class="metric-label">Pending Food Orders</span>
+                            <span class="metric-value">9</span>
+                        </div>
+                        <div class="block-metric">
+                            <span class="metric-label">Total Units</span>
+                            <span class="metric-value">42</span>
+                        </div>
+                        <div class="block-actions">
+                            <button class="btn-primary-small">Manage</button>
+                            <button class="btn-secondary-small">Message All</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Block A -->
+                <div class="block-card">
+                    <div class="block-header">
+                        <div class="block-title">Block A</div>
+                        <div class="block-subtitle">Collingwood Townhomes</div>
+                    </div>
+                    <div class="block-body">
+                        <div class="block-metric">
+                            <span class="metric-label">Active Residents</span>
+                            <span class="metric-value">19</span>
+                        </div>
+                        <div class="block-metric">
+                            <span class="metric-label">Shared Items</span>
+                            <span class="metric-value">51</span>
+                        </div>
+                        <div class="block-metric">
+                            <span class="metric-label">Pending Food Orders</span>
+                            <span class="metric-value">6</span>
+                        </div>
+                        <div class="block-metric">
+                            <span class="metric-label">Total Units</span>
+                            <span class="metric-value">24</span>
+                        </div>
+                        <div class="block-actions">
+                            <button class="btn-primary-small">Manage</button>
+                            <button class="btn-secondary-small">Message All</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Food Orders -->
+        <div id="tab-orders" class="tab-content">
+            <div class="orders-section">
+                <div class="section-header">
+                    <h2 class="section-title">Current Food Order Cycle</h2>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active">All Blocks</button>
+                        <button class="filter-btn">Block 140</button>
+                        <button class="filter-btn">Block A</button>
+                    </div>
+                </div>
+
+                <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <strong>Order Window:</strong> Feb 15 - Feb 28, 2026<br>
+                    <strong>Minimum:</strong> 100kg per block<br>
+                    <strong>Status:</strong> Block 140: 145kg ✓ | Block A: 87kg (13kg needed)
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Resident</th>
+                            <th>Block</th>
+                            <th>Box Type</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Michael Chen</td>
+                            <td>140</td>
+                            <td>Family Box (20kg)</td>
+                            <td>$340</td>
+                            <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                            <td><button class="btn-secondary-small">Contact</button></td>
+                        </tr>
+                        <tr>
+                            <td>Emma Rodriguez</td>
+                            <td>140</td>
+                            <td>Bulk Box (50kg)</td>
+                            <td>$800</td>
+                            <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                            <td><button class="btn-secondary-small">Contact</button></td>
+                        </tr>
+                        <tr>
+                            <td>David Kim</td>
+                            <td>A</td>
+                            <td>Starter Box (10kg)</td>
+                            <td>$180</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td><button class="btn-secondary-small">Contact</button></td>
+                        </tr>
+                        <tr>
+                            <td>Lisa Patel</td>
+                            <td>140</td>
+                            <td>Family Box (20kg)</td>
+                            <td>$340</td>
+                            <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                            <td><button class="btn-secondary-small">Contact</button></td>
+                        </tr>
+                        <tr>
+                            <td>James Wong</td>
+                            <td>A</td>
+                            <td>Family Box (20kg)</td>
+                            <td>$340</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td><button class="btn-secondary-small">Contact</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <button class="btn-primary-small" style="flex: 0;">Export Order List</button>
+                    <button class="btn-secondary-small" style="flex: 0;">Send Reminder</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Residents -->
+        <div id="tab-residents" class="tab-content">
+            <div class="orders-section">
+                <div class="section-header">
+                    <h2 class="section-title">Resident Directory</h2>
+                    <input type="text" placeholder="Search residents..." style="padding: 0.5rem 1rem; border: 2px solid #e0e0e0; border-radius: 6px; width: 300px;">
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Block</th>
+                            <th>Unit</th>
+                            <th>Joined</th>
+                            <th>Credits</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Michael Chen</td>
+                            <td>140</td>
+                            <td>305</td>
+                            <td>Jan 2026</td>
+                            <td>420</td>
+                            <td><span class="status-badge status-confirmed">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Emma Rodriguez</td>
+                            <td>140</td>
+                            <td>412</td>
+                            <td>Dec 2025</td>
+                            <td>680</td>
+                            <td><span class="status-badge status-confirmed">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>David Kim</td>
+                            <td>A</td>
+                            <td>12</td>
+                            <td>Feb 2026</td>
+                            <td>125</td>
+                            <td><span class="status-badge status-confirmed">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Lisa Patel</td>
+                            <td>140</td>
+                            <td>208</td>
+                            <td>Nov 2025</td>
+                            <td>850</td>
+                            <td><span class="status-badge status-confirmed">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>James Wong</td>
+                            <td>A</td>
+                            <td>7</td>
+                            <td>Jan 2026</td>
+                            <td>290</td>
+                            <td><span class="status-badge status-confirmed">Active</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab: Activity -->
+        <div id="tab-activity" class="tab-content">
+            <div class="activity-feed">
+                <h2 class="section-title" style="margin-bottom: 1.5rem;">Recent Activity</h2>
+
+                <div class="activity-item">
+                    <div class="activity-icon member">👤</div>
+                    <div class="activity-content">
+                        <div class="activity-text">
+                            <strong>New resident joined:</strong> David Kim (Block A, Unit 12)
+                        </div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon food">🥩</div>
+                    <div class="activity-content">
+                        <div class="activity-text">
+                            <strong>Food order placed:</strong> Emma Rodriguez ordered Bulk Box (50kg)
+                        </div>
+                        <div class="activity-time">5 hours ago</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon share">🔧</div>
+                    <div class="activity-content">
+                        <div class="activity-text">
+                            <strong>Item added to pool:</strong> Michael Chen shared "Cordless Drill Set"
+                        </div>
+                        <div class="activity-time">Yesterday</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon food">🥩</div>
+                    <div class="activity-content">
+                        <div class="activity-text">
+                            <strong>Block 140 reached minimum:</strong> 145kg confirmed for this cycle
+                        </div>
+                        <div class="activity-time">Yesterday</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon member">👤</div>
+                    <div class="activity-content">
+                        <div class="activity-text">
+                            <strong>New resident joined:</strong> Lisa Patel (Block 140, Unit 208)
+                        </div>
+                        <div class="activity-time">2 days ago</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon share">🔧</div>
+                    <div class="activity-content">
+                        <div class="activity-text">
+                            <strong>Vote completed:</strong> "Add camping gear pool" passed (23-4)
+                        </div>
+                        <div class="activity-time">3 days ago</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon food">🥩</div>
+                    <div class="activity-content">
+                        <div class="activity-text">
+                            <strong>Food order placed:</strong> James Wong ordered Family Box (20kg)
+                        </div>
+                        <div class="activity-time">4 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

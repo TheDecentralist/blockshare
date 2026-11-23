@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game of Towers | Block Share</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --forest: #2C5F2E;
+      --forest-light: #3a7a3c;
+      --forest-dark: #1a3a1b;
+      --navy: #1B2A3B;
+      --navy-light: #243447;
+      --gold: #C9A84C;
+      --gold-light: #e0be72;
+      --gold-pale: #f5e9c8;
+      --cream: #F5F0E8;
+      --cream-dark: #ede5d5;
+      --charcoal: #333;
+      --muted: #666;
+      --red-accent: #B94040;
+      --teal-accent: #2E7D7D;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* ── NAV PLACEHOLDER ── */
+    #bs-nav { min-height: 64px; background: var(--navy); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+      padding: 5rem 2rem 4rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 40px,
+          rgba(201,168,76,0.04) 40px,
+          rgba(201,168,76,0.04) 41px
+        );
+    }
+
+    .hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-kicker::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: rgba(245,240,232,0.75);
+      max-width: 640px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: rgba(245,240,232,0.5);
+    }
+
+    /* ── ARTICLE BODY ── */
+    .article-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    /* ── LEDE ── */
+    .lede {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem;
+      line-height: 1.55;
+      color: var(--forest-dark);
+      border-left: 4px solid var(--gold);
+      padding-left: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    /* ── PROSE ── */
+    p { margin-bottom: 1.4rem; }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.9rem;
+      color: var(--navy);
+      margin: 3rem 0 1rem;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--forest);
+      margin: 2.5rem 0 0.75rem;
+    }
+
+    /* ── PULL QUOTE ── */
+    blockquote {
+      background: var(--navy);
+      color: var(--cream);
+      border-radius: 4px;
+      padding: 2rem 2.5rem;
+      margin: 2.5rem 0;
+      position: relative;
+    }
+
+    blockquote::before {
+      content: '\201C';
+      font-family: 'DM Serif Display', serif;
+      font-size: 5rem;
+      color: var(--gold);
+      position: absolute;
+      top: -0.5rem;
+      left: 1.5rem;
+      line-height: 1;
+      opacity: 0.6;
+    }
+
+    blockquote p {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin: 0;
+      padding-top: 1rem;
+    }
+
+    blockquote cite {
+      display: block;
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── INFOGRAPHIC PANEL ── */
+    .infographic-panel {
+      margin: 3rem 0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .infographic-panel img {
+      width: 100%;
+      display: block;
+    }
+
+    .infographic-caption {
+      background: var(--navy-light);
+      color: rgba(245,240,232,0.7);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      padding: 0.75rem 1.25rem;
+    }
+
+    /* ── TOWER COMPARISON ── */
+    .tower-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+    }
+
+    @media (max-width: 600px) {
+      .tower-compare { grid-template-columns: 1fr; }
+    }
+
+    .tower-card {
+      border-radius: 6px;
+      padding: 1.75rem;
+      position: relative;
+    }
+
+    .tower-card.market {
+      background: #f0e8e8;
+      border: 2px solid var(--red-accent);
+    }
+
+    .tower-card.community {
+      background: #e8f0e8;
+      border: 2px solid var(--forest);
+    }
+
+    .tower-card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .tower-card.market .tower-card-label { color: var(--red-accent); }
+    .tower-card.community .tower-card-label { color: var(--forest); }
+
+    .tower-card h4 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .tower-stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      font-size: 0.9rem;
+    }
+
+    .tower-stat:last-child { border-bottom: none; }
+
+    .tower-stat-label { color: var(--muted); }
+
+    .tower-stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+
+    .tower-card.market .tower-stat-value { color: var(--red-accent); }
+    .tower-card.community .tower-stat-value { color: var(--forest); }
+
+    .tower-total {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px solid currentColor;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .tower-card.market .tower-total { color: var(--red-accent); }
+    .tower-card.community .tower-total { color: var(--forest); }
+
+    .tower-total-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+    }
+
+    /* ── BLOCK VISUAL ── */
+    .block-stack-wrapper {
+      display: flex;
+      gap: 3rem;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 2.5rem 2rem;
+      background: var(--navy);
+      border-radius: 8px;
+      margin: 2.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .block-stack {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .block-stack-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    .block {
+      width: 72px;
+      height: 24px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .block.land { background: #B94040; }
+    .block.build { background: #4472A8; }
+    .block.profit { background: #8B6914; }
+    .block.interest { background: #5a3a7a; }
+    .block.clt-build { background: var(--forest); }
+    .block.clt-interest { background: var(--teal-accent); }
+    .block.zero {
+      background: rgba(255,255,255,0.08);
+      border: 1px dashed rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.3);
+    }
+
+    .block-vs {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      align-self: center;
+    }
+
+    /* ── SIX MODELS TABLE ── */
+    .models-grid {
+      margin: 2.5rem 0;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--cream-dark);
+    }
+
+    .model-row {
+      display: grid;
+      grid-template-columns: 3fr 1fr 2fr;
+      gap: 0;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+
+    .model-row:last-child { border-bottom: none; }
+
+    .model-row.header {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .model-row.section-market { background: #fdf5f5; }
+    .model-row.section-nonmarket { background: #f3f8f3; }
+
+    .model-cell {
+      padding: 0.9rem 1.1rem;
+      font-size: 0.9rem;
+      border-right: 1px solid var(--cream-dark);
+    }
+
+    .model-cell:last-child { border-right: none; }
+
+    .model-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .model-name.market { color: var(--red-accent); }
+    .model-name.nonmarket { color: var(--forest); }
+
+    .model-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .model-yield {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .model-yield.market { color: var(--red-accent); }
+    .model-yield.nonmarket { color: var(--forest); }
+
+    .model-bank {
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      line-height: 1.4;
+    }
+
+    .section-divider {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 0.4rem 1.1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: var(--gold-pale);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      padding: 1.75rem 2rem;
+      margin: 2.5rem 0;
+    }
+
+    .highlight-box-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .highlight-box p {
+      font-size: 0.95rem;
+      margin: 0;
+      color: var(--charcoal);
+    }
+
+    /* ── STAT CALLOUTS ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+
+    @media (max-width: 580px) {
+      .stat-row { grid-template-columns: 1fr 1fr; }
+    }
+
+    .stat-card {
+      background: var(--navy);
+      border-radius: 6px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.1rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.6);
+      line-height: 1.4;
+    }
+
+    /* ── MAGIE INSET ── */
+    .magie-inset {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      background: var(--cream-dark);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 2.5rem 0;
+      align-items: start;
+    }
+
+    @media (max-width: 550px) {
+      .magie-inset { grid-template-columns: 1fr; }
+    }
+
+    .magie-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem;
+    }
+
+    .magie-text h3 {
+      margin-top: 0;
+      text-transform: none;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    .magie-text p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+      color: var(--charcoal);
+    }
+
+    /* ── FOOTER ── */
+    #bs-footer {
+      background: var(--navy);
+      color: rgba(245,240,232,0.5);
+      padding: 3rem 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* ── UTILITIES ── */
+    .text-gold { color: var(--gold); }
+    .text-forest { color: var(--forest); }
+    .text-red { color: var(--red-accent); }
+
+    strong { font-weight: 600; }
+    em { font-style: italic; }
+
+    a { color: var(--forest); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--forest-dark); }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--cream-dark);
+      margin: 3rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="bs-nav"></nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-kicker">Block Share · Housing Economics</div>
+      <h1>The <em>Game of Towers</em></h1>
+      <p class="hero-sub">A hands-built educational game that puts the hidden rules of Vancouver's housing market on the table — block by block — for the generation that will inherit it.</p>
+      <div class="hero-meta">
+        <span>Ward Stirrat · The Decentralist</span>
+        <span>April 2026</span>
+        <span>~12 min read</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── ARTICLE ── -->
+  <main class="article-body">
+
+    <p class="lede">In 1903, a teacher named Elizabeth Magie invented a board game with two sets of rules. One set showed how landlords get rich while everyone else goes bankrupt. The other showed how a different arrangement could create shared prosperity. The first set became Monopoly. The second was buried for a century. The Game of Towers brings it back.</p>
+
+    <p>The Game of Towers is not a digital simulation or a polished product. It is a set of wooden blocks, some cash tokens, a few player cards — and a workshop format built from scratch and tested with high school seniors and teachers at False Creek Community Centre. Its design debt to Elizabeth Magie is deliberate and acknowledged, and its purpose is the same as hers: to make the economics of housing viscerally legible to people who will live inside those economics for the rest of their lives.</p>
+
+    <p>What the blocks reveal is startling in its simplicity. The rules that govern how housing gets built, financed, and owned in Vancouver are not laws of nature. They are choices. And different choices produce radically different outcomes — for the same budget, the same neighbourhood, the same 1,000 square feet.</p>
+
+    <!-- Magie inset -->
+    <div class="magie-inset">
+      <div class="magie-icon">♟</div>
+      <div class="magie-text">
+        <h3>The Landlord Game — Elizabeth Magie, 1903</h3>
+        <p>A teacher and economic reformer, Magie patented her "Landlord Game" to illustrate the ideas of Henry George's <em>Progress and Poverty</em>: that landlords capture value created by society's collective labour without contributing anything themselves. Her game had two rule sets — Monopolist and Prosperity — to show students both the problem and its alternative. The Monopolist rules were eventually stolen, commercialized, and sold to Parker Brothers as Monopoly. The Prosperity rules were discarded. Magie received $500 and no royalties. The Game of Towers is an attempt to recover what was lost.</p>
+      </div>
+    </div>
+
+    <h2>How the Game Works</h2>
+
+    <p>Each player receives four physical blocks, each representing $100,000 of cost. The blocks are labelled: <strong>Land Cost</strong>, <strong>Building Cost</strong>, <strong>Developer Profit</strong>, and <strong>Bank Interest</strong>. They also receive a cash token and a player card that assigns them a role — a first-generation renter, a salaried worker, a trust-fund buyer, a co-op member.</p>
+
+    <p>The central exercise is a live comparison between two ways of building the same home.</p>
+
+    <p>Two volunteers come to the front of the room. One builds the market tower. One builds the community land trust low-rise. Both are building 1,000 square feet in Vancouver. Both have the same neighbourhood, the same lifespan, the same human need for shelter. The only difference is the rules.</p>
+
+    <!-- Block visual -->
+    <div class="block-stack-wrapper">
+      <div>
+        <div class="block-stack">
+          <!-- M1: 3 land + 6 build + 3 profit + 10 interest = 22 blocks, show proportionally -->
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block interest">$100K interest</div>
+          <div class="block profit">$100K profit</div>
+          <div class="block profit">$100K profit</div>
+          <div class="block profit">$100K profit</div>
+          <div class="block build">$100K build</div>
+          <div class="block build">$100K build</div>
+          <div class="block build">$100K build</div>
+          <div class="block build">$100K build</div>
+          <div class="block build">$100K build</div>
+          <div class="block build">$100K build</div>
+          <div class="block land">$100K land</div>
+          <div class="block land">$100K land</div>
+          <div class="block land">$100K land</div>
+        </div>
+        <div class="block-stack-label">M1 · Market Condo<br>$2,000,000 total</div>
+      </div>
+
+      <div class="block-vs">vs</div>
+
+      <div>
+        <div class="block-stack">
+          <div class="block clt-interest">$100K financing</div>
+          <div class="block clt-build">$100K build</div>
+          <div class="block clt-build">$100K build</div>
+          <div class="block clt-build">$100K build</div>
+          <div class="block zero">land: $0</div>
+          <div class="block zero">profit: $0</div>
+        </div>
+        <div class="block-stack-label">M6 · Community Land Trust<br>$400,000 total</div>
+      </div>
+    </div>
+
+    <div class="tower-compare">
+      <div class="tower-card market">
+        <div class="tower-card-label">Model M1 · Market Condo</div>
+        <h4>Housing as Financial Product</h4>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Land Cost ($300/sq ft)</span>
+          <span class="tower-stat-value">$300,000</span>
+        </div>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Building Cost ($600/sq ft)</span>
+          <span class="tower-stat-value">$600,000</span>
+        </div>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Developer Profit (30%)</span>
+          <span class="tower-stat-value">$300,000</span>
+        </div>
+        <div class="tower-stat">
+          <span class="tower-stat-label">25-yr Mortgage Interest (6.5%)</span>
+          <span class="tower-stat-value">$1,000,000</span>
+        </div>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Carbon footprint</span>
+          <span class="tower-stat-value">75,000 kg CO₂e</span>
+        </div>
+        <div class="tower-total">
+          <span>Total per 1,000 sq ft</span>
+          <span class="tower-total-num">$2,200,000</span>
+        </div>
+      </div>
+
+      <div class="tower-card community">
+        <div class="tower-card-label">Model M6 · Community Land Trust</div>
+        <h4>Housing as Infrastructure</h4>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Land Cost (community-held)</span>
+          <span class="tower-stat-value">$0</span>
+        </div>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Building Cost — eng. wood low-rise</span>
+          <span class="tower-stat-value">$300,000</span>
+        </div>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Developer Profit (non-profit build)</span>
+          <span class="tower-stat-value">$0</span>
+        </div>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Construction Financing</span>
+          <span class="tower-stat-value">$100,000</span>
+        </div>
+        <div class="tower-stat">
+          <span class="tower-stat-label">Carbon footprint</span>
+          <span class="tower-stat-value">~25,000 kg CO₂e</span>
+        </div>
+        <div class="tower-total">
+          <span>Total per 1,000 sq ft</span>
+          <span class="tower-total-num">$400,000</span>
+        </div>
+      </div>
+    </div>
+
+    <p>The same 1,000 square feet. The same neighbourhood. One costs $2.2 million. The other costs $400,000. The difference is not craftsmanship, materials, or location — it is the <em>rules</em>. Who owns the land. Who captures the profit. Who pays the bank, and for how long.</p>
+
+    <blockquote>
+      <p>Most of what you paid has nothing to do with the actual building you live in. It goes to the land speculator, the developer's margin, and 25 years of bank interest.</p>
+      <cite>— Game of Towers facilitator script, Session 4</cite>
+    </blockquote>
+
+    <!-- Infographic -->
+    <div class="infographic-panel">
+      <img src="Market_vs_Non-Market_Housing_Models.png" alt="The Blueprint for Affordability: Market vs. Non-Market Housing Models — comparing Model M1 (100 sq ft per $100K) with Model M6 (300 sq ft per $100K)">
+      <div class="infographic-caption">The Blueprint for Affordability · Game of Towers framework · Block Share / The Decentralist, 2026</div>
+    </div>
+
+    <h2>The Six Models</h2>
+
+    <p>The game maps Vancouver's housing landscape across six distinct models — three that treat housing as a financial product, and three that treat it as public infrastructure.</p>
+
+    <div class="models-grid">
+      <div class="model-row header">
+        <div class="model-cell">Model</div>
+        <div class="model-cell">Yield / $100K</div>
+        <div class="model-cell">Capital flows to</div>
+      </div>
+
+      <div class="section-divider">Market Models — ~92% of Vancouver (302,724 units)</div>
+
+      <div class="model-row section-market">
+        <div class="model-cell">
+          <div class="model-name market">M1 · Market Condo</div>
+          <div class="model-desc">You own, you speculate. Developer profit and bank interest baked into price. Land appreciation privatized.</div>
+        </div>
+        <div class="model-cell model-yield market">100 sq ft</div>
+        <div class="model-cell model-bank">Bank of 1% — developer, lender, land speculator</div>
+      </div>
+
+      <div class="model-row section-market">
+        <div class="model-cell">
+          <div class="model-name market">M2 · Market Rental (20% below "market")</div>
+          <div class="model-desc">Landlord owns and profits. "Below market" component is rarely enforced; units revert after approval. Affordability washing.</div>
+        </div>
+        <div class="model-cell model-yield market">0 sq ft<br><span style="font-size:0.7rem;color:var(--muted)">public credit</span></div>
+        <div class="model-cell model-bank">Bank of 1% — landlord, bank</div>
+      </div>
+
+      <div class="model-row section-market">
+        <div class="model-cell">
+          <div class="model-name market">M3 · Market Rental (30% below "market")</div>
+          <div class="model-desc">Same as M2 with a larger affordability fig leaf. No permanent enforcement. Requirements abandoned once building is approved.</div>
+        </div>
+        <div class="model-cell model-yield market">0 sq ft<br><span style="font-size:0.7rem;color:var(--muted)">public credit</span></div>
+        <div class="model-cell model-bank">Bank of 1% — landlord, bank</div>
+      </div>
+
+      <div class="section-divider">Non-Market Models — ~8% of Vancouver</div>
+
+      <div class="model-row section-nonmarket">
+        <div class="model-cell">
+          <div class="model-name nonmarket">M4 · Social / Public Housing</div>
+          <div class="model-desc">Government owns and operates. Rent geared to income. No profit motive. Vulnerable to privatization policy shifts.</div>
+        </div>
+        <div class="model-cell model-yield nonmarket">200 sq ft</div>
+        <div class="model-cell model-bank">Bank of 99% — community, public infrastructure</div>
+      </div>
+
+      <div class="model-row section-nonmarket">
+        <div class="model-cell">
+          <div class="model-name nonmarket">M5 · Co-operative Housing</div>
+          <div class="model-desc">Members collectively own. No profit extraction. Monthly charges reflect actual operating costs. Land often leased from City or non-profit.</div>
+        </div>
+        <div class="model-cell model-yield nonmarket">250 sq ft</div>
+        <div class="model-cell model-bank">Bank of 99% — members, collective equity</div>
+      </div>
+
+      <div class="model-row section-nonmarket">
+        <div class="model-cell">
+          <div class="model-name nonmarket">M6 · Community Land Trust</div>
+          <div class="model-desc">Community holds land permanently. Building owned by residents. Land can never re-enter the speculative market. Permanent life span.</div>
+        </div>
+        <div class="model-cell model-yield nonmarket">300 sq ft</div>
+        <div class="model-cell model-bank">Bank of 99% — all future generations</div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">92%</div>
+        <div class="stat-label">of Vancouver housing is market-only</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3×</div>
+        <div class="stat-label">more space per dollar in M6 vs M1</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8%</div>
+        <div class="stat-label">non-market — vs. 50% in Vienna, 90% in Singapore</div>
+      </div>
+    </div>
+
+    <h2>The Privatization Fee</h2>
+
+    <p>The game introduces a concept it calls the <strong>Privatization Fee</strong> — a $100,000 livability credit charge triggered when players enact the housing policy doctrines of the 1970s and 80s: the systematic selling of public land into the private market (Thatcher's England) and the withdrawal of state investment from housing infrastructure (Reaganomics in the United States).</p>
+
+    <p>In the game, this isn't rhetorical. It's a literal deduction from the community's shared livability credits. Players who enact those policies watch the community's resources drain in real time, in exchange for policies that produce — the game shows — zero square feet of permanent public housing yield per $100,000 invested.</p>
+
+    <p>The mathematical failure is stark, but the real lesson is about directionality: it isn't the quantity of extraction that determines whether housing works, it's the channel. Money flowing to democratic infrastructure builds parks, transit, sewers, and schools. The same money flowing to private speculation builds only the next speculative cycle.</p>
+
+    <h2>Inheritance and the Tax Asymmetry</h2>
+
+    <p>One of the more quietly devastating moments in the workshop is the discussion of tax-free inheritances. Your income is taxable and funds the city's collective infrastructure — the sewers under the street, the transit line at the corner, the school that educated the neighbourhood. That is money flowing to the Bank of 99%.</p>
+
+    <p>Inheritances and gifts, in most jurisdictions, are not taxed. They flow untouched from one generation to the next. When unearned intergenerational wealth enters the housing market and bids up prices in the M1 column, it does so without having contributed anything to the city that makes the land valuable in the first place. The workers who built the city are outbid for space in it by people whose wealth was created by the workers who came before.</p>
+
+    <p>This is, in essence, Henry George's argument from <em>Progress and Poverty</em> — the same argument Elizabeth Magie encoded into her Landlord Game in 1903. The Game of Towers encodes it into blocks.</p>
+
+    <h2>Senaqw: A Case Study in Density Shock</h2>
+
+    <p>The workshop includes a field trip to Senaqw — the development beside the Burrard Bridge that its developers call a "Village." Students calculate the density: 6,080 suites projected to house 268,545 people per square kilometre. That figure places it 509% denser than Manila, routinely described as the most dense city on earth.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-box-label">Senaqw · Field Study Data</div>
+      <p>The project is backed by a $1.4 billion federal loan at 1% interest — public money, used to subsidize a for-profit market rental product. Rents start above $3,500/month, requiring an annual income of $100,000+ to meet the 30% affordability threshold. The City granted a 120-year service agreement, the specific terms sealed from public review for 25 years. The site itself was seized from Squamish families through forced eviction in the early 20th century — its original name, Senaqw, means "Village."</p>
+    </div>
+
+    <p>The contrast with False Creek South — planned in the 1970s by the TEAM party and UBC professors as a mixed-income community designed for people rather than for returns — is visible from the same vantage point on the Burrard Bridge. Students can see both from the same spot. The field trip is partly structural: the City built the contrast into the landscape, and the Game of Towers helps students read it.</p>
+
+    <h2>Why Build It By Hand?</h2>
+
+    <p>The Game of Towers exists as physical blocks because the medium matters. Abstract numbers on a screen can be dismissed as someone's ideology. A stack of wooden blocks that you built yourself, that you can touch and knock over and rearrange — that lands differently.</p>
+
+    <p>When a student stacks ten blocks to represent the bank interest on a $1 million mortgage and then sets it beside the three blocks representing the actual construction cost, the ratio becomes visceral. You can see, with your hands, that the majority of what you will pay for a Vancouver home over your lifetime is not your home. It is the bank's profit on lending you the money to buy it.</p>
+
+    <blockquote>
+      <p>The deck is stacked. The House of Cars always wins. The house of towers, too — unless you change the rules.</p>
+      <cite>— The Decentralist</cite>
+    </blockquote>
+
+    <p>Elizabeth Magie was a teacher. She built a game to show her students something they couldn't see in the world around them — not because the truth was hidden, but because the rules were invisible, assumed, treated as natural law. The Game of Towers is built on the same premise: that once you can see the rules, you can imagine different ones.</p>
+
+    <h2>What Different Rules Look Like</h2>
+
+    <p>Vienna operates with over 50% non-market housing. Singapore has reached 90%. These are not socialist utopias sealed off from economic reality — they are cities that made different choices about which rules to apply to land and shelter, and the results are measurable in the cost of living, the diversity of residents who can stay, and the proportion of a working lifetime that gets handed to the Bank of 1%.</p>
+
+    <p>Vancouver sits at 8%. The Game of Towers does not pretend that closing that gap is easy. It doesn't offer a policy blueprint or a political platform. What it offers is a framework: two sets of rules, the same budget, different outcomes. The students in the workshop — the generation that will inherit the housing market as it is — get to see both stacks of blocks at the same time and decide which tower they want to live in.</p>
+
+    <hr>
+
+    <div class="highlight-box">
+      <div class="highlight-box-label">About the Game of Towers</div>
+      <p>The Game of Towers is an educational workshop tool developed by Ward Stirrat for Block Share, played with high school seniors and teachers at community centres in Vancouver. The game format and facilitator script are available through Block Share. The workshop draws on six housing models, a live block-building demonstration, and a field trip to Senaqw and False Creek South. The game is an homage to Elizabeth Magie's original Landlord Game (1903) and its Prosperity rules — the set that history chose not to commercialize.</p>
+    </div>
+
+  </main>
+
+  <footer id="bs-footer">
+    <p>&copy; 2026 Block Share · <a href="https://app.blockshare.ca" style="color:var(--gold)">app.blockshare.ca</a></p>
+  </footer>
+
+  <script src="/bs-nav-footer.js"></script>
+</body>
+</html>

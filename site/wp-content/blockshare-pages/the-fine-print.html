@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fine Print — The Contract with Our Living World | Block Share</title>
+    <meta name="description" content="There's a contract you agreed to before you could read. The living world has Terms & Conditions — and the enforcement clause has already been triggered. Discover your Life Account.">
+    <meta property="og:title" content="The Fine Print — The Contract with Our Living World">
+    <meta property="og:description" content="Your life doesn't run on one account. It runs on three. Discover the Life Time Efficiency Index and diagnose your personal parasite load.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://app.blockshare.ca/the-fine-print/">
+    <link rel="canonical" href="https://app.blockshare.ca/the-fine-print/">
+
+    <!-- Block Share shared nav/footer -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── DESIGN TOKENS ── */
+        :root {
+            --forest: #0f2b1d;
+            --forest-mid: #1a4a30;
+            --forest-light: #2d6a4f;
+            --lake: #1b4965;
+            --lake-light: #2a6f97;
+            --gold: #c9a227;
+            --gold-dim: #a68b1f;
+            --gold-glow: #f5e6a3;
+            --paper: #faf8f4;
+            --cream: #f4f0e8;
+            --cream-dark: #ece7db;
+            --text: #1a1a1a;
+            --text-light: #4a4a4a;
+            --text-muted: #7a7a7a;
+            --accent-red: #8b2500;
+            --white-a80: rgba(255,255,255,.8);
+            --white-a10: rgba(255,255,255,.1);
+        }
+
+        /* ── RESET ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--paper);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── ARTICLE HERO ── */
+        .article-hero {
+            background: linear-gradient(175deg, var(--forest) 0%, #0a1f14 55%, var(--lake) 100%);
+            color: #fff;
+            padding: 7rem 2rem 5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .article-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 80%, rgba(201,162,39,.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(27,73,101,.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 780px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-series {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 4px 16px;
+            border: 1px solid rgba(201,162,39,.3);
+            border-radius: 3px;
+        }
+        .hero-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 5.5vw, 4rem);
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            letter-spacing: -.01em;
+        }
+        .hero-subtitle {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            font-style: italic;
+            color: var(--gold-glow);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        .hero-subtitle strong { font-weight: 400; text-decoration: underline; text-underline-offset: 3px; }
+        .hero-meta {
+            font-size: .85rem;
+            color: var(--white-a80);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .hero-meta span { display: inline-flex; align-items: center; gap: .4rem; }
+
+        /* ── ARTICLE BODY ── */
+        .article-body {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3.5rem 2rem 5rem;
+        }
+
+        .article-body p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .article-body p.lead {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 2rem;
+        }
+
+        .article-body strong { color: var(--text); font-weight: 600; }
+        .article-body em { font-style: italic; }
+
+        /* Section headings */
+        .section-heading {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--forest);
+            margin: 3rem 0 .5rem;
+            line-height: 1.3;
+        }
+        .section-subhead {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Section divider */
+        .divider {
+            text-align: center;
+            margin: 2.5rem 0;
+            color: var(--text-muted);
+            font-size: .9rem;
+            letter-spacing: .5em;
+        }
+
+        /* Pull quote */
+        .pull-quote {
+            border-left: 3px solid var(--gold);
+            padding: 1.25rem 0 1.25rem 1.75rem;
+            margin: 2.5rem 0;
+        }
+        .pull-quote p {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: var(--forest);
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        /* Account type callouts */
+        .account-block {
+            padding: .75rem 0 .75rem 1.25rem;
+            border-left: 3px solid var(--forest-light);
+            margin-bottom: 1.25rem;
+        }
+        .account-block p { margin-bottom: 0; }
+        .account-block strong { color: var(--forest); }
+
+        /* Internal/External draw callouts */
+        .draw-block {
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .draw-block p { margin-bottom: 0; }
+
+        /* CTA section */
+        .article-cta {
+            text-align: center;
+            padding: 3rem 2rem 4rem;
+            background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+        }
+        .cta-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .cta-inner .closing-line {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--forest);
+            margin-bottom: .5rem;
+        }
+        .cta-inner .closing-line-2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--forest);
+            margin-bottom: 2.5rem;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--forest);
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+            letter-spacing: .02em;
+            transition: background .25s, transform .15s;
+        }
+        .cta-button:hover {
+            background: var(--forest-mid);
+            transform: translateY(-1px);
+        }
+        .cta-button-sub {
+            display: block;
+            margin-top: .75rem;
+            font-size: .8rem;
+            color: var(--text-muted);
+        }
+
+        /* Colophon */
+        .colophon {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--cream-dark);
+            font-size: .8rem;
+            color: var(--text-muted);
+        }
+        .colophon a { color: var(--forest-light); text-decoration: none; }
+        .colophon a:hover { text-decoration: underline; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            .article-hero { padding: 6rem 1.25rem 3.5rem; }
+            .article-body { padding: 2.5rem 1.25rem 4rem; }
+            .section-heading { font-size: 1.5rem; }
+            .hero-meta { flex-direction: column; gap: .5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Shared nav injection point -->
+    <nav id="bs-nav"></nav>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- HERO                                        -->
+    <!-- ═══════════════════════════════════════════ -->
+    <header class="article-hero">
+        <div class="hero-inner">
+            <span class="hero-series">Block Beats · Publication</span>
+            <h1 class="hero-title">The Fine Print</h1>
+            <p class="hero-subtitle">The Contract <strong>with</strong> Our Living World</p>
+            <div class="hero-meta">
+                <span>Written by Ward Stirrat</span>
+                <span>March 2026</span>
+                <span>Block Share / Community Credyts</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ARTICLE BODY                                -->
+    <!-- ═══════════════════════════════════════════ -->
+    <article class="article-body">
+
+        <!-- SECTION 1: THE FINE PRINT -->
+        <h2 class="section-heading">The Fine Print</h2>
+        <p class="section-subhead">The Contract <strong>with</strong> Our Living World</p>
+
+        <p class="lead">There&rsquo;s a contract you agreed to before you could read.</p>
+
+        <p>Not the kind buried in a software update &mdash; though it works the same way. This one came with being alive. With being part of a living world that has rules, rhythms, and resource flows whether or not anyone handed you the &ldquo;Terms of Life&rdquo; Contract.</p>
+
+        <p>The living world we are each, and all, a part of &mdash; and bound to &mdash; has an unwritten Terms &amp; Conditions. The Fine Print we never read before we unwittingly hit the &ldquo;Accept&rdquo; button by being birthed into this time in Human History.</p>
+
+        <p>And like every Terms &amp; Conditions agreement ever written, this one has a clause about what happens when you <strong><em>violate it.</em></strong></p>
+
+        <p>In the digital world, they call it <strong><em>Account Suspension.</em></strong></p>
+
+        <p>In the living world, the language is different. Soil that stops producing. Rivers that dry up or overflow. Seasons that no longer arrive on schedule. A climate that shifts from &ldquo;stable&rdquo; to &ldquo;unpredictable&rdquo; to &ldquo;unliveable.&rdquo;</p>
+
+        <p>That&rsquo;s the enforcement clause. And it&rsquo;s already been triggered.</p>
+
+        <p>But here&rsquo;s the thing about fine print: the whole point of it is that you <em>don&rsquo;t</em> read it. You can&rsquo;t fix a violation you can&rsquo;t see, in a contract you didn&rsquo;t know existed, written in a language you were never taught.</p>
+
+        <p>So here, for the first time, is that Fine Print. In plain language.</p>
+
+        <p>And a bonus: your <strong>Life Account</strong> &mdash; the operating system you were never given, with a guide to the accounts you didn&rsquo;t know you needed to have.</p>
+
+        <div class="divider">&bull; &bull; &bull;</div>
+
+        <!-- SECTION 2: YOUR LIFE ACCOUNT -->
+        <h2 class="section-heading">Your Life Account</h2>
+        <p class="section-subhead">+ all the accounts within it</p>
+
+        <p>Welcome to your <strong>Account of Life.</strong> Sit back, take notes, maybe grab a coffee &mdash; we&rsquo;re going to take the tour together.</p>
+
+        <p>Something has been missing from our collective operating system manual. Not just a missing chapter &mdash; a missing set of books. You intuitively have already sensed the first part: we are not at the top of the system of life on this planet. We are <em>within</em> it. <em>Entangled</em> with it. <em>Dependent</em> on it.</p>
+
+        <p>But here&rsquo;s what the intuition usually misses: your life doesn&rsquo;t run on one account. It runs on <strong>three.</strong></p>
+
+        <div class="account-block">
+            <p><strong>Your Personal Life Account</strong> &mdash; the hours, days, and years of your one finite life, and how they are spent, saved, or taken from you.</p>
+        </div>
+
+        <div class="account-block">
+            <p><strong>Your Species Account</strong> &mdash; the collective balance sheet of what humanity as a whole is withdrawing from the planet, and what it&rsquo;s putting back. This is the account society operates on, whether you authorised the transactions or not.</p>
+        </div>
+
+        <div class="account-block">
+            <p><strong>The Common Accounts of Life</strong> &mdash; the planetary ledgers of air, water, soil, climate stability, biodiversity. These are not &ldquo;resources&rdquo; in the economic sense. They are the <em>operating conditions</em> for every living thing. They are the accounts that every species, including ours, draws against &mdash; and that no one species has the right to overdraw.</p>
+        </div>
+
+        <p>The Fine Print of the living world&rsquo;s Terms and Conditions Agreement governs all three. And the enforcement clause doesn&rsquo;t distinguish between them. Overdraw the Common Accounts long enough, and every Personal Account on the planet gets suspended &mdash; not just the ones doing the overdrawing.</p>
+
+        <p>That&rsquo;s what we&rsquo;re living through right now. The droughts, the floods, the anxiety that something is <em>deeply</em> wrong &mdash; that&rsquo;s the violation <strong>notification.</strong> The living world is telling us: <em>your species account is overdrawn, and the common accounts are approaching suspension.</em></p>
+
+        <p>The problem is, most of us have never seen these accounts. We&rsquo;ve only ever been given one.</p>
+
+        <div class="divider">&bull; &bull; &bull;</div>
+
+        <!-- SECTION 3: THE ONLY WALLET -->
+        <h2 class="section-heading">The Only Wallet You Were Given</h2>
+
+        <p>Here&rsquo;s what our culture got wrong: it handed us a financial account and called it a life.</p>
+
+        <p>Banking, investing, credit scores &mdash; these are useful tools. But they are a single account for <em>one</em> ledger inside a system that requires several. Your Financial Account tracks money in, money out. It does not track:</p>
+
+        <p>Time consumed. Commons depleted. Life drawn down.</p>
+
+        <p>It is a wallet with no interface to the world it depends on. You can have a perfectly balanced Financial Account and still be part of a system that is bankrupting the Common Accounts of soil, water, and breathable air &mdash; while simultaneously having your own Life Time Account over charged.</p>
+
+        <p>This isn&rsquo;t a moral failing. It&rsquo;s <strong>structural.</strong> The only account you were given to manage your life is the one that can&rsquo;t <strong>see</strong> the life it&rsquo;s embedded in.</p>
+
+        <p>To see the complete picture, you need to add the missing ledgers. And to read those ledgers, you need a unit of measurement that works across all three accounts.</p>
+
+        <div class="divider">&bull; &bull; &bull;</div>
+
+        <!-- SECTION 4: TIME -->
+        <h2 class="section-heading">Time: The Universal Unit of Account</h2>
+
+        <p>Space-time and relativity aside &mdash; we all <em>know</em> time. We feel its loss in our bones. We celebrate its gains.</p>
+
+        <p>Time is the perfect accounting unit because it is fixed &mdash; you cannot inflate or deflate it. It is universal &mdash; every person on earth receives the same 24 hours per day. And it is finite &mdash; we each have a reasonably fixed lifetime balance to spend.</p>
+
+        <p>Your Life Account, at its core, shows you how your fixed Life Time Balance is being spent &mdash; how, why, and to <em>whom.</em></p>
+
+        <div class="pull-quote">
+            <p>Much of what we experience as personal financial stress, chronic overwork, and a sense of &ldquo;never getting ahead&rdquo; is not a personal failure. It is a systemic condition.</p>
+        </div>
+
+        <p>Our Time Deficits are, more often than not, losses caused by the Systems we operate <em>inside</em> but rarely can <em>see.</em></p>
+
+        <p>Debits against your Personal Account. Debits against the Species Account. And Debits against the Common Accounts of Life &mdash; the ones that keep the air breathable and the water drinkable.</p>
+
+        <p>The same Financial Systems overcharging your Account are the ones overcharging the Commons Accounts. The mechanism is the same. And the metric that reveals this unauthorised charge is: Time.</p>
+
+        <div class="divider">&bull; &bull; &bull;</div>
+
+        <!-- SECTION 5: THE EXTENSION CORD -->
+        <h2 class="section-heading">The Extension Cord</h2>
+
+        <p>Imagine someone ran an extension cord from your home to theirs. You pay the electricity bill every month. They run their operation off of your account. You never knew &mdash; because the cord was camouflaged, and the meter outside was broken.</p>
+
+        <p>That&rsquo;s what <strong>Extractive Systems</strong> do to your <strong>Personal Account.</strong> You <em>pay.</em> They <em>receive.</em> And the transaction is designed to go <em>unnoticed.</em></p>
+
+        <p>Now look further.</p>
+
+        <p>There&rsquo;s <em>another</em> extension cord &mdash; one that runs <em>from</em> your house, and <em>from</em> every house on your street, and <em>from</em> every system your economy depends on &mdash; out <em>into</em> the Common Accounts of the living world. The topsoil. The aquifers. The carbon balance.</p>
+
+        <p>This cord was <strong>not</strong> run by <strong>you.</strong> It was run <em>without your consent</em> &mdash; by the systems you were born into, the supply chains you depend on, the financial instruments that structure your economy. You didn&rsquo;t authorise it. But your life probably runs on what it extracts.</p>
+
+        <p>So, there are two &ldquo;unauthorised draws&rdquo; happening simultaneously:</p>
+
+        <div class="draw-block">
+            <p><strong>Internal:</strong> systems extracting from your <strong>Personal Account</strong> &mdash; your time, your wages, your purchasing power.</p>
+        </div>
+
+        <div class="draw-block">
+            <p><strong>External:</strong> systems extracting from the <strong>Common Accounts</strong> <em>through</em> you &mdash; using your consumption, your participation, your demand to draw down the <strong>Planetary Balance Sheet.</strong></p>
+        </div>
+
+        <p>The first makes <em>you</em> poorer. The second makes <em>everything</em> poorer. And neither is <em>visible</em> from inside the <strong>Financial Account.</strong></p>
+
+        <div class="divider">&bull; &bull; &bull;</div>
+
+        <!-- SECTION 6: ACCOUNT SUSPENDED -->
+        <h2 class="section-heading">Account Suspended</h2>
+
+        <p>Every platform has <strong>Terms of Service.</strong> Violate them, and the first thing that happens is a <em>warning.</em> Then a <em>restriction.</em> Then, if you keep going: &ldquo;<strong>Account has been Suspended</strong>&rdquo;</p>
+
+        <p>The <strong>Living World&rsquo;s</strong> Terms of Service work the same way &mdash; just on a <em>longer</em> <strong>Timeline</strong> than your <strong>Lifetime.</strong></p>
+
+        <p>The warnings have all been posted. Rising CO&#8322;. Collapsing biodiversity. Topsoil loss. Aquifer depletion. Each of these is a <em>notification</em> from the system that manages the Common Accounts: <em>you are in violation.</em></p>
+
+        <p>The restrictions are already being felt. Drought corridors. Flood cycles that no longer follow historical patterns. Fire seasons that now span the year. Growing seasons that shift beneath the feet of farmers who planned for a stable climate.</p>
+
+        <p>And the suspension? That&rsquo;s <strong>not a metaphor.</strong> An account suspension in the <strong>living world</strong> means the operating conditions for life &mdash; the soil chemistry, the water cycles, the temperature bands &mdash; shifting outside the range that supports the life systems we depend on.</p>
+
+        <p>Most of us feel this. The anxiety. The sense that something is deeply wrong. But we can&rsquo;t quite name it, because we&rsquo;re looking at the <em>wrong account.</em> <strong>The Financial Account</strong> says the economy is growing. <strong>The Common Accounts</strong> say the <em>foundation</em> is crumbling.</p>
+
+        <p>The disconnect between those two readings is <em>the gap</em> this article and the new account are looking to close.</p>
+
+        <p>You don&rsquo;t need to understand climate science to read the notification. You need the right <em>account</em> &mdash; one that shows you what the <strong>Financial Account</strong> was never designed to show.</p>
+
+        <div class="divider">&bull; &bull; &bull;</div>
+
+        <!-- SECTION 7: THE LTE TEST -->
+        <h2 class="section-heading">The LTE Index Test</h2>
+        <p class="section-subhead">Diagnosing your personal Life Account</p>
+
+        <p>We have created a Life Account Health Test. Surprisingly, the first thing we need to look for is Parasites &mdash; things that are extracting from your Life Account, like unauthorised charges you never saw before because you only operated in a &ldquo;Dollar&rdquo; unit of account &mdash; inside a financial wallet/account.</p>
+
+        <p>So, ya, nobody likes parasites. But, here&rsquo;s what makes biological parasites so effective: ticks and mosquitoes don&rsquo;t just latch on. They secrete a cocktail of numbing agents that prevent you from feeling the bite &mdash; until it&rsquo;s too late. The parasite&rsquo;s first job is to make you <em>not notice.</em></p>
+
+        <p><strong>Systemic</strong> Time Parasites work the same way. They are embedded in the services, pricing structures, and financial products we use every day. They are normalised. They feel like &ldquo;just how things are.&rdquo; Their first line of defence is <em>invisibility.</em></p>
+
+        <p>The <strong>Life Time Efficiency</strong> Index <strong>(LTE)</strong> is designed to make them <em>visible.</em></p>
+
+        <div class="pull-quote">
+            <p>Imagine a pair of special glasses. With ordinary glasses, you see prices, wages, bills. With the LTE, you see how much of your finite life those prices are actually costing you &mdash; and where that value is flowing.</p>
+        </div>
+
+        <p>The LTE replaces two <em>inadequate</em> tools. GDP &mdash; the <strong>macro</strong> view that tells us the economy is growing, but not who benefits. And personal finance metrics &mdash; the <strong>micro</strong> view that tells you to spend less, but not that you&rsquo;re being overcharged.</p>
+
+        <p>The LTE Test gives you <em>both</em> lenses at once. It reveals:</p>
+
+        <p>How much of your <strong>Lifetime</strong> you spend on housing, food, transport, and basic necessities. How your city and community compare. Where the largest extractors in <em>your</em> life are hiding.</p>
+
+        <p>But it also shows you the other hidden electrical cord &mdash; the one running <em>externally.</em> How much of the <strong>Common Accounts</strong> are being drawn down <em>through</em> you, by the systems you unknowingly <em>participate in.</em> The <em>personal</em> Parasites are the same as the <em>planetary</em> ones.</p>
+
+        <p>The <em>test</em> reveals <strong>both.</strong></p>
+
+        <div class="divider">&bull; &bull; &bull;</div>
+
+        <!-- SECTION 8: THE TREATMENT -->
+        <h2 class="section-heading">The Treatment</h2>
+        <p class="section-subhead">From Finance Account to Life Account</p>
+
+        <p>Here&rsquo;s the part most diagnoses leave out: what to actually <em>do.</em></p>
+
+        <p>Your LTE health check results don&rsquo;t just tell you <em>where</em> the parasites are. They come with <strong>Treatments</strong> &mdash; not personal budgeting tips, but structural alternatives. Systems that are already being built to <em>replace</em> the extractive ones.</p>
+
+        <p>The treatment for the internal electrical cord &mdash; the one draining your <strong>Personal Account</strong> &mdash; is the same treatment for the external cord draining the <strong>Commons Accounts.</strong> Because the <em>root cause</em> is the same: a system that <em>prices</em> everything in <em>financial terms</em> and <em>accounts</em> for nothing else.</p>
+
+        <p>The treatment is switching from the <strong>Finance-Only Account</strong> to the <strong>Life Account.</strong></p>
+
+    </article>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- CTA                                         -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="article-cta">
+        <div class="cta-inner">
+            <p class="closing-line"><em>This is the Fine Print. This is your Life Account.</em></p>
+            <p class="closing-line-2"><em>Now &mdash; let&rsquo;s see the numbers.</em></p>
+            <a href="https://app.blockshare.ca/lei-calculator/" class="cta-button">Start Your LTE Test &rarr;</a>
+            <span class="cta-button-sub">Discover your Life Time Efficiency Score</span>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- COLOPHON                                    -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="colophon">
+        <p>Published by <a href="https://app.blockshare.ca/">Block Share</a> &nbsp;&middot;&nbsp; Community Credyts &nbsp;&middot;&nbsp; Permanent Land Trust &nbsp;&middot;&nbsp; Blockonomics</p>
+    </div>
+
+    <!-- Shared footer injection point -->
+    <footer id="bs-footer"></footer>
+
+    <!-- Block Share shared nav/footer script -->
+    <script src="/bs-nav-footer.js"></script>
+
+</body>
+</html>
