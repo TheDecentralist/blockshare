@@ -1,0 +1,2548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policy Decoder Machine — Citizens Dashboard</title>
+<meta name="description" content="A civic transparency tool that decodes political rhetoric, scores the intent–outcome gap, and rates the performativity of policy positions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --terracotta: #C1502E;
+    --forest: #2C5F2E;
+    --cream: #F5F0E8;
+    --navy: #1A2744;
+    --gold: #B8860B;
+    --sand: #E8E0D0;
+    --mist: #F9F6F1;
+    --ink: #1A1A1A;
+    --mid: #6B6B6B;
+    --border: #D4C9B8;
+    --lte-low: #2C5F2E;
+    --lte-mid: #B8860B;
+    --lte-high: #C1502E;
+    --lte-critical: #8B1A1A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--mist);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--navy);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header .logo {
+    font-family: 'DM Serif Display', serif;
+    color: var(--cream);
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .site-header .logo span { color: var(--gold); }
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid rgba(184,134,11,0.4);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    border-bottom: 3px solid var(--terracotta);
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--cream);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em { color: var(--terracotta); font-style: normal; }
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(245,240,232,0.7);
+    max-width: 600px;
+    margin: 0 auto 0.5rem;
+    line-height: 1.6;
+  }
+  .hero-method-note {
+    display: inline-block;
+    background: rgba(184,134,11,0.12);
+    border: 1px solid rgba(184,134,11,0.3);
+    border-radius: 3px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-top: 1.2rem;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* ── INPUT PANEL ── */
+  .input-panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(26,39,68,0.06);
+  }
+  .input-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 600px) { .input-row { grid-template-columns: 1fr; } }
+  select, input[type="text"] {
+    width: 100%;
+    background: var(--mist);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  select:focus, input:focus { border-color: var(--navy); }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B6B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+  textarea {
+    width: 100%;
+    background: var(--mist);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.6;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: var(--navy); }
+  .char-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--mid);
+    text-align: right;
+    margin-top: 4px;
+  }
+  .decode-btn {
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 14px 2.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .decode-btn:hover { background: #a8431f; }
+  .decode-btn:active { transform: scale(0.98); }
+  .decode-btn:disabled { background: var(--mid); cursor: not-allowed; }
+  .decode-btn .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+  }
+  .decode-btn.loading .spinner { display: block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── WIZARD PROGRESS ── */
+  .wizard-progress {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .wp-step {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  }
+  .wp-step::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .wp-step:last-child::after { display: none; }
+  .wp-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--mid);
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s;
+  }
+  .wp-step.active .wp-dot { background: var(--navy); border-color: var(--navy); color: white; }
+  .wp-step.done .wp-dot { background: var(--forest); border-color: var(--forest); color: white; }
+  .wp-step.lte .wp-dot { background: var(--gold); border-color: var(--gold); color: white; }
+  .wp-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-top: 5px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .wp-step.active .wp-label { color: var(--navy); }
+  .wp-step.lte .wp-label { color: var(--gold); }
+
+  /* ── RESULTS CONTAINER ── */
+  #results { display: none; }
+
+  /* ── STEP PANELS ── */
+  .step-panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(26,39,68,0.06);
+    display: none;
+  }
+  .step-panel.active { display: block; }
+  .step-header {
+    padding: 1.2rem 1.8rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+    background: var(--mist);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .step-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    color: var(--navy);
+  }
+  .step-body { padding: 1.8rem; }
+
+  /* ── STEP 1: VERDICT ── */
+  .verdict-card {
+    border-radius: 3px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid transparent;
+  }
+  .verdict-card.structural { background: rgba(44,95,46,0.07); border-color: var(--forest); }
+  .verdict-card.performative { background: rgba(193,80,46,0.07); border-color: var(--terracotta); }
+  .verdict-card.mixed { background: rgba(184,134,11,0.07); border-color: var(--gold); }
+  .verdict-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .verdict-label.structural { color: var(--forest); }
+  .verdict-label.performative { color: var(--terracotta); }
+  .verdict-label.mixed { color: var(--gold); }
+  .verdict-summary { font-size: 1rem; line-height: 1.65; color: var(--ink); }
+  .meta-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+  .meta-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--mid);
+    background: var(--mist);
+  }
+
+  /* ── STEP 2: PERFORMATIVITY GAUGE ── */
+  .gauge-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+  }
+  .gauge-svg-wrap { position: relative; width: 280px; height: 160px; }
+  .gauge-value-display {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .gauge-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .gauge-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--mid);
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+  .gauge-scale {
+    display: flex;
+    justify-content: space-between;
+    width: 280px;
+    margin-top: 6px;
+    padding: 0 4px;
+  }
+  .gauge-scale-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--mid);
+    letter-spacing: 0.06em;
+  }
+  .gauge-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .gauge-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--mid);
+  }
+  .gauge-legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .gauge-interpretation {
+    margin-top: 1.2rem;
+    background: var(--mist);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1rem 1.2rem;
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--ink);
+    max-width: 520px;
+    text-align: center;
+  }
+
+  /* ── STEP 3: RADAR CHART ── */
+  .radar-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .radar-canvas-wrap { flex: 0 0 300px; max-width: 300px; }
+  .radar-scores { flex: 1; min-width: 220px; }
+  .radar-score-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .radar-score-row:last-child { border-bottom: none; }
+  .rsr-label { flex: 1; font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+  .rsr-bar-wrap { flex: 2; height: 6px; background: var(--sand); border-radius: 3px; overflow: hidden; }
+  .rsr-bar { height: 100%; border-radius: 3px; background: var(--navy); transition: width 0.8s ease; }
+  .rsr-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--navy);
+    width: 28px;
+    text-align: right;
+  }
+
+  /* ── STEP 4: FALLACIES ── */
+  .fallacy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .fallacy-card {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .fc-head {
+    padding: 10px 14px;
+    background: var(--mist);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .fc-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .fc-severity {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+  .fc-severity.high { background: rgba(193,80,46,0.12); color: var(--terracotta); }
+  .fc-severity.medium { background: rgba(184,134,11,0.12); color: var(--gold); }
+  .fc-severity.low { background: rgba(44,95,46,0.12); color: var(--forest); }
+  .fc-body { padding: 10px 14px; font-size: 0.82rem; line-height: 1.6; color: var(--mid); }
+  .fc-quote {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--ink);
+    border-left: 3px solid var(--terracotta);
+    padding-left: 10px;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .no-fallacies {
+    background: rgba(44,95,46,0.07);
+    border: 1px solid rgba(44,95,46,0.2);
+    border-radius: 3px;
+    padding: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--forest);
+    font-weight: 500;
+  }
+
+  /* ── STEP 5: WINNERS/LOSERS ── */
+  .wl-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 580px) { .wl-grid { grid-template-columns: 1fr; } }
+  .wl-col { }
+  .wl-col-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 3px 3px 0 0;
+    border: 1px solid transparent;
+  }
+  .wl-col-head.winners { background: rgba(44,95,46,0.1); color: var(--forest); border-color: rgba(44,95,46,0.2); }
+  .wl-col-head.losers { background: rgba(193,80,46,0.1); color: var(--terracotta); border-color: rgba(193,80,46,0.2); }
+  .wl-list {
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+    overflow: hidden;
+  }
+  .wl-item {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    color: var(--ink);
+  }
+  .wl-item:last-child { border-bottom: none; }
+  .wl-item::before {
+    content: '▸';
+    font-size: 0.7rem;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .wl-col .winners + .wl-list .wl-item::before { color: var(--forest); }
+  .wl-col .losers + .wl-list .wl-item::before { color: var(--terracotta); }
+
+  /* ── STEP 6: INFLUENCE DISTORTION ── */
+  .influence-wrap { }
+  .influence-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .ibr-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+    width: 200px;
+    flex-shrink: 0;
+  }
+  @media (max-width: 560px) { .ibr-label { width: 130px; font-size: 0.72rem; } }
+  .ibr-track {
+    flex: 1;
+    height: 10px;
+    background: var(--sand);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .ibr-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, var(--navy), var(--terracotta));
+    transition: width 1s ease;
+  }
+  .ibr-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--navy);
+    width: 38px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .influence-note {
+    margin-top: 1.2rem;
+    background: var(--mist);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1rem 1.2rem;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--mid);
+  }
+
+  /* ── STEP 7: LTE JURISDICTION COMPARATOR ── */
+  .step-panel.lte-step { border-color: var(--gold); }
+  .step-panel.lte-step .step-header { background: rgba(184,134,11,0.06); border-bottom-color: rgba(184,134,11,0.2); }
+  .step-panel.lte-step .step-num { border-color: var(--gold); color: var(--gold); background: rgba(184,134,11,0.06); }
+  .step-panel.lte-step .step-title { color: var(--gold); }
+
+  .lte-intro {
+    background: var(--navy);
+    border-radius: 3px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.8rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .lte-intro-text {
+    flex: 1;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: rgba(245,240,232,0.85);
+  }
+  .lte-intro-text strong { color: var(--gold); }
+  .lte-policy-score-chip {
+    flex-shrink: 0;
+    text-align: center;
+    background: rgba(184,134,11,0.15);
+    border: 1px solid rgba(184,134,11,0.35);
+    border-radius: 3px;
+    padding: 12px 20px;
+  }
+  .lte-policy-score-chip .chip-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .lte-policy-score-chip .chip-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    color: rgba(184,134,11,0.7);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .lte-comparator {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+  }
+  .lte-city-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .lte-city-card.matched {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(184,134,11,0.18);
+  }
+  .lcc-head {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .lcc-head.vancouver { background: rgba(193,80,46,0.09); }
+  .lcc-head.copenhagen { background: rgba(44,95,46,0.09); }
+  .lcc-head.singapore { background: rgba(26,39,68,0.09); }
+  .lcc-head.policy { background: rgba(184,134,11,0.09); }
+  .lcc-city-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--navy);
+  }
+  .lcc-flag { font-size: 1.2rem; }
+  .lcc-body { padding: 14px; }
+  .lcc-lte-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .lcc-lte-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--mid);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .lcc-lte-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+  .lcc-lte-val.high-extract { color: var(--lte-critical); }
+  .lcc-lte-val.mid-extract { color: var(--lte-mid); }
+  .lcc-lte-val.low-extract { color: var(--lte-low); }
+  .lcc-lte-val.policy-val { color: var(--gold); }
+  .lcc-track-wrap { margin-bottom: 10px; }
+  .lcc-track {
+    height: 8px;
+    background: var(--sand);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .lcc-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1.2s ease;
+  }
+  .lcc-fill.vancouver { background: var(--lte-critical); }
+  .lcc-fill.copenhagen { background: var(--lte-low); }
+  .lcc-fill.singapore { background: var(--lte-mid); }
+  .lcc-fill.policy { background: var(--gold); }
+  .lcc-descriptor {
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--mid);
+  }
+  .lcc-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-top: 6px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .lcc-tag.high-extract { background: rgba(139,26,26,0.1); color: var(--lte-critical); }
+  .lcc-tag.mid-extract { background: rgba(184,134,11,0.1); color: var(--gold); }
+  .lcc-tag.low-extract { background: rgba(44,95,46,0.1); color: var(--forest); }
+  .lcc-tag.matched-tag { background: rgba(184,134,11,0.15); color: var(--gold); border: 1px solid rgba(184,134,11,0.3); }
+
+  .lte-match-verdict {
+    border-radius: 3px;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.8rem;
+    border-left: 4px solid var(--gold);
+    background: rgba(184,134,11,0.06);
+  }
+  .lte-match-verdict-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .lte-match-verdict-text { font-size: 0.95rem; line-height: 1.7; color: var(--ink); }
+  .lte-match-verdict-text strong { color: var(--navy); }
+
+  .lte-data-sources {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .lds-head {
+    padding: 10px 14px;
+    background: var(--mist);
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .lds-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+  }
+  .lds-row:last-child { border-bottom: none; }
+  .lds-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    padding: 2px 6px;
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .lds-source { flex: 1; color: var(--ink); }
+  .lds-weight {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .lte-structural-recommendations { margin-top: 0; }
+  .lsr-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.8rem;
+  }
+  .lsr-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .lsr-item:last-child { border-bottom: none; }
+  .lsr-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── WIZARD NAV ── */
+  .wizard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-btn:hover { border-color: var(--navy); background: var(--mist); }
+  .nav-btn.primary { background: var(--navy); color: white; border-color: var(--navy); }
+  .nav-btn.primary:hover { background: #141e38; }
+  .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .step-indicator {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--mid);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── METHODOLOGY NOTE ── */
+  .methodology-bar {
+    background: var(--navy);
+    border-radius: 3px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  .mb-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .mb-text {
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: rgba(245,240,232,0.75);
+  }
+  .mb-text a { color: var(--gold); text-decoration: none; }
+  .mb-text strong { color: var(--cream); }
+
+
+  /* ── DATA SOURCES BADGE ── */
+  .data-sources-badge {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 4px;
+    margin-top: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(26,39,68,0.06);
+  }
+  .dsb-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--mist);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .dsb-header-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .dsb-header-counts {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+  }
+  .dsb-sep { color: var(--mid); }
+  .dsb-rows { padding: 6px 0; }
+  .dsb-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.78rem;
+    flex-wrap: wrap;
+  }
+  .dsb-row:last-child { border-bottom: none; }
+  .dsb-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .dsb-label { flex: 1; color: var(--ink); min-width: 180px; }
+  .dsb-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+  .dsb-val strong { color: var(--terracotta); }
+  .dsb-weight {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .dsb-live {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    background: rgba(44,95,46,0.1);
+    color: var(--forest);
+    border: 1px solid rgba(44,95,46,0.25);
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+  .dsb-static {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    background: rgba(184,134,11,0.08);
+    color: var(--gold);
+    border: 1px solid rgba(184,134,11,0.2);
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+  .dsb-note {
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--mid);
+    border-top: 1px solid var(--border);
+    background: var(--mist);
+  }
+
+  /* ── ENHANCED INPUT PANEL ── */
+  .input-row-jurisdiction { margin-top: 0.75rem; }
+
+  .field-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    margin-left: 8px;
+    text-transform: none;
+  }
+
+  .source-parse-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 0;
+    margin-top: 0;
+    transition: margin 0.2s, min-height 0.2s;
+  }
+  .source-parse-chips:not(:empty) { margin-top: 8px; margin-bottom: 4px; }
+  .spc-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    letter-spacing: 0.06em;
+  }
+  .spc-chip.area  { background: rgba(26,39,68,0.07); border-color: rgba(26,39,68,0.2); color: var(--navy); }
+  .spc-chip.party { background: rgba(44,95,46,0.07); border-color: rgba(44,95,46,0.2); color: var(--forest); }
+  .spc-chip.person{ background: rgba(184,134,11,0.08); border-color: rgba(184,134,11,0.25); color: var(--gold); }
+  .spc-chip-label { font-weight: 600; opacity: 0.6; margin-right: 1px; }
+
+  /* PASTE ZONE */
+  .paste-zone-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1.4rem;
+    margin-bottom: 0.5rem;
+    padding: 10px 14px;
+    background: var(--navy);
+    border-radius: 3px 3px 0 0;
+  }
+  .paste-zone-label .input-label {
+    color: var(--cream);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 0;
+  }
+  .paste-zone-icon {
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-weight: 700;
+    flex-shrink: 0;
+    animation: pulse-down 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-down {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(3px); opacity: 0.6; }
+  }
+
+  #policy-text {
+    border-radius: 0 0 3px 3px;
+    border-top: 2px solid var(--navy);
+    min-height: 180px;
+    font-size: 0.95rem;
+  }
+  #policy-text:focus {
+    border-color: var(--navy);
+    border-top-color: var(--terracotta);
+    background: white;
+    box-shadow: 0 2px 12px rgba(26,39,68,0.08);
+  }
+
+  /* ── ERROR ── */
+  .error-box {
+    background: rgba(193,80,46,0.08);
+    border: 1px solid rgba(193,80,46,0.3);
+    border-radius: 3px;
+    padding: 1rem 1.2rem;
+    font-size: 0.875rem;
+    color: var(--terracotta);
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="https://blockshare.ca" class="logo">Block<span>Share</span></a>
+  <span class="header-tag">Citizens Dashboard</span>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Policy Decoder Machine — v2.1</div>
+  <h1>Decode the <em>Gap</em> Between<br>Policy Promise & Structural Reality</h1>
+  <p class="hero-sub">Paste any political speech, campaign promise, council report, or budget document. The decoder scores performativity, maps logical fallacies, and now benchmarks governance patterns against LTE lifetime efficiency data from Vancouver, Copenhagen, and Singapore.</p>
+  <div class="hero-method-note">Source Weighting Schema v1.0 · LTE/LEI Index v3 · T1–T5 Authority Tiers</div>
+</section>
+
+<main class="main-wrap">
+
+  <!-- INPUT PANEL -->
+  <div class="input-panel">
+
+    <!-- ROW 1: Document type + Governance level -->
+    <div class="input-row">
+      <div>
+        <label class="input-label" for="doc-type">Document Type</label>
+        <select id="doc-type">
+          <option value="campaign">Campaign Promise / Platform</option>
+          <option value="speech">Political Speech</option>
+          <option value="council">Council Report / Motion</option>
+          <option value="budget">Budget Document</option>
+          <option value="bylaw">By-Law / Legislation</option>
+          <option value="press">Press Release</option>
+          <option value="other">Other Policy Communication</option>
+        </select>
+      </div>
+      <div>
+        <label class="input-label" for="gov-level">Governance Level</label>
+        <select id="gov-level" onchange="updateJurisdictionList()">
+          <option value="municipal">Civic / Municipal</option>
+          <option value="regional">Regional / Metro</option>
+          <option value="provincial">Provincial / State</option>
+          <option value="federal">Federal / National</option>
+          <option value="international">International / Supranational</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ROW 2: Jurisdiction dropdown + Electoral area / source field -->
+    <div class="input-row input-row-jurisdiction">
+      <div>
+        <label class="input-label" for="jurisdiction">Jurisdiction</label>
+        <select id="jurisdiction"></select>
+      </div>
+      <div>
+        <label class="input-label" for="electoral-source">
+          Electoral Area · Party · Politician
+          <span class="field-hint">used to narrow voting record & influence data</span>
+        </label>
+        <input type="text" id="electoral-source"
+          placeholder="e.g. Vancouver-Kensington · BC NDP · David Eby">
+      </div>
+    </div>
+    <div class="source-parse-chips" id="source-parse-chips"></div>
+
+    <!-- PASTE ZONE -->
+    <div class="paste-zone-label">
+      <span class="paste-zone-icon">↓</span>
+      <label class="input-label" for="policy-text">Paste Policy Text Here</label>
+    </div>
+    <textarea id="policy-text"
+      placeholder="Paste a single policy statement, campaign promise, council motion, or press release — up to 800 words. For best results, focus on one specific claim or position rather than an entire platform document. Full platform &amp; comparative analysis is a premium feature."
+      oninput="updateCharCount(this)"></textarea>
+    <div class="char-count" id="char-count">0 / 800 words</div>
+
+    <div class="error-box" id="error-box"></div>
+    <button class="decode-btn" id="decode-btn" onclick="runDecoder()">
+      <div class="spinner"></div>
+      <span id="btn-text">Run Policy Decoder</span>
+    </button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+
+    <!-- WIZARD PROGRESS -->
+    <div class="wizard-progress" id="wizard-progress">
+      <div class="wp-step" onclick="gotoStep(1)">
+        <div class="wp-dot">01</div>
+        <div class="wp-label">Verdict</div>
+      </div>
+      <div class="wp-step" onclick="gotoStep(2)">
+        <div class="wp-dot">02</div>
+        <div class="wp-label">Perf. Index</div>
+      </div>
+      <div class="wp-step" onclick="gotoStep(3)">
+        <div class="wp-dot">03</div>
+        <div class="wp-label">Impact Gap</div>
+      </div>
+      <div class="wp-step" onclick="gotoStep(4)">
+        <div class="wp-dot">04</div>
+        <div class="wp-label">Fallacies</div>
+      </div>
+      <div class="wp-step" onclick="gotoStep(5)">
+        <div class="wp-dot">05</div>
+        <div class="wp-label">Winners</div>
+      </div>
+      <div class="wp-step" onclick="gotoStep(6)">
+        <div class="wp-dot">06</div>
+        <div class="wp-label">Influence</div>
+      </div>
+      <div class="wp-step lte" onclick="gotoStep(7)">
+        <div class="wp-dot">07</div>
+        <div class="wp-label">LTE Index</div>
+      </div>
+    </div>
+
+    <!-- STEP 1: VERDICT -->
+    <div class="step-panel active" id="step-1">
+      <div class="step-header">
+        <span class="step-num">STEP 01</span>
+        <span class="step-title">Overall Verdict</span>
+      </div>
+      <div class="step-body">
+        <div id="verdict-card-wrap"></div>
+        <div id="meta-chips-wrap"></div>
+        <div class="wizard-nav">
+          <button class="nav-btn" disabled>← Back</button>
+          <span class="step-indicator" id="step-ind-1">Step 1 of 7</span>
+          <button class="nav-btn primary" onclick="gotoStep(2)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: PERFORMATIVITY INDEX -->
+    <div class="step-panel" id="step-2">
+      <div class="step-header">
+        <span class="step-num">STEP 02</span>
+        <span class="step-title">Performativity Index</span>
+      </div>
+      <div class="step-body">
+        <div class="gauge-wrap">
+          <div class="gauge-svg-wrap">
+            <svg width="280" height="145" viewBox="0 0 280 145">
+              <defs>
+                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#8B1A1A"/>
+                  <stop offset="25%" style="stop-color:#C1502E"/>
+                  <stop offset="50%" style="stop-color:#B8860B"/>
+                  <stop offset="75%" style="stop-color:#2C5F2E"/>
+                  <stop offset="100%" style="stop-color:#1A6B1A"/>
+                </linearGradient>
+              </defs>
+              <!-- Background arc -->
+              <path d="M 30 130 A 110 110 0 0 1 250 130" fill="none" stroke="#E8E0D0" stroke-width="16" stroke-linecap="round"/>
+              <!-- Colored arc -->
+              <path d="M 30 130 A 110 110 0 0 1 250 130" fill="none" stroke="url(#gaugeGrad)" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+              <!-- Needle -->
+              <line id="gauge-needle" x1="140" y1="130" x2="140" y2="30" stroke="#1A2744" stroke-width="3" stroke-linecap="round" transform="rotate(0, 140, 130)"/>
+              <circle cx="140" cy="130" r="6" fill="#1A2744"/>
+              <!-- Scale labels -->
+              <text x="22" y="148" font-family="JetBrains Mono" font-size="9" fill="#6B6B6B">-100</text>
+              <text x="83" y="42" font-family="JetBrains Mono" font-size="9" fill="#6B6B6B">-50</text>
+              <text x="133" y="22" font-family="JetBrains Mono" font-size="9" fill="#6B6B6B">0</text>
+              <text x="183" y="42" font-family="JetBrains Mono" font-size="9" fill="#6B6B6B">+50</text>
+              <text x="230" y="148" font-family="JetBrains Mono" font-size="9" fill="#6B6B6B">+100</text>
+            </svg>
+            <div class="gauge-value-display">
+              <div class="gauge-number" id="gauge-number">—</div>
+              <div class="gauge-unit">Performativity Score</div>
+            </div>
+          </div>
+          <div class="gauge-legend">
+            <div class="gauge-legend-item"><div class="gauge-legend-dot" style="background:#8B1A1A"></div>Pure Theatre (−100)</div>
+            <div class="gauge-legend-item"><div class="gauge-legend-dot" style="background:#B8860B"></div>Mixed (0)</div>
+            <div class="gauge-legend-item"><div class="gauge-legend-dot" style="background:#2C5F2E"></div>Structural Change (+100)</div>
+          </div>
+          <div class="gauge-interpretation" id="gauge-interpretation"></div>
+        </div>
+        <div class="wizard-nav">
+          <button class="nav-btn" onclick="gotoStep(1)">← Back</button>
+          <span class="step-indicator">Step 2 of 7</span>
+          <button class="nav-btn primary" onclick="gotoStep(3)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: NARRATIVE-IMPACT GAP -->
+    <div class="step-panel" id="step-3">
+      <div class="step-header">
+        <span class="step-num">STEP 03</span>
+        <span class="step-title">Narrative–Impact Gap</span>
+      </div>
+      <div class="step-body">
+        <div class="radar-wrap">
+          <div class="radar-canvas-wrap">
+            <canvas id="radar-chart" width="300" height="300"></canvas>
+          </div>
+          <div class="radar-scores" id="radar-scores"></div>
+        </div>
+        <div class="wizard-nav">
+          <button class="nav-btn" onclick="gotoStep(2)">← Back</button>
+          <span class="step-indicator">Step 3 of 7</span>
+          <button class="nav-btn primary" onclick="gotoStep(4)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: FALLACIES -->
+    <div class="step-panel" id="step-4">
+      <div class="step-header">
+        <span class="step-num">STEP 04</span>
+        <span class="step-title">Logical Fallacies & Cognitive Biases</span>
+      </div>
+      <div class="step-body">
+        <div id="fallacy-wrap"></div>
+        <div class="wizard-nav">
+          <button class="nav-btn" onclick="gotoStep(3)">← Back</button>
+          <span class="step-indicator">Step 4 of 7</span>
+          <button class="nav-btn primary" onclick="gotoStep(5)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: WINNERS / LOSERS -->
+    <div class="step-panel" id="step-5">
+      <div class="step-header">
+        <span class="step-num">STEP 05</span>
+        <span class="step-title">Who Wins · Who Loses</span>
+      </div>
+      <div class="step-body">
+        <div id="wl-wrap"></div>
+        <div class="wizard-nav">
+          <button class="nav-btn" onclick="gotoStep(4)">← Back</button>
+          <span class="step-indicator">Step 5 of 7</span>
+          <button class="nav-btn primary" onclick="gotoStep(6)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: INFLUENCE DISTORTION -->
+    <div class="step-panel" id="step-6">
+      <div class="step-header">
+        <span class="step-num">STEP 06</span>
+        <span class="step-title">Influence Distortion Probability</span>
+      </div>
+      <div class="step-body">
+        <div id="influence-wrap"></div>
+        <div class="wizard-nav">
+          <button class="nav-btn" onclick="gotoStep(5)">← Back</button>
+          <span class="step-indicator">Step 6 of 7</span>
+          <button class="nav-btn primary lte" onclick="gotoStep(7)" style="background:var(--gold);border-color:var(--gold);">LTE Index →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: LTE JURISDICTION COMPARATOR -->
+    <div class="step-panel lte-step" id="step-7">
+      <div class="step-header">
+        <span class="step-num">STEP 07</span>
+        <span class="step-title">LTE Lifetime Efficiency Index — Jurisdiction Comparator</span>
+      </div>
+      <div class="step-body">
+
+        <div class="lte-intro" id="lte-intro-block">
+          <div class="lte-intro-text">
+            The <strong>Lifetime Time Efficiency (LTE) Index</strong> measures what fraction of a person's waking lifetime is consumed obtaining basic necessities — housing, transit, food, healthcare, childcare. <strong>Lower score = more lifetime returned to residents.</strong> This policy is scored against three benchmark jurisdictions that represent different governance models and LTE outcomes.
+          </div>
+          <div class="lte-policy-score-chip">
+            <div class="chip-val" id="lte-policy-chip-val">—</div>
+            <div class="chip-label">Policy LTE<br>Projection</div>
+          </div>
+        </div>
+
+        <!-- City comparison cards -->
+        <div class="lte-comparator" id="lte-comparator"></div>
+
+        <!-- Match verdict -->
+        <div class="lte-match-verdict" id="lte-match-verdict">
+          <div class="lte-match-verdict-label">Governance Pattern Match</div>
+          <div class="lte-match-verdict-text" id="lte-match-verdict-text"></div>
+        </div>
+
+        <!-- Data sources used -->
+        <div class="lte-data-sources">
+          <div class="lds-head">Source Authority Applied — T1 / T2 Weighted Datasets</div>
+          <div class="lds-row"><span class="lds-tier">T1</span><span class="lds-source">WHO Global Health Observatory — Healthy Life Expectancy (HALE)</span><span class="lds-weight">×1.45</span></div>
+          <div class="lds-row"><span class="lds-tier">T1</span><span class="lds-source">UITP Global Mobility Report — Modal Share / Commute Hours</span><span class="lds-weight">×1.45</span></div>
+          <div class="lds-row"><span class="lds-tier">T1</span><span class="lds-source">OECD Affordable Housing Database — Cost-to-Income Ratio</span><span class="lds-weight">×1.45</span></div>
+          <div class="lds-row"><span class="lds-tier">T1</span><span class="lds-source">UN-Habitat City Prosperity Index — Public Space per Capita</span><span class="lds-weight">×1.45</span></div>
+          <div class="lds-row"><span class="lds-tier">T2</span><span class="lds-source">Open Budget Survey — Budget Transparency Score</span><span class="lds-weight">×1.00</span></div>
+          <div class="lds-row"><span class="lds-tier">T2</span><span class="lds-source">Social Progress Index — Basic Needs Delivery Rate</span><span class="lds-weight">×0.95</span></div>
+          <div class="lds-row"><span class="lds-tier">T5</span><span class="lds-source">OAG / PBO — Auditor General Override (if applicable)</span><span class="lds-weight">×1.30</span></div>
+        </div>
+
+        <!-- Structural recommendations -->
+        <div class="lte-structural-recommendations" id="lte-recommendations"></div>
+        <div id="lte-support-panel"></div>
+
+        <div class="wizard-nav">
+          <button class="nav-btn" onclick="gotoStep(6)">← Back</button>
+          <span class="step-indicator">Step 7 of 7</span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="nav-btn share-btn" id="share-report-btn" onclick="showSharePanel()" style="display:none;background:var(--gold);color:white;border-color:var(--gold)">⤴ Share Report</button>
+            <button class="nav-btn primary" onclick="resetDecoder()">↺ New Analysis</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- METHODOLOGY NOTE -->
+    <div class="methodology-bar">
+      <div class="mb-icon">⚖</div>
+      <div class="mb-text">
+        <strong>Source Weighting Schema v1.0</strong> — Analysis uses a five-tier authority hierarchy prioritising output-measured third-party data (T1 weight ×1.20–1.45) over self-reported or narrative-framed sources (T4 weight ×0.65–0.90). LTE-normalizable datasets receive an additional ×1.25 multiplier. Auditor General findings trigger a hard Performativity cap of +20. Narrative-bias discount applied to all self-reported government data. Full schema: <a href="/source-weighting-schema.json" target="_blank">source-weighting-schema.json</a>
+      </div>
+    </div>
+
+  <!-- SUPPORT ONBOARDING MODAL -->
+  <div class="modal-overlay" id="decoder-support-modal" style="display:none;position:fixed;inset:0;background:rgba(26,39,68,0.75);z-index:200;align-items:center;justify-content:center;padding:1.5rem">
+    <div style="background:white;border-radius:4px;max-width:500px;width:100%;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,0.3);overflow:hidden">
+      <div style="background:var(--navy);padding:1.2rem 1.4rem;border-bottom:3px solid var(--forest);flex-shrink:0">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">People's Policy — Support This Position</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--cream)">Add your voice to the record</div>
+      </div>
+      <div id="decoder-modal-content" style="flex:1;min-height:0;overflow-y:auto"><!-- filled by JS --></div>
+    </div>
+  </div>
+
+  <!-- SHARE PANEL -->
+  <div id="share-panel" style="display:none;position:fixed;inset:0;background:rgba(26,39,68,0.7);z-index:200;align-items:center;justify-content:center;padding:1.5rem">
+    <div style="background:white;border-radius:4px;max-width:540px;width:100%;padding:2rem;box-shadow:0 8px 32px rgba(0,0,0,0.25)">
+      <div style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--navy);margin-bottom:0.5rem">Share This Analysis</div>
+      <div style="font-size:0.83rem;color:var(--mid);margin-bottom:1.2rem;line-height:1.6">This link gives anyone access to the full 7-step report. It stays active for 90 days.</div>
+      <div style="display:flex;gap:8px;margin-bottom:1.2rem">
+        <input type="text" id="share-url-input" readonly style="flex:1;font-family:'JetBrains Mono',monospace;font-size:0.72rem;background:var(--mist);border:1px solid var(--border);border-radius:3px;padding:9px 12px;color:var(--ink)">
+        <button onclick="copyShareUrl()" id="copy-share-btn" style="background:var(--gold);color:white;border:none;border-radius:3px;padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap">Copy Link</button>
+      </div>
+      <div style="background:var(--navy);border-radius:3px;padding:1rem 1.2rem;margin-bottom:1.2rem">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Citizens Dashboard — blockshare.ca</div>
+        <div style="font-size:0.8rem;color:rgba(245,240,232,0.75);line-height:1.6">This is an independent citizen accountability analysis — no party affiliation, no advertising, no government funding.</div>
+      </div>
+      <button onclick="closeSharePanel()" style="background:none;border:1px solid var(--border);border-radius:3px;padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--mid);cursor:pointer">Close</button>
+    </div>
+  </div>
+
+  </div><!-- /results -->
+
+</main>
+
+<script>
+// ── STATE ──
+let currentStep = 1;
+let analysisData = null;
+let radarChartInstance = null;
+let reportId = null;
+let reportUrl = null;
+let savedRecs = [];
+let currentCitizenId = null;
+
+// ── JURISDICTION DATA ──
+const JURISDICTIONS = {
+  municipal: [
+    'City of Vancouver', 'City of Burnaby', 'City of Surrey', 'City of Richmond',
+    'City of Coquitlam', 'District of North Vancouver', 'City of North Vancouver',
+    'City of New Westminster', 'Township of Langley', 'City of Langley',
+    'City of Abbotsford', 'City of Kelowna', 'City of Victoria', 'City of Saanich',
+    'City of Nanaimo', 'City of Prince George', 'City of Kamloops',
+    'City of Calgary', 'City of Edmonton', 'City of Toronto', 'City of Ottawa',
+    'Ville de Montréal', 'City of Winnipeg', 'City of Halifax', 'City of Regina',
+    'Metro Vancouver Regional District', 'Other Municipality'
+  ],
+  regional: [
+    'Metro Vancouver (MVRD)', 'Capital Regional District (CRD)',
+    'Fraser Valley Regional District', 'Okanagan Regional District',
+    'Greater Victoria', 'Greater Toronto Area (GTA)', 'Greater Montreal',
+    'Greater Calgary Region', 'Greater Edmonton Region',
+    'TransLink / South Coast British Columbia Transportation Authority',
+    'BC Housing Region', 'Other Regional District'
+  ],
+  provincial: [
+    'British Columbia Legislature', 'Government of British Columbia',
+    'Government of Alberta', 'Government of Ontario', 'Government of Quebec',
+    'Government of Manitoba', 'Government of Saskatchewan',
+    'Government of Nova Scotia', 'Government of New Brunswick',
+    'Government of Prince Edward Island', 'Government of Newfoundland and Labrador',
+    'Government of New South Wales', 'Government of Victoria (Australia)',
+    'State of California', 'State of New York', 'State of Washington',
+    'Other Province / State'
+  ],
+  federal: [
+    'Government of Canada / Parliament', 'House of Commons — Canada',
+    'Senate of Canada', 'Government of the United States',
+    'US Congress / Senate', 'UK Parliament / Westminster',
+    'Government of Australia', 'Government of New Zealand',
+    'Government of Germany (Bundestag)', 'Government of France',
+    'Other Federal Government'
+  ],
+  international: [
+    'United Nations', 'World Bank', 'IMF', 'World Health Organization (WHO)',
+    'OECD', 'European Union', 'NATO', 'Other International Body'
+  ]
+};
+
+function updateJurisdictionList() {
+  const level = document.getElementById('gov-level').value;
+  const sel = document.getElementById('jurisdiction');
+  sel.innerHTML = JURISDICTIONS[level].map(j =>
+    `<option value="${j}">${j}</option>`
+  ).join('');
+}
+// Init on load
+updateJurisdictionList();
+
+// ── ELECTORAL SOURCE PARSER ──
+// Parses "electoral area · party · politician" from a single freetext field
+// Delimiters accepted: · | , / —
+function parseElectoralSource(raw) {
+  if (!raw || !raw.trim()) return { area: '', party: '', person: '' };
+  const parts = raw.split(/[·|,\/—–]+/).map(s => s.trim()).filter(Boolean);
+  // Simple heuristic: first part = area/riding, second = party, third = person name
+  return {
+    area:   parts[0] || '',
+    party:  parts[1] || '',
+    person: parts[2] || ''
+  };
+}
+
+function renderSourceChips(raw) {
+  const parsed = parseElectoralSource(raw);
+  const chips = document.getElementById('source-parse-chips');
+  const items = [
+    parsed.area   && { cls: 'area',   label: 'AREA',   val: parsed.area },
+    parsed.party  && { cls: 'party',  label: 'PARTY',  val: parsed.party },
+    parsed.person && { cls: 'person', label: 'PERSON', val: parsed.person }
+  ].filter(Boolean);
+  chips.innerHTML = items.map(i =>
+    `<span class="spc-chip ${i.cls}"><span class="spc-chip-label">${i.label}</span>${i.val}</span>`
+  ).join('');
+}
+
+document.getElementById('electoral-source').addEventListener('input', function() {
+  renderSourceChips(this.value);
+});
+
+// ── CHAR COUNT ──
+function updateCharCount(el) {
+  const words = el.value.trim() === '' ? 0 : el.value.trim().split(/\s+/).length;
+  const colour = words > 800 ? 'var(--terracotta)' : words > 640 ? 'var(--gold)' : 'var(--mid)';
+  const counter = document.getElementById('char-count');
+  counter.textContent = `${words.toLocaleString()} / 800 words`;
+  counter.style.color = colour;
+  // Soft cap at 800 words — trim excess
+  if (words > 800) {
+    const trimmed = el.value.trim().split(/\s+/).slice(0, 800).join(' ');
+    el.value = trimmed;
+    counter.textContent = '800 / 800 words';
+    counter.style.color = 'var(--terracotta)';
+  }
+}
+
+// ── WIZARD NAVIGATION ──
+function gotoStep(n) {
+  if (!analysisData && n > 1) return;
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`step-${n}`).classList.add('active');
+  const steps = document.querySelectorAll('.wp-step');
+  steps.forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i + 1 < n) s.classList.add('done');
+    if (i + 1 === n) s.classList.add('active');
+  });
+  currentStep = n;
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── SYSTEM PROMPT ──
+function buildSystemPrompt() {
+  return `You are the Policy Decoder analytical engine for the Block Share Citizens Dashboard. Apply the Source Weighting Schema v1.0.
+
+SOURCE AUTHORITY HIERARCHY:
+T1 (weight ×1.20–1.45): Output-measured third-party data — WHO HALE, OECD housing ratios, UN-Habitat public space, UITP modal share, IMF actual vs. declared spend, Auditor General findings. These override narrative-derived scores.
+T2 (weight ×0.85–1.00): World Bank WGI, Open Budget Survey, Social Progress Index, OECD fiscal data.
+T3 (weight ×0.85–1.20): CIHI wait times, PROOF food insecurity, OECD childcare data.
+T4 (weight ×0.65–0.90): Voting records, lobbyist filings, campaign finance, city open data.
+T5 CALIBRATION (×1.10–1.30): Auditor General findings trigger hard Performativity cap of +20.
+
+LTE INDEX (Lifetime Time Efficiency v3 corrected):
+Unit = fraction of waking lifetime consumed obtaining basic necessities.
+Lower = better (more lifetime returned to residents).
+Benchmarks: Vancouver = 99.9% (near-full extraction, car-dependent, high housing cost burden), Copenhagen = 63.7% (meaningful commons surplus, cycling modal share, land-value capture), Singapore = 71.2% (high delivery efficiency via technocratic model, democratic accountability trade-off).
+
+BIAS GUARD: Actively discount rhetorical commitment language ("we will", "investing in", "our plan"), deficit-hawk normalization vocabulary, and incumbency-favorable framing. Privilege measurable outcomes over stated intentions.
+
+SCORING RUBRIC — MANDATORY STRUCTURAL CHECKLIST:
+Before scoring, evaluate these SEVEN binary facts about the policy text. These facts determine score ranges — they do not vary with interpretation:
+C1. FUNDING SOURCE: Does the text identify a specific, quantified funding mechanism (tax, levy, budget line)? YES/NO
+C2. ENFORCEMENT: Is there a binding enforcement or penalty mechanism for non-delivery? YES/NO
+C3. OUTPUT TARGETS: Are targets outcome-based (cost burden, units occupied, displacement rate) rather than process-based (permits, timelines, approvals)? YES/NO
+C4. INDEPENDENT OVERSIGHT: Is a third-party auditor, oversight body, or public dashboard named? YES/NO
+C5. PUBLIC VALUE CAPTURE: Does publicly-created value (rezoning windfall, land value uplift) return to the public via tax, equity stake, or covenant? YES/NO
+C6. SCALE ADEQUACY: Is the quantified target >=10% of the documented need? YES/NO
+C7. REVERSIBILITY PROTECTION: Are public benefits locked in (covenants, trusts, statutory) rather than discretionary? YES/NO
+
+PERFORMATIVITY SCORE ANCHORS (count of YES answers above):
+0-1 YES = score -100 to -60 (performative theatre)
+2-3 YES = score -59 to -20 (weak structural content)
+3-4 YES = score -19 to +19 (mixed)
+5-6 YES = score +20 to +59 (structurally significant)
+7 YES = score +60 to +100 (transformative)
+State the checklist results explicitly in the verdict summary. The score MUST fall within the anchored range for the checklist count.
+
+NARRATIVE-IMPACT GAP DIMENSION ANCHORS (0-10, deterministic criteria):
+- accountability_mechanism: 0-2 if C2=NO and C4=NO; 3-5 if one YES; 6-8 if both YES; 9-10 if both YES plus statutory force
+- distributional_equity: 0-2 if benefits flow primarily to asset owners; 3-5 if mixed; 6-10 if benefits flow primarily to cost-burdened groups
+- measurability_of_outcomes: 0-3 if only process metrics; 4-6 if some outcome metrics unmeasured; 7-10 if outcome metrics with baselines and reporting
+- reversibility_risk: 9-10 if private value transfer is permanent and benefits discretionary; 5-8 if partially locked; 0-4 if public benefits are statutory/covenanted
+- implementation_pathway: 0-3 if no funding and no delivery agent; 4-6 if partial; 7-10 if funded with named delivery agent
+
+LTE PROJECTION ANCHOR: Start from the jurisdiction's benchmark LTE (Vancouver 99.9). Adjust by domain impact: a policy may move LTE at most ±0.5 points per affected domain unless it includes C5=YES public value capture at scale (then up to ±5 points). Policies that accelerate market supply without price anchoring score NEUTRAL or slightly WORSE than baseline (housing precarity effects), never better.
+
+CONSISTENCY REQUIREMENT: Identical input text MUST produce identical checklist results. All scores derive from the checklist. Do not let rhetorical quality, length, or sophistication of the policy language influence scores — only the structural facts.
+
+
+CRITICAL — JSON SCHEMA LOCK:
+You MUST return JSON using EXACTLY these top-level key names — no variations, no additions:
+{
+  "verdict": { "classification": "structural|performative|mixed", "summary": "string", "doc_type": "string", "jurisdiction": "string", "policy_domain": "string", "checklist": { "C1_funding": "YES|NO", "C2_enforcement": "YES|NO", "C3_output_targets": "YES|NO", "C4_oversight": "YES|NO", "C5_public_value_capture": "YES|NO", "C6_scale_adequacy": "YES|NO", "C7_reversibility": "YES|NO", "yes_count": 0 } },
+  "performativity_index": { "score": 0, "interpretation": "string", "oag_cap_applied": false },
+  "narrative_impact_gap": { "accountability_mechanism": 0, "distributional_equity": 0, "measurability_of_outcomes": 0, "reversibility_risk": 0, "implementation_pathway": 0, "notes": "string" },
+  "fallacies": [ { "type": "string", "severity": "high|medium|low", "description": "string", "example_quote": "string" } ],
+  "winners_losers": { "winners": ["string"], "losers": ["string"] },
+  "influence_distortion": { "fptp_electoral": 0, "bureaucratic_capture": 0, "donor_lobbyist": 0, "media_framing": 0, "incumbency_advantage": 0, "aggregate_note": "string" },
+  "lte_analysis": { "policy_lte_projection": 0, "lte_delta_from_vancouver": 0, "lte_delta_from_copenhagen": 0, "lte_delta_from_singapore": 0, "closest_jurisdiction_match": "vancouver|copenhagen|singapore", "governance_pattern_description": "string", "lte_impacted_domains": ["string"], "structural_recommendations": [ { "icon": "emoji", "text": "string" } ] }
+}
+Do NOT rename these keys. Do NOT add new top-level keys. Do NOT wrap in another object. The checklist results belong inside verdict.checklist — not as a separate top-level key.
+
+Return ONLY valid JSON matching this exact structure:
+{
+  "verdict": {
+    "classification": "structural|performative|mixed",
+    "summary": "2-3 sentence plain-language verdict",
+    "doc_type": "string",
+    "jurisdiction": "string",
+    "policy_domain": "string"
+  },
+  "performativity_index": {
+    "score": number (-100 to +100),
+    "interpretation": "1-2 sentences explaining the score",
+    "oag_cap_applied": boolean
+  },
+  "narrative_impact_gap": {
+    "accountability_mechanism": number (0-10),
+    "distributional_equity": number (0-10),
+    "measurability_of_outcomes": number (0-10),
+    "reversibility_risk": number (0-10),
+    "implementation_pathway": number (0-10),
+    "notes": "brief explanation"
+  },
+  "fallacies": [
+    {
+      "type": "string (fallacy/bias name)",
+      "severity": "high|medium|low",
+      "description": "what it is and why it applies",
+      "example_quote": "brief excerpt illustrating it (max 20 words)"
+    }
+  ],
+  "winners_losers": {
+    "winners": ["array of specific groups/entities that benefit"],
+    "losers": ["array of specific groups/entities that bear costs or risk"]
+  },
+  "influence_distortion": {
+    "fptp_electoral": number (0-100),
+    "bureaucratic_capture": number (0-100),
+    "donor_lobbyist": number (0-100),
+    "media_framing": number (0-100),
+    "incumbency_advantage": number (0-100),
+    "aggregate_note": "1 sentence summary"
+  },
+  "lte_analysis": {
+    "policy_lte_projection": number (0-100),
+    "lte_delta_from_vancouver": number (negative = improvement),
+    "lte_delta_from_copenhagen": number,
+    "lte_delta_from_singapore": number,
+    "closest_jurisdiction_match": "vancouver|copenhagen|singapore",
+    "governance_pattern_description": "2-3 sentences describing what governance model this policy resembles and why",
+    "lte_impacted_domains": ["list of life necessity domains this policy affects"],
+    "structural_recommendations": [
+      {
+        "icon": "single emoji",
+        "text": "specific structural change that would measurably improve LTE score"
+      }
+    ]
+  }
+}`;
+}
+
+// ── RUN DECODER ──
+async function runDecoder() {
+  const text = document.getElementById('policy-text').value.trim();
+  const docType = document.getElementById('doc-type').value;
+  const govLevel = document.getElementById('gov-level').value;
+  const jurisdiction = document.getElementById('jurisdiction').value;
+  const electoralSource = document.getElementById('electoral-source').value.trim();
+  const parsed = parseElectoralSource(electoralSource);
+  const errorBox = document.getElementById('error-box');
+  errorBox.style.display = 'none';
+
+  if (text.length < 30) {
+    errorBox.textContent = 'Please paste at least 30 characters of policy text to decode.';
+    errorBox.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('decode-btn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  document.getElementById('btn-text').textContent = 'Decoding…';
+
+  // Build rich context for the API including parsed electoral source
+  const contextLines = [
+    `Document type: ${docType}`,
+    `Governance level: ${govLevel}`,
+    `Jurisdiction: ${jurisdiction}`,
+    parsed.area   && `Electoral area / riding: ${parsed.area}`,
+    parsed.party  && `Political party: ${parsed.party}`,
+    parsed.person && `Politician / author: ${parsed.person}`,
+    !parsed.area && electoralSource && `Electoral source context: ${electoralSource}`
+  ].filter(Boolean);
+
+  const userMessage = contextLines.join('\n') + '\n\nPOLICY TEXT:\n' + text.trim().split(/\s+/).slice(0, 800).join(' ');
+
+  try {
+    const response = await fetch('/api/decode', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: buildSystemPrompt(),
+        message: userMessage,
+        jurisdiction: jurisdiction,
+        gov_level: govLevel,
+      })
+    });
+
+    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+    const raw = await response.json();
+
+    let jsonStr = raw.content || raw.text || '';
+    jsonStr = jsonStr.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(jsonStr);
+    analysisData = data;
+
+    reportId = raw.report_id || null;
+    reportUrl = raw.report_url ? window.location.origin + raw.report_url : null;
+    savedRecs = raw.saved_recommendations || [];
+    renderResults(data, raw.data_context);
+    document.getElementById('results').style.display = 'block';
+    gotoStep(1);
+
+  } catch (err) {
+    errorBox.textContent = `Analysis failed: ${err.message}. Check the server connection and try again.`;
+    errorBox.style.display = 'block';
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    document.getElementById('btn-text').textContent = 'Run Policy Decoder';
+  }
+}
+
+// ── RENDER ALL ──
+function renderResults(d, dataCtx) {
+  renderVerdict(d.verdict);
+  renderGauge(d.performativity_index);
+  renderRadar(d.narrative_impact_gap);
+  renderFallacies(d.fallacies);
+  renderWinnersLosers(d.winners_losers);
+  renderInfluence(d.influence_distortion);
+  renderLTE(d.lte_analysis, savedRecs);
+  renderSupportPanel(savedRecs, d.lte_analysis);
+  if (dataCtx) renderDataBadge(dataCtx);
+  // Show share button now that report is saved
+  if (reportUrl) {
+    const btn = document.getElementById('share-report-btn');
+    if (btn) btn.style.display = 'inline-flex';
+  }
+}
+
+// ── STEP 1: VERDICT ──
+function renderVerdict(v) {
+  const cls = v.classification || 'mixed';
+  const labels = { structural: 'Structurally Significant', performative: 'Primarily Performative', mixed: 'Mixed — Partial Structural Content' };
+  document.getElementById('verdict-card-wrap').innerHTML = `
+    <div class="verdict-card ${cls}">
+      <div class="verdict-label ${cls}">${labels[cls] || cls.toUpperCase()}</div>
+      <div class="verdict-summary">${v.summary}</div>
+    </div>`;
+  const chips = [
+    v.doc_type && `Type: ${v.doc_type}`,
+    v.jurisdiction && `Jurisdiction: ${v.jurisdiction}`,
+    v.policy_domain && `Domain: ${v.policy_domain}`
+  ].filter(Boolean);
+  document.getElementById('meta-chips-wrap').innerHTML = chips.length
+    ? `<div class="meta-chips">${chips.map(c => `<span class="meta-chip">${c}</span>`).join('')}</div>`
+    : '';
+}
+
+// ── STEP 2: GAUGE ──
+function renderGauge(p) {
+  const score = p.score || 0;
+  document.getElementById('gauge-number').textContent = (score > 0 ? '+' : '') + score;
+  document.getElementById('gauge-interpretation').textContent = p.interpretation || '';
+  // Rotate needle: -100 = -90deg (left), 0 = 0deg (up), +100 = +90deg (right)
+  const deg = (score / 100) * 90;
+  const needle = document.getElementById('gauge-needle');
+  if (needle) needle.setAttribute('transform', `rotate(${deg}, 140, 130)`);
+}
+
+// ── STEP 3: RADAR ──
+function renderRadar(g) {
+  const dims = ['Accountability Mechanism','Distributional Equity','Measurability','Reversibility Risk','Implementation Pathway'];
+  const vals = [g.accountability_mechanism, g.distributional_equity, g.measurability_of_outcomes, g.reversibility_risk, g.implementation_pathway];
+
+  if (radarChartInstance) { radarChartInstance.destroy(); radarChartInstance = null; }
+  const ctx = document.getElementById('radar-chart').getContext('2d');
+  radarChartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: dims,
+      datasets: [{
+        label: 'Gap Score (10 = full gap)',
+        data: vals,
+        backgroundColor: 'rgba(26,39,68,0.12)',
+        borderColor: '#1A2744',
+        borderWidth: 2,
+        pointBackgroundColor: '#C1502E',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: false,
+      scales: { r: { min: 0, max: 10, ticks: { stepSize: 2, font: { family: 'JetBrains Mono', size: 9 } }, pointLabels: { font: { family: 'DM Sans', size: 10 } } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  const keys = ['accountability_mechanism','distributional_equity','measurability_of_outcomes','reversibility_risk','implementation_pathway'];
+  const labels = ['Accountability Mechanism','Distributional Equity','Measurability','Reversibility Risk','Implementation Pathway'];
+  document.getElementById('radar-scores').innerHTML = keys.map((k, i) => {
+    const v = g[k] || 0;
+    return `<div class="radar-score-row">
+      <span class="rsr-label">${labels[i]}</span>
+      <div class="rsr-bar-wrap"><div class="rsr-bar" style="width:${v*10}%"></div></div>
+      <span class="rsr-val">${v}/10</span>
+    </div>`;
+  }).join('') + (g.notes ? `<p style="font-size:0.78rem;color:var(--mid);margin-top:1rem;line-height:1.6">${g.notes}</p>` : '');
+}
+
+// ── STEP 4: FALLACIES ──
+function renderFallacies(fallacies) {
+  if (!fallacies || fallacies.length === 0) {
+    document.getElementById('fallacy-wrap').innerHTML = '<div class="no-fallacies">No significant logical fallacies or cognitive biases detected in this text.</div>';
+    return;
+  }
+  document.getElementById('fallacy-wrap').innerHTML = `<div class="fallacy-grid">${fallacies.map(f => `
+    <div class="fallacy-card">
+      <div class="fc-head">
+        <span class="fc-type">${f.type}</span>
+        <span class="fc-severity ${f.severity}">${f.severity.toUpperCase()}</span>
+      </div>
+      <div class="fc-body">
+        ${f.description}
+        ${f.example_quote ? `<div class="fc-quote">"${f.example_quote}"</div>` : ''}
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+// ── STEP 5: WINNERS/LOSERS ──
+function renderWinnersLosers(wl) {
+  const winners = wl.winners || [];
+  const losers = wl.losers || [];
+  document.getElementById('wl-wrap').innerHTML = `
+    <div class="wl-grid">
+      <div class="wl-col">
+        <div class="wl-col-head winners">Winners / Beneficiaries</div>
+        <div class="wl-list">${winners.map(w => `<div class="wl-item">${w}</div>`).join('') || '<div class="wl-item" style="color:var(--mid)">None identified</div>'}</div>
+      </div>
+      <div class="wl-col">
+        <div class="wl-col-head losers">Losers / Risk-Bearers</div>
+        <div class="wl-list">${losers.map(l => `<div class="wl-item">${l}</div>`).join('') || '<div class="wl-item" style="color:var(--mid)">None identified</div>'}</div>
+      </div>
+    </div>`;
+}
+
+// ── STEP 6: INFLUENCE ──
+function renderInfluence(inf) {
+  const layers = [
+    { key: 'fptp_electoral', label: 'FPTP Electoral Distortion' },
+    { key: 'bureaucratic_capture', label: 'Bureaucratic Capture' },
+    { key: 'donor_lobbyist', label: 'Donor / Lobbyist Influence' },
+    { key: 'media_framing', label: 'Media Framing' },
+    { key: 'incumbency_advantage', label: 'Incumbency Advantage' }
+  ];
+  document.getElementById('influence-wrap').innerHTML = `
+    <div class="influence-wrap">
+      ${layers.map(l => {
+        const v = inf[l.key] || 0;
+        return `<div class="influence-bar-row">
+          <span class="ibr-label">${l.label}</span>
+          <div class="ibr-track"><div class="ibr-fill" style="width:${v}%"></div></div>
+          <span class="ibr-val">${v}%</span>
+        </div>`;
+      }).join('')}
+      ${inf.aggregate_note ? `<div class="influence-note">${inf.aggregate_note}</div>` : ''}
+    </div>`;
+}
+
+// ── STEP 7: LTE ──
+function renderLTE(lte, dbRecs) {
+  const policyScore = lte.policy_lte_projection || 50;
+  document.getElementById('lte-policy-chip-val').textContent = policyScore.toFixed(1) + '%';
+
+  const cities = [
+    {
+      id: 'policy',
+      name: 'This Policy',
+      flag: '📄',
+      lte: policyScore,
+      cls: 'policy',
+      valCls: 'policy-val',
+      tagCls: '',
+      tag: 'Under Analysis',
+      desc: `LTE projection based on T1–T5 weighted source analysis. ${lte.lte_impacted_domains && lte.lte_impacted_domains.length ? 'Domains affected: ' + lte.lte_impacted_domains.join(', ') + '.' : ''}`
+    },
+    {
+      id: 'vancouver',
+      name: 'Vancouver',
+      flag: '🇨🇦',
+      lte: 99.9,
+      cls: 'vancouver',
+      valCls: 'high-extract',
+      tagCls: 'high-extract',
+      tag: 'Near-Full Extraction',
+      desc: 'Car-dependent modal structure, high housing cost burden, limited land-value capture, weak commons infrastructure.'
+    },
+    {
+      id: 'copenhagen',
+      name: 'Copenhagen',
+      flag: '🇩🇰',
+      lte: 63.7,
+      cls: 'copenhagen',
+      valCls: 'low-extract',
+      tagCls: 'low-extract',
+      tag: 'Meaningful Surplus',
+      desc: 'High cycling modal share, non-market housing fraction, land-value capture, long-term planning continuity via democratic mandate.'
+    },
+    {
+      id: 'singapore',
+      name: 'Singapore',
+      flag: '🇸🇬',
+      lte: 71.2,
+      cls: 'singapore',
+      valCls: 'mid-extract',
+      tagCls: 'mid-extract',
+      tag: 'Efficient / Technocratic',
+      desc: 'High delivery efficiency via technocratic governance model. Public housing majority. LTE efficiency does not imply democratic accountability.'
+    }
+  ];
+
+  const matched = lte.closest_jurisdiction_match || '';
+  document.getElementById('lte-comparator').innerHTML = cities.map(c => {
+    const isMatch = c.id === matched;
+    return `<div class="lte-city-card ${isMatch ? 'matched' : ''}">
+      <div class="lcc-head ${c.cls}">
+        <span class="lcc-city-name">${c.name}</span>
+        <span class="lcc-flag">${c.flag}</span>
+      </div>
+      <div class="lcc-body">
+        <div class="lcc-lte-row">
+          <span class="lcc-lte-label">LTE Score</span>
+          <span class="lcc-lte-val ${c.valCls}">${c.lte.toFixed(1)}%</span>
+        </div>
+        <div class="lcc-track-wrap">
+          <div class="lcc-track"><div class="lcc-fill ${c.cls}" style="width:${c.lte}%"></div></div>
+        </div>
+        <div class="lcc-descriptor">${c.desc}</div>
+        <div><span class="lcc-tag ${c.tagCls}">${c.tag}</span>${isMatch ? ' <span class="lcc-tag matched-tag">⟵ Closest Match</span>' : ''}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('lte-match-verdict-text').innerHTML = lte.governance_pattern_description || '';
+
+  if (lte.structural_recommendations && lte.structural_recommendations.length) {
+    document.getElementById('lte-recommendations').innerHTML = `
+      <div class="lsr-head">Structural Recommendations to Improve LTE Score</div>
+      ${lte.structural_recommendations.map(r => `
+        <div class="lsr-item">
+          <span class="lsr-icon">${r.icon}</span>
+          <span>${r.text}</span>
+        </div>`).join('')}`;
+  }
+}
+
+// ── DATA SOURCES BADGE ──
+function renderDataBadge(ctx) {
+  const existing = document.getElementById('data-sources-badge');
+  if (existing) existing.remove();
+
+  const { fetch_status, indicators } = ctx;
+  const liveCount = fetch_status.live;
+  const staticCount = fetch_status.static;
+
+  const rows = (indicators || []).map(ind => {
+    const liveTag = ind.live
+      ? '<span class="dsb-live">LIVE</span>'
+      : '<span class="dsb-static">STATIC</span>';
+    const val = ind.value !== null && ind.value !== undefined
+      ? `<strong>${formatIndicatorVal(ind.id, ind.value)}</strong> (${ind.year})`
+      : '—';
+    return `<div class="dsb-row">
+      <span class="dsb-tier">${ind.tier}</span>
+      <span class="dsb-label">${ind.label}</span>
+      <span class="dsb-val">${val}</span>
+      <span class="dsb-weight">×${ind.weight}</span>
+      ${liveTag}
+    </div>`;
+  }).join('');
+
+  const badge = document.createElement('div');
+  badge.id = 'data-sources-badge';
+  badge.className = 'data-sources-badge';
+  badge.innerHTML = `
+    <div class="dsb-header">
+      <span class="dsb-header-title">Live Data Sources Applied to This Analysis</span>
+      <span class="dsb-header-counts">
+        <span class="dsb-live">${liveCount} live</span>
+        <span class="dsb-sep">·</span>
+        <span class="dsb-static">${staticCount} static fallback</span>
+      </span>
+    </div>
+    <div class="dsb-rows">${rows}</div>
+    <div class="dsb-note">T1 sources (×1.45) override model priors when conflicts arise with policy claims. Live data fetched at analysis time from World Bank v2 API and WHO GHO OData API.</div>
+  `;
+
+  // Insert after the methodology bar at the bottom of results
+  const methBar = document.querySelector('.methodology-bar');
+  if (methBar) methBar.after(badge);
+}
+
+function formatIndicatorVal(id, val) {
+  if (val === null || val === undefined) return '—';
+  switch(id) {
+    case 'hale': return val.toFixed(1) + ' yr';
+    case 'gini': return val.toFixed(1);
+    case 'gov_effectiveness': return val.toFixed(2);
+    case 'urban_population_pct': return val.toFixed(1) + '%';
+    case 'gdp_per_capita': return '$' + Math.round(val).toLocaleString();
+    case 'transit_modal_share': return val + '%';
+    default: return String(val);
+  }
+}
+
+
+// ── STEP 7 SUPPORT BUTTONS ──
+// ── MULTI-SELECT SUPPORT PANEL ──
+// State for this session
+let supportSelectedIds = new Set();  // db_id values checked
+let supportAllRecs     = [];         // full rec objects {db_id, text, icon}
+let supportCitizenId   = null;       // set after first successful submission
+let supportNeighbourhood = null;
+let supportMyccTotal   = 0;
+
+const MYCC_PER_SUPPORT = 10;
+const MYCC_PHONE       = 25;
+const MYCC_ADDRESS     = 15;
+const MYCC_POSTAL      = 10;
+const MYCC_SHARE       = 15;
+
+async function renderSupportPanel(dbRecs, lte) {
+  const panel = document.getElementById('lte-support-panel');
+  if (!panel) return;
+
+  // Fallback: fetch from DB if decoder didn't return saved_recommendations
+  if ((!dbRecs || dbRecs.length === 0) && reportId) {
+    try {
+      const r = await fetch('/api/recommendations/' + reportId);
+      const d = await r.json();
+      if (d.recommendations && d.recommendations.length > 0)
+        dbRecs = d.recommendations.map(rec => ({ db_id: rec.id, text: rec.text, icon: rec.icon }));
+    } catch (_) {}
+  }
+
+  if (!dbRecs || dbRecs.length === 0) {
+    panel.innerHTML = '';
+    return;
+  }
+
+  supportAllRecs = dbRecs;
+  supportSelectedIds.clear();
+  supportMyccTotal = 0;
+
+  const recRows = dbRecs.map(rec => `
+    <label class="support-rec-row" id="srow-${rec.db_id}"
+      style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.15s"
+      onmouseenter="this.style.background='rgba(44,95,46,0.04)'"
+      onmouseleave="this.style.background=supportSelectedIds.has(${rec.db_id})?'rgba(44,95,46,0.08)':''"
+      onclick="toggleSupportRec(${rec.db_id}, this)">
+      <div style="flex-shrink:0;margin-top:2px">
+        <div id="schk-${rec.db_id}" style="width:20px;height:20px;border:2px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;background:white">
+          <span style="display:none;color:white;font-size:12px;font-weight:700">✓</span>
+        </div>
+      </div>
+      <span style="font-size:1rem;flex-shrink:0;margin-top:1px">${rec.icon || '📋'}</span>
+      <span style="flex:1;font-size:0.88rem;line-height:1.65;color:var(--ink);font-weight:500">${rec.text}</span>
+    </label>`).join('');
+
+  panel.innerHTML = `
+    <div style="margin-top:1.6rem;border:2px solid var(--forest);border-radius:6px;overflow:hidden;box-shadow:0 2px 12px rgba(44,95,46,0.1)">
+
+      <!-- Header -->
+      <div style="padding:14px 16px;background:var(--forest);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:white;line-height:1.2">Support the People's Policy</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,0.75);margin-top:2px">Select the positions you want on the civic record for your neighbourhood</div>
+        </div>
+        <a href="/peoples-policy" target="_blank"
+          style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.7);text-decoration:none;letter-spacing:0.08em;border:1px solid rgba(255,255,255,0.25);padding:4px 10px;border-radius:2px;white-space:nowrap">
+          View People's Policy →
+        </a>
+      </div>
+
+      <!-- MYCC Promise banner -->
+      <div style="padding:12px 16px;background:rgba(184,134,11,0.08);border-bottom:1px solid rgba(184,134,11,0.15);display:flex;align-items:flex-start;gap:10px">
+        <span style="font-size:1.3rem;flex-shrink:0">🪙</span>
+        <div style="flex:1">
+          <div style="font-size:0.88rem;font-weight:600;color:var(--ink);margin-bottom:4px">
+            Earn <span style="color:var(--gold)">Community Credits (MYCC)</span> for your civic engagement
+          </div>
+          <div style="font-size:0.78rem;color:var(--mid);line-height:1.5;margin-bottom:6px">
+            Credits are held in your light account and activate when you complete your Block Share membership. 
+            The more you engage, the more credits you earn.
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:3px 9px;border-radius:2px;background:rgba(184,134,11,0.12);color:var(--gold);border:1px solid rgba(184,134,11,0.25);font-weight:600">📱 +25 MYCC — phone number</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:3px 9px;border-radius:2px;background:rgba(184,134,11,0.12);color:var(--gold);border:1px solid rgba(184,134,11,0.25);font-weight:600">🏠 +15 MYCC — address</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:3px 9px;border-radius:2px;background:rgba(184,134,11,0.12);color:var(--gold);border:1px solid rgba(184,134,11,0.25);font-weight:600">✊ +10 MYCC — per support</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:3px 9px;border-radius:2px;background:rgba(184,134,11,0.12);color:var(--gold);border:1px solid rgba(184,134,11,0.25);font-weight:600">⤴ +15 MYCC — sharing</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rec checkboxes -->
+      <div id="support-rec-list">${recRows}</div>
+
+      <!-- Sticky submit bar -->
+      <div id="support-submit-bar" style="padding:14px 16px;background:var(--mist);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:0.82rem;color:var(--mid)" id="support-select-hint">Select positions above to add your voice</div>
+          <div id="support-mycc-preview" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--gold);font-weight:600;margin-top:2px"></div>
+        </div>
+        <button id="support-submit-btn" onclick="openSupportBatchModal()"
+          disabled
+          style="background:var(--mid);color:white;border:none;border-radius:3px;padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:not-allowed;transition:all 0.2s;white-space:nowrap">
+          Submit Selected (0)
+        </button>
+      </div>
+    </div>`;
+}
+
+function toggleSupportRec(dbId, rowEl) {
+  const chk = document.getElementById('schk-' + dbId);
+  if (!chk) return;
+
+  if (supportSelectedIds.has(dbId)) {
+    supportSelectedIds.delete(dbId);
+    chk.style.background = 'white';
+    chk.style.borderColor = 'var(--border)';
+    chk.querySelector('span').style.display = 'none';
+    rowEl.style.background = '';
+  } else {
+    supportSelectedIds.add(dbId);
+    chk.style.background = 'var(--forest)';
+    chk.style.borderColor = 'var(--forest)';
+    chk.querySelector('span').style.display = 'block';
+    rowEl.style.background = 'rgba(44,95,46,0.08)';
+  }
+  updateSubmitBar();
+}
+
+function updateSubmitBar() {
+  const n      = supportSelectedIds.size;
+  const btn    = document.getElementById('support-submit-btn');
+  const hint   = document.getElementById('support-select-hint');
+  const preview= document.getElementById('support-mycc-preview');
+  if (!btn) return;
+
+  if (n === 0) {
+    btn.disabled = true;
+    btn.style.background = 'var(--mid)';
+    btn.style.cursor = 'not-allowed';
+    btn.textContent = 'Submit Selected (0)';
+    hint.textContent = 'Select positions above to add your voice';
+    preview.style.display = 'none';
+  } else {
+    btn.disabled = false;
+    btn.style.background = 'var(--forest)';
+    btn.style.cursor = 'pointer';
+    btn.textContent = `Submit Selected (${n})`;
+    hint.textContent = `${n} position${n>1?'s':''} selected`;
+    // Show MYCC preview (support credits only — onboarding credits shown in modal)
+    const supportCredits = n * MYCC_PER_SUPPORT;
+    preview.style.display = 'block';
+    preview.textContent = `+${supportCredits} MYCC from supports${supportCitizenId ? '' : ' + onboarding bonus'}`;
+  }
+}
+
+function openSupportBatchModal() {
+  if (supportSelectedIds.size === 0) return;
+  const modal   = document.getElementById('decoder-support-modal');
+  const content = document.getElementById('decoder-modal-content');
+
+  // If citizen already identified this session — skip the form
+  if (supportCitizenId) {
+    content.innerHTML = buildBatchConfirmView();
+  } else {
+    content.innerHTML = buildBatchOnboardingForm();
+  }
+  modal.style.display = 'flex';
+}
+
+function closeDecoderSupportModal() {
+  document.getElementById('decoder-support-modal').style.display = 'none';
+}
+
+document.getElementById('decoder-support-modal')?.addEventListener('click', function(e) {
+  if (e.target === this) closeDecoderSupportModal();
+});
+
+function buildSelectedSummary() {
+  return Array.from(supportSelectedIds).map(id => {
+    const rec = supportAllRecs.find(r => r.db_id === id);
+    return rec ? `<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.82rem;line-height:1.5">
+      <span style="flex-shrink:0">${rec.icon||'📋'}</span>
+      <span style="color:var(--ink)">${rec.text}</span>
+    </div>` : '';
+  }).join('');
+}
+
+function calcOnboardingMycc(phone, address, postal) {
+  let total = 0;
+  if (phone)            total += MYCC_PHONE;
+  if (address)          total += MYCC_ADDRESS;
+  else if (postal)      total += MYCC_POSTAL;
+  total += supportSelectedIds.size * MYCC_PER_SUPPORT;
+  return total;
+}
+
+function buildBatchOnboardingForm() {
+  const n = supportSelectedIds.size;
+  return `
+    <div style="padding:1.2rem 1.4rem;overflow-y:auto;flex:1;min-height:0">
+
+      <!-- Selected positions preview -->
+      <div style="margin-bottom:1.2rem">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:6px">${n} Position${n>1?'s':''} Selected</div>
+        <div style="background:var(--mist);border:1px solid var(--border);border-radius:3px;padding:6px 10px;max-height:140px;overflow-y:auto">
+          ${buildSelectedSummary()}
+        </div>
+      </div>
+
+      <!-- MYCC promise — prominent -->
+      <div style="background:var(--navy);border-radius:4px;padding:14px 16px;margin-bottom:1.2rem">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px">Your Community Credits</div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">
+          <span id="mycc-live-total" style="font-family:'DM Serif Display',serif;font-size:2.4rem;color:var(--gold);line-height:1">${MYCC_PHONE + MYCC_ADDRESS + (n * MYCC_PER_SUPPORT)}</span>
+          <span style="font-size:0.82rem;color:rgba(245,240,232,0.6)">MYCC pending</span>
+        </div>
+        <div style="font-size:0.78rem;color:rgba(245,240,232,0.6);line-height:1.5">
+          Held in your light account — activates when you complete Block Share membership. 
+          Share this report after submitting to earn an additional <strong style="color:var(--gold)">+${MYCC_SHARE} MYCC</strong>.
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:2px 8px;border-radius:2px;background:rgba(184,134,11,0.15);color:var(--gold);border:1px solid rgba(184,134,11,0.3)">📱 +${MYCC_PHONE} phone</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:2px 8px;border-radius:2px;background:rgba(184,134,11,0.15);color:var(--gold);border:1px solid rgba(184,134,11,0.3)">🏠 +${MYCC_ADDRESS} address</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:2px 8px;border-radius:2px;background:rgba(184,134,11,0.15);color:var(--gold);border:1px solid rgba(184,134,11,0.3)">✊ +${n * MYCC_PER_SUPPORT} supports (${n}×${MYCC_PER_SUPPORT})</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:2px 8px;border-radius:2px;background:rgba(184,134,11,0.15);color:var(--gold);border:1px solid rgba(184,134,11,0.3)">⤴ +${MYCC_SHARE} share</span>
+        </div>
+      </div>
+
+      <div id="decoder-modal-error" style="display:none;background:rgba(193,80,46,0.08);border:1px solid rgba(193,80,46,0.25);border-radius:3px;padding:8px 12px;margin-bottom:1rem;font-size:0.82rem;color:var(--terracotta)"></div>
+
+      <div style="margin-bottom:0.9rem">
+        <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);margin-bottom:0.4rem">Full Name *</label>
+        <input type="text" id="ds-name" placeholder="Your full name"
+          style="width:100%;background:var(--mist);border:1px solid var(--border);border-radius:3px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none">
+      </div>
+      <div style="margin-bottom:0.9rem">
+        <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);margin-bottom:0.3rem">
+          Mobile Phone * <span style="font-weight:400;text-transform:none;color:var(--gold);font-size:0.68rem">+${MYCC_PHONE} MYCC</span>
+        </label>
+        <input type="tel" id="ds-phone" placeholder="604-555-0100"
+          oninput="updateMyccLiveTotal()"
+          style="width:100%;background:var(--mist);border:1px solid var(--border);border-radius:3px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none">
+      </div>
+      <div style="margin-bottom:0.9rem">
+        <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);margin-bottom:0.3rem">
+          Street Address <span style="font-weight:400;text-transform:none;color:var(--gold);font-size:0.68rem">preferred +${MYCC_ADDRESS} MYCC</span>
+        </label>
+        <input type="text" id="ds-address" placeholder="123 Main Street, Vancouver"
+          oninput="updateMyccLiveTotal()"
+          style="width:100%;background:var(--mist);border:1px solid var(--border);border-radius:3px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none">
+      </div>
+      <div style="margin-bottom:0.9rem">
+        <label style="display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);margin-bottom:0.3rem">
+          Postal Code <span style="font-weight:400;text-transform:none;color:var(--mid);font-size:0.68rem">minimum +${MYCC_POSTAL} MYCC</span>
+        </label>
+        <input type="text" id="ds-postal" placeholder="V5T 3G7" maxlength="7"
+          oninput="this.value=this.value.toUpperCase();updateMyccLiveTotal()"
+          style="width:100%;background:var(--mist);border:1px solid var(--border);border-radius:3px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none">
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;background:var(--mist);border:1px solid var(--border);border-radius:3px;padding:0.8rem;margin-bottom:1.2rem">
+        <input type="checkbox" id="ds-consent" style="margin-top:2px;flex-shrink:0">
+        <span style="font-size:0.78rem;line-height:1.5;color:var(--mid)">I consent to Block Share storing my contact information to track this policy initiative. Independent platform — not affiliated with any government or political party. Data will not be sold.</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button onclick="submitBatchSupport()" id="ds-submit-btn"
+          style="flex:1;background:var(--forest);color:white;border:none;border-radius:3px;padding:12px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer">
+          Add ${n} Support${n>1?'s':''} →
+        </button>
+        <button onclick="closeDecoderSupportModal()"
+          style="background:none;border:1px solid var(--border);border-radius:3px;padding:12px 18px;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--mid);cursor:pointer">
+          Cancel
+        </button>
+      </div>
+    </div>`;
+}
+
+function buildBatchConfirmView() {
+  const n = supportSelectedIds.size;
+  return `
+    <div style="padding:1.4rem">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:6px">${n} Position${n>1?'s':''} to Support</div>
+      <div style="background:var(--mist);border:1px solid var(--border);border-radius:3px;padding:6px 10px;margin-bottom:1.2rem;max-height:140px;overflow-y:auto">
+        ${buildSelectedSummary()}
+      </div>
+      <div style="background:rgba(184,134,11,0.08);border:1px solid rgba(184,134,11,0.25);border-radius:3px;padding:10px 14px;margin-bottom:1.2rem;font-size:0.85rem;line-height:1.55">
+        🪙 This will earn you <strong style="color:var(--gold)">+${n * MYCC_PER_SUPPORT} MYCC</strong> added to your existing credits.
+      </div>
+      <div id="decoder-modal-error" style="display:none;background:rgba(193,80,46,0.08);border:1px solid rgba(193,80,46,0.25);border-radius:3px;padding:8px 12px;margin-bottom:1rem;font-size:0.82rem;color:var(--terracotta)"></div>
+      <div style="display:flex;gap:8px">
+        <button onclick="submitBatchSupport()" id="ds-submit-btn"
+          style="flex:1;background:var(--forest);color:white;border:none;border-radius:3px;padding:12px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer">
+          Confirm ${n} Support${n>1?'s':''} →
+        </button>
+        <button onclick="closeDecoderSupportModal()"
+          style="background:none;border:1px solid var(--border);border-radius:3px;padding:12px 18px;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--mid);cursor:pointer">Cancel</button>
+      </div>
+    </div>`;
+}
+
+function updateMyccLiveTotal() {
+  const phone   = document.getElementById('ds-phone')?.value.trim();
+  const address = document.getElementById('ds-address')?.value.trim();
+  const postal  = document.getElementById('ds-postal')?.value.trim();
+  const total   = calcOnboardingMycc(phone, address, postal);
+  const el      = document.getElementById('mycc-live-total');
+  if (el) el.textContent = total;
+}
+
+async function submitBatchSupport() {
+  const errBox = document.getElementById('decoder-modal-error');
+  if (errBox) errBox.style.display = 'none';
+
+  let citizenPayload = null;
+
+  if (!supportCitizenId) {
+    const name    = document.getElementById('ds-name')?.value.trim();
+    const phone   = document.getElementById('ds-phone')?.value.trim();
+    const address = document.getElementById('ds-address')?.value.trim();
+    const postal  = document.getElementById('ds-postal')?.value.trim();
+    const consent = document.getElementById('ds-consent')?.checked;
+
+    if (!name)    { if(errBox){errBox.textContent='Please enter your name.';errBox.style.display='block';} return; }
+    if (!phone)   { if(errBox){errBox.textContent='A mobile number is required.';errBox.style.display='block';} return; }
+    if (!postal && !address) { if(errBox){errBox.textContent='Please provide a postal code or address.';errBox.style.display='block';} return; }
+    if (!consent) { if(errBox){errBox.textContent='Please confirm your consent.';errBox.style.display='block';} return; }
+    citizenPayload = { full_name: name, phone, address, postal_code: postal, consent };
+  }
+
+  const btn = document.getElementById('ds-submit-btn');
+  if (btn) { btn.textContent = 'Recording…'; btn.disabled = true; }
+
+  const recIds = Array.from(supportSelectedIds);
+  let lastResponse = null;
+  let errors = [];
+
+  // Submit each support — citizen identified after first call
+  for (const recId of recIds) {
+    try {
+      const body = {
+        recommendation_id: recId,
+        report_id: reportId,
+      };
+      // After first call citizen is identified — pass id at top level (server reads it there)
+      if (supportCitizenId) {
+        body.citizen_id = supportCitizenId;
+      } else {
+        body.citizen = citizenPayload;
+      }
+
+      const r = await fetch('/api/support', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(body),
+      });
+      const data = await r.json();
+      if (!r.ok) { errors.push(data.error || 'Error'); continue; }
+      if (!supportCitizenId) {
+        supportCitizenId = data.citizen_id;
+        supportNeighbourhood = data.neighbourhood;
+      }
+      lastResponse = data;
+    } catch (err) { errors.push(err.message); }
+  }
+
+  if (!lastResponse && errors.length) {
+    if (errBox) { errBox.textContent = errors[0]; errBox.style.display = 'block'; }
+    if (btn) { btn.textContent = 'Try Again'; btn.disabled = false; }
+    return;
+  }
+
+  currentCitizenId = supportCitizenId;
+  const mycc = lastResponse?.mycc_pending || 0;
+  const nb   = supportNeighbourhood || lastResponse?.neighbourhood || 'your neighbourhood';
+  const n    = recIds.length;
+
+  // Mark all supported checkboxes
+  recIds.forEach(id => {
+    const row = document.getElementById('srow-' + id);
+    const chk = document.getElementById('schk-' + id);
+    if (row) { row.style.background = 'rgba(44,95,46,0.06)'; row.style.pointerEvents = 'none'; }
+    if (chk) { chk.style.background = 'var(--forest)'; chk.style.borderColor = 'var(--forest)'; chk.querySelector('span').style.display = 'block'; }
+  });
+  supportSelectedIds.clear();
+  updateSubmitBar();
+
+  // Affirmation screen
+  document.getElementById('decoder-modal-content').innerHTML = `
+    <div style="padding:1.5rem;text-align:center;overflow-y:auto;flex:1;min-height:0">
+
+      <!-- Big civic affirmation -->
+      <div style="font-size:3rem;margin-bottom:0.6rem">🏛️</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--navy);line-height:1.2;margin-bottom:0.5rem">
+        Your voice is on the record.
+      </div>
+      <div style="font-size:0.9rem;color:var(--mid);line-height:1.65;margin-bottom:1.4rem;max-width:360px;margin-left:auto;margin-right:auto">
+        <strong>${n} position${n>1?'s':''}</strong> added to the People's Policy for 
+        <strong style="color:var(--navy)">${nb}</strong>. 
+        This is how neighbourhood democracy works — one citizen at a time, on the record.
+      </div>
+
+      <!-- MYCC award — prominent -->
+      <div style="background:var(--navy);border-radius:6px;padding:1.2rem 1.5rem;margin-bottom:1.2rem;display:inline-block;min-width:260px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,134,11,0.7);margin-bottom:4px">Community Credits Earned</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:3rem;color:var(--gold);line-height:1;margin-bottom:2px">${mycc}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(245,240,232,0.5)">MYCC · Pending until Block Share signup</div>
+      </div>
+
+      <!-- What happens next -->
+      <div style="background:var(--mist);border:1px solid var(--border);border-radius:4px;padding:1rem 1.2rem;margin-bottom:1.2rem;text-align:left">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">What happens next</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;gap:8px;font-size:0.82rem;line-height:1.5;color:var(--ink)">
+            <span style="color:var(--forest);font-weight:700;flex-shrink:0">01</span>
+            <span>Your positions appear on the <a href="/peoples-policy" target="_blank" style="color:var(--gold);font-weight:600">People's Policy page</a> — visible to your neighbours and councillors</span>
+          </div>
+          <div style="display:flex;gap:8px;font-size:0.82rem;line-height:1.5;color:var(--ink)">
+            <span style="color:var(--forest);font-weight:700;flex-shrink:0">02</span>
+            <span>As more citizens in <strong>${nb}</strong> support these positions, they build into a neighbourhood mandate</span>
+          </div>
+          <div style="display:flex;gap:8px;font-size:0.82rem;line-height:1.5;color:var(--ink)">
+            <span style="color:var(--forest);font-weight:700;flex-shrink:0">03</span>
+            <span>Complete your <a href="https://app.blockshare.ca" target="_blank" style="color:var(--gold);font-weight:600">Block Share membership</a> to activate your ${mycc} MYCC credits and unlock your Block Budget</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Share prompt with MYCC incentive -->
+      <div style="background:rgba(184,134,11,0.07);border:1px solid rgba(184,134,11,0.2);border-radius:4px;padding:10px 14px;margin-bottom:1.2rem;display:flex;align-items:center;gap:10px;text-align:left">
+        <span style="font-size:1.2rem;flex-shrink:0">⤴</span>
+        <div style="flex:1;font-size:0.82rem;line-height:1.5;color:var(--ink)">
+          Share this analysis with your neighbours and earn <strong style="color:var(--gold)">+${MYCC_SHARE} more MYCC</strong>. 
+          Every share grows the mandate.
+        </div>
+        <button onclick="triggerDecoderShare()" 
+          style="flex-shrink:0;background:var(--gold);color:white;border:none;border-radius:3px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;white-space:nowrap">
+          Share +${MYCC_SHARE}
+        </button>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <a href="/peoples-policy" target="_blank"
+          style="background:var(--forest);color:white;border:none;border-radius:3px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:600;text-decoration:none">
+          View People's Policy →
+        </a>
+        <a href="https://app.blockshare.ca" target="_blank"
+          style="background:var(--terracotta);color:white;border:none;border-radius:3px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:600;text-decoration:none">
+          Activate My Credits →
+        </a>
+        <button onclick="closeDecoderSupportModal()"
+          style="background:none;border:1px solid var(--border);border-radius:3px;padding:10px 18px;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--mid);cursor:pointer">
+          Close
+        </button>
+      </div>
+    </div>`;
+}
+
+async function triggerDecoderShare() {
+  if (currentCitizenId && reportId) {
+    // Award share MYCC for first rec in selection (or any — just triggers once)
+    const firstId = Array.from(supportSelectedIds)[0] || supportAllRecs[0]?.db_id;
+    if (firstId) {
+      await fetch('/api/support/share', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ citizen_id: currentCitizenId, recommendation_id: firstId }),
+      }).catch(() => {});
+    }
+  }
+  const url = reportUrl || window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: "People's Policy Analysis — Citizens Dashboard", url })
+      .catch(() => navigator.clipboard.writeText(url).then(() => alert('Link copied!')));
+  } else {
+    navigator.clipboard.writeText(url).then(() => alert('Link copied to clipboard!'));
+  }
+}
+
+// ── SHARE PANEL ──
+function showSharePanel() {
+  if (!reportUrl) return;
+  document.getElementById('share-url-input').value = reportUrl;
+  const panel = document.getElementById('share-panel');
+  panel.style.display = 'flex';
+}
+function closeSharePanel() {
+  document.getElementById('share-panel').style.display = 'none';
+}
+function copyShareUrl() {
+  const input = document.getElementById('share-url-input');
+  navigator.clipboard.writeText(input.value).then(() => {
+    const btn = document.getElementById('copy-share-btn');
+    btn.textContent = 'Copied ✓';
+    btn.style.background = 'var(--forest)';
+    setTimeout(() => { btn.textContent = 'Copy Link'; btn.style.background = 'var(--gold)'; }, 2500);
+  }).catch(() => { input.select(); document.execCommand('copy'); });
+}
+
+// ── RESET ──
+function resetDecoder() {
+  analysisData = null;
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('policy-text').value = '';
+  const shareBtn = document.getElementById('share-report-btn');
+  if (shareBtn) shareBtn.style.display = 'none';
+  reportId = null; reportUrl = null;
+  document.getElementById('char-count').textContent = '0 / 800 words'; document.getElementById('char-count').style.color = '';
+  document.getElementById('jurisdiction').value = '';
+  currentStep = 1;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

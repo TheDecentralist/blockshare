@@ -1,0 +1,8 @@
+{
+  "name": "policy-decoder",
+  "version": "2.4.0-core",
+  "private": true,
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "dotenv": "^16.4.5" }
+}
