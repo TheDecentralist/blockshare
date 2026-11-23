@@ -6,7 +6,7 @@ WP=/var/www/html
 mkdir -p $WP/wp-content/mu-plugins
 rm -rf $WP/wp-content/plugins/blockshare $WP/wp-content/plugins/blockshare-onboarding-v2
 cp -r "$SRC/blockshare" "$SRC/blockshare-onboarding-v2" $WP/wp-content/plugins/
-cp "$SRC/mu-plugins/bs-feed.php" $WP/wp-content/mu-plugins/bs-feed.php
+cp "$SRC"/mu-plugins/*.php $WP/wp-content/mu-plugins/
 chown -R www-data:www-data $WP/wp-content
 cd $WP
 wp plugin activate blockshare blockshare-onboarding-v2 --allow-root
