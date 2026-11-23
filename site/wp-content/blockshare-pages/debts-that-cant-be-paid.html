@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="/wp-content/uploads/bs-shared/bs-nav-footer.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debt, Interest & the Death of GDP — Block Share</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #0f1419;
+  --bg-section-alt: #f8f7f4;
+  --bg-section-warm: #faf6f0;
+  --bg-section-cool: #f0f4f8;
+  --bg-section-green: #f0f7f2;
+  --bg-section-dark: #111820;
+  --bg-card: #ffffff;
+  --bg-card-dark: #1a2332;
+  --bg-card-green: #e8f5e9;
+  --bg-card-red: #fef2f2;
+  --bg-card-blue: #eff6ff;
+  --bg-card-gold: #fefce8;
+  --bg-callout-green: #0f2b1a;
+  --bg-callout-blue: #0f1b2d;
+
+  --text-dark: #1a1a2e;
+  --text-body: #374151;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --text-light: #e8ecf1;
+  --text-light-secondary: #94a3b8;
+  --text-light-muted: #64748b;
+
+  --green-600: #16a34a;
+  --green-500: #22c55e;
+  --green-400: #4ade80;
+  --blue-600: #2563eb;
+  --blue-400: #60a5fa;
+  --gold-600: #ca8a04;
+  --gold-400: #facc15;
+  --red-600: #dc2626;
+  --red-400: #f87171;
+  --teal-500: #14b8a6;
+  --teal-400: #2dd4bf;
+
+  --border-light: #e5e7eb;
+  --border-dark: #1e293b;
+  --border-dark-light: #334155;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --max-width: 800px;
+  --wide-width: 1000px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--text-body);
+  line-height: 1.75;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg-section-alt);
+}
+
+/* ===== NAV (M216 structure) ===== */
+
+/* ===== ARTICLE META BAR ===== */
+.article-meta-bar {
+  position: fixed; top: 56px; left: 0; right: 0; z-index: 99;
+  background: rgba(15,20,25,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-dark);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 40px;
+}
+.article-meta-bar__label {
+  font-size: 12px; color: var(--text-light-muted);
+  font-weight: 600; letter-spacing: 0.04em;
+}
+.article-meta-bar__nav { display: flex; gap: 16px; }
+.article-meta-bar__nav a {
+  font-size: 12px; color: var(--text-light-muted); text-decoration: none;
+  font-weight: 500; transition: color 0.2s;
+}
+.article-meta-bar__nav a:hover { color: var(--green-400); }
+@media (max-width: 700px) {
+  .article-meta-bar__nav { display: none; }
+}
+
+/* ===== HERO (dark) ===== */
+.hero {
+  background: var(--bg-dark);
+  padding: 140px 24px 80px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(74,222,128,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 90%, rgba(96,165,250,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero__tag {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  color: var(--green-400); text-transform: uppercase;
+  letter-spacing: 0.15em; margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+}
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  font-weight: 900; line-height: 1.1;
+  color: var(--text-light);
+  max-width: 780px; margin: 0 auto 20px;
+  letter-spacing: -0.03em;
+  opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+}
+.hero__title em { font-style: italic; color: var(--green-400); }
+.hero__subtitle {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--text-light-secondary);
+  max-width: 620px; margin: 0 auto 32px; line-height: 1.7;
+  opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+}
+.hero__meta {
+  font-size: 14px; color: var(--text-light-muted);
+  opacity: 0; animation: fadeUp 0.6s 0.65s forwards;
+}
+.hero__meta strong { color: var(--text-light-secondary); font-weight: 600; }
+.hero__meta a { color: var(--teal-400); text-decoration: none; }
+.pillars {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  max-width: var(--wide-width); margin: 48px auto 0;
+  opacity: 0; animation: fadeUp 0.7s 0.8s forwards;
+}
+.pillar {
+  background: var(--bg-card-dark);
+  border: 1px solid var(--border-dark-light);
+  border-radius: 12px; padding: 24px 20px; text-align: center;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.pillar:hover { border-color: var(--green-400); transform: translateY(-2px); }
+.pillar__icon { font-size: 28px; margin-bottom: 10px; }
+.pillar__label {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 700;
+  color: var(--text-light); margin-bottom: 4px;
+}
+.pillar__desc { font-size: 13px; color: var(--text-light-muted); line-height: 1.5; }
+@media (max-width: 640px) { .pillars { grid-template-columns: 1fr; } }
+
+/* ===== SECTIONS ===== */
+.section { padding: 72px 24px; }
+.section--white { background: #ffffff; }
+.section--alt { background: var(--bg-section-alt); }
+.section--warm { background: var(--bg-section-warm); }
+.section--cool { background: var(--bg-section-cool); }
+.section--green { background: var(--bg-section-green); }
+.section--dark { background: var(--bg-section-dark); color: var(--text-light); }
+.section--dark p { color: var(--text-light-secondary); }
+.section--dark .section-header h2 { color: var(--text-light); }
+.section--dark .section-header__number { color: var(--green-400); }
+.section--dark strong { color: var(--green-400); }
+
+.section__inner { max-width: var(--max-width); margin: 0 auto; }
+
+.section-header { margin-bottom: 32px; }
+.section-header__number {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 500;
+  color: var(--green-600);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px; display: block;
+}
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700; color: var(--text-dark);
+  line-height: 1.25; letter-spacing: -0.02em;
+}
+
+.section__body p {
+  margin-bottom: 1.35em; font-size: 17px; line-height: 1.8;
+}
+.section__body p:last-child { margin-bottom: 0; }
+.section__body strong { color: var(--green-600); font-weight: 700; }
+
+/* Subsection */
+.subsection-header {
+  margin: 40px 0 20px;
+  display: flex; align-items: center; gap: 14px;
+}
+.subsection-header__icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.subsection-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem; font-weight: 700;
+  color: var(--text-dark); line-height: 1.3;
+}
+
+/* ===== PULL QUOTES ===== */
+.pull-quote {
+  margin: 36px 0; padding: 28px 32px;
+  border-left: 4px solid var(--green-500);
+  background: var(--bg-card-green);
+  border-radius: 0 12px 12px 0;
+}
+.pull-quote p {
+  font-family: var(--font-display);
+  font-size: 1.15rem; font-style: italic;
+  line-height: 1.65; color: var(--text-dark);
+  margin-bottom: 0 !important;
+}
+.section--dark .pull-quote {
+  background: var(--bg-callout-green);
+  border-left-color: var(--green-400);
+}
+.section--dark .pull-quote p { color: var(--text-light); }
+
+/* ===== STAT CARDS ===== */
+.stat-banner {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  margin: 40px 0;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px; padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.stat-card__value {
+  font-family: var(--font-display);
+  font-size: 2.2rem; font-weight: 900;
+  line-height: 1.1; margin-bottom: 8px;
+}
+.stat-card__value.green { color: var(--green-600); }
+.stat-card__value.blue { color: var(--blue-600); }
+.stat-card__value.gold { color: var(--gold-600); }
+.stat-card__value.red { color: var(--red-600); }
+.stat-card__label { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.section--dark .stat-card { background: var(--bg-card-dark); border-color: var(--border-dark-light); }
+.section--dark .stat-card__label { color: var(--text-light-muted); }
+.section--dark .stat-card__value.green { color: var(--green-400); }
+.section--dark .stat-card__value.blue { color: var(--blue-400); }
+.section--dark .stat-card__value.gold { color: var(--gold-400); }
+.section--dark .stat-card__value.red { color: var(--red-400); }
+@media (max-width: 640px) { .stat-banner { grid-template-columns: 1fr; } }
+
+/* ===== CALLOUT BOXES ===== */
+.callout { margin: 36px 0; border-radius: 12px; padding: 28px 32px; }
+.callout--green { background: var(--bg-card-green); border: 1px solid #bbf7d0; }
+.callout--blue { background: var(--bg-card-blue); border: 1px solid #bfdbfe; }
+.callout--gold { background: var(--bg-card-gold); border: 1px solid #fef08a; }
+.callout--red { background: var(--bg-card-red); border: 1px solid #fecaca; }
+.callout--dark-green { background: var(--bg-callout-green); border: 1px solid rgba(74,222,128,0.2); }
+.callout--dark-blue { background: var(--bg-callout-blue); border: 1px solid rgba(96,165,250,0.2); }
+.callout__title {
+  font-family: var(--font-display);
+  font-size: 1.05rem; font-weight: 700;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.callout--green .callout__title { color: var(--green-600); }
+.callout--blue .callout__title { color: var(--blue-600); }
+.callout--gold .callout__title { color: var(--gold-600); }
+.callout--dark-green .callout__title { color: var(--green-400); }
+.callout--dark-blue .callout__title { color: var(--blue-400); }
+.callout p { font-size: 15px; margin-bottom: 0.7em; line-height: 1.65; }
+.callout p:last-child { margin-bottom: 0; }
+.callout--dark-green p, .callout--dark-blue p { color: var(--text-light-secondary); }
+.callout--dark-green strong { color: var(--green-400); }
+
+/* ===== COMPARE CARDS ===== */
+.compare-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 40px 0;
+}
+.compare-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px; padding: 28px 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.compare-card--winner { border-left: 4px solid var(--green-500); }
+.compare-card--loser { border-left: 4px solid var(--red-400); }
+.compare-card__flag { font-size: 28px; margin-bottom: 10px; }
+.compare-card__title {
+  font-family: var(--font-display);
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--text-dark); margin-bottom: 4px;
+}
+.compare-card__role { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+.compare-card--winner .compare-card__role { color: var(--green-600); }
+.compare-card--loser .compare-card__role { color: var(--red-600); }
+.compare-card p { font-size: 14px; color: var(--text-secondary); margin-bottom: 0; line-height: 1.6; }
+@media (max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+
+/* ===== BAR CHART ===== */
+.bar-chart { margin: 40px 0; }
+.bar-chart__title {
+  font-family: var(--font-display);
+  font-size: 1rem; font-weight: 700;
+  color: var(--text-dark); margin-bottom: 20px;
+}
+.section--dark .bar-chart__title { color: var(--text-light); }
+.bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.bar-row__label {
+  flex: 0 0 120px; font-size: 14px; font-weight: 600;
+  color: var(--text-dark); text-align: right;
+}
+.section--dark .bar-row__label { color: var(--text-light-secondary); }
+.bar-row__track {
+  flex: 1; height: 32px; background: var(--border-light);
+  border-radius: 6px; overflow: hidden;
+}
+.section--dark .bar-row__track { background: rgba(255,255,255,0.06); }
+.bar-row__fill {
+  height: 100%; border-radius: 6px;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 10px;
+  font-size: 13px; font-weight: 700; color: #fff;
+}
+.bar-row__fill--green { background: linear-gradient(90deg, #16a34a, #22c55e); }
+.bar-row__fill--red { background: linear-gradient(90deg, #dc2626, #ef4444); }
+.bar-row__fill--blue { background: linear-gradient(90deg, #2563eb, #3b82f6); }
+.bar-row__fill--gold { background: linear-gradient(90deg, #ca8a04, #eab308); }
+.bar-row__fill--teal { background: linear-gradient(90deg, #0d9488, #14b8a6); }
+.bar-row__note {
+  font-size: 12px; color: var(--text-muted); margin-left: 8px;
+  flex: 0 0 auto; white-space: nowrap;
+}
+.section--dark .bar-row__note { color: var(--text-light-muted); }
+@media (max-width: 640px) {
+  .bar-row__label { flex: 0 0 80px; font-size: 12px; }
+  .bar-row__note { display: none; }
+}
+
+/* ===== SPECTRUM ===== */
+.spectrum { margin: 40px 0; }
+.spectrum__title {
+  font-family: var(--font-display);
+  font-size: 1rem; font-weight: 700; margin-bottom: 20px;
+}
+.spectrum__row { margin-bottom: 24px; }
+.spectrum__label { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.spectrum__track {
+  position: relative; height: 8px;
+  background: linear-gradient(90deg, var(--red-400), var(--gold-400), var(--green-400));
+  border-radius: 4px; margin-bottom: 4px;
+}
+.spectrum__marker {
+  position: absolute; top: -8px;
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  transform: translateX(-50%);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.spectrum__endpoints {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--text-muted);
+}
+
+/* ===== STEP CARDS ===== */
+.steps-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 40px 0;
+}
+.step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px; padding: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.step-card__num {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 500;
+  color: var(--green-600);
+  text-transform: uppercase;
+  letter-spacing: 0.08em; margin-bottom: 8px;
+}
+.step-card h4 {
+  font-family: var(--font-display);
+  font-size: 1rem; font-weight: 700;
+  color: var(--text-dark); margin-bottom: 8px;
+}
+.step-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0; }
+@media (max-width: 640px) { .steps-grid { grid-template-columns: 1fr; } }
+
+/* ===== VS TABLE ===== */
+.vs-table {
+  width: 100%; border-collapse: separate;
+  border-spacing: 0; margin: 40px 0;
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.vs-table th, .vs-table td {
+  padding: 14px 18px; text-align: left; font-size: 14px;
+  border-bottom: 1px solid var(--border-light);
+}
+.vs-table th {
+  background: var(--bg-section-cool);
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 13px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--text-dark);
+}
+.vs-table td { background: #fff; color: var(--text-body); }
+.vs-table tr:last-child td { border-bottom: none; }
+.vs-table .col-label { font-weight: 700; color: var(--text-dark); width: 28%; }
+.vs-table .col-green { color: var(--green-600); }
+.vs-table .col-red { color: var(--red-600); }
+
+/* ===== REFERENCES ===== */
+.references h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--text-dark); margin-bottom: 20px;
+}
+.ref-item {
+  font-size: 14px; color: var(--text-secondary);
+  margin-bottom: 12px; line-height: 1.6;
+  padding-left: 20px; position: relative;
+}
+.ref-item::before {
+  content: '\25C7'; position: absolute; left: 0; top: 0;
+  color: var(--green-600); font-size: 10px;
+}
+.ref-item a { color: var(--teal-500); text-decoration: none; word-break: break-all; }
+.ref-item a:hover { text-decoration: underline; }
+
+/* ===== CTA ===== */
+.cta-section { background: var(--bg-dark); padding: 72px 24px; }
+.cta-banner { max-width: 700px; margin: 0 auto; text-align: center; }
+.cta-banner__tag {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 500;
+  color: var(--green-400); text-transform: uppercase;
+  letter-spacing: 0.15em; margin-bottom: 16px;
+}
+.cta-banner h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--text-light); margin-bottom: 12px;
+}
+.cta-banner p {
+  color: var(--text-light-secondary); font-size: 15px;
+  max-width: 500px; margin: 0 auto 24px; line-height: 1.6;
+}
+.cta-btn {
+  display: inline-block;
+  background: var(--green-500); color: var(--bg-dark);
+  font-weight: 700; font-size: 14px;
+  padding: 12px 28px; border-radius: 8px;
+  text-decoration: none;
+}
+.cta-btn:hover { opacity: 0.9; }
+
+/* ===== FOOTER (M216) ===== */
+.site-footer {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-dark);
+  padding: 56px 24px 32px;
+}
+.site-footer__inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 40px; margin-bottom: 32px;
+}
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700;
+  color: var(--text-light); margin-bottom: 12px;
+}
+.footer-brand span { color: var(--green-400); }
+.footer-tagline { font-size: 14px; color: var(--text-light-muted); line-height: 1.6; }
+.footer-col h4 {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-light-secondary); margin-bottom: 14px;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 8px; }
+.footer-col a {
+  font-size: 14px; color: var(--text-light-muted);
+  text-decoration: none; transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--green-400); }
+.footer-copy {
+  font-size: 13px; color: var(--text-light-muted);
+  border-top: 1px solid var(--border-dark);
+  padding-top: 20px; text-align: center;
+}
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+
+/* Article nav */
+.article-nav {
+  display: flex; justify-content: space-between; padding: 32px 0 0;
+}
+.article-nav a {
+  font-size: 14px; color: var(--teal-500);
+  text-decoration: none; font-weight: 600;
+}
+.article-nav a:hover { text-decoration: underline; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="bs-nav"></nav>
+
+<!-- META BAR -->
+<div class="article-meta-bar">
+  <span class="article-meta-bar__label">Block Share &middot; Debt &amp; Extraction Series</span>
+  <div class="article-meta-bar__nav">
+    <a href="#section-1">Sheinbaum</a>
+    <a href="#section-2">Hudson</a>
+    <a href="#section-3">Ancient Precedent</a>
+    <a href="#section-4">Block Share</a>
+    <a href="#section-5">Two Paths</a>
+    <a href="#section-6">Jubilee</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__tag">Debt &middot; Extraction &middot; Community Economics</div>
+  <h1 class="hero__title">Debt, Interest &<br><em>the Death of GDP</em></h1>
+  <p class="hero__subtitle">Mexico's debt forgiveness, Michael Hudson's economics of extraction, and the Block Share / Community Credits model for change from below.</p>
+  <p class="hero__meta"><strong>Ward Stirrat</strong> &middot; Block Share / <a href="https://app.blockshare.ca/blockonomics/">Blockonomics</a> &middot; March 2026</p>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar__icon">&#127474;&#127485;</div>
+      <div class="pillar__label">Sheinbaum's Mexico</div>
+      <div class="pillar__desc">Sovereign debt forgiveness &mdash; 4.85M unpayable mortgages restructured</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar__icon">&#128201;</div>
+      <div class="pillar__label">Hudson's Framework</div>
+      <div class="pillar__desc">Rent, interest, and the overhead economy &mdash; Babylonia to Wall Street</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar__icon">&#127960;</div>
+      <div class="pillar__label">Block Share Response</div>
+      <div class="pillar__desc">Community Credits, Block Bonds, and the jubilee from below</div>
+    </div>
+  </div>
+</header>
+
+<!-- SECTION I (white) -->
+<section id="section-1" class="section section--white">
+  <div class="section__inner">
+    <div class="section-header">
+      <span class="section-header__number">Section I</span>
+      <h2>The Sheinbaum Precedent: Debt Forgiveness as Sovereign Act</h2>
+    </div>
+    <div class="section__body">
+      <p>When Mexican President Claudia Sheinbaum stood before families in Playa del Carmen in late 2025 and announced the restructuring of nearly five million unpayable mortgage loans, she framed the initiative not as charity but as a correction: the undoing of a financing architecture that, in her words, &ldquo;was taken from the people and given to a few.&rdquo; By January 2026, her Housing for Well-Being programme had reached 4.85 million restructured credits and was on track to build 1.8 million homes during the current administration, targeting families earning between one and two minimum wages &mdash; those who would otherwise never own a home.</p>
+
+      <div class="stat-banner">
+        <div class="stat-card">
+          <div class="stat-card__value green">4.85M</div>
+          <div class="stat-card__label">unpayable mortgages restructured by January 2026</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value blue">1.8M</div>
+          <div class="stat-card__label">new homes targeted during the current administration</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value gold">0%</div>
+          <div class="stat-card__label">interest rate on new mortgages for low-income families</div>
+        </div>
+      </div>
+
+      <p>Sheinbaum's housing programme is the most ambitious initiative of its kind in recent Mexican history. Through the national housing agency INFONAVIT, her administration identified millions of mortgage loans originated during the neoliberal era &mdash; loans structured with terms that guaranteed default for low-income borrowers. Rather than allowing these debts to compound indefinitely, enriching creditors while trapping families in permanent financial distress, the government intervened: interest rates were slashed, principal balances were written down, and property deeds were finally delivered to families who had been paying for years without ever gaining clear title.</p>
+
+      <p>The political framing matters. Sheinbaum has explicitly linked her housing policy to a rejection of the neoliberal model &mdash; the same model that Hudson identifies as the primary engine of what he calls &ldquo;rentier capitalism.&rdquo; When Sheinbaum tells families, &ldquo;We are never going to divorce ourselves from the people of Mexico,&rdquo; she is drawing a line between a government that serves productive economic life and one that serves the claims of creditors. In Hudson's terms, she is choosing the <strong>real economy</strong> over the <strong>overhead economy</strong>.</p>
+
+      <div class="callout callout--gold">
+        <div class="callout__title">&#9888; The sobering subtext</div>
+        <p>Mexico's debt forgiveness required the political alignment of a supermajority in Congress, constitutional reform, and a president willing to absorb enormous political risk. It required a transformation of state power &mdash; the kind of transformation that is <strong style="color:var(--gold-600)">nowhere on the horizon</strong> in Canada, the United States, or most of Europe. This is precisely the gap that the Block Share model is designed to address.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION II (warm) -->
+<section id="section-2" class="section section--warm">
+  <div class="section__inner">
+    <div class="section-header">
+      <span class="section-header__number">Section II</span>
+      <h2>Hudson's Framework: Rent, Interest, and the Overhead Economy</h2>
+    </div>
+    <div class="section__body">
+      <p>Michael Hudson's body of work &mdash; from <em>Super Imperialism</em> through <em>&hellip;And Forgive Them Their Debts</em> to <em>The Destiny of Civilization</em> &mdash; offers the most comprehensive account available of how financial extraction operates as a system. His argument, compressed to its essentials, runs as follows.</p>
+
+      <p>Classical political economy, from Adam Smith through Ricardo and Marx, drew a sharp distinction between productive income and unearned income. Wages and industrial profits were earned through labour and enterprise. Land rent, monopoly pricing, and interest on debt were not. The entire programme of 19th-century industrial capitalism was, in Hudson's analysis, an effort to minimize these overhead costs &mdash; to bring the price of goods in line with their actual cost of production by stripping away the rentier claims of landlords, monopolists, and bankers.</p>
+
+      <p>That programme was reversed in the 20th century. Beginning with the marginal revolution in economics and accelerating dramatically after 1980 under Thatcher and Reagan, the distinction between earned and unearned income was systematically erased from mainstream economic thought. The financial sector, once subordinate to industry, now dominates it. And the chief vehicle of this dominance is debt &mdash; specifically, mortgage debt.</p>
+
+      <div class="pull-quote">
+        <p>&ldquo;GDP now treats interest payments, rising rents, and monopoly fees as productive output.&rdquo;</p>
+      </div>
+
+      <table class="vs-table">
+        <thead><tr><th>Category</th><th>Classical View</th><th>Modern GDP Treatment</th></tr></thead>
+        <tbody>
+          <tr><td class="col-label">Wages &amp; profits</td><td class="col-green">Productive &mdash; earned through labour and enterprise</td><td class="col-green">Counted as output &#10003;</td></tr>
+          <tr><td class="col-label">Land rent</td><td class="col-red">Unearned &mdash; an overhead cost to be minimized</td><td class="col-red">Counted as output &mdash; indistinguishable from production</td></tr>
+          <tr><td class="col-label">Mortgage interest</td><td class="col-red">Transfer from debtor to creditor &mdash; not productive</td><td class="col-red">Counted as &ldquo;financial services&rdquo; output</td></tr>
+          <tr><td class="col-label">Monopoly fees</td><td class="col-red">Parasitic rent &mdash; a drag on the real economy</td><td class="col-red">Counted as output &mdash; &ldquo;innovation premium&rdquo;</td></tr>
+        </tbody>
+      </table>
+
+      <p>As Hudson explains in his March 2026 interview, what the classical economists feared has come to pass. The excess of market price over cost value &mdash; what Ricardo called rent &mdash; now constitutes most of what passes for economic growth in the West. Housing is the paradigmatic case.</p>
+
+      <div class="pull-quote">
+        <p>&ldquo;&hellip;the price of a home is overwhelmingly determined not by the cost of building it but by the price of the land beneath it, inflated by credit.&rdquo;</p>
+      </div>
+
+      <!-- CHART: Lifetime cost of a Metro Vancouver home -->
+      <div class="bar-chart">
+        <div class="bar-chart__title">Where every dollar of lifetime housing cost actually goes</div>
+        <p style="font-size:13px; color:var(--text-secondary); margin:-12px 0 20px; line-height:1.5;">Metro Vancouver detached home, $1.75M sale price. 20% down, $1.4M mortgage at 6% / 30 years. Total lifetime outlay: ~$3.37M.</p>
+        <div class="bar-row">
+          <div class="bar-row__label">Interest</div>
+          <div class="bar-row__track"><div class="bar-row__fill bar-row__fill--red" style="width:96%">48&cent;&ensp;·&ensp;$1.62M</div></div>
+          <div class="bar-row__note">&rarr; Financial sector</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row__label">Land</div>
+          <div class="bar-row__track"><div class="bar-row__fill bar-row__fill--gold" style="width:40%">20&cent;&ensp;·&ensp;$666K</div></div>
+          <div class="bar-row__note">&rarr; Previous owner / speculator</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row__label">Construction</div>
+          <div class="bar-row__track"><div class="bar-row__fill bar-row__fill--green" style="width:31%">15&cent;&ensp;·&ensp;$520K</div></div>
+          <div class="bar-row__note">&rarr; Actual shelter provision</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row__label">Down payment</div>
+          <div class="bar-row__track"><div class="bar-row__fill bar-row__fill--teal" style="width:21%">10&cent;&ensp;·&ensp;$350K</div></div>
+          <div class="bar-row__note">&rarr; Owner equity (saved earnings)</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row__label">Fees &amp; taxes</div>
+          <div class="bar-row__track"><div class="bar-row__fill bar-row__fill--blue" style="width:12%">6&cent;&ensp;·&ensp;$191K</div></div>
+          <div class="bar-row__note">&rarr; Municipal government</div>
+        </div>
+      </div>
+
+      <div class="callout callout--red" style="margin-top:8px;">
+        <div class="callout__title">⚠ 68&cent; of every lifetime housing dollar produces no shelter</div>
+        <p><strong>Interest + land speculation = 68&cent;</strong> of the $3.37M a Vancouver household pays over 30 years. Only <strong>15&cent;</strong> &mdash; the construction cost &mdash; goes to actually building the home. The remaining 17&cent; covers the down payment (saved earnings returned as equity), municipal fees, and soft costs.</p>
+        <p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><em>Source: HAVAN New Home Cost Breakdown (Dec 2021 data, $1.75M avg. Metro Vancouver detached); mortgage interest calculated at 6% / 30-year amortization on 80% LTV.</em></p>
+      </div>
+
+      <p>Over the life of a typical 30-year mortgage, the bank collects more in interest than the seller received for the property. And the land cost itself is substantially driven by credit availability &mdash; the more banks are willing to lend, the higher land prices are bid. Interest inflates the land price, then extracts a second layer of wealth servicing the debt created to pay that inflated price. It is extraction compounding on extraction.</p>
+
+      <p>Hudson calls this <strong>&ldquo;debt deflation&rdquo;</strong>: the systematic transfer of purchasing power from debtors to creditors, from the real economy to the overhead economy. It is not a bug in the system. It is the system.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION III (cool) -->
+<section id="section-3" class="section section--cool">
+  <div class="section__inner">
+    <div class="section-header">
+      <span class="section-header__number">Section III</span>
+      <h2>The Ancient Precedent: Why Debt Cancellation Is Civilizational</h2>
+    </div>
+    <div class="section__body">
+      <p>One of Hudson's most original contributions is his archaeological and historical recovery of debt cancellation as a recurring, deliberate institution in the ancient world. In <em>&hellip;And Forgive Them Their Debts</em>, he demonstrates that every ruler in Hammurabi's Babylonian dynasty began his reign by cancelling personal debts, freeing debt bondservants, and restoring land to cultivators who had lost it to creditors. The Mosaic Jubilee laws in Leviticus codified the same practice.</p>
+
+      <div class="pull-quote">
+        <p>&ldquo;The early Christian concept of &lsquo;forgiveness&rsquo; &mdash; as in the Lord's Prayer &mdash; originally referred not to personal sin but to economic debts.&rdquo;</p>
+      </div>
+
+      <p>These were not acts of compassion. They were acts of <strong>statecraft</strong>. Ancient rulers understood that without periodic debt cancellation, wealth would concentrate in the hands of a creditor oligarchy, the productive population would lose its land and its capacity to serve in the military or pay taxes, and the society itself would collapse.</p>
+
+      <div class="compare-grid">
+        <div class="compare-card compare-card--winner">
+          <div class="compare-card__flag">&#127963;</div>
+          <div class="compare-card__title">Civilizations with Debt Cancellation</div>
+          <div class="compare-card__role">Sumer &middot; Babylonia &middot; Egypt &mdash; lasted millennia</div>
+          <p>Regular debt forgiveness, land redistribution, and release of bondservants maintained productive populations and political stability across thousands of years.</p>
+        </div>
+        <div class="compare-card compare-card--loser">
+          <div class="compare-card__flag">&#9876;</div>
+          <div class="compare-card__title">Civilizations without It</div>
+          <div class="compare-card__role">Rome &rarr; civil war &rarr; feudalism</div>
+          <p>Refusal to cancel debts produced creditor oligarchy, centuries of civil war, loss of the productive citizenry, and eventual collapse into serfdom.</p>
+        </div>
+      </div>
+
+      <p>Hudson draws the direct parallel to today. The West's refusal to write down debts &mdash; whether student loans, medical debt, sovereign debt in the Global South, or mortgage obligations that can never be repaid &mdash; is not merely a policy failure. It is a civilizational trajectory. When he says that the destiny of civilization hangs on this question, he means it literally.</p>
+
+      <div class="spectrum">
+        <div class="spectrum__title">Where does the modern West sit on the historical spectrum?</div>
+        <div class="spectrum__row">
+          <div class="spectrum__label">Willingness to cancel debts</div>
+          <div class="spectrum__track">
+            <div class="spectrum__marker" style="left:6%;background:var(--red-600);color:#fff" title="United States">US</div>
+            <div class="spectrum__marker" style="left:12%;background:var(--red-400);color:#fff" title="Canada">CA</div>
+            <div class="spectrum__marker" style="left:80%;background:var(--gold-400);color:#000" title="Babylonia">BAB</div>
+            <div class="spectrum__marker" style="left:90%;background:var(--green-500);color:#fff" title="Mexico">MX</div>
+          </div>
+          <div class="spectrum__endpoints"><span>Rome (never)</span><span>Babylonia (every new reign)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION IV (dark) -->
+<section id="section-4" class="section section--dark">
+  <div class="section__inner">
+    <div class="section-header">
+      <span class="section-header__number">Section IV</span>
+      <h2>The Block Share Response: Tools for Change from Below</h2>
+    </div>
+    <div class="section__body">
+      <p>So where does this leave ordinary citizens in a country like Canada &mdash; where no Sheinbaum is on the horizon, where no political party has proposed anything remotely resembling a jubilee, and where the financial extraction Hudson describes is, if anything, more acute than in Mexico? Vancouver's housing market is among the most financialized on earth.</p>
+
+      <div class="stat-banner">
+        <div class="stat-card">
+          <div class="stat-card__value red">61&cent;</div>
+          <div class="stat-card__label">of every housing dollar lost to financial extraction in Vancouver</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value gold">~36%</div>
+          <div class="stat-card__label">LEI gap between Vancouver and Copenhagen models</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value blue">~28 yrs</div>
+          <div class="stat-card__label">of extra labour a Vancouver household works vs. Copenhagen</div>
+        </div>
+      </div>
+
+      <p>The Block Share / Community Credits model begins from a different premise: rather than waiting for top-down reform, communities can begin building the institutional infrastructure of a post-extractive economy right now, at the smallest viable scale.</p>
+
+      <div class="pull-quote">
+        <p>&ldquo;The unit of organization is the block &mdash; a geographic and social unit small enough for neighbours to know each other, large enough to generate meaningful economic activity.&rdquo;</p>
+      </div>
+
+      <div class="subsection-header">
+        <div class="subsection-header__icon" style="background:rgba(74,222,128,0.15);color:var(--green-400)">&#128177;</div>
+        <h3 style="color:var(--text-light)">Community Credits: A Complementary Currency Against Extraction</h3>
+      </div>
+
+      <p>Community Credits (CC) are not a utopian proposal. They are a carefully designed complementary currency with built-in mechanisms that address the very dynamics Hudson identifies.</p>
+
+      <div class="steps-grid">
+        <div class="step-card" style="background:var(--bg-card-dark);border-color:var(--border-dark-light)">
+          <div class="step-card__num" style="color:var(--green-400)">Mechanism 01</div>
+          <h4 style="color:var(--text-light)">Demurrage</h4>
+          <p style="color:var(--text-light-muted)">A small holding cost on unspent credits discourages hoarding. The inverse of interest: rewards spending locally, not accumulating.</p>
+        </div>
+        <div class="step-card" style="background:var(--bg-card-dark);border-color:var(--border-dark-light)">
+          <div class="step-card__num" style="color:var(--green-400)">Mechanism 02</div>
+          <h4 style="color:var(--text-light)">Seigniorage</h4>
+          <p style="color:var(--text-light-muted)">New credits issued to reward community-building: Quest Cards, Living Roots, shared mobility. Public money creation for productive activity.</p>
+        </div>
+        <div class="step-card" style="background:var(--bg-card-dark);border-color:var(--border-dark-light)">
+          <div class="step-card__num" style="color:var(--green-400)">Mechanism 03</div>
+          <h4 style="color:var(--text-light)">Locked/Unlocked CC</h4>
+          <p style="color:var(--text-light-muted)">Credits must circulate locally before conversion. Creates a 2.6&times; local multiplier &mdash; wealth recirculates through the neighbourhood.</p>
+        </div>
+        <div class="step-card" style="background:var(--bg-card-dark);border-color:var(--border-dark-light)">
+          <div class="step-card__num" style="color:var(--green-400)">Mechanism 04</div>
+          <h4 style="color:var(--text-light)">Block Bonds</h4>
+          <p style="color:var(--text-light-muted)">Community insurance against debt spirals. Pools contributions to buffer against job loss, medical emergency, rent shocks.</p>
+        </div>
+      </div>
+
+      <div class="callout callout--dark-green">
+        <div class="callout__title">&#9670; How CC Inverts Hudson's &ldquo;Overhead Economy&rdquo;</div>
+        <p><strong>Interest</strong> rewards accumulation and flows wealth outward to creditors. <strong>Demurrage</strong> rewards circulation and keeps wealth local.</p>
+        <p><strong>Private credit creation</strong> finances speculation. <strong>CC seigniorage</strong> finances ecological and community-building activity.</p>
+        <p><strong>Conventional money</strong> leaks out of the neighbourhood with every transaction. <strong>Locked CC</strong> multiplies through the local economy 2.6&times; before conversion.</p>
+      </div>
+
+      <div class="subsection-header">
+        <div class="subsection-header__icon" style="background:rgba(251,191,36,0.15);color:var(--gold-400)">&#128202;</div>
+        <h3 style="color:var(--text-light)">The Financial Extraction Index: Making the Invisible Visible</h3>
+      </div>
+
+      <p>Hudson has long called for a fundamental reform of national income accounting &mdash; a recalculation of GDP that distinguishes between actual production and rentier overhead. The Financial Extraction Index (FEI), developed by Ward Stirrat as part of the Blockonomics analytical suite, does exactly this at the household level. By quantifying the share of housing costs attributable to financial extraction rather than the provision of shelter, the FEI makes visible what the conventional statistics conceal: how much of a family's finite lifetime is consumed not by the cost of living but by the cost of being extracted from.</p>
+
+      <div class="bar-chart">
+        <div class="bar-chart__title">Lifetime Efficiency Index &mdash; housing extraction comparison</div>
+        <div class="bar-row">
+          <div class="bar-row__label">Vancouver</div>
+          <div class="bar-row__track"><div class="bar-row__fill bar-row__fill--red" style="width:100%">99.9%</div></div>
+          <div class="bar-row__note">Near-total lifetime consumed</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row__label">Copenhagen</div>
+          <div class="bar-row__track"><div class="bar-row__fill bar-row__fill--teal" style="width:64%">63.7%</div></div>
+          <div class="bar-row__note">Co-op / social housing model</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row__label">Singapore</div>
+          <div class="bar-row__track"><div class="bar-row__fill bar-row__fill--green" style="width:48%">~48%</div></div>
+          <div class="bar-row__note">State leasehold model</div>
+        </div>
+      </div>
+
+      <p>When the Block Share housing policy analysis compares Vancouver's market-rate housing to models like Copenhagen's social housing or Singapore's HDB, the LEI differential &mdash; roughly 36 percentage points &mdash; translates into approximately 28 years of additional labour that a Vancouver household must perform over a lifetime simply to service financial claims. It is the arithmetic of extraction universalized as Life &ldquo;Time&rdquo;.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION V (green) -->
+<section id="section-5" class="section section--green">
+  <div class="section__inner">
+    <div class="section-header">
+      <span class="section-header__number">Section V</span>
+      <h2>Two Paths, One Analysis</h2>
+    </div>
+    <div class="section__body">
+      <p>Sheinbaum's Mexico and the Block Share model represent two different responses to the same underlying diagnosis. Both begin from the recognition that debt-driven extraction is not a natural feature of economic life but a political choice &mdash; one that can be reversed. Both reject the neoliberal fiction that rent is earned, that interest is the price of a productive service, and that the market price of housing reflects its actual value.</p>
+
+      <table class="vs-table">
+        <thead><tr><th>Dimension</th><th>&#127474;&#127485; Sheinbaum's Mexico</th><th>&#127960; Block Share</th></tr></thead>
+        <tbody>
+          <tr><td class="col-label">Scale</td><td>Nation-state &mdash; sovereign authority over millions</td><td>Neighbourhood &mdash; block by block</td></tr>
+          <tr><td class="col-label">Mechanism</td><td>Debt restructuring, principal write-downs, zero-interest mortgages</td><td>Complementary currency, demurrage, local multiplier, community insurance</td></tr>
+          <tr><td class="col-label">Requires</td><td>Supermajority, constitutional reform, presidential will</td><td>Neighbours organizing, local participation, legal trust structure (housing only)</td></tr>
+          <tr><td class="col-label">Fragility</td><td>Dependent on political continuity &mdash; one election can reverse</td><td>Self-sustaining once established &mdash; not dependent on state power</td></tr>
+          <tr><td class="col-label">Availability</td><td>Unavailable in Canada, US, or most of Europe</td><td>Available anywhere people can organize</td></tr>
+          <tr><td class="col-label">Hudson alignment</td><td>Chooses real economy over overhead economy at sovereign level</td><td>Builds post-overhead institutions from the ground up</td></tr>
+        </tbody>
+      </table>
+
+      <p>The difference is one of scale and strategy. Sheinbaum operates at the level of the nation-state, deploying sovereign authority to restructure millions of loans and build hundreds of thousands of homes. This is the path of top-down reform &mdash; powerful when the political conditions align, but fragile, dependent on the continuity of political will, and unavailable to citizens living under governments that serve creditor interests.</p>
+
+      <p>Block Share operates at the level of the neighbourhood. It does not wait for a progressive government to act. It builds the institutional machinery of a less extractive economy in the spaces where people actually live &mdash; their blocks, their super-blocks, their immediate communities. It creates currencies that reward production rather than extraction, insurance instruments that pool risk rather than privatize it, and analytical tools that name the extraction so clearly that it can no longer be ignored.</p>
+
+      <div class="callout callout--blue">
+        <div class="callout__title">&#9670; A new discipline</div>
+        <p>Hudson himself has noted, with characteristic bluntness, that the economics profession as it currently exists cannot be reformed from within. He has called for an entirely new discipline &mdash; <em>not called economics</em> &mdash; that would return to the classical distinction between value and price, between production and rent.</p>
+        <p>The Blockonomics framework is, in a sense, an attempt to build something like that new discipline at the community level: a set of tools, metrics, and institutions grounded in the same analytical tradition Hudson represents but designed for deployment by ordinary citizens rather than nation-states.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION VI (white) -->
+<section id="section-6" class="section section--white">
+  <div class="section__inner">
+    <div class="section-header">
+      <span class="section-header__number">Section VI</span>
+      <h2>The Jubilee from Below</h2>
+    </div>
+    <div class="section__body">
+      <p>In his Patreon roundtable discussion in December 2025, Hudson was asked whether the United States might ever enact a debt jubilee. His answer was unequivocal: no. The political system, captured by creditor interests, will not permit it. The debts will simply not be paid &mdash; but the write-down will happen through chaos, default, and dispossession rather than through deliberate policy.</p>
+
+      <p>This is precisely the future that Block Share and Community Credits are designed to navigate. If the jubilee will not come from above, it must be built from below &mdash; one block at a time. Not as a metaphor, but as a practical programme: credits that circulate locally, insurance that protects against predatory lending, analytical tools that quantify extraction and make the case for alternatives, and a governance structure rooted in the people who live on the block rather than the institutions that profit from their debt.</p>
+
+      <p>Sheinbaum's Mexico proves that top-down debt relief is possible when the political stars align. Hudson's analysis proves that it is necessary &mdash; that without it, civilizations follow the trajectory of Rome rather than Babylonia. The Block Share model proposes a third path: the patient, persistent construction of post-extractive economic infrastructure at the community level, so that when the existing system's contradictions finally become unbearable, there is something already in place to grow into.</p>
+
+      <div class="pull-quote">
+        <p>The question is not whether the current system will change. It is whether the change will be designed by those who live within it &mdash; or imposed by those who profit from its collapse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section class="section section--alt">
+  <div class="section__inner">
+    <div class="references">
+      <h2>References &amp; Further Reading</h2>
+      <div class="ref-item">Hudson, Michael. &ldquo;Rentier Capitalism and the Illusion of Growth.&rdquo; Patreon Roundtable, December 2025, published March 2026. <a href="https://michael-hudson.com/2026/03/rentier-capitalism-and-the-illusion-of-growth/">michael-hudson.com</a></div>
+      <div class="ref-item">Hudson, Michael, and Glenn Diesen. &ldquo;Destiny of Civilization: Financialization &amp; Collapse.&rdquo; Kritik Bak&#305;&#351;, March 2026. <a href="https://kritikbakis.com/en/michael-hudson-destiny-of-civilization-financialization-collapse/">kritikbakis.com</a></div>
+      <div class="ref-item">Hudson, Michael. <em>&hellip;And Forgive Them Their Debts: Lending, Foreclosure and Redemption from Bronze Age Finance to the Jubilee Year.</em> ISLET, 2018. <a href="https://blogs.lse.ac.uk/lsereviewofbooks/2019/08/05/book-review-and-forgive-them-their-debts-lending-foreclosure-and-redemption-from-bronze-age-finance-to-the-jubilee-year-by-michael-hudson/">LSE Review</a></div>
+      <div class="ref-item">Hudson, Michael. <em>The Destiny of Civilization: Finance Capitalism, Industrial Capitalism or Socialism.</em> ISLET, 2022.</div>
+      <div class="ref-item">Sheinbaum Pardo, Claudia. Housing for Well-Being Programme announcements, November 2025 &ndash; January 2026. INFONAVIT debt restructuring of 4.85 million loans.</div>
+      <div class="ref-item">Block Share / Blockonomics Framework. <a href="https://app.blockshare.ca/blockonomics/">app.blockshare.ca/blockonomics</a></div>
+      <div class="ref-item">Stirrat, Ward. Vancouver Housing Policy Analysis: LEI/FEI Comparative Study. <a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">app.blockshare.ca</a></div>
+    </div>
+    <div class="article-nav">
+      <a href="https://app.blockshare.ca/blockonomics/">&larr; Blockonomics</a>
+      <a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-banner">
+    <div class="cta-banner__tag">&#9670; Early Access</div>
+    <h3>Know Your Block's Budget. Earn Community Credits.</h3>
+    <p>Take the 5-minute Block Budget Survey. See your block's $2.4M annual budget, understand how land policy affects your neighbourhood, and earn your first Community Credits.</p>
+    <a href="https://app.blockshare.ca/block-budget/" class="cta-btn">Take the Survey &mdash; Earn CC &rarr;</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="bs-footer"></footer>
+<script src="/wp-content/uploads/bs-shared/bs-nav-footer.js"></script>
+</body>
+</html>

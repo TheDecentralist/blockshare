@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Who Writes the Policy? | Block Share</title>
+  <meta name="description" content="Why Vancouver needs a Citizens Dashboard — and why the people who benefit most from the status quo will never build one. A People's Policy framework grounded at the block level." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --forest:       #0f2b1d;
+      --forest-light: #163d2a;
+      --forest-mid:   #1a4a33;
+      --navy:         #1E4D7B;
+      --navy-dark:    #153a5e;
+      --slate:        #2c3e50;
+      --gold:         #f9a825;
+      --gold-dim:     #c8891e;
+      --gold-light:   #fdd835;
+      --cream:        #faf6f0;
+      --cream-dark:   #f0ebe3;
+      --text:         #1a1a1a;
+      --text-light:   #555;
+      --text-muted:   #888;
+      --alert:        #b91c1c;
+      --alert-bg:     #fef2f2;
+      --alert-border: rgba(185,28,28,.18);
+      --green-accent: #2a7a47;
+      --white-a10:    rgba(255,255,255,.10);
+      --white-a15:    rgba(255,255,255,.15);
+      --white-a60:    rgba(255,255,255,.60);
+      --white-a80:    rgba(255,255,255,.80);
+      --white-a85:    rgba(255,255,255,.85);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; line-height: 1.6; color: var(--text); background: var(--cream); padding-top: 56px; }
+    h1, h2, h3, h4 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+
+    /* ── HERO ── */
+    .hero { background: var(--navy); color: #fff; padding: 7rem 2rem 6rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; right: 0; width: 55%; height: 100%; background: radial-gradient(ellipse at 80% 20%, var(--slate) 0%, transparent 65%); }
+    .hero-inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow { font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--gold); margin-bottom: 1.4rem; display: flex; align-items: center; gap: .6rem; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 2px; background: var(--gold); flex-shrink: 0; }
+    .hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.06; max-width: 700px; margin-bottom: 1.6rem; letter-spacing: -.025em; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub { font-size: 1.15rem; max-width: 600px; color: var(--white-a80); line-height: 1.75; margin-bottom: 2.5rem; }
+    .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+    .hero-meta-item { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; color: var(--white-a60); display: flex; align-items: center; gap: 6px; }
+    .hero-meta-item span { color: var(--white-a85); }
+
+    /* ── SECTION BASE ── */
+    .section { padding: 5rem 2rem; }
+    .section-inner { max-width: 780px; margin: 0 auto; }
+    .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .15em; color: var(--gold-dim); margin-bottom: .8rem; }
+    .section-light  { background: var(--cream); }
+    .section-warm   { background: var(--cream-dark); }
+    .section-forest { background: var(--forest); color: #fff; }
+    .section-forest .eyebrow { color: var(--gold); }
+    .section-navy   { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); color: #fff; }
+    .section-navy .eyebrow { color: var(--gold); }
+
+    .section-inner h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); line-height: 1.2; margin-bottom: 1.5rem; }
+    .section-light h2, .section-warm h2 { color: var(--text); }
+    .section-forest h2, .section-navy h2 { color: #fff; }
+    .section-inner h3 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; margin: 2rem 0 .75rem; }
+    .section-light h3, .section-warm h3 { color: var(--forest); }
+    .section-forest h3, .section-navy h3 { color: var(--gold-light); }
+
+    .section-inner p { margin-bottom: 1.3rem; line-height: 1.82; }
+    .section-light p, .section-warm p { color: var(--text-light); font-size: 1.05rem; }
+    .section-forest p, .section-navy p { color: var(--white-a85); font-size: 1.05rem; }
+    .section-inner p:last-child { margin-bottom: 0; }
+
+    /* ── PULLQUOTE ── */
+    .pullquote-section { padding: 4.5rem 2rem; }
+    .pullquote-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+    .pullquote-bar { width: 48px; height: 3px; background: var(--gold); margin: 0 auto 2.2rem; }
+    .pullquote-inner blockquote { font-family: 'DM Serif Display', serif; font-size: clamp(1.45rem, 3.2vw, 1.95rem); line-height: 1.42; color: var(--forest); margin-bottom: 1rem; font-style: italic; }
+    .pullquote-inner cite { font-family: 'DM Sans', sans-serif; font-style: normal; font-size: .85rem; color: var(--text-muted); }
+
+    /* ── INLINE QUOTE ── */
+    .inline-quote { margin: 2rem 0; padding: 0 0 0 1.6rem; border-left: 2px solid var(--gold); }
+    .section-light .inline-quote p,
+    .section-warm .inline-quote p  { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--forest); font-style: italic; margin: 0; }
+    .section-forest .inline-quote p,
+    .section-navy .inline-quote p  { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--gold-light); font-style: italic; margin: 0; }
+
+    /* ── STAT CARDS ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin: 2.5rem 0; }
+    .stat-card { text-align: center; padding: 2rem 1rem; background: var(--white-a10); border-radius: 10px; }
+    .stat-card .val { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 600; color: var(--gold); }
+    .stat-card .unit { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--gold); }
+    .stat-card .label { font-size: .8rem; color: var(--white-a85); margin-top: .3rem; line-height: 1.4; }
+
+    /* ── CALLOUT / ALERT ── */
+    .callout-box { background: #fff; border: 1px solid rgba(0,0,0,.08); border-left: 4px solid var(--forest); border-radius: 0 8px 8px 0; padding: 1.5rem 1.6rem; margin: 2rem 0; }
+    .callout-box .cb-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--forest); margin-bottom: .6rem; }
+    .callout-box p { font-size: .93rem; color: var(--text-light); line-height: 1.72; margin: 0; }
+    .alert-box { background: var(--alert-bg); border: 1px solid var(--alert-border); border-left: 4px solid var(--alert); border-radius: 0 8px 8px 0; padding: 1.5rem 1.6rem; margin: 2rem 0; }
+    .alert-box .cb-label { color: var(--alert); font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; margin-bottom: .6rem; }
+    .alert-box p { font-size: .93rem; color: #7f1d1d; line-height: 1.72; margin: 0; }
+
+    /* ── CAPTURE CARDS ── */
+    .capture-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin: 2.5rem 0 0; }
+    .capture-card { background: #fff; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); padding: 1.8rem 1.4rem; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+    .capture-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 12px 12px 0 0; }
+    .cap-bureaucracy::before { background: linear-gradient(90deg, #1E4D7B, #3a78b5); }
+    .cap-corporate::before   { background: linear-gradient(90deg, #8b4513, #c0722e); }
+    .cap-elected::before     { background: linear-gradient(90deg, #2a7a47, #52a870); }
+    .cap-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+    .cap-label { font-family: 'JetBrains Mono', monospace; font-size: .66rem; font-weight: 600; text-transform: uppercase; letter-spacing: .13em; color: var(--text-muted); margin-bottom: .4rem; }
+    .capture-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--forest); margin: 0 0 .7rem; font-weight: 400; }
+    .capture-card p  { font-size: .88rem; color: var(--text-light); line-height: 1.68; margin: 0; }
+    @media (max-width: 680px) { .capture-grid { grid-template-columns: 1fr; } }
+
+    /* ── PIPELINE ── */
+    .pipeline { margin: 2.5rem 0; }
+    .pipeline-step { display: flex; gap: 1.4rem; margin-bottom: 1.5rem; position: relative; }
+    .pipeline-step:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 42px; bottom: -12px; width: 2px; background: linear-gradient(to bottom, var(--gold), transparent); }
+    .pipeline-num { flex-shrink: 0; width: 40px; height: 40px; background: var(--gold); color: var(--forest); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: .85rem; font-weight: 600; }
+    .pipeline-content h4 { color: #fff; margin-bottom: .35rem; font-size: 1rem; font-family: 'DM Serif Display', serif; }
+    .pipeline-content p { font-size: .88rem; color: var(--white-a80); margin: 0; }
+
+    /* ── DASHBOARD VIEW CARDS ── */
+    .view-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+    .view-card { background: var(--white-a10); border: 1px solid rgba(255,255,255,.12); border-radius: 12px; padding: 1.8rem 1.4rem; position: relative; overflow: hidden; }
+    .view-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .view-reportcard::before { background: var(--gold); }
+    .view-timeline::before   { background: #4ade80; }
+    .view-comparison::before { background: #60a5fa; }
+    .view-claims::before     { background: #f87171; }
+    .view-card .vc-num { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 600; color: var(--gold); line-height: 1; margin-bottom: .4rem; }
+    .view-timeline .vc-num   { color: #4ade80; }
+    .view-comparison .vc-num { color: #60a5fa; }
+    .view-claims .vc-num     { color: #f87171; }
+    .view-card .vc-label { font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: var(--gold); letter-spacing: .06em; margin-bottom: .6rem; text-transform: uppercase; }
+    .view-timeline .vc-label   { color: #4ade80; }
+    .view-comparison .vc-label { color: #60a5fa; }
+    .view-claims .vc-label     { color: #f87171; }
+    .view-card p { font-size: .88rem; color: var(--white-a80); line-height: 1.65; margin: 0; }
+
+    /* ── PRINCIPLES GRID (light variant) ── */
+    .principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin: 1.5rem 0 0; }
+    .principle-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 12px; padding: 1.8rem 1.4rem; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+    .principle-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 12px 12px 0 0; }
+    .prin-evidence::before  { background: var(--gold); }
+    .prin-block::before     { background: #2a7a47; }
+    .prin-questions::before { background: var(--navy); }
+    .pc-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+    .pc-label { font-family: 'JetBrains Mono', monospace; font-size: .66rem; font-weight: 600; text-transform: uppercase; letter-spacing: .13em; color: var(--text-muted); margin-bottom: .4rem; }
+    .principle-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--forest); margin: 0 0 .7rem; font-weight: 400; }
+    .principle-card p  { font-size: .88rem; color: var(--text-light); line-height: 1.68; margin: 0; }
+    @media (max-width: 680px) { .principles-grid { grid-template-columns: 1fr; } }
+
+    /* ── DATA TABLE ── */
+    .data-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: .92rem; }
+    .data-table th { background: var(--forest); color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; padding: .85rem 1rem; text-align: left; }
+    .data-table td { padding: .8rem 1rem; border-bottom: 1px solid rgba(0,0,0,.07); color: var(--text-light); }
+    .data-table tr:nth-child(even) td { background: rgba(0,0,0,.025); }
+    .data-table td:first-child { font-weight: 600; color: var(--text); }
+    .data-table td strong { color: var(--green-accent); }
+
+    /* ── PHASES ── */
+    .phase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin: 2rem 0; }
+    .phase-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 1.4rem 1.2rem; }
+    .phase-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: .4rem; }
+    .phase-name  { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: #fff; margin-bottom: .6rem; }
+    .phase-time  { font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: rgba(255,255,255,.5); margin-bottom: .8rem; }
+    .phase-card p { font-size: .82rem; color: var(--white-a80); line-height: 1.6; margin: 0; }
+
+    /* ── CTA SECTION ── */
+    .cta-section { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); padding: 5.5rem 2rem; text-align: center; position: relative; }
+    .cta-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 3px; background: var(--gold); }
+    .cta-inner { max-width: 620px; margin: 0 auto; }
+    .cta-inner h2 { color: #fff; font-size: 2.3rem; margin-bottom: 1.1rem; line-height: 1.2; }
+    .cta-inner h2 em { color: var(--gold); font-style: italic; }
+    .cta-inner p { color: var(--white-a85); margin-bottom: 2.5rem; font-size: 1.05rem; line-height: 1.7; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold  { background: var(--gold); color: var(--forest); padding: .9rem 2.2rem; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: .95rem; transition: all .25s; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-ghost { border: 1.5px solid var(--white-a60); color: #fff; padding: .9rem 2.2rem; border-radius: 8px; font-weight: 500; text-decoration: none; font-size: .95rem; transition: all .25s; }
+    .btn-ghost:hover { border-color: #fff; background: var(--white-a10); }
+
+    /* ── SUPPORT SECTION ── */
+    .support-section { background: var(--cream-dark); padding: 5.5rem 2rem 4rem; position: relative; }
+    .support-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--gold); }
+    .support-inner { max-width: 820px; margin: 0 auto; }
+    .support-header { text-align: center; margin-bottom: 3.5rem; }
+    .support-header .eyebrow { color: var(--gold-dim); }
+    .support-header h2 { font-size: clamp(1.9rem, 3.5vw, 2.7rem); color: var(--forest); line-height: 1.18; margin-bottom: 1rem; }
+    .support-header p { color: var(--text-light); max-width: 580px; margin: 0 auto; font-size: 1.05rem; line-height: 1.75; }
+
+    .support-tiers { display: flex; flex-direction: column; gap: 1.2rem; }
+    .support-tier { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 1.4rem; background: #fff; border-radius: 12px; border: 1px solid rgba(0,0,0,.07); padding: 1.4rem 1.6rem; box-shadow: 0 2px 8px rgba(0,0,0,.04); transition: box-shadow .2s, transform .2s; }
+    .support-tier:hover { box-shadow: 0 6px 24px rgba(0,0,0,.1); transform: translateY(-2px); }
+    .support-tier.tier-land { background: var(--forest); border-color: transparent; }
+    .support-tier.tier-land:hover { box-shadow: 0 8px 32px rgba(15,43,29,.35); }
+    .tier-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+    .tier-cash    .tier-icon { background: #e8f5ec; }
+    .tier-monthly .tier-icon { background: #e8eef8; }
+    .tier-talk    .tier-icon { background: #fdf5e4; }
+    .tier-land    .tier-icon { background: rgba(249,168,37,.18); }
+    .tier-text { min-width: 0; }
+    .tier-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .13em; margin-bottom: .25rem; }
+    .tier-cash    .tier-label { color: #2a7a47; }
+    .tier-monthly .tier-label { color: #1E4D7B; }
+    .tier-talk    .tier-label { color: #8b6914; }
+    .tier-land    .tier-label { color: var(--gold); }
+    .tier-title { font-family: 'DM Serif Display', serif; font-size: 1.15rem; margin-bottom: .2rem; }
+    .tier-cash .tier-title, .tier-monthly .tier-title, .tier-talk .tier-title { color: var(--text); }
+    .tier-land .tier-title { color: #fff; }
+    .tier-desc { font-size: .85rem; line-height: 1.55; }
+    .tier-cash .tier-desc, .tier-monthly .tier-desc, .tier-talk .tier-desc { color: var(--text-light); }
+    .tier-land .tier-desc { color: rgba(255,255,255,.75); }
+    .tier-action { flex-shrink: 0; }
+    .tier-btn { display: inline-block; padding: .65rem 1.4rem; border-radius: 8px; font-weight: 700; font-size: .85rem; text-decoration: none; white-space: nowrap; transition: all .22s; }
+    .tier-cash    .tier-btn { background: #2a7a47; color: #fff; }
+    .tier-cash    .tier-btn:hover { background: #1f5c36; }
+    .tier-monthly .tier-btn { background: #1E4D7B; color: #fff; }
+    .tier-monthly .tier-btn:hover { background: #153a5e; }
+    .tier-talk    .tier-btn { background: var(--gold); color: var(--forest); }
+    .tier-talk    .tier-btn:hover { background: var(--gold-light); }
+    .tier-land    .tier-btn { background: var(--gold); color: var(--forest); }
+    .tier-land    .tier-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .closing-aphorism { text-align: center; margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(0,0,0,.06); }
+    .closing-aphorism p { font-family: 'DM Serif Display', serif; font-size: clamp(1.15rem, 2vw, 1.45rem); color: var(--forest); font-style: italic; line-height: 1.55; max-width: 520px; margin: 0 auto; }
+    .closing-aphorism .aphorism-rule { width: 36px; height: 2px; background: var(--gold); margin: 0 auto 1.4rem; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-inner > * { animation: fadeUp .65s ease-out both; }
+    .hero-eyebrow { animation-delay: .1s; }
+    .hero h1      { animation-delay: .2s; }
+    .hero-sub     { animation-delay: .32s; }
+    .hero-meta    { animation-delay: .44s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .hero { padding: 5rem 1.5rem 4rem; }
+      .section { padding: 3.5rem 1.5rem; }
+      .pullquote-section { padding: 3rem 1.5rem; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .view-grid { grid-template-columns: 1fr 1fr; }
+      .capture-grid, .principles-grid { grid-template-columns: 1fr; }
+      .phase-grid { grid-template-columns: 1fr 1fr; }
+      .support-tier { grid-template-columns: 44px 1fr; }
+      .tier-action { grid-column: 2; }
+      .tier-icon { width: 44px; height: 44px; font-size: 1.2rem; }
+    }
+    @media (max-width: 900px) { .phase-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav id="bs-nav" class="site-nav"></nav>
+
+  <!-- ═══ HERO ═══════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Block Share · Policy Accountability · Citizens Dashboard</div>
+      <h1>Who Writes the Policy — <em>and for Whom?</em></h1>
+      <p class="hero-sub">Why Vancouver needs a Citizens Dashboard — and why the people who benefit most from the status quo will never build one.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">DATE &nbsp;<span>April 2026</span></div>
+        <div class="hero-meta-item">AUTHOR &nbsp;<span>Ward Stirrat</span></div>
+        <div class="hero-meta-item">SERIES &nbsp;<span>Civic Accountability</span></div>
+        <div class="hero-meta-item">READ &nbsp;<span>~12 min</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 01 · THE INVISIBLE GOVERNMENT ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">01 · The Problem</div>
+      <h2>There Is a Government You Did Not Elect.</h2>
+      <p>There is a quiet power at the centre of every Canadian city hall, and it is not the mayor. It is not even the councillors who campaign, debate, and cast the votes that make the front page. It is the bureaucratic class — the senior staff and management layer that writes the reports, frames the options, and controls what information reaches elected officials in what form and at what moment.</p>
+      <p>They are not elected. They are rarely replaced. And their institutional incentives run almost entirely toward one goal: <strong>preserving the system as it currently exists.</strong></p>
+      <p>This is not a conspiracy. It is something more ordinary and therefore more durable: it is organizational culture hardened into standard operating procedure. Senior municipal staff are recruited from the same consulting firms, planning schools, and professional associations. They attend the same conferences, cite the same benchmarks, and share the same framework of assumptions about what cities are for and how they are to be governed. Over decades, that shared worldview becomes the water inside city hall — invisible, unquestioned, and extremely difficult to disturb from the outside.</p>
+
+      <div class="inline-quote">
+        <p>The budget is not a financial document. It is a political document dressed in the language of accounting — and the people who write that language decide what can and cannot be said.</p>
+      </div>
+
+      <h3>Corporate Logic in a Democratic Institution</h3>
+      <p>What gets imported through that professional pipeline is, in large part, a <strong>corporate management philosophy</strong> — one designed for shareholder-owned enterprises and retrofitted, awkwardly and incompletely, onto democratic public institutions. Its central logic is efficiency of inputs, not accountability for outcomes. Its natural product is a budget that tells you exactly how many dollars were spent on "contractual services," and tells you almost nothing about whether the roads got better, the pools stayed open, or the housing became more affordable.</p>
+
+      <div class="capture-grid">
+        <div class="capture-card cap-bureaucracy">
+          <div class="cap-icon">🏛️</div>
+          <div class="cap-label">Layer One</div>
+          <h3>The Bureaucratic Class</h3>
+          <p>Senior staff write the reports, frame the options, and filter what information reaches elected officials. They operate through institutional inertia, not malice — but the effect is the same: the status quo is perpetually defended against the community it is meant to serve.</p>
+        </div>
+        <div class="capture-card cap-corporate">
+          <div class="cap-icon">🏢</div>
+          <div class="cap-label">Layer Two</div>
+          <h3>Corporate Capture</h3>
+          <p>The professional pipeline imports private-sector management logic — efficiency of inputs over accountability for outcomes. Cities are managed like firms. Citizens become stakeholders. Neither framing serves democracy or the people who live with the consequences.</p>
+        </div>
+        <div class="capture-card cap-elected">
+          <div class="cap-icon">🗳️</div>
+          <div class="cap-label">Layer Three</div>
+          <h3>The Elected Official</h3>
+          <p>Newly elected councillors arrive with mandates for change and quickly discover structural dependency: they rely almost entirely on the same staff who designed the system to explain what the system means. The rubber stamp is not laziness. It is the design.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>The system does not produce bad officials. It produces officials who are responsive to the bureaucracy that informs them rather than the constituents who elected them.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 02 · HOW THE BUDGET MISLEADS ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">02 · The Evidence</div>
+      <h2>Five Ways the Budget Tells You Nothing.</h2>
+      <p>The conventional municipal budget is not a lie, exactly. It is more like a photograph taken from a very particular angle, by someone with a very particular agenda, presented without any other photographs for comparison. The data it contains is real. The story it tells is systematically incomplete — to the point of being misleading.</p>
+      <p>There are five specific mechanisms by which official budget reporting obscures the gap between what residents need and what the city delivers:</p>
+
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="pipeline-num">1</div>
+          <div class="pipeline-content">
+            <h4>Activity replaces outcomes</h4>
+            <p>The city reports "work orders completed" — not "infrastructure condition index improvement." Staff are counted as productive. The pavement condition is never asked about. Vancouver's pool maintenance backlog does not appear in the parks budget.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">2</div>
+          <div class="pipeline-content">
+            <h4>No benchmarks, no context</h4>
+            <p>"36-hour response time" sounds like a number. Without peer-city comparison it is meaningless noise. Vancouver has the lowest public pool per-capita ratio of any major Canadian city. This does not appear in the capital plan.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">3</div>
+          <div class="pipeline-content">
+            <h4>Metric overload buries the signal</h4>
+            <p>When everything is measured, nothing is managed. Hundred-indicator dashboards are a form of institutional camouflage: sheer volume makes it impossible to identify what matters and who is responsible for it.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">4</div>
+          <div class="pipeline-content">
+            <h4>Annual reporting describes ancient history</h4>
+            <p>A capital plan published in spring describes decisions made the previous fall about conditions assessed the previous summer. By the time residents read it, the window for meaningful input has long since closed.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">5</div>
+          <div class="pipeline-content">
+            <h4>Data that is never reviewed changes nothing</h4>
+            <p>Performance metrics collected but never surfaced in leadership meetings — never tied to consequences for poor results — are a performance of accountability. Not accountability itself.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="val">80%</div>
+          <div class="label">Typical accrual rate in Defer mode — the infrastructure funding gap that never makes the front page</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">0</div>
+          <div class="label">Vancouver capital budget documents showing peer-city pool per-capita comparison</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">253,120</div>
+          <div class="label">Life-hours the LTE gap between Vancouver and Copenhagen represents — 28 years of human time, block by block</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-light">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>The most powerful thing the status quo controls is not the answers — it is the questions. Staff frame the choice. The Citizens Dashboard asks: what if there is a third option the report never mentioned?</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 03 · THE LINE-ITEM TRAP ═══ -->
+  <section class="section section-warm">
+    <div class="section-inner">
+      <div class="eyebrow">03 · The Mechanism</div>
+      <h2>The Line-Item Trap: Why It Persists Across Every Council.</h2>
+      <p>To understand why this persists — why successive councils, across different political coalitions, continue to produce the same kinds of budgets and the same kinds of deferrals — it is necessary to understand that the problem is not individual. It is structural.</p>
+      <p>The academic literature on municipal finance calls this the <strong>"Line-Item Trap"</strong>: budgets organized around input categories (salaries, utilities, supplies) persist indefinitely because no one inside the system has the standing, the data, or the political protection to challenge them. The departments that receive funding advocate for their existing allocations. The staff who administer those departments write the reports that justify them. The councillors who might push back lack the independent research capacity to mount an evidence-based alternative. And the residents who bear the cost have no formal mechanism for entering the conversation at all.</p>
+
+      <div class="callout-box">
+        <p class="cb-label">The Rationale–Reality Gap</p>
+        <p>Traditional line-item budgeting produces expenditures organized by <em>inputs</em> — salaries, utilities, supplies — rather than outcomes. A council can vote to approve a parks budget without ever knowing whether park infrastructure conditions improved or declined. The money flows. The accountability does not. Every dollar is traceable. No outcome is attributable.</p>
+      </div>
+
+      <h3>The Professional Reform and Its Ceiling</h3>
+      <p>The ICMA, GFOA, and National League of Cities have recognized this problem and jointly sponsored a "Rethinking Budgeting" initiative calling for Priority-Based Budgeting (PBB) — ranking programs by their alignment with community values rather than perpetuating historical allocations. This is a genuine improvement. But it has a structural ceiling: <strong>the priorities are still defined by city hall, not by residents.</strong> The "community values" against which programs are scored are identified by staff through internal processes, translated into budget weights by the same professional class that designed the original system. The locus of power does not shift.</p>
+
+      <div class="alert-box">
+        <p class="cb-label">The Accountability Gap — International Evidence</p>
+        <p>Participatory budgeting programs in New York City, Toronto, and Bogotá consistently show that when residents are given real decision-making authority — even over a small fraction of the budget — they prioritize differently than staff do. More weight goes to neighbourhood-scale infrastructure, social services, and climate resilience. The gap between what staff recommend and what residents choose is not small. In NYC Council participatory budgets, residents have consistently directed funds toward schools, parks, and pedestrian safety at rates that diverge significantly from capital plan priorities. The difference is not preference. It is power.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · THE DASHBOARD ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">04 · The Tool</div>
+      <h2>The Citizens Dashboard: An Independent Evidentiary Check.</h2>
+      <p>The Citizens Dashboard is not a transparency portal. Transparency portals publish data — the city's data, in the city's format, organized around the city's categories. They are an improvement over nothing. They are not accountability.</p>
+      <p>The Citizens Dashboard does something structurally different. It takes the city's own communications — capital plans, budget justifications, infrastructure condition reports, public statements — and measures them against an independent evidentiary standard: peer-reviewed research, lifecycle accounting, and documented international precedent. It then presents the gap between the two as a structured, readable, block-level fact.</p>
+      <p>This is the difference between a government telling you that deferred maintenance on civic pools is "consistent with fiscal prudence" — and a tool that shows you Vancouver has the lowest public pool per-capita ratio of any major Canadian city, that twelve pools are operating beyond design life, and that the accrual rate for maintenance funding sits at approximately 60% of what full-cost accounting requires.</p>
+
+      <div class="view-grid">
+        <div class="view-card view-reportcard">
+          <div class="vc-num">01</div>
+          <div class="vc-label">Report Card</div>
+          <p>Accrual rating, key metrics, and funding gap vs. full-cost standard. Translates technical finance into a legible grade citizens can act on.</p>
+        </div>
+        <div class="view-card view-timeline">
+          <div class="vc-num">02</div>
+          <div class="vc-label">Lifespan Timeline</div>
+          <p>City proposal trajectory vs. community alternative, overlaid on the same chart. Makes the consequence of each decision visible across its full horizon.</p>
+        </div>
+        <div class="view-card view-comparison">
+          <div class="vc-num">03</div>
+          <div class="vc-label">Comparison Panel</div>
+          <p>Vancouver vs. peer cities on cost, condition, and provision. Strips away "fiscal prudence" language by showing what comparable cities actually do.</p>
+        </div>
+        <div class="view-card view-claims">
+          <div class="vc-num">04</div>
+          <div class="vc-label">Claims Parser</div>
+          <p>Official talking points rated: Accurate / Partial / Misleading — with source citations and rebuttals. Holds communications to the same standard as financial projections.</p>
+        </div>
+      </div>
+
+      <p style="margin-top: 2rem;">Every case study is also tagged with an <strong style="color: var(--gold);">LTE score</strong> — a Life-Time Efficiency measure that translates infrastructure decisions into their cost in resident life-hours over the asset's lifespan. When the city defers a transit investment, that deferral has a calculable cost in commute hours per resident per year, compounded across the service gap. The LTE frame makes that cost legible in human terms, not just fiscal ones.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>The question is not whether citizens are capable of making complex decisions about infrastructure and fiscal trade-offs. The evidence from participatory budgeting programs worldwide is unambiguous: they are. The question is whether the system is designed to let them.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 05 · PEOPLE'S POLICY ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">05 · The Framework</div>
+      <h2>The People's Policy: Writing the Rules from the Block Up.</h2>
+      <p>The dashboard is the diagnostic tool. But diagnosis without agency is just a more detailed account of your own powerlessness. The deeper purpose of the Citizens Dashboard is to create the evidentiary foundation for a <strong>People's Policy</strong> — community-authored policy proposals that originate at the block, super-block, and neighbourhood level and flow upward to council, rather than originating in staff reports and flowing downward for ratification.</p>
+      <p>What has consistently been missing from participatory democracy efforts is the <em>evidentiary infrastructure</em> to make community proposals legible on the same terms as staff proposals. When residents say "we want to keep our pool open," they are told this is understandable but fiscally complicated. When the dashboard shows the accrual deficit, the peer-city comparison, the lifecycle cost of deferred maintenance versus proactive renewal, and the LTE cost per resident — the community proposal is no longer sentiment. It is a policy alternative with an evidence base.</p>
+
+      <h3>Three Principles That Invert the Bureaucratic Logic</h3>
+
+      <div class="principles-grid">
+        <div class="principle-card prin-evidence">
+          <div class="pc-icon">📋</div>
+          <div class="pc-label">Principle I</div>
+          <h3>Evidence Precedes Opinion</h3>
+          <p>Community alternatives are built on peer-reviewed research and documented international precedent — not preference alone. The dashboard provides the evidentiary layer. The community provides the political will and local knowledge that shapes how that evidence applies at the block level.</p>
+        </div>
+        <div class="principle-card prin-block">
+          <div class="pc-icon">🗺️</div>
+          <div class="pc-label">Principle II</div>
+          <h3>The Block Is the Unit</h3>
+          <p>Vancouver's 5,806 blocks are not abstractions. They are the actual lived geography of community life. Policy accountability that cannot answer "what does this decision mean for blocks RC-012 through RC-024?" is city-scale management with neighbourhood-scale rhetoric.</p>
+        </div>
+        <div class="principle-card prin-questions">
+          <div class="pc-icon">✍️</div>
+          <div class="pc-label">Principle III</div>
+          <h3>The Community Defines the Questions</h3>
+          <p>Staff frame the choice as "pool closure or tax increase." The People's Policy framework asks: what if the choice is between the current deferred-maintenance trajectory and a neighbourhood stewardship model? The dashboard makes that alternative framing possible — and evidential.</p>
+        </div>
+      </div>
+
+      <div class="callout-box" style="margin-top: 2.5rem; border-left-color: var(--navy);">
+        <p class="cb-label" style="color: var(--navy);">The Citizen Circles Connection</p>
+        <p>The Citizens Dashboard is inseparable from the Citizen Circles model in the Unrepresented framework. A dashboard without a civic institution to carry its findings into the policy process is analysis. Citizen Circles — neighbourhood-scale deliberative bodies grounded at the super-block level — are the vessel through which People's Policy proposals travel from the block to council chambers. The dashboard provides the evidence. The Circles provide the democratic legitimacy. Together they represent a genuinely different architecture for local democracy: one that does not wait for city hall to ask the right questions, but arrives with the right questions already answered.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 06 · TRANSPARENCY ISN'T ENOUGH ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">06 · The Distinction</div>
+      <h2>Why Transparency Alone Is Not Enough.</h2>
+      <p>There is now a generation of municipal budget transparency tools — open data portals, interactive dashboards, taxpayer receipt generators. New York City's Council Budget Dashboard represents the state of the art: multilingual, visually accessible, spanning six fiscal years. The Balancing Act and OpenSpending platforms go a step further, forcing residents to confront the same trade-offs officials face in a simulated budget environment — with real results. In Roseville, California, residents who had initially opposed tax increases chose them over service cuts once they understood the actual trade-offs. Transparency, designed well, builds civic literacy and tax morale.</p>
+      <p>These tools are valuable. They are not sufficient. The problem is that they visualize the city's version of the budget — the categories the city uses, the comparisons the city selects. They make the official narrative more accessible. They do not provide an independent evidentiary check on whether that narrative accurately describes what is happening on the ground.</p>
+      <p>Even participatory budgeting simulations still operate within the option set that staff and officials have defined. They let residents choose between A and B. They do not ask: <strong>what if neither A nor B reflects what the evidence actually supports?</strong> What if option C — the one documented in peer-reviewed literature and implemented in comparable cities — was simply never presented?</p>
+
+      <div class="callout-box" style="background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-left: 4px solid var(--gold);">
+        <p class="cb-label" style="color: var(--gold);">The FiSC Methodology — Why Comparisons Lie Without It</p>
+        <p style="color: var(--white-a80);">The Fiscally Standardized Cities methodology from the Lincoln Institute reveals that direct city spending comparisons are almost always misleading — because in cities like Vancouver, some services are delivered by Metro, some by the Province, some by school boards, and some by special districts. Without standardizing across all those layers, a "lower-spending city" may simply be a city that has offloaded costs to other orders of government. The Citizens Dashboard uses FiSC-equivalent normalization to ensure peer-city comparisons are actually comparable. Apples to apples, not apples to the idea of fruit.</p>
+      </div>
+
+      <h3>The Defer / Maintain / Renew Continuum</h3>
+      <p>At the core of the dashboard framework is a recognition that every infrastructure decision falls somewhere on a three-position spectrum. Most of the time, the city never explicitly names which position it has chosen — it simply happens through the accumulation of budget decisions that are individually defensible and collectively corrosive.</p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="val">~80%</div>
+          <div class="unit">DEFER</div>
+          <div class="label">Accrual rate. Deferred maintenance compounds. The liability grows invisibly while the budget appears balanced.</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">~90%</div>
+          <div class="unit">MAINTAIN</div>
+          <div class="label">Accrual rate. The asset holds — but is not improving. A holding pattern that delays but does not solve the underlying deficit.</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">≥100%</div>
+          <div class="unit">RENEW</div>
+          <div class="label">Full-cost accounting. The only accrual rate that closes the lifecycle gap and produces a genuine, improving public asset.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 07 · THE CASE STUDIES ═══ -->
+  <section class="section section-warm">
+    <div class="section-inner">
+      <div class="eyebrow">07 · The Case Studies</div>
+      <h2>Where the Dashboard Starts: Two Vancouver Cases.</h2>
+      <p>The current prototype opens with two case studies — chosen because both reveal the gap between official communications and the evidence base in ways that are specific, measurable, and directly relevant to the life-hours of Vancouver residents.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Case Study</th>
+            <th>Official Framing</th>
+            <th>What the Evidence Shows</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Broadway Plan Transit</td>
+            <td>Approved subway extension as responsible fiscal stewardship and transit investment</td>
+            <td><strong>Alignment terminates at Arbutus, not UBC</strong> — the corridor's largest destination. The approved route serves approximately 40% of the ridership the full alignment would generate, at near-full capital cost.</td>
+          </tr>
+          <tr>
+            <td>Vancouver Civic Pools</td>
+            <td>Deferred maintenance framed as "consistent with fiscal prudence" across multiple budget cycles</td>
+            <td><strong>Lowest pool per-capita ratio of any major Canadian city.</strong> 12+ facilities operating beyond design life. Accrual rate approximately 60% of full-cost standard — a growing liability presented as responsible management.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Both cases are currently built on placeholder data, pending integration of peer-reviewed studies. That is by design. The framework comes first. The evidence populates it. And then the community brings its own case studies — the infrastructure its neighbourhood has watched deferred, the service the evidence supports, the alternative the staff report never presented.</p>
+
+      <div class="callout-box">
+        <p class="cb-label">An Invitation, Not a Finished Product</p>
+        <p>The Citizens Dashboard is a framework and a method — and most importantly, an <em>invitation</em>. An invitation to every resident, neighbourhood association, and block captain across Vancouver's 5,806 blocks to bring forward their own case study. To write their own People's Policy. And to arrive at the council table with the evidence to back it up. Not a protest. Not a petition. A policy — grounded in research, located at the block, carried in by the people who live there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 08 · ROADMAP ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">08 · The Roadmap</div>
+      <h2>From Prototype to People's Policy Platform.</h2>
+      <p>The Citizens Dashboard builds in phases — each phase expanding the number of case studies, deepening the evidentiary infrastructure, and creating more structured pathways for community-authored policy proposals to reach council.</p>
+
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-label">Phase 1</div>
+          <div class="phase-name">Prototype</div>
+          <div class="phase-time">Now → 3 months</div>
+          <p>Two case studies (Broadway Plan, Civic Pools) with placeholder data. Framework validated. Four views functional across both. LTE tagging established.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-label">Phase 2</div>
+          <div class="phase-name">Evidence Integration</div>
+          <div class="phase-time">3–6 months</div>
+          <p>Peer-reviewed studies replace placeholder data. Real accrual figures, peer-city comparisons, and LTE scores populate both cases. Claims Parser goes live with source citations.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-label">Phase 3</div>
+          <div class="phase-name">Community Cases</div>
+          <div class="phase-time">6–18 months</div>
+          <p>Open submission framework for neighbourhood-authored case studies. Citizen Circles begin using the dashboard as an evidence base for formal People's Policy proposals.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-label">Phase 4</div>
+          <div class="phase-name">Policy Platform</div>
+          <div class="phase-time">18 months+</div>
+          <p>Block-level accountability integrated with the Block Budget Data Explorer. People's Policy proposals formally tracked through the council process. The script is flipped.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <p class="eyebrow" style="color: var(--gold); text-align: center;">Open the Tool</p>
+      <h2>Open the Citizens <em>Dashboard</em></h2>
+      <p>Explore the prototype — two case studies, four views, and the evidentiary framework that makes People's Policy possible. Then bring your block's case.</p>
+      <div class="cta-buttons">
+        <a href="https://app.blockshare.ca/citizens-dashboard/" class="btn-gold">Open the Dashboard →</a>
+        <a href="https://app.blockshare.ca/unrepresented/" class="btn-ghost">Read: Unrepresented</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SUPPORT ═══ -->
+  <section class="support-section">
+    <div class="support-inner">
+      <div class="support-header">
+        <div class="eyebrow">Support These Projects</div>
+        <h2>Every contribution builds the alternative.</h2>
+        <p>The Citizens Dashboard, the Block Share platform, and the People's Policy framework are community-built and community-funded. No corporate backer. No government grant. Only the growing number of people who believe citizens deserve better than what the current system offers.</p>
+      </div>
+
+      <div class="support-tiers">
+        <div class="support-tier tier-cash">
+          <div class="tier-icon">🌱</div>
+          <div class="tier-text">
+            <div class="tier-label">One-Time Gift</div>
+            <div class="tier-title">Plant a Seed — Contribute What You Can</div>
+            <div class="tier-desc">A one-time donation directly funds dashboard development, case study research, and the evidentiary infrastructure for People's Policy proposals.</div>
+          </div>
+          <div class="tier-action"><a href="https://app.blockshare.ca/support/" class="tier-btn">Donate →</a></div>
+        </div>
+
+        <div class="support-tier tier-monthly">
+          <div class="tier-icon">📅</div>
+          <div class="tier-text">
+            <div class="tier-label">Monthly Pledge</div>
+            <div class="tier-title">Become a Sustaining Supporter — From $5 / Month</div>
+            <div class="tier-desc">A monthly pledge gives the platform the predictability to expand case studies, integrate more neighbourhoods, and build the Citizen Circles infrastructure over time.</div>
+          </div>
+          <div class="tier-action"><a href="https://app.blockshare.ca/support/" class="tier-btn">Pledge Monthly →</a></div>
+        </div>
+
+        <div class="support-tier tier-talk">
+          <div class="tier-icon">🎙️</div>
+          <div class="tier-text">
+            <div class="tier-label">Bring It to Your Community</div>
+            <div class="tier-title">Book a Talk, Workshop, or Presentation</div>
+            <div class="tier-desc">Ward Stirrat and the Block Share team are available for talks, workshops, and presentations — for neighbourhood groups, PAC meetings, university classes, and civic organizations.</div>
+          </div>
+          <div class="tier-action"><a href="https://app.blockshare.ca/contact/" class="tier-btn">Book Now →</a></div>
+        </div>
+
+        <div class="support-tier tier-land">
+          <div class="tier-icon">🗳️</div>
+          <div class="tier-text">
+            <div class="tier-label">The Ultimate Contribution</div>
+            <div class="tier-title">Bring Your Block's Case Study</div>
+            <div class="tier-desc">Every neighbourhood has infrastructure the city has deferred, a service the evidence supports, and an alternative the staff report never presented. Bring it forward. The dashboard will help you make the case — with evidence, not just outrage.</div>
+          </div>
+          <div class="tier-action"><a href="https://app.blockshare.ca/citizens-dashboard/" class="tier-btn">Start Here →</a></div>
+        </div>
+      </div>
+
+      <div class="closing-aphorism">
+        <div class="aphorism-rule"></div>
+        <p>The best time to give citizens the evidence was before the last vote.<br>The second best time is before the next one.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="bs-footer" class="site-footer"></footer>
+
+  <script>
+    (function(){
+      var n = document.getElementById("bs-nav");
+      document.body.insertBefore(n, document.body.firstChild);
+      n.innerHTML = '<div class="site-nav__inner"><a href="https://app.blockshare.ca/bs-home/" class="site-nav__brand">Block<span>Share</span></a><div class="site-nav__links"><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Blockonomics &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a><a href="https://app.blockshare.ca/onboarding/">Take the Block Survey &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Programs &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/food-for-generations/">Food for Generations</a><a href="https://app.blockshare.ca/mobility-for-life/">Mobility for Life</a><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a><a href="https://app.blockshare.ca/cc-system-diagram/">CC System Diagram</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Publications &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/unrepresented/">Unrepresented</a><a href="https://app.blockshare.ca/the-fine-print/">The Fine Print — LTE Index</a><a href="https://app.blockshare.ca/the-3rd-way/">The 3rd Way</a><a href="https://app.blockshare.ca/tale-of-two-cycles/">Tale of Two Cycles</a><a href="https://app.blockshare.ca/citizens-dashboard/">Citizens Dashboard</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Get Involved &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a></div></div><a href="https://app.blockshare.ca/citizens-dashboard/" class="site-nav__cta">Open the Dashboard &rarr;</a></div><button class="site-nav__hamburger" aria-label="Open menu">&#9776;</button></div>';
+
+      var f = document.getElementById("bs-footer");
+      f.innerHTML = '<div class="site-footer__inner"><div class="footer-grid"><div><div class="footer-brand">Block<span>Share</span></div><p class="footer-tagline">Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative &mdash; neither government programme nor corporate platform.</p></div><div class="footer-col"><h4>Blockonomics</h4><ul><li><a href="https://app.blockshare.ca/blockonomics/">The Framework</a></li><li><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a></li><li><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a></li><li><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a></li></ul></div><div class="footer-col"><h4>Programs</h4><ul><li><a href="https://app.blockshare.ca/food-for-generations/">Food for Generations</a></li><li><a href="https://app.blockshare.ca/mobility-for-life/">Mobility for Life</a></li><li><a href="https://app.blockshare.ca/share/">Share Pools</a></li><li><a href="https://app.blockshare.ca/credits/">Community Credits</a></li></ul></div><div class="footer-col"><h4>Publications</h4><ul><li><a href="https://app.blockshare.ca/unrepresented/">Unrepresented</a></li><li><a href="https://app.blockshare.ca/the-fine-print/">The Fine Print</a></li><li><a href="https://app.blockshare.ca/the-3rd-way/">The 3rd Way</a></li><li><a href="https://app.blockshare.ca/citizens-dashboard/">Citizens Dashboard</a></li><li><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></li></ul></div><div class="footer-col"><h4>Get Involved</h4><ul><li><a href="https://app.blockshare.ca/citizens-dashboard/">Open the Dashboard</a></li><li><a href="https://app.blockshare.ca/onboarding/">Join Your Block</a></li><li><a href="https://app.blockshare.ca/become-host/">Become a Host</a></li><li><a href="https://thedecentralistnet.substack.com" target="_blank" rel="noopener">The Decentralist &rarr;</a></li></ul></div></div><div class="footer-copy">&copy; 2026 Block Share &middot; Vancouver, BC &middot; A community initiative inspired by E.F. Schumacher\'s <em>Small is Beautiful</em></div></div>';
+
+      var hb = document.querySelector(".site-nav__hamburger");
+      var ov = document.createElement("div");
+      ov.className = "bs-mobile-overlay"; ov.id = "bs-mobile-menu"; ov.style.display = "none";
+      ov.innerHTML = '<button class="bs-mobile-overlay__close" aria-label="Close menu">&times;</button><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Citizens Dashboard</div><a href="https://app.blockshare.ca/citizens-dashboard/">Open the Dashboard</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Blockonomics</div><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Programs</div><a href="https://app.blockshare.ca/food-for-generations/">Food for Generations</a><a href="https://app.blockshare.ca/mobility-for-life/">Mobility for Life</a><a href="https://app.blockshare.ca/credits/">Community Credits</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Publications</div><a href="https://app.blockshare.ca/unrepresented/">Unrepresented</a><a href="https://app.blockshare.ca/the-fine-print/">The Fine Print</a><a href="https://app.blockshare.ca/the-3rd-way/">The 3rd Way</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div><a href="https://app.blockshare.ca/citizens-dashboard/" class="bs-mobile-overlay__cta">Open the Dashboard &rarr;</a>';
+      document.body.appendChild(ov);
+      function openMobile(){ ov.style.display="flex"; ov.classList.add("active"); document.body.style.overflow="hidden"; }
+      function closeMobile(){ ov.classList.remove("active"); ov.style.display="none"; document.body.style.overflow=""; }
+      if(hb) hb.addEventListener("click", openMobile);
+      var cb = ov.querySelector(".bs-mobile-overlay__close");
+      if(cb) cb.addEventListener("click", closeMobile);
+      ov.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", closeMobile); });
+      document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeMobile(); });
+    })();
+  </script>
+
+  <style>
+    .site-nav,.site-footer,.bs-mobile-overlay{--bg-dark:#0f1419;--border-dark:#1e293b;--border-dark-light:#334155;--text-light:#e8ecf1;--text-light-secondary:#94a3b8;--text-light-muted:#64748b;--green-400:#4ade80;--green-500:#22c55e;--font-display:'Playfair Display',Georgia,serif;--font-body:'Source Sans 3','Segoe UI',sans-serif;}
+    .site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,20,25,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-dark);}
+    .site-nav__inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;}
+    .site-nav__brand{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-light);text-decoration:none;letter-spacing:-0.02em;}
+    .site-nav__brand span{color:var(--green-400);}
+    .site-nav__links{display:flex;gap:6px;align-items:center;}
+    .site-nav__dropdown{position:relative;}
+    .site-nav__dropdown-trigger{color:var(--text-light-secondary);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:8px 12px;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+    .site-nav__dropdown:hover .site-nav__dropdown-trigger{color:var(--green-400);}
+    .site-nav__dropdown-menu{display:none;position:absolute;top:100%;left:0;background:var(--bg-dark);border:1px solid var(--border-dark-light);border-radius:8px;padding:8px 0;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:1010;}
+    .site-nav__dropdown:hover .site-nav__dropdown-menu{display:block;}
+    .site-nav__dropdown-menu a{display:block;padding:8px 20px;font-size:14px;color:var(--text-light-secondary);text-decoration:none;}
+    .site-nav__dropdown-menu a:hover{color:var(--green-400);background:rgba(74,222,128,0.06);}
+    .site-nav__cta{display:inline-block;background:var(--green-500);color:var(--bg-dark);padding:7px 16px;border-radius:6px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:0.06em;text-decoration:none;}
+    .site-nav__cta:hover{opacity:0.9;}
+    .site-nav__hamburger{display:none;background:none;border:none;color:var(--text-light);font-size:24px;cursor:pointer;padding:4px 8px;}
+    @media(max-width:900px){.site-nav__links{display:none;}.site-nav__hamburger{display:block;}}
+    .bs-mobile-overlay{position:fixed;inset:0;z-index:2000;background:rgba(15,20,25,0.98);padding:72px 24px 24px;overflow-y:auto;flex-direction:column;}
+    .bs-mobile-overlay__close{position:absolute;top:16px;right:24px;background:none;border:none;color:var(--text-light);font-size:28px;cursor:pointer;}
+    .bs-mobile-overlay__section{margin-bottom:24px;}
+    .bs-mobile-overlay__heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:10px;font-family:var(--font-body);}
+    .bs-mobile-overlay a{display:block;padding:8px 0;font-size:16px;color:var(--text-light-secondary);text-decoration:none;}
+    .bs-mobile-overlay a:hover{color:var(--green-400);}
+    .bs-mobile-overlay__cta{display:inline-block;margin-top:16px;background:var(--green-500);color:var(--bg-dark);padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center;}
+    .site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 24px 32px;}
+    .site-footer__inner{max-width:1200px;margin:0 auto;}
+    .footer-grid{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:48px;margin-bottom:48px;}
+    .footer-brand{font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--text-light);letter-spacing:-0.02em;margin-bottom:12px;}
+    .footer-brand span{color:var(--green-400);}
+    .footer-tagline{font-size:13px;color:var(--text-light-muted);line-height:1.7;}
+    .footer-col h4{font-family:var(--font-body);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:16px;}
+    .footer-col ul{list-style:none;}
+    .footer-col li{margin-bottom:10px;}
+    .footer-col a{font-size:14px;color:var(--text-light-secondary);text-decoration:none;}
+    .footer-col a:hover{color:var(--green-400);}
+    .footer-copy{font-size:12px;color:var(--text-light-muted);border-top:1px solid var(--border-dark);padding-top:24px;}
+    @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px;}}
+    @media(max-width:600px){.footer-grid{grid-template-columns:1fr;gap:24px;}}
+  </style>
+
+</body>
+</html>

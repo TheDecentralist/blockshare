@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Land Is Already Here | Block Beats | Block Share</title>
+  <meta name="description" content="False Creek South and the fight for a city that works. How permanent land trusts can change who holds the land — starting now." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+
+    :root {
+      --forest:       #0f2b1d;
+      --forest-light: #163d2a;
+      --forest-mid:   #1a4a33;
+      --navy:         #1E4D7B;
+      --navy-dark:    #153a5e;
+      --slate:        #2c3e50;
+      --gold:         #f9a825;
+      --gold-dim:     #c8891e;
+      --gold-light:   #fdd835;
+      --cream:        #faf6f0;
+      --cream-dark:   #f0ebe3;
+      --text:         #1a1a1a;
+      --text-light:   #555;
+      --text-muted:   #888;
+      --white-a10:    rgba(255,255,255,.1);
+      --white-a15:    rgba(255,255,255,.15);
+      --white-a60:    rgba(255,255,255,.6);
+      --white-a80:    rgba(255,255,255,.8);
+      --white-a85:    rgba(255,255,255,.85);
+      --car-red:      #E24B4A;
+      --transit-blue: #378ADD;
+      --bike-amber:   #EF9F27;
+      --walk-green:   #1D9E75;
+      --joker-purple: #7F77DD;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; line-height: 1.6; color: var(--text); background: var(--cream); }
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── HERO — forest ── */
+    .hero { background: var(--forest); color: #fff; padding: 6rem 2rem 5rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: radial-gradient(ellipse at 80% 20%, var(--forest-mid) 0%, transparent 70%); }
+    .hero-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow { font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
+    .hero-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--gold); }
+    .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); line-height: 1.08; max-width: 660px; margin-bottom: 1.5rem; letter-spacing: -.02em; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub { font-size: 1.15rem; max-width: 580px; color: var(--white-a80); line-height: 1.7; margin-bottom: 2.5rem; }
+    .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .hero-meta-item { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; color: var(--white-a60); display: flex; align-items: center; gap: 6px; }
+    .hero-meta-item span { color: var(--white-a85); }
+
+    /* ── SECTION COMMON ── */
+    .section { padding: 4.5rem 2rem; }
+    .section-inner { max-width: 780px; margin: 0 auto; }
+    .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--gold-dim); margin-bottom: .75rem; }
+
+    .section-light { background: var(--cream); }
+    .section-warm { background: var(--cream-dark); }
+    .section-forest { background: var(--forest); color: #fff; }
+    .section-forest .eyebrow { color: var(--gold); }
+    .section-navy { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); color: #fff; }
+    .section-navy .eyebrow { color: var(--gold); }
+
+    .section-light h2, .section-warm h2 { color: var(--text); }
+    .section-forest h2, .section-navy h2 { color: #fff; }
+
+    .section-inner p { margin-bottom: 1.25rem; line-height: 1.8; }
+    .section-light p, .section-warm p { color: var(--text-light); }
+    .section-forest p, .section-navy p { color: var(--white-a85); }
+    .section-inner p:last-child { margin-bottom: 0; }
+
+    /* ── Pullquote section ── */
+    .pullquote-section { padding: 4rem 2rem; }
+    .pullquote-inner { max-width: 850px; margin: 0 auto; text-align: center; }
+    .pullquote-bar { width: 48px; height: 3px; background: var(--gold); margin: 0 auto 2rem; }
+    .pullquote-inner blockquote { font-family: 'DM Serif Display', serif; font-size: clamp(1.4rem, 3vw, 1.8rem); line-height: 1.45; color: var(--forest); margin-bottom: 1.25rem; font-style: italic; }
+    .pullquote-inner cite { font-family: 'DM Sans', sans-serif; font-style: normal; font-size: .85rem; color: var(--text-muted); }
+
+    /* ── Inline pullquote ── */
+    .inline-quote {
+      margin: 2rem 0;
+      padding: 0 0 0 1.5rem;
+      border-left: 2px solid var(--gold);
+    }
+    .section-light .inline-quote p,
+    .section-warm .inline-quote p { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--forest); font-style: italic; margin: 0; }
+    .section-forest .inline-quote p,
+    .section-navy .inline-quote p { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--gold-light); font-style: italic; margin: 0; }
+    .section-forest .inline-quote { border-left-color: var(--gold); }
+
+    /* ── Stat cards ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2.5rem 0; }
+    .stat-card { text-align: center; padding: 2rem 1rem; }
+    .stat-card .val { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 600; color: var(--gold); }
+    .stat-card .label { font-size: .8rem; color: var(--white-a85); margin-top: .25rem; }
+
+    /* ── Stat cards on cream ── */
+    .stat-grid-cream { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 2.5rem 0; }
+    .stat-card-cream { text-align: center; padding: 1.5rem 1rem; background: #fff; border-radius: 12px; border: 1px solid #e8e4de; }
+    .stat-card-cream .val { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 600; }
+    .stat-card-cream .val.red { color: var(--car-red); }
+    .stat-card-cream .val.green { color: var(--walk-green); }
+    .stat-card-cream .label { font-size: .75rem; color: var(--text-muted); margin-top: .35rem; line-height: 1.4; }
+
+    /* ── Cost table ── */
+    .cost-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: .9rem; }
+    .cost-table th { font-family: 'JetBrains Mono', monospace; font-size: .65rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; text-align: left; padding: .75rem 1rem; border-bottom: 2px solid var(--white-a15); }
+    .section-forest .cost-table th { color: var(--gold); }
+    .section-light .cost-table th, .section-warm .cost-table th { color: var(--text-muted); border-bottom-color: #ddd; }
+    .cost-table td { padding: .65rem 1rem; border-bottom: 1px solid var(--white-a10); vertical-align: top; line-height: 1.5; }
+    .section-light .cost-table td, .section-warm .cost-table td { border-bottom-color: #e8e4de; color: var(--text-light); }
+    .cost-table .mono-val { font-family: 'JetBrains Mono', monospace; font-size: .85rem; }
+    .cost-table .red { color: var(--car-red); font-weight: 500; }
+    .cost-table .green { color: var(--walk-green); font-weight: 500; }
+    .cost-table tr.total td { font-weight: 600; border-top: 2px solid var(--white-a15); }
+    .section-light .cost-table tr.total td, .section-warm .cost-table tr.total td { border-top-color: #ccc; color: var(--text); }
+    .cost-table .sub { font-size: .75rem; color: var(--text-muted); display: block; margin-top: .15rem; }
+    .section-forest .cost-table .sub, .section-navy .cost-table .sub { color: var(--white-a60); }
+
+    /* ── Suit cards ── */
+    .suit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.25rem; margin: 2.5rem 0; }
+    .suit-card { border-radius: 12px; padding: 1.5rem 1.25rem; position: relative; overflow: hidden; }
+    .suit-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+    .suit-card.car { background: rgba(226,75,74,.08); }
+    .suit-card.car::before { background: var(--car-red); }
+    .suit-card.transit { background: rgba(55,138,221,.08); }
+    .suit-card.transit::before { background: var(--transit-blue); }
+    .suit-card.bike { background: rgba(239,159,39,.08); }
+    .suit-card.bike::before { background: var(--bike-amber); }
+    .suit-card.walk { background: rgba(29,158,117,.08); }
+    .suit-card.walk::before { background: var(--walk-green); }
+    .suit-card.joker { background: rgba(127,119,221,.08); }
+    .suit-card.joker::before { background: var(--joker-purple); }
+    .suit-card .suit-icon { font-size: 1.8rem; margin-bottom: .5rem; }
+    .suit-card .suit-name { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-bottom: .25rem; color: var(--text); }
+    .suit-card .suit-cost { font-family: 'JetBrains Mono', monospace; font-size: .85rem; margin-bottom: .35rem; }
+    .suit-card.car .suit-cost { color: var(--car-red); }
+    .suit-card.transit .suit-cost { color: var(--transit-blue); }
+    .suit-card.bike .suit-cost { color: var(--bike-amber); }
+    .suit-card.walk .suit-cost { color: var(--walk-green); }
+    .suit-card.joker .suit-cost { color: var(--joker-purple); }
+    .suit-card .suit-desc { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── Scenario row cards ── */
+    .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin: 2.5rem 0; }
+    .scenario-card { background: var(--white-a10); border: 1px solid var(--white-a10); border-radius: 12px; padding: 1.75rem 1.5rem; }
+    .scenario-card .sc-tag { font-family: 'JetBrains Mono', monospace; font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; margin-bottom: .35rem; }
+    .scenario-card .sc-tag.t-blue { color: var(--transit-blue); }
+    .scenario-card .sc-tag.t-amber { color: var(--bike-amber); }
+    .scenario-card .sc-tag.t-green { color: var(--walk-green); }
+    .scenario-card .sc-tag.t-purple { color: var(--joker-purple); }
+    .scenario-card h4 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: #fff; margin-bottom: .5rem; }
+    .scenario-card .sc-val { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 600; color: var(--gold); margin-bottom: .35rem; }
+    .scenario-card .sc-detail { font-size: .8rem; color: var(--white-a80); line-height: 1.6; }
+    .scenario-card .sc-detail span { font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: var(--gold); }
+
+    /* ── Safety comparison ── */
+    .safety-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: center; margin: 2rem 0; }
+    .safety-box { text-align: center; padding: 1.5rem; }
+    .safety-box .s-val { font-family: 'JetBrains Mono', monospace; font-size: 2.4rem; font-weight: 600; }
+    .safety-box .s-label { font-size: .8rem; color: var(--white-a80); margin-top: .25rem; }
+    .safety-vs { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--gold); font-style: italic; }
+
+    /* ── CTA ── */
+    .cta-section { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); padding: 5rem 2rem; text-align: center; position: relative; }
+    .cta-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 3px; background: var(--gold); }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .cta-inner h2 { color: #fff; font-size: 2.2rem; margin-bottom: 1rem; }
+    .cta-inner p { color: var(--white-a85); margin-bottom: 2.5rem; font-size: 1.05rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold { background: var(--gold); color: var(--forest); padding: .85rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: .95rem; transition: all .25s; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-ghost { border: 1.5px solid var(--white-a60); color: #fff; padding: .85rem 2rem; border-radius: 8px; font-weight: 500; text-decoration: none; font-size: .95rem; transition: all .25s; }
+    .btn-ghost:hover { border-color: #fff; background: var(--white-a10); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } .stat-grid-cream { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) {
+      .hero { padding: 4rem 1.5rem 3rem; }
+      .section { padding: 3.5rem 1.5rem; }
+      .pullquote-section { padding: 3rem 1.5rem; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .stat-grid-cream { grid-template-columns: 1fr 1fr; }
+      .suit-grid { grid-template-columns: 1fr 1fr; }
+      .scenario-grid { grid-template-columns: 1fr; }
+      .safety-row { grid-template-columns: 1fr; gap: .5rem; }
+      .cost-table { font-size: .8rem; }
+      .cost-table td, .cost-table th { padding: .5rem .65rem; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-inner > * { animation: fadeUp .6s ease-out both; }
+    .hero-eyebrow { animation-delay: .1s; }
+    .hero h1 { animation-delay: .2s; }
+    .hero-sub { animation-delay: .3s; }
+    .hero-meta { animation-delay: .4s; }
+
+    /* ── MEDIA BAR ── */
+    .media-bar {
+      background: var(--forest);
+      border-bottom: 2px solid var(--gold);
+      position: sticky; top: 56px; z-index: 900;
+      overflow: hidden;
+      transition: max-height .35s ease;
+      max-height: 52px;
+    }
+    .media-bar.expanded { max-height: 420px; }
+    .media-bar-pill {
+      max-width: 780px; margin: 0 auto;
+      display: flex; align-items: center;
+      gap: 0; height: 52px; padding: 0 1.5rem;
+      flex-wrap: nowrap;
+    }
+    .mb-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); flex-shrink: 0; margin-right: 1rem;
+    }
+    .mb-btn {
+      display: flex; align-items: center; gap: .4rem;
+      background: var(--white-a10); border: 1px solid var(--white-a15);
+      color: #fff; font-size: .78rem; font-weight: 500;
+      padding: .3rem .85rem; border-radius: 20px; cursor: pointer;
+      white-space: nowrap; margin-right: .5rem;
+      text-decoration: none; transition: background .2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .mb-btn:hover { background: var(--white-a15); }
+    .mb-btn.active { background: var(--gold); color: var(--forest); border-color: var(--gold); }
+    .mb-btn svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
+    .mb-toggle {
+      margin-left: auto; background: none; border: none;
+      color: var(--white-a60); font-size: .7rem; cursor: pointer;
+      font-family: 'JetBrains Mono', monospace; letter-spacing: .08em;
+      white-space: nowrap; padding: .3rem .5rem;
+    }
+    .mb-panel {
+      display: none; max-width: 780px; margin: 0 auto;
+      padding: 1rem 1.5rem 1.5rem;
+    }
+    .media-bar.expanded .mb-panel.active-panel { display: block; }
+    .mb-panel iframe { width: 100%; border-radius: 10px; border: none; }
+    .mb-panel .podcast-embed {
+      background: var(--forest-mid); border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+    .mb-panel .podcast-embed p {
+      color: var(--white-a85) !important; font-size: .9rem; margin-bottom: .75rem;
+    }
+    .mb-panel .podcast-embed a {
+      display: inline-block; background: var(--gold); color: var(--forest);
+      padding: .5rem 1.25rem; border-radius: 6px; font-weight: 600;
+      font-size: .85rem; text-decoration: none;
+    }
+
+    /* ── INFOGRAPHIC ── */
+    .infographic-wrap {
+      margin: 2.5rem 0; border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+    .infographic-wrap img { width: 100%; display: block; }
+    .infographic-cap {
+      font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--white-a60); padding: .6rem 1rem;
+      background: rgba(0,0,0,.2); text-align: center;
+    }
+
+    /* ── COST TABLE EMBED ── */
+    .cost-table-embed {
+      margin: 2.5rem 0; border-radius: 12px; overflow: hidden;
+      border: 1px solid #e0dbd4;
+    }
+    .cost-table-embed-header {
+      background: var(--forest); padding: .65rem 1.25rem;
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .cost-table-embed-header span {
+      font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--gold);
+    }
+    .ctv2-wrap { background: #FAFAF7; padding: 1.25rem; }
+
+    /* ── COST TABLE EMBED SCOPED ── */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .ctv2-wrap {
+    --navy:       #1E3A5F;
+    --forest:     #1B5E3B;
+    --gold:       #B8860B;
+    --car-red:    #C0392B;
+    --walk-grn:   #1D7A4A;
+    --bike-amb:   #D4860A;
+    --transit-b:  #1565C0;
+    --joker-pur:  #5E35B1;
+    --cream:      #FAFAF7;
+    --light-gry:  #F0EFEA;
+    --mid-gry:    #9E9E9E;
+    --dark-gry:   #424242;
+    --red-lt:     #FFEBEE;
+    --grn-lt:     #E8F5E9;
+    --blue-lt:    #E3F2FD;
+    --amber-lt:   #FFF8E1;
+    --purple-lt:  #EDE7F6;
+    --text-primary:   #1a1a1a;
+    --text-secondary: #555;
+    --text-tertiary:  #888;
+    --bg-primary:     #ffffff;
+    --bg-secondary:   #f5f5f3;
+    --border:         rgba(0,0,0,0.12);
+  }
+
+  
+  }
+
+  .ctv2-wrap {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 1rem 3rem;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .header {
+    border-left: 4px solid var(--gold);
+    padding: 0.5rem 0 0.5rem 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 0.3rem;
+  }
+  .ttl {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+  }
+  .sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .sub strong { color: var(--text-primary); font-weight: 500; }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    border-bottom: 0.5px solid var(--border);
+    padding-bottom: 0.75rem;
+  }
+  .tb {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 16px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .tb:hover { background: var(--bg-secondary); }
+  .tb.on { background: var(--navy); color: #fff; border-color: transparent; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── Note box ── */
+  .note {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-style: italic;
+    line-height: 1.65;
+    margin-bottom: 1.1rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 1.25rem;
+  }
+  th {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    text-align: left;
+    padding: 7px 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  td {
+    padding: 9px 10px;
+    border-bottom: 0.5px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+    line-height: 1.55;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr.bld td {
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+  }
+
+  .mn  { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-primary); }
+  .rd  { color: #C0392B; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; }
+  .gn  { color: #1D7A4A; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; }
+  .rd-lg { color: #C0392B; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; }
+  .gn-lg { color: #1D7A4A; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; }
+
+  .sub-note {
+    display: block;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+  }
+
+  /* ── Inline tags ── */
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.5px;
+  }
+  .tnew  { background: #E8F5E9; color: #3B6D11; }
+  .tupd  { background: #E3F2FD; color: #185FA5; }
+
+  /* ── Reconciliation box ── */
+  .rbox {
+    background: var(--bg-secondary);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--forest);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .rbox h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-bottom: 0.6rem;
+  }
+  .rbox p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 0.6rem;
+  }
+  .rbox p:last-child { margin-bottom: 0; }
+  .rbox em { color: var(--text-primary); font-style: italic; }
+  .rbox strong { color: var(--text-primary); font-weight: 500; }
+
+  /* ── Pullquote ── */
+  .pullquote {
+    border-left: 3px solid var(--gold);
+    padding: 0.7rem 1.1rem;
+    margin: 1rem 0 0;
+    background: var(--bg-secondary);
+    border-radius: 0 8px 8px 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  
+
+    /* ── PATHWAY CARDS — cream context ── */
+    .pathway-grid { display: grid; gap: 1.5rem; margin: 2.5rem 0; }
+    .pathway-card {
+      background: #fff;
+      border: 1px solid #e8e4de;
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      border-top: 4px solid var(--gold-dim);
+    }
+    .pathway-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: var(--forest);
+      margin-bottom: .75rem;
+      display: flex; align-items: center; gap: .65rem;
+    }
+    .pathway-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 1.8rem; height: 1.8rem; border-radius: 50%;
+      background: var(--gold-dim); color: #fff;
+      font-family: 'JetBrains Mono', monospace; font-size: .75rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pathway-card p { font-size: .95rem; margin-bottom: .85rem; }
+    .pathway-card p:last-child { margin-bottom: 0; }
+    .pathway-cta {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem; letter-spacing: .09em; text-transform: uppercase;
+      color: var(--gold-dim); text-decoration: none;
+      border-bottom: 1px solid rgba(200,137,30,.35);
+      padding-bottom: 1px; transition: color .2s, border-color .2s;
+    }
+    .pathway-cta:hover { color: var(--forest); border-color: var(--forest); }
+    .pathway-cta::after { content: ' →'; }
+
+    /* ── AUDIENCE CTA GRID ── */
+    .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 2.5rem 0; }
+    .audience-card {
+      background: var(--white-a10);
+      border: 1px solid var(--white-a15);
+      border-radius: 10px; padding: 1.5rem;
+    }
+    .audience-card h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .6rem;
+    }
+    .audience-card p { font-size: .88rem; color: var(--white-a80); margin-bottom: .75rem; }
+    .audience-card a {
+      display: inline-block; font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--gold); text-decoration: none;
+      border-bottom: 1px solid rgba(249,168,37,.35); padding-bottom: 1px;
+    }
+    .audience-card a::after { content: ' →'; }
+    .audience-card a:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+    @media (max-width: 600px) { .audience-grid { grid-template-columns: 1fr; } }
+
+    /* ── FINDING CARD — forest context ── */
+    .finding-card {
+      background: rgba(0,0,0,.25);
+      border: 1px solid var(--white-a15);
+      border-radius: 12px; padding: 2rem;
+      margin: 2.5rem 0;
+    }
+    .finding-card .fc-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .finding-card p {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      line-height: 1.5; color: #fff; font-style: italic;
+      margin: 0 !important;
+    }
+    .finding-card p em { color: var(--gold); font-style: italic; }
+
+    /* ── STAT INLINE — forest context ── */
+    .stat-inline {
+      display: flex; align-items: center; gap: 1.5rem;
+      background: rgba(0,0,0,.2); border-radius: 10px;
+      padding: 1.5rem; margin: 2rem 0;
+      border-left: 3px solid var(--gold);
+    }
+    .stat-inline .si-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.8rem; font-weight: 700;
+      color: var(--gold); flex-shrink: 0; line-height: 1;
+    }
+    .stat-inline .si-label { font-size: .9rem; color: var(--white-a85); line-height: 1.6; }
+    .stat-inline .si-label strong { color: #fff; display: block; margin-bottom: .2rem; }
+
+    /* ── DIASPORA BOX ── */
+    .diaspora-box {
+      background: var(--white-a10);
+      border: 1px solid var(--white-a15);
+      border-radius: 12px; padding: 2rem;
+      margin: 2.5rem 0;
+    }
+    .diaspora-box p { font-size: .95rem; }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ HERO ═══ -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Block Beats &nbsp;&middot;&nbsp; Housing &nbsp;&middot;&nbsp; Land &amp; Community</div>
+      <h1>The Land Is <em>Already Here</em></h1>
+      <p class="hero-sub">False Creek South and the fight for a city that works &mdash; the tools, the land, and the legal structures exist. What&rsquo;s needed now is people.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">Author <span>Ward Stirrat</span></div>
+        <div class="hero-meta-item">Published <span>April 2026</span></div>
+        <div class="hero-meta-item">Read time <span>~20 min</span></div>
+        <div class="hero-meta-item">Topic <span>Permanent Land Trusts · False Creek South</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ MEDIA BAR ═══ -->
+  <div class="media-bar" id="mediaBar">
+    <div class="media-bar-pill">
+      <span class="mb-label">Watch or Listen</span>
+      <button class="mb-btn" id="mbBtnYT" onclick="mbToggle('yt')">
+        <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.4 12 20.4 12 20.4s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+        YouTube Explainer
+      </button>
+      <button class="mb-btn" id="mbBtnPod" onclick="mbToggle('pod')">
+        <svg viewBox="0 0 24 24"><path d="M12 1a9 9 0 0 1 9 9v4a9 9 0 0 1-18 0v-4a9 9 0 0 1 9-9zm0 2a7 7 0 0 0-7 7v4a7 7 0 0 0 14 0v-4a7 7 0 0 0-7-7zm-1 17h2v2h-2v-2zm4.5-1.5a6.5 6.5 0 0 1-7 0l1-1.7a4.5 4.5 0 0 0 5 0l1 1.7z"/></svg>
+        Podcast &middot; The Decentralist
+      </button>
+      <button class="mb-toggle" id="mbToggleBtn" onclick="mbToggle(null)">&#9662; expand</button>
+    </div>
+    <div class="mb-panel" id="mbPanelYT">
+      <iframe height="340" src="https://www.youtube.com/embed/ccyhsa4I9WA" title="The Land Is Already Here — Block Share Explainer" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div class="mb-panel" id="mbPanelPod">
+      <div class="podcast-embed">
+        <p><strong style="color:#fff;">The Decentralist &middot; Building for Lasting Community Wealth</strong><br>
+        Covers permanent land trusts, the False Creek South proof of concept, and how to relocalize the neighbourhood economy.</p>
+        <audio controls preload="metadata" style="width:100%;border-radius:8px;margin-bottom:.75rem;">
+          <source src="https://app.blockshare.ca/wp-content/uploads/2026/04/Reclaim_your_block_s_hidden_economic_power.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <a href="https://open.substack.com/pub/thedecentralistnet/p/building-for-lasting-community-wealth" target="_blank" rel="noopener" style="font-size:.8rem;color:rgba(255,255,255,.5);text-decoration:none;">Also available on Substack &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 01 · OPENING — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">01 &middot; The Neighbourhood</div>
+      <h2>A Place That Works</h2>
+      <p>Walk into one of the courtyards of False Creek South on any given afternoon and you might not immediately understand what you&rsquo;re looking at.</p>
+      <p>Kids cutting across from the school. Someone tending a container garden outside their ground-floor unit. Two older residents stopped mid-path, deep in conversation. A dog, unhurried. The mountains sitting behind all of it.</p>
+      <p>It doesn&rsquo;t look like a policy. It doesn&rsquo;t look like an argument. It looks like a neighbourhood &mdash; specifically, like a neighbourhood that <em>works</em>, in a city where many people have stopped believing that&rsquo;s possible.</p>
+      <p>False Creek South is nearly 50 years old. It was built on what had been industrial land &mdash; log booms, sewer discharge, rail noise &mdash; that the City of Vancouver acquired through a series of land deals in the early 1970s. It was designed through community charrettes: an intensive collaborative process between planners, architects, and the people who would actually live there. The philosopher and architect Christopher Alexander&rsquo;s human-centred principles shaped its layout &mdash; courtyards, plazas, common rooms &mdash; spaces designed specifically to make it easy for people to run into each other, to slow down, to belong somewhere.</p>
+      <p>The master plan called for one third non-market rental housing, one third co-ops, one third condominiums &mdash; all on land that remained owned by the City. No single tenure dominated. No one cohort was priced out. The mix was the point.</p>
+      <div class="inline-quote">
+        <p>&ldquo;Think about a future where children see their parents leave for evening meetings to talk about how to care for their community. And what that does through 50 years.&rdquo;</p>
+      </div>
+      <p>This is not nostalgia. This is evidence. What False Creek South proves &mdash; quietly, stubbornly, block by block &mdash; is that the way housing works has almost nothing to do with the housing itself and almost everything to do with <strong>who holds the land beneath it</strong>.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>Of almost 3,000 housing units in False Creek South, about 1,800 sit on leased City-owned land. Those leases are expiring &mdash; some already have. The plan that decides what happens next is being written right now.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 02 · WHAT'S HAPPENING NOW — warm ═══ -->
+  <section class="section section-warm">
+    <div class="section-inner">
+      <div class="eyebrow">02 &middot; What&rsquo;s Happening Now</div>
+      <h2>The Window Is Open</h2>
+      <p>Something is shifting in False Creek South, and it&rsquo;s worth paying attention to.</p>
+      <p>The False Creek South Community Housing Trust exists to sustain existing homes and develop new ones &mdash; permanently affordable, permanently community-governed. It didn&rsquo;t appear overnight. Funding came in 2018 from the Real Estate Foundation of BC and BC Housing. A Housing Trust Advisory Group formed in 2019. The Trust was formally incorporated in 2021. This is not a proposal. It is a functioning organization, with staff, a board, members, and active negotiations with the City &mdash; right now.</p>
+      <p>In January 2025, the City of Vancouver awarded a $4-million contract to Arup Canada for a two-year technical study of False Creek South &mdash; covering sea level rise, seismic risk, soil conditions, and infrastructure &mdash; with an explicit mandate to consider how what makes this community work can survive into its next chapter. That study began in June 2025 and goes to City Council in early 2026. <strong>The plan that will shape this neighbourhood for the next 50 years is being written at this moment.</strong></p>
+      <p>Nationally, the picture is also shifting. Vancouver&rsquo;s Host Nations have partnered with the Province to build 2,600 leasehold condos at 40 percent below market for first-time homebuyers. A federal Co-operative Housing Development Program aims to build thousands of new co-op homes by 2028. The leasehold and community trust model is moving from fringe to mainstream.</p>
+      <p>None of this is theoretical. The Trust exists. The land is largely public. The leases are expiring. The study is underway. What it needs is people.</p>
+      <div class="inline-quote">
+        <p>The expiry window is not a crisis. It is an opening. The question is whether the land gets handed to market developers or held permanently by the community that built its life here.</p>
+      </div>
+      <p style="margin-top:1.5rem;">
+        <a href="https://www.falsecreeksouth.org/community-housing-trust/" target="_blank" rel="noopener" class="btn-gold" style="font-size:.85rem;padding:.7rem 1.5rem;">Join the FCS Community Housing Trust &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ 03 · THE ONE THING — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">03 &middot; The Structural Argument</div>
+      <h2>The One Thing That Changes Everything</h2>
+      <p>There&rsquo;s a conversation that happens a lot in False Creek South, and in neighbourhoods like it across Vancouver. Someone raises the question of who should control the land &mdash; and almost immediately, someone else says: <em style="color:var(--gold-light);">&ldquo;We have to be careful not to get too political.&rdquo;</em></p>
+      <p>It&rsquo;s worth pausing on that.</p>
+      <p>False Creek South exists because in 1972, Vancouver elected a mayor and council from The Electors Action Movement &mdash; a democracy-centred party that swept into office opposing the top-down planning that had dominated City Hall. The previous vision included freeways cut through Strathcona, Chinatown, Kitsilano, and the South Shore of False Creek. TEAM didn&rsquo;t politely request modifications. They ran for office. They won. They cancelled the freeways and built something entirely different.</p>
+
+      <div class="finding-card">
+        <div class="fc-label">Historical Context &middot; False Creek South</div>
+        <p>Walter Hardwick, the UBC geographer who became a city councillor, and Art Phillips, the mayor who moved his own family into False Creek South to prove it was a place worth living in &mdash; these were not technocrats managing a process. They were citizens who decided the city belonged to the people who lived in it, and governed accordingly.</p>
+      </div>
+
+      <p>We know what they built. We&rsquo;ve been living in it for fifty years. The question worth asking in 2026 is simple: if they could deliver 70s-era community design and 70s-era housing pricing on an industrial brownfield using the tools of 1972 &mdash; what&rsquo;s our excuse?</p>
+      <p>So when someone says <em style="color:var(--gold-light);">&ldquo;let&rsquo;s not get political&rdquo;</em> in a conversation about the future of False Creek South, what they&rsquo;re really saying is: <em style="color:var(--white-a80);">let&rsquo;s not do the thing that made this neighbourhood possible in the first place.</em></p>
+
+      <div class="stat-inline">
+        <div class="si-num">61&cent;</div>
+        <div class="si-label">
+          <strong>Of every housing dollar gone before a wall goes up</strong>
+          Mortgage interest, land premium, and developer margin consume 61 cents of every dollar spent on market housing in Vancouver. Change who holds the land and you change where that money goes.
+        </div>
+      </div>
+
+      <p><strong style="color:#fff;">Land held in a community trust cannot be speculated on. That&rsquo;s it. That&rsquo;s the whole thing.</strong></p>
+      <p>When land is removed from the speculative market &mdash; placed permanently in a trust governed by the community &mdash; the entire extractive logic that drives Vancouver&rsquo;s housing crisis stops working. Not because someone passed a law against greed. But because the <em style="color:var(--gold-light);">structure</em> no longer permits it. You don&rsquo;t need to win a policy debate. You need to change who holds the title.</p>
+      <p>This is not a left-wing idea. It&rsquo;s not a right-wing idea. It is, if anything, a profoundly <strong style="color:#fff;">conservative</strong> idea &mdash; in the original sense. It conserves what works. It protects what the community has built. It resists the liquidation of social infrastructure for short-term private gain.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-light">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>Democracy for housing. Not democracy as a voting procedure &mdash; democracy in its original meaning. <em>Demos</em>: the people. <em>Kratos</em>: power. The idea that the foundational conditions of a community should be governed by the people who live there.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · GLOBAL EVIDENCE — warm ═══ -->
+  <section class="section section-warm">
+    <div class="section-inner">
+      <div class="eyebrow">04 &middot; Global Evidence</div>
+      <h2>Vancouver Is the Outlier</h2>
+      <p>Before we get to the mechanics, one inconvenient fact is worth sitting with.</p>
+
+      <div class="stat-grid-cream">
+        <div class="stat-card-cream">
+          <div class="val green">80%</div>
+          <div class="label">Singapore residents in state-leased housing, permanently removed from speculation</div>
+        </div>
+        <div class="stat-card-cream">
+          <div class="val green">60%</div>
+          <div class="label">Vienna residents in publicly or cooperatively owned housing, rents set by cost not market</div>
+        </div>
+        <div class="stat-card-cream">
+          <div class="val green">95%</div>
+          <div class="label">China&rsquo;s urban residents living on state-owned land under long-term lease</div>
+        </div>
+        <div class="stat-card-cream">
+          <div class="val red">~8%</div>
+          <div class="label">Vancouver residents in non-market housing &mdash; the city presents this as normal</div>
+        </div>
+      </div>
+
+      <p>These are not failed states. They are not ideological experiments. They are among the most functional, livable, and economically productive urban environments on earth. People there live in community land trust housing because it <em>works</em>. When people actually get to choose, most of them choose not to have their housing treated as a financial instrument.</p>
+      <p>Vancouver is not the global norm. Vancouver is the outlier. The thing we&rsquo;ve been told is radical &mdash; land held in common, housing priced at cost, communities governing their own future &mdash; is what most of the world&rsquo;s city-dwellers actually live in.</p>
+      <div class="inline-quote">
+        <p>When Champlain Housing Trust in Vermont housed the chronically homeless so effectively that the regional hospital system saved millions in emergency care costs, the hospital donated three million dollars to build more housing &mdash; not out of charity, but rational self-interest. Stable housing is infrastructure.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 05 · THREE PATHWAYS — light ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">05 &middot; How Land Enters the Trust</div>
+      <h2>Three Ways &mdash; Starting Now</h2>
+      <p>The most common reason people don&rsquo;t act on ideas like this isn&rsquo;t opposition. It&rsquo;s the assumption that the pathway is impossibly long &mdash; that it requires legislation, or a change of government, before anything real can happen. It doesn&rsquo;t. Here are the three paths open right now.</p>
+
+      <div class="pathway-grid">
+        <div class="pathway-card">
+          <h3><span class="pathway-num">1</span> Gift and Bequest</h3>
+          <p>Property owners who have spent their lives building equity in Vancouver increasingly face the same question: <em>what do I want this asset to do when I&rsquo;m gone?</em> The default answer &mdash; sell it on the market, distribute the proceeds &mdash; turns a lifetime of community investment into a one-time financial transaction. The building gets flipped, the tenants displaced, the neighbourhood changed in ways the original owner would never have chosen.</p>
+          <p>The alternative is to direct that asset into a community land trust through gift or bequest. The land is removed from the speculative market permanently. The owner&rsquo;s intention survives them. The community benefits in perpetuity. This is already happening in Vancouver. It can happen this year, with existing legal instruments, through any estate lawyer familiar with charitable giving.</p>
+          <a href="https://app.blockshare.ca/connect/" class="pathway-cta">Explore gift and bequest options</a>
+        </div>
+
+        <div class="pathway-card">
+          <h3><span class="pathway-num">2</span> Vendor Take-Back</h3>
+          <p>Not every property owner wants to give their asset away. Some need income from it. Some are carrying debt that makes a clean donation impossible. The vendor take-back structure exists precisely for this situation. Rather than selling on the open market &mdash; particularly in a volatile or declining market &mdash; an owner can transfer the property to a land trust in exchange for a structured long-term income stream.</p>
+          <p>For a rental building owner approaching retirement, for a commercial property holder whose debt position has become unmanageable, for anyone sitting on an asset that has become more burden than benefit &mdash; this is a dignified, values-aligned exit that produces community benefit instead of speculative profit. Market conditions right now make this structure more attractive than it has been in decades.</p>
+          <a href="https://app.blockshare.ca/connect/" class="pathway-cta">Start a vendor take-back conversation</a>
+        </div>
+
+        <div class="pathway-card">
+          <h3><span class="pathway-num">3</span> Public Land &mdash; Already Yours</h3>
+          <p>This one requires the least convincing, because the land is already in public hands. It just needs to stay there. Of roughly 3,000 housing units in False Creek South, about 1,800 sit on City-owned land. Those leases are expiring. The City will decide &mdash; through its planning process and council votes &mdash; whether that land gets transferred into a permanent community trust or cycled back into the development market.</p>
+          <p>The mechanism here isn&rsquo;t donation or financial structuring. It&rsquo;s civic participation. Show up to the town halls. Join the Housing Trust. Talk to your council member. <strong>Public land that moves into a permanent community trust stays affordable forever. Public land handed to a developer stays affordable for exactly as long as the political will to enforce it lasts.</strong></p>
+          <a href="https://www.falsecreeksouth.org/community-housing-trust/" target="_blank" rel="noopener" class="pathway-cta">Join the FCS Community Housing Trust</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 06 · BIGGER PICTURE — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">06 &middot; The Bigger Picture</div>
+      <h2>What Stable Land Makes Possible</h2>
+      <p>Housing is where this story starts. It&rsquo;s not where it ends.</p>
+      <p>When land speculation is removed from a neighbourhood&rsquo;s economic foundation, the benefits don&rsquo;t stay contained to the people who live there. They radiate outward &mdash; into the local economy, into community health, into the kind of social fabric that makes a city worth living in for everyone. When a family isn&rsquo;t spending 50 or 60 percent of their income on housing, they spend the remainder somewhere else &mdash; locally. At the restaurant on the corner. At the independent shop that couldn&rsquo;t survive if its rent were set by a speculative landlord. Money that would otherwise have been extracted upward instead circulates within the community that generated it.</p>
+
+      <div class="finding-card">
+        <div class="fc-label">The Preston Model &middot; UK</div>
+        <p>In the 1980s, Preston redirected institutional procurement from 5% to over 18% local spend &mdash; creating 4,500 jobs with <em>no new external investment</em>. No new money. A different structure for the money that already existed. The same logic applies to housing.</p>
+      </div>
+
+      <p>In Vancouver&rsquo;s current policy framework, &ldquo;affordable&rdquo; typically means discounted from market rate &mdash; administered by a non-profit, subject to funding cycles and political priorities. It is affordability as subsidy. Affordability that exists at the pleasure of whoever holds power this term.</p>
+      <p>Permanent land trust housing isn&rsquo;t affordable in that sense. It&rsquo;s affordable in a <strong style="color:#fff;">structural</strong> sense &mdash; because the mechanism that drives costs upward has been removed, not managed.</p>
+
+      <div class="inline-quote">
+        <p>This is the difference between a bandage and a cure. Vancouver has spent decades applying increasingly expensive bandages. The community land trust model proposes something more durable &mdash; not a policy, but a structure. Not a program, but a permanent change in who holds the land.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>The conventional debate runs between two poles: leave it to the market, or have the government build it. Both have been tried in Vancouver. Both have failed the majority. The third option doesn&rsquo;t depend on the market behaving well or government funding being sustained.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 07 · CLOSING — light ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">07 &middot; From Petitioner to Actor</div>
+      <h2>The Land Is Already Here</h2>
+      <p>Walk back into one of the courtyards of False Creek South. Same mountains. Same unhurried dog. Same two residents stopped mid-path, still talking &mdash; about the lease renewal, the town hall next week, what they heard the City is planning. They&rsquo;ve been having versions of this conversation for twenty years. They&rsquo;ll keep having it. That&rsquo;s what people do when they have a stake in a place.</p>
+      <p>This is what tenure does. Not ownership in the speculative sense &mdash; not the anxious, leveraged, <em>is-it-going-up</em> ownership that dominates the rest of Vancouver&rsquo;s housing market. Tenure in the older, deeper sense: <em>I belong here, and here belongs to me, and neither of us is going anywhere.</em></p>
+      <p>The FCS Community Housing Trust is doing important and necessary work. But meeting with the City, participating in planning processes, waiting for a development framework &mdash; that is still, at its core, a petitionary posture. Asking the institution that holds the power to use that power well. That hope is not unreasonable. But it is not sufficient.</p>
+      <p>TEAM didn&rsquo;t petition the freeway builders. They ran against them, beat them, and cancelled the freeways. The power to shape False Creek South came from becoming the people who held power &mdash; and using it to build something that served the community rather than extracted from it.</p>
+      <div class="inline-quote">
+        <p>The version of that move available right now is economic and organizational: the deliberate assembly of land, capital, and community will outside the permission structure &mdash; so that when the City&rsquo;s process concludes, the community is an actor with assets, not just a respondent to whatever framework gets handed down.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 08 · DIASPORA — navy ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">08 &middot; The Bigger Net</div>
+      <h2>The Diaspora of False Creek South</h2>
+      <p>False Creek South has been home to thousands of people over fifty years. Many of them don&rsquo;t live there anymore. But they carry FCS with them &mdash; the memory of what it felt like to live in a place that worked, where housing felt like a foundation rather than a gamble.</p>
+      <p>That diaspora is an untapped constituency. Some of them are sitting on exactly what the next chapter of this story needs: legacy capital, investment properties, houses they&rsquo;re thinking about what to do with, land they inherited and aren&rsquo;t sure how to steward.</p>
+
+      <div class="scenario-grid">
+        <div class="scenario-card">
+          <div class="sc-tag t-amber">Former Resident</div>
+          <h4>Legacy Capital</h4>
+          <div class="sc-val">Gift / Bequest</div>
+          <div class="sc-detail">An FCS resident who moved to East Vancouver 20 years ago, owns their home outright, and wants their estate to do something meaningful. <span>Conversation starts here.</span></div>
+        </div>
+        <div class="scenario-card">
+          <div class="sc-tag t-blue">Property Owner</div>
+          <h4>Rental Building</h4>
+          <div class="sc-val">Vendor Take-Back</div>
+          <div class="sc-detail">Approaching retirement. Carrying debt. Looking for a dignified exit that doesn&rsquo;t displace tenants or hand the building to a speculator. <span>This is precisely what the model is for.</span></div>
+        </div>
+        <div class="scenario-card">
+          <div class="sc-tag t-green">Supporter</div>
+          <h4>Membership</h4>
+          <div class="sc-val">Active Participant</div>
+          <div class="sc-detail">Lives elsewhere in Vancouver. Believes in the model. Joins the Trust, votes in elections, brings their network, makes the organization ungovernable by outside interests. <span>The most important role.</span></div>
+        </div>
+      </div>
+
+      <p>Nobody is currently asking these people. This article is one attempt to start that conversation. The shift from passive to active requires assembling the resources that make the community&rsquo;s position independent of the City&rsquo;s decision: land, capital, and members. The City will do what the City will do. The market will do what the market will do. <strong style="color:#fff;">The community that has spent fifty years proving that a different model works doesn&rsquo;t need to wait for either of them. It needs to act first.</strong></p>
+    </div>
+  </section>
+
+  <!-- ═══ 09 · WHAT YOU CAN DO — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">09 &middot; Starting Today</div>
+      <h2>What You Can Do</h2>
+      <p>This is not a long-horizon project. The instruments exist. The organization exists. The window &mdash; the lease expiry window, the planning process window &mdash; is open now.</p>
+
+      <div class="audience-grid">
+        <div class="audience-card">
+          <h4>If you live in False Creek South</h4>
+          <p>Join the Housing Trust. Show up to town halls as an active participant, not a hopeful observer. Bring a neighbour.</p>
+          <a href="https://www.falsecreeksouth.org/community-housing-trust/" target="_blank" rel="noopener">FCS Community Housing Trust</a>
+        </div>
+        <div class="audience-card">
+          <h4>If you grew up in FCS or lived here</h4>
+          <p>You&rsquo;re part of this story whether you&rsquo;re here or not. If you have capital, property, or the will to put resources in service of something permanent &mdash; the conversation is open.</p>
+          <a href="https://app.blockshare.ca/connect/">Connect through Block Share</a>
+        </div>
+        <div class="audience-card">
+          <h4>If you own property in Metro Vancouver</h4>
+          <p>Not charity &mdash; structure. Not sacrifice &mdash; stewardship. Gift, bequest, vendor take-back &mdash; the paths are real and conversations can start now.</p>
+          <a href="https://app.blockshare.ca/connect/">Explore the Permanent Land Trust</a>
+        </div>
+        <div class="audience-card">
+          <h4>If you&rsquo;re watching from elsewhere</h4>
+          <p>What gets decided here sets a precedent for every neighbourhood watching. Your membership and network matters beyond the postcode.</p>
+          <a href="https://app.blockshare.ca/">Explore Block Share</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FINAL PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>False Creek South didn&rsquo;t happen because someone asked politely. It happened because a community decided what it wanted and built the power to get it. That move is available again &mdash; not just for the people who live here now, but for everyone the neighbourhood has ever shaped.</blockquote>
+      <cite>Ward Stirrat &mdash; Block Share &mdash; The Decentralist</cite>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>The land is already here.<br><em style="color:var(--gold);">The question is who organises first.</em></h2>
+      <p>Join the FCS Community Housing Trust. Explore your neighbourhood&rsquo;s public assets. Have the property conversation.</p>
+      <div class="cta-buttons">
+        <a href="https://www.falsecreeksouth.org/community-housing-trust/" class="btn-gold" target="_blank" rel="noopener">Join the Trust &rarr;</a>
+        <a href="https://app.blockshare.ca/connect/" class="btn-ghost">Connect with Block Share</a>
+        <a href="https://app.blockshare.ca/publications/" class="btn-ghost">All Publications</a>
+      </div>
+    </div>
+  </section>
+
+
+    <!-- ══ Block Share Nav & Footer — matches blockshare-nav-footer.php v1.1.0 ══ -->
+  <nav id="bs-nav" class="site-nav"></nav>
+  <footer id="bs-footer" class="site-footer"></footer>
+
+  <script>
+  (function(){
+    var n=document.getElementById("bs-nav");
+    document.body.insertBefore(n,document.body.firstChild);
+    n.innerHTML='<div class="site-nav__inner"><a href="https://app.blockshare.ca/bs-home/" class="site-nav__brand">Block<span>Share</span></a><div class="site-nav__links"><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Blockonomics &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a><a href="https://app.blockshare.ca/onboarding/">Take the Block Survey &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Programs &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a><a href="https://app.blockshare.ca/cc-system-diagram/">CC System Diagram</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Publications &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Get Involved &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div></div><a href="https://app.blockshare.ca/onboarding/" class="site-nav__cta">Get Started &rarr;</a></div><button class="site-nav__hamburger" aria-label="Open menu">&#9776;</button></div>';
+    var f=document.getElementById("bs-footer");
+    f.innerHTML='<div class="site-footer__inner"><div class="footer-grid"><div><div class="footer-brand">Block<span>Share</span></div><p class="footer-tagline">Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative &mdash; neither government programme nor corporate platform.</p></div><div class="footer-col"><h4>Blockonomics</h4><ul><li><a href="https://app.blockshare.ca/blockonomics/">The Framework</a></li><li><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a></li><li><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a></li></ul></div><div class="footer-col"><h4>Programs</h4><ul><li><a href="https://app.blockshare.ca/share/">Share Pools</a></li><li><a href="https://app.blockshare.ca/food/">Beef Collective</a></li><li><a href="https://app.blockshare.ca/credits/">Community Credits</a></li></ul></div><div class="footer-col"><h4>Publications</h4><ul><li><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a></li><li><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt &amp; the Death of GDP</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a></li><li><a href="https://app.blockshare.ca/publications/">All Publications</a></li></ul></div><div class="footer-col"><h4>Get Involved</h4><ul><li><a href="https://app.blockshare.ca/onboarding/">Join Your Block</a></li><li><a href="https://app.blockshare.ca/become-host/">Become a Host</a></li><li><a href="https://app.blockshare.ca/about/">Our Story</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a></li><li><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-copy">&copy; 2026 Block Share &middot; Vancouver, BC &middot; A community initiative inspired by E.F. Schumacher\'s <em>Small is Beautiful</em></div></div>';
+    var hb=document.querySelector(".site-nav__hamburger");
+    var ov=document.createElement("div");
+    ov.className="bs-mobile-overlay";
+    ov.id="bs-mobile-menu";
+    ov.style.display="none";
+    ov.innerHTML='<button class="bs-mobile-overlay__close" aria-label="Close menu">&times;</button><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Blockonomics</div><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Programs</div><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Publications</div><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Get Involved</div><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div><a href="https://app.blockshare.ca/onboarding/" class="bs-mobile-overlay__cta">Get Started &rarr;</a>';
+    document.body.appendChild(ov);
+    function openMobile(){ov.style.display="flex";ov.classList.add("active");document.body.style.overflow="hidden";}
+    function closeMobile(){ov.classList.remove("active");ov.style.display="none";document.body.style.overflow="";}
+    if(hb)hb.addEventListener("click",openMobile);
+    var cb=ov.querySelector(".bs-mobile-overlay__close");
+    if(cb)cb.addEventListener("click",closeMobile);
+    ov.querySelectorAll("a").forEach(function(a){a.addEventListener("click",closeMobile);});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMobile();});
+  })();
+
+  // Media bar
+  var _mbCurrent = null;
+  function mbToggle(panel) {
+    var bar = document.getElementById('mediaBar');
+    var btn = document.getElementById('mbToggleBtn');
+    if (panel && panel === _mbCurrent) {
+      // collapse
+      bar.classList.remove('expanded');
+      document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+      document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+      _mbCurrent = null;
+      btn.textContent = '▾ expand';
+    } else if (panel) {
+      bar.classList.add('expanded');
+      document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+      document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+      var targetPanel = panel === 'yt' ? document.getElementById('mbPanelYT') : document.getElementById('mbPanelPod');
+      var targetBtn   = panel === 'yt' ? document.getElementById('mbBtnYT')   : document.getElementById('mbBtnPod');
+      if (targetPanel) targetPanel.classList.add('active-panel');
+      if (targetBtn)   targetBtn.classList.add('active');
+      _mbCurrent = panel;
+      btn.textContent = '▴ close';
+    } else {
+      // toggle button clicked directly
+      if (bar.classList.contains('expanded')) {
+        bar.classList.remove('expanded');
+        document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+        document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+        _mbCurrent = null;
+        btn.textContent = '▾ expand';
+      }
+    }
+  }
+
+  // Cost table tabs
+  function ctv2Show(id, btn) {
+
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.tb').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+  }
+  </script>
+
+  <style>
+  .site-nav,.site-footer,.bs-mobile-overlay{--bg-dark:#0f1419;--border-dark:#1e293b;--border-dark-light:#334155;--text-light:#e8ecf1;--text-light-secondary:#94a3b8;--text-light-muted:#64748b;--green-400:#4ade80;--green-500:#22c55e;--font-display:'Playfair Display',Georgia,serif;--font-body:'Source Sans 3','Segoe UI',sans-serif;}
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,20,25,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-dark);}
+  .site-nav__inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;}
+  .site-nav__brand{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-light);text-decoration:none;letter-spacing:-0.02em;}
+  .site-nav__brand span{color:var(--green-400);}
+  .site-nav__links{display:flex;gap:6px;align-items:center;}
+  .site-nav__dropdown{position:relative;}
+  .site-nav__dropdown-trigger{color:var(--text-light-secondary);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:8px 12px;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+  .site-nav__dropdown:hover .site-nav__dropdown-trigger{color:var(--green-400);}
+  .site-nav__dropdown-menu{display:none;position:absolute;top:100%;left:0;background:var(--bg-dark);border:1px solid var(--border-dark-light);border-radius:8px;padding:8px 0;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:1010;}
+  .site-nav__dropdown:hover .site-nav__dropdown-menu{display:block;}
+  .site-nav__dropdown-menu a{display:block;padding:8px 20px;font-size:14px;color:var(--text-light-secondary);text-decoration:none;}
+  .site-nav__dropdown-menu a:hover{color:var(--green-400);background:rgba(74,222,128,0.06);}
+  .site-nav__cta{display:inline-block;background:var(--green-500);color:var(--bg-dark);padding:7px 16px;border-radius:6px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:0.06em;text-decoration:none;}
+  .site-nav__cta:hover{opacity:0.9;}
+  .site-nav__hamburger{display:none;background:none;border:none;color:var(--text-light);font-size:24px;cursor:pointer;padding:4px 8px;}
+  @media(max-width:900px){.site-nav__links{display:none;}.site-nav__hamburger{display:block;}}
+  .bs-mobile-overlay{position:fixed;inset:0;z-index:2000;background:rgba(15,20,25,0.98);padding:72px 24px 24px;overflow-y:auto;flex-direction:column;}
+  .bs-mobile-overlay__close{position:absolute;top:16px;right:24px;background:none;border:none;color:var(--text-light);font-size:28px;cursor:pointer;}
+  .bs-mobile-overlay__section{margin-bottom:24px;}
+  .bs-mobile-overlay__heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:10px;font-family:var(--font-body);}
+  .bs-mobile-overlay a{display:block;padding:8px 0;font-size:16px;color:var(--text-light-secondary);text-decoration:none;}
+  .bs-mobile-overlay a:hover{color:var(--green-400);}
+  .bs-mobile-overlay__cta{display:inline-block;margin-top:16px;background:var(--green-500);color:var(--bg-dark);padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center;}
+  .site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 24px 32px;}
+  .site-footer__inner{max-width:1200px;margin:0 auto;}
+  .footer-grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:40px;margin-bottom:32px;}
+  .footer-brand{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-light);margin-bottom:12px;}
+  .footer-brand span{color:var(--green-400);}
+  .footer-tagline{font-size:14px;color:var(--text-light-muted);line-height:1.6;}
+  .footer-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-secondary);margin-bottom:14px;}
+  .footer-col ul{list-style:none;margin:0;padding:0;}
+  .footer-col li{margin-bottom:8px;}
+  .footer-col a{font-size:14px;color:var(--text-light-muted);text-decoration:none;transition:color 0.2s;}
+  .footer-col a:hover{color:var(--green-400);}
+  .footer-copy{font-size:13px;color:var(--text-light-muted);border-top:1px solid var(--border-dark);padding-top:20px;text-align:center;}
+  @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+  body{padding-top:56px!important;}
+  </style>
+
+</body>
+</html>

@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Does Land Serve the People — Block Share</title>
+<meta name="description" content="Singapore solved housing speculation by making property worthless over time. Here's how that compares to Copenhagen, Vancouver, and the Permanent Land Trust model.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS (matching blockonomics.html exactly) ===== */
+:root {
+  --ink:          #1a1a2e;
+  --paper:        #f4f1eb;
+  --forest:       #2E7D32;
+  --forest-light: #4caf50;
+  --lake:         #1E4D7B;
+  --lake-light:   #5a9fd4;
+  --ember:        #d84315;
+  --gold:         #c49a2a;
+  --mist:         #e8e4dc;
+  --stone:        #6b6b6b;
+  --sg-red:       #c0392b;
+  --cp-blue:      #1d6fa4;
+  --vc-green:     #2d6a4f;
+  --plt-purple:   #6b3fa0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 88vh;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  overflow: hidden;
+  background: #080c14;
+  color: #fff;
+  padding-bottom: 80px;
+}
+
+/* Animated gradient background — no external image needed */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(46,125,50,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 60%, rgba(30,77,123,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 90%, rgba(107,63,160,0.15) 0%, transparent 60%),
+    linear-gradient(160deg, #060a12 0%, #0d1520 40%, #0a1008 100%);
+}
+
+/* City skyline silhouette using CSS */
+.hero-skyline {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 220px;
+  opacity: 0.12;
+  background:
+    /* Far buildings */
+    linear-gradient(to top, #fff 0%, #fff 100%) 2% bottom / 2% 35% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 5% bottom / 1.5% 55% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 8% bottom / 3% 40% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 12% bottom / 2% 65% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 16% bottom / 4% 45% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 21% bottom / 2% 70% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 25% bottom / 3% 50% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 30% bottom / 1.5% 80% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 34% bottom / 5% 55% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 40% bottom / 2% 60% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 44% bottom / 3% 90% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 50% bottom / 2% 75% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 55% bottom / 4% 50% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 61% bottom / 2% 65% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 66% bottom / 3% 45% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 71% bottom / 2% 70% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 76% bottom / 1.5% 55% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 80% bottom / 3% 40% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 85% bottom / 2% 60% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 90% bottom / 4% 50% no-repeat,
+    linear-gradient(to top, #fff 0%, #fff 100%) 96% bottom / 2% 35% no-repeat;
+}
+
+.hero-content {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 120px 40px 0;
+  z-index: 2;
+  width: 100%;
+}
+
+.hero-eyebrow {
+  font-size: 12px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--forest-light);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(38px, 6vw, 68px);
+  line-height: 1.08;
+  margin-bottom: 28px;
+  font-weight: 400;
+  max-width: 780px;
+}
+.hero h1 em { font-style: italic; color: var(--forest-light); }
+
+.hero-sub {
+  font-size: 20px;
+  color: rgba(255,255,255,0.72);
+  max-width: 620px;
+  margin-bottom: 40px;
+  line-height: 1.55;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.hero-meta-item {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.5px;
+}
+.hero-meta-item strong { color: rgba(255,255,255,0.75); font-weight: 500; }
+.hero-meta-sep { color: rgba(255,255,255,0.2); }
+
+.hero-flags {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+  max-width: 780px;
+}
+.flag-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid;
+  backdrop-filter: blur(8px);
+  letter-spacing: 0.3px;
+}
+.flag-pill .fp-flag { font-size: 22px; line-height: 1; margin-bottom: 2px; }
+.flag-pill .fp-name { font-size: 13px; font-weight: 700; line-height: 1.2; }
+.flag-pill .fp-tag  { font-size: 10px; font-weight: 400; letter-spacing: 0.8px; text-transform: uppercase; opacity: 0.65; margin-top: 2px; line-height: 1.3; }
+.flag-pill.sg  { border-color: rgba(192,57,43,0.5);  background: rgba(192,57,43,0.15);  color: #f0b8b2; }
+.flag-pill.cp  { border-color: rgba(29,111,164,0.5); background: rgba(29,111,164,0.15); color: #9ed0f0; }
+.flag-pill.vc  { border-color: rgba(45,106,79,0.5);  background: rgba(45,106,79,0.15);  color: #90d8b4; }
+.flag-pill.plt { border-color: rgba(107,63,160,0.55); background: rgba(107,63,160,0.18); color: #d0b0f8; }
+
+/* ===== INTRO STRIP ===== */
+.intro-strip {
+  background: var(--ink);
+  color: #fff;
+  padding: 56px 40px;
+}
+.intro-strip-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.intro-strip p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 16px;
+}
+.pull-quote {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--forest-light);
+  border-left: 3px solid var(--forest-light);
+  padding-left: 24px;
+}
+
+/* ===== SECTIONS ===== */
+.section       { max-width: 900px;  margin: 0 auto; padding: 80px 40px; }
+.section-wide  { max-width: 1200px; margin: 0 auto; padding: 80px 40px; }
+.section-dark  { background: var(--ink);  color: #fff; }
+.section-mist  { background: var(--mist); }
+.section-accent { background: linear-gradient(135deg, #1a2d1a 0%, #1a1a2e 100%); color: #fff; }
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--forest);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.section-dark .eyebrow,
+.section-accent .eyebrow { color: var(--forest-light); }
+
+h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 21px;
+  font-weight: 400;
+  margin: 32px 0 10px;
+  color: var(--lake);
+}
+.section-dark h3  { color: var(--forest-light); }
+
+p { margin-bottom: 16px; }
+.lead {
+  font-size: 20px;
+  color: var(--stone);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.section-dark .lead { color: rgba(255,255,255,0.72); font-size: 20px; }
+
+/* ===== KEY STATS ROW ===== */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 40px 0;
+}
+.stat-cell {
+  background: rgba(255,255,255,0.03);
+  padding: 28px 24px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 38px;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: #fff;
+}
+.stat-lbl {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.4;
+}
+.stat-cell.highlight .stat-num { color: var(--forest-light); }
+
+/* ===== COMPARISON TABLE ===== */
+.comp-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  margin: 32px 0;
+}
+
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  background: #fff;
+}
+
+.comp-table thead th {
+  padding: 18px 20px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: rgba(255,255,255,0.5);
+  position: sticky;
+  top: 0;
+}
+.comp-table thead th:first-child { border-radius: 12px 0 0 0; min-width: 160px; }
+.comp-table thead th:last-child  { border-radius: 0 12px 0 0; }
+
+.comp-table thead th.col-sg   { color: #e8a09a; }
+.comp-table thead th.col-cp   { color: #8fc4e8; }
+.comp-table thead th.col-vc   { color: #7ec8a0; }
+.comp-table thead th.col-plt  { color: #c4a0f0; }
+
+.comp-table tbody tr:nth-child(odd)  td { background: #faf9f7; }
+.comp-table tbody tr:nth-child(even) td { background: #fff; }
+.comp-table tbody tr:hover td { background: #f0ede6; }
+
+.comp-table td {
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.55;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  color: #3a3a4a;
+}
+.comp-table td:not(:last-child) { border-right: 1px solid rgba(0,0,0,0.05); }
+
+.cat-cell {
+  min-width: 160px;
+}
+.cat-icon {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 6px;
+}
+.cat-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+/* Coloured left border for PLT column */
+.comp-table td.col-plt {
+  border-left: 3px solid var(--plt-purple);
+  background: rgba(107,63,160,0.03);
+}
+.comp-table tbody tr:nth-child(odd) td.col-plt  { background: rgba(107,63,160,0.05); }
+.comp-table tbody tr:hover td.col-plt { background: rgba(107,63,160,0.08); }
+
+/* Rating badges */
+.rating {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.rating-strong { background: #e6f4ea; color: #2E7D32; }
+.rating-partial { background: #fff3e0; color: #e65100; }
+.rating-weak    { background: #fce8e8; color: #b71c1c; }
+.rating-bold    { background: #ede7f6; color: #4a148c; }
+
+/* ===== INSIGHT CARDS ===== */
+.insight-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 32px;
+}
+.insight-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 28px;
+}
+.insight-card .ic-icon { font-size: 28px; margin-bottom: 12px; }
+.insight-card h4 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.insight-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.65);
+  margin: 0;
+}
+.insight-card.accent-sg   { border-top: 3px solid var(--sg-red); }
+.insight-card.accent-cp   { border-top: 3px solid var(--cp-blue); }
+.insight-card.accent-vc   { border-top: 3px solid var(--vc-green); }
+.insight-card.accent-plt  { border-top: 3px solid var(--plt-purple); }
+
+/* ===== MECHANISM CARDS (PLT section) ===== */
+.mech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+.mech-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 32px;
+  border-top: 4px solid var(--forest);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+}
+.mech-card h4 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: var(--lake);
+}
+.mech-card p { font-size: 15px; color: var(--stone); margin: 0; line-height: 1.6; }
+.mech-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 42px;
+  color: var(--mist);
+  font-style: italic;
+  line-height: 1;
+  margin-bottom: -8px;
+}
+
+/* ===== SPECTRUM BAR ===== */
+.spectrum-section { max-width: 900px; margin: 0 auto; padding: 0 40px 80px; }
+.spectrum-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 32px;
+  color: var(--ink);
+}
+.spectrum-row { margin-bottom: 48px; }
+.spec-header { margin-bottom: 10px; }
+.spec-name { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: 0.3px; display: block; margin-bottom: 6px; }
+
+/* Pole labels inline below the bar */
+.spec-poles-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.spec-pole {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.spec-pole.left  { background: rgba(192,57,43,0.12);  color: var(--sg-red);    border-left: 2px solid var(--sg-red); }
+.spec-pole.right { background: rgba(46,125,50,0.12);   color: var(--forest);   border-right: 2px solid var(--forest); }
+
+.spec-bar-track {
+  height: 10px;
+  border-radius: 5px;
+  position: relative;
+  overflow: visible;
+}
+/* Dot container sits on the track */
+.spec-dots { position: relative; height: 10px; }
+.spec-dot-wrap {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.spec-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 3px solid #f4f1eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: default;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.spec-dot-wrap:hover .spec-dot { transform: scale(1.25); }
+.spec-dot-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 6px;
+  white-space: nowrap;
+  color: var(--stone);
+  background: #fff;
+  border-radius: 3px;
+  padding: 1px 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  pointer-events: none;
+}
+.spec-dot.sg  { background: var(--sg-red); }
+.spec-dot.cp  { background: var(--cp-blue); }
+.spec-dot.vc  { background: var(--vc-green); }
+.spec-dot.plt { background: var(--plt-purple); }
+.spec-legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.spec-legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--stone); }
+.spec-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+/* ===== SOURCE CARD ===== */
+.source-card {
+  background: var(--mist);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 24px 28px;
+  margin: 40px 0;
+  font-size: 14px;
+  color: var(--stone);
+  line-height: 1.6;
+}
+.source-card strong { color: var(--ink); }
+.source-card a { color: var(--lake); text-decoration: none; }
+.source-card a:hover { text-decoration: underline; }
+
+/* ===== BOTTOM CTA ===== */
+.bs-bottom-cta {
+  background: linear-gradient(135deg, #0f2b1d 0%, #1a1a2e 100%);
+  color: #fff;
+  text-align: center;
+  padding: 80px 40px;
+}
+.bs-bottom-cta .bs-cta-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--forest-light);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.bs-bottom-cta h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+.bs-bottom-cta p {
+  color: rgba(255,255,255,0.65);
+  font-size: 17px;
+  max-width: 540px;
+  margin: 0 auto 36px;
+  line-height: 1.65;
+}
+.bs-cta-btn {
+  display: inline-block;
+  background: var(--forest);
+  color: #fff;
+  text-decoration: none;
+  padding: 16px 36px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  transition: background 0.2s;
+  margin-bottom: 32px;
+}
+.bs-cta-btn:hover { background: var(--forest-light); }
+.bs-cta-sub {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.bs-cta-sub a {
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+.bs-cta-sub a:hover { color: rgba(255,255,255,0.8); }
+
+.bs-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  transition: opacity 0.3s;
+}
+.bs-fab-tag {
+  background: rgba(10,12,20,0.85);
+  color: rgba(255,255,255,0.7);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+.bs-fab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--forest);
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 28px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(46,125,50,0.4);
+  transition: background 0.2s, transform 0.2s;
+}
+.bs-fab-btn:hover { background: var(--forest-light); transform: scale(1.03); }
+
+/* ===== MOBILE TABLE — card stack ===== */
+@media (max-width: 720px) {
+  /* Hide the thead entirely */
+  .comp-table thead { display: none; }
+
+  /* Each row becomes a card block */
+  .comp-table,
+  .comp-table tbody,
+  .comp-table tr,
+  .comp-table td { display: block; width: 100%; }
+
+  .comp-table tbody tr {
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  /* Category cell becomes the card header */
+  .comp-table td.cat-cell {
+    background: var(--ink) !important;
+    color: #fff;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+  }
+  .comp-table td.cat-cell .cat-icon { display: inline; font-size: 18px; margin: 0; }
+  .comp-table td.cat-cell .cat-label { font-size: 13px; font-weight: 700; color: #fff; }
+
+  /* Data cells show a coloured header label before the content */
+  .comp-table td:not(.cat-cell) {
+    padding: 14px 18px;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    position: relative;
+  }
+  .comp-table td:not(.cat-cell)::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  /* Per-column label colours */
+  .comp-table td[data-label="🇸🇬 Singapore"]::before       { color: var(--sg-red); }
+  .comp-table td[data-label="🇩🇰 Copenhagen"]::before      { color: var(--cp-blue); }
+  .comp-table td[data-label="🍁 Vancouver"]::before         { color: var(--vc-green); }
+  .comp-table td[data-label="🌐 Permanent Land Trust"]::before { color: var(--plt-purple); }
+
+  /* PLT column background stays, but strip the left border on mobile */
+  .comp-table td.col-plt { border-left: none !important; }
+  /* Row hover → none on touch */
+  .comp-table tbody tr:hover td { background: inherit; }
+
+  /* table wrapper: no horizontal scroll needed on mobile */
+  .comp-table-wrap { overflow-x: visible; border-radius: 0; border: none; box-shadow: none; }
+  .comp-table { min-width: unset; }
+}
+
+@media (max-width: 768px) {
+  .hero-content       { padding: 90px 24px 0; }
+  .section, .section-wide, .spectrum-section { padding-left: 24px; padding-right: 24px; }
+  .intro-strip        { padding: 48px 24px; }
+  .intro-strip-inner  { grid-template-columns: 1fr; gap: 28px; }
+  .bs-fab             { bottom: 16px; right: 16px; }
+  .stats-row          { grid-template-columns: repeat(3, 1fr); }
+  .insight-grid       { grid-template-columns: 1fr; }
+  .mech-grid          { grid-template-columns: 1fr; }
+  .hero-flags         { grid-template-columns: repeat(2, 1fr); }
+}
+
+
+/* ── BLOCK SHARE SITE NAV (injected) ── */
+.bs-site-nav{background:#0f2b1d;border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:9999}
+.bs-site-nav .nav-inner{max-width:1200px;margin:0 auto;padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.bs-site-nav .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
+.bs-site-nav .nav-logo span{color:#f9a825}
+.bs-site-nav .nav-links{display:flex;gap:0;list-style:none;align-items:center}
+.bs-site-nav .nav-links>li{position:relative}
+.bs-site-nav .nav-links>li>a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;font-weight:500;padding:.45rem .75rem;border-radius:6px;transition:all .25s;display:flex;align-items:center;gap:.3rem;font-family:'DM Sans',sans-serif}
+.bs-site-nav .nav-links>li>a:hover,.bs-site-nav .nav-links>li:hover>a{color:#fff;background:rgba(255,255,255,.1)}
+.bs-site-nav .nav-links>li>a .dd-arrow{font-size:.6rem;transition:transform .2s;margin-top:1px}
+.bs-site-nav .nav-links>li:hover>a .dd-arrow{transform:rotate(180deg)}
+.bs-site-nav .nav-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#163d2a;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 0;min-width:240px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:bsDdFadeIn .15s ease-out;z-index:10001}
+.bs-site-nav .nav-links>li:hover .nav-dd{display:block}
+@keyframes bsDdFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.bs-site-nav .nav-dd a{display:block;padding:8px 18px;color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:400;transition:all .15s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.bs-site-nav .nav-dd a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.bs-site-nav .nav-dd .dd-divider{height:1px;background:rgba(255,255,255,.1);margin:6px 16px}
+.bs-site-nav .nav-dd .dd-highlight{color:#f9a825;font-weight:600}
+.bs-site-nav .nav-cta{background:#f9a825;color:#0f2b1d;padding:.45rem 1.1rem;border-radius:6px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:'DM Sans',sans-serif}
+.bs-site-nav .mobile-menu{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+.bs-mobile-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0f2b1d;z-index:20000;padding:1.5rem;overflow-y:auto;font-family:'DM Sans',sans-serif}
+.bs-mobile-panel.open{display:block}
+.bs-mobile-panel .mobile-nav-close{background:none;border:none;color:#fff;font-size:1.8rem;position:absolute;top:1rem;right:1.5rem;cursor:pointer}
+.bs-mobile-panel .m-section{margin-bottom:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)}
+.bs-mobile-panel .m-section:first-child{border-top:none;padding-top:0;margin-top:3rem}
+.bs-mobile-panel .m-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#f9a825;margin-bottom:.5rem}
+.bs-mobile-panel a{display:block;color:rgba(255,255,255,.8);text-decoration:none;font-size:.95rem;padding:.5rem 0}
+.bs-mobile-panel a:hover{color:#fff}
+.bs-mobile-panel .m-cta{display:block;background:#f9a825;color:#0f2b1d;text-align:center;padding:.85rem;border-radius:8px;font-weight:600;font-size:.95rem;margin-top:1.5rem;text-decoration:none}
+.bs-site-footer{background:#0a1a2a;color:#fff;padding:3.5rem 2rem 2rem;font-family:'DM Sans',sans-serif}
+.bs-site-footer .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem}
+.bs-site-footer .footer-brand .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
+.bs-site-footer .footer-brand .nav-logo span{color:#f9a825}
+.bs-site-footer .footer-brand p{color:rgba(255,255,255,.8);font-size:.85rem;margin-top:.75rem;line-height:1.6;max-width:280px}
+.bs-site-footer h4{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#c8891e;margin-bottom:1rem}
+.bs-site-footer ul{list-style:none;padding:0;margin:0}.bs-site-footer li{margin-bottom:.5rem}
+.bs-site-footer a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.85rem}.bs-site-footer a:hover{color:#fff}
+.bs-site-footer .footer-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.8)}
+@media(max-width:600px){.bs-site-nav .nav-links{display:none !important}.bs-site-nav .mobile-menu{display:block}.bs-site-footer .footer-inner{grid-template-columns:1fr}.bs-site-footer .footer-bottom{flex-direction:column;gap:.5rem}}
+@media(max-width:900px){.bs-site-footer .footer-inner{grid-template-columns:1fr 1fr}}
+
+</style>
+</head>
+<body>
+    <nav class="bs-site-nav"><div class="nav-inner"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><ul class="nav-links">
+                <li><a href="/blockonomics/">Blockonomics <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a><div class="dd-divider"></div><a href="/onboarding/" class="dd-highlight">Take the Block Survey →</a></div></li>
+                <li><a href="#">Programs <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a><div class="dd-divider"></div><a href="/cc-system-diagram/">CC System Diagram</a></div></li>
+                <li><a href="/publications/">Publications <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><div class="dd-divider"></div><a href="/publications/" class="dd-highlight">All Publications →</a></div></li>
+                <li><a href="#">Get Involved <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div></li>
+            </ul><a href="/onboarding/" class="nav-cta">Get Started →</a><button class="mobile-menu" id="mobileMenuBtn">☰</button></div></nav>
+
+    <div class="bs-mobile-panel" id="mobileNavPanel">
+        <button class="mobile-nav-close" id="mobileNavClose">✕</button>
+        <div class="m-section"><div class="m-label">Blockonomics</div><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a></div>
+        <div class="m-section"><div class="m-label">Programs</div><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a></div>
+        <div class="m-section"><div class="m-label">Publications</div><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><a href="/publications/">All Publications →</a></div>
+        <div class="m-section"><div class="m-label">Get Involved</div><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div>
+        <a href="/onboarding/" class="m-cta">Get Started →</a>
+    </div>
+
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-skyline"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Land · Housing · Community Economics</div>
+    <h1>Where Does Land<br><em>Serve the People</em></h1>
+    <p class="hero-sub">
+      A Housing Policy Comparison of: Singapore, Copenhagen, Vancouver, and the Permanent Land Trust model.
+      
+      Singapore made housing worthless over time — and everyone's better off.
+      Here's what that means for Vancouver, and why a Permanent Land Trust
+      might be the most realistic path to the same outcome.
+    </p>
+    <div class="hero-meta">
+      <span class="hero-meta-item"><strong>Based on:</strong> Elle Griffin, The Elysian, March 2026</span>
+      <span class="hero-meta-sep">·</span>
+      <span class="hero-meta-item"><strong>Analysis by:</strong> Ward Stirrat / Block Share</span>
+    </div>
+    <div class="hero-flags">
+      <div class="flag-pill sg">
+        <span class="fp-flag">🇸🇬</span>
+        <span class="fp-name">Singapore</span>
+        <span class="fp-tag">State leasehold model</span>
+      </div>
+      <div class="flag-pill cp">
+        <span class="fp-flag">🇩🇰</span>
+        <span class="fp-name">Copenhagen</span>
+        <span class="fp-tag">Co-operative middle path</span>
+      </div>
+      <div class="flag-pill vc">
+        <span class="fp-flag">🍁</span>
+        <span class="fp-name">Vancouver</span>
+        <span class="fp-tag">Speculative private market</span>
+      </div>
+      <div class="flag-pill plt">
+        <span class="fp-flag">🌐</span>
+        <span class="fp-name">Permanent Land Trust</span>
+        <span class="fp-tag">Community-governed trust</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== INTRO STRIP ===== -->
+<div class="intro-strip">
+  <div class="intro-strip-inner">
+    <div>
+      <p>
+        In 1965, Singapore was a slum-riddled city-state with no natural resources, 
+        mass unemployment, and a housing crisis spiralling out of control. 
+        Its response — seizing land, issuing depreciating leases, and building 
+        for everyone — created the highest quality of life metrics in the developed world. 
+        At half the tax burden of comparable nations.
+      </p>
+      <p>
+        Vancouver, by contrast, handed 85% of its land to the market. 
+        The result is a city where housing costs more than almost anywhere on earth, 
+        and where the average household spends roughly twice what Singaporeans spend 
+        to secure shelter.
+      </p>
+    </div>
+    <blockquote class="pull-quote">
+      "Housing is not an investment or a retirement plan — buying and holding real estate 
+      means holding something that ultimately goes down in value."
+      <footer style="font-size:13px; color:rgba(255,255,255,0.4); font-style:normal; margin-top:12px; font-family:'DM Sans',sans-serif;">— Elle Griffin, The Elysian</footer>
+    </blockquote>
+  </div>
+</div>
+
+<!-- ===== STATS ===== -->
+<div class="section-dark">
+  <div class="section">
+    <div class="eyebrow">The Numbers</div>
+    <h2>What Singapore's model actually delivers</h2>
+    <div class="stats-row">
+      <div class="stat-cell highlight">
+        <div class="stat-num">80%+</div>
+        <div class="stat-lbl">of residents in subsidized state housing</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">13.8%</div>
+        <div class="stat-lbl">of GDP in tax revenue (OECD avg: 34%)</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">99yr</div>
+        <div class="stat-lbl">max lease — then land reverts to state</div>
+      </div>
+      <div class="stat-cell highlight">
+        <div class="stat-num">90%</div>
+        <div class="stat-lbl">of land owned by the state</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">#1</div>
+        <div class="stat-lbl">Income · Livability<br>Gov't Effectiveness</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPARISON TABLE ===== -->
+<div class="section-mist">
+  <div class="section-wide">
+    <div class="eyebrow">Side by Side</div>
+    <h2>A Housing Policy Comparison</h2>
+    <p class="lead">Ten dimensions of housing and land policy — measured across four models.</p>
+
+    <div class="comp-table-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th class="col-sg">🇸🇬 Singapore</th>
+            <th class="col-cp">🇩🇰 Copenhagen</th>
+            <th class="col-vc">🍁 Vancouver</th>
+            <th class="col-plt">🌐 Permanent Land Trust</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">⬡</span>
+              <span class="cat-label">Land Ownership Model</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-strong">Full public</span><br>
+              State owns 90% of all land. All housing and commercial development runs through 30, 60, or 99-year leases — no private freehold.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">Mixed</span><br>
+              Mix of private and municipal ownership. Andelsbolig (co-op) sector is significant; some community land trust pilots in social housing.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Private dominant</span><br>
+              Predominantly private freehold. City owns very limited land. A handful of CLT pilots in early stages (e.g. Affordable Homes Ownership Program).
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">Perpetual trust</span><br>
+              Trust holds land in perpetuity on behalf of the community. Residents hold long-term renewable leases — land never re-enters the speculative market.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">📉</span>
+              <span class="cat-label">Housing as Investment?</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-strong">No</span><br>
+              Leasehold value declines over time to zero. Housing is a place to live, not a store of wealth. Speculation is structurally minimized.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">Partial</span><br>
+              Co-op resale prices capped by government formula. But private market remains fully speculative — Copenhagen is not cheap.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Aggressively yes</span><br>
+              Housing is the city's primary speculative asset class. Average detached home exceeds $1.3M. Generational wealth transfer locked behind private property ownership.
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">No — by design</span><br>
+              Land appreciation accrues in the trust. Residents build equity in structure and a new "Housing Days" account. A resale formula caps gains and preserves affordability for generations of residents.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">🏠</span>
+              <span class="cat-label">Affordability Mechanism</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-strong">Structural</span><br>
+              Government sets rates. CPF mandatory savings fund leases and down payments. Over 80% of the population housed in subsidized HDB flats.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">Moderate</span><br>
+              Rent control, ~20% social housing (almene boliger) with broad income eligibility, and co-op resale price limits moderate but don't eliminate cost pressures.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Inadequate</span><br>
+              Weak to no rent control, limited social housing stock (&lt;5%), and no structural mechanism to cap prices. Vacancy tax has been marginal in effect.
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">Income-based</span><br>
+              Rent set as a percentage of household income, not market rate. Quintile cross-subsidization blends higher-earning residents rents with lower-income neighbours. TFSA/RRSP model of mezzanine financing enables entry.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">💰</span>
+              <span class="cat-label">Land Value Capture</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-strong">Full</span><br>
+              State captures all land appreciation via lease auctions and development uplift fees. Developers pay a "development fee" for any increase in land value from permitted changes.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">Partial</span><br>
+              Property taxes and betterment levies recover some uplift, particularly in redevelopment zones — but most private land appreciation is still privatized.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Minimal</span><br>
+              Community Amenity Contributions (CACs) are negotiated case-by-case and wildly inconsistent, abandoned and doesn't systemically flow to affordable housing. The vast majority of land value uplift flows to private landowners and developers.
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">Full</span><br>
+              All land appreciation remains within the trust — permanently. Reinvested into new affordable units, community infrastructure, and the ecological building fund.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">🏛️</span>
+              <span class="cat-label">Revenue &amp; Public Funding</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-strong">Self-funding</span><br>
+              Land leases plus Temasek Holdings sovereign wealth fund generate massive non-tax revenue. Tax rate just 13.8% of GDP — less than half the OECD average.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">Tax-funded</span><br>
+              High tax base (~46% of GDP) funds robust public services. Some municipal land companies reinvest in housing and transit — but model depends on taxation.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Insufficient</span><br>
+              Property transfer tax and development cost levies are inadequate. City relies heavily on senior government transfers and developer-negotiated contributions - which are simply passed on to buyers, inflating prices.
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">Self-sustaining</span><br>
+              Trust income from leases compounds over time, funding maintenance, new builds, and community infrastructure without dependence on government transfers or charity.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">🗺️</span>
+              <span class="cat-label">Urban Planning Authority</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-strong">Comprehensive</span><br>
+              Urban Redevelopment Authority issues 40–50 year master plans. Knows every lease expiry to the block. Can pull down aging low-density buildings and rebuild for density as population demands — privately owned cities cannot do this.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">Strong</span><br>
+              The Finger Plan guides transit-oriented growth around rail corridors. Municipal planning is binding and long-horizon, though not at Singapore's scale of land control.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Fragmented</span><br>
+              Metro Vancouver spans 22 municipalities with conflicting zoning agendas. Effective planning is principally developer-led rather than community-led, favouring maximal extraction over equitable development.
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">Participatory</span><br>
+              Block-scale planning via Block Share neighbourhood budgeting and planning projects. Community Budget Votes allocate resources by block. Citizen Power Index enables residents to participate in decisions that affect their block, super-block, neighbourhood or city.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">🏘️</span>
+              <span class="cat-label">Social Housing Stock</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-strong">&gt; 80%</span><br>
+              The broadest social housing coverage of any developed nation. HDB units are well-built, mixed-income, and located throughout the city — not concentrated in periphery ghettos.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">~20%</span><br>
+              Almene boliger are high-quality, geographically distributed, and open to a broad income range — not just the very poor. Still: 80% of residents in the private market.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">&lt; 5%</span><br>
+              Chronic undersupply with thousands on waitlists. Social housing is heavily concentrated by poor neighbourhoods and lower income levels — accelerating segregation.
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">100% goal</span><br>
+              Every unit on PLT land is permanently affordable. Mixed-income model ensures no income-segregated blocks (modeled after False Creek South). Target: all quintiles represented in every block withing Permanent Land Trust.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">🔄</span>
+              <span class="cat-label">Resale &amp; Exit Rules</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-strong">Decaying lease</span><br>
+              Land leases depreciate to zero. No land windfall gains possible. When a land lease ends — the cycle of public renewal continues.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">Formula-capped</span><br>
+              Co-op resale prices limited by government formula. But the private market — still 80% of housing — faces no cap whatsoever.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Uncapped</span><br>
+              No resale restrictions in the private market. The prevailing norm is maximum extraction on sale.
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">Equity-limited</span><br>
+              Residents earn limited, formula-based equity in the structure. On sale, that equity is returned to the resident; land value stays in the trust. Affordability is preserved for generations.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">🤝</span>
+              <span class="cat-label">Community Participation</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-partial">Top-down</span><br>
+              Highly efficient but paternalistic. The URA plans superbly — but residents have minimal meaningful governance input. What Singapore gains in efficiency, it sacrifices in agency.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-partial">Moderate</span><br>
+              Resident boards govern social housing organizations. Participatory budgeting exists in some municipalities. Still largely representative rather than direct democracy.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Token</span><br>
+              Public hearings are required but routinely overridden by developer-driven council decisions and will soon be totally eliminated. Equity participation is weak or non-existent. 
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">Structural</span><br>
+              Participatory Block Budgeting creates pathways for direct democratic engagement. Citizen Power Index demonstrates participation is real and consequential.
+            </td>
+          </tr>
+
+          <tr>
+            <td class="cat-cell">
+              <span class="cat-icon">🌱</span>
+              <span class="cat-label">Ecological Stewardship</span>
+            </td>
+            <td data-label="🇸🇬 Singapore">
+              <span class="rating rating-partial">'City in a Garden'</span><br>
+              Greenspace requirements are written into the master plan. Impressive urban canopy. But high-density mandates leave little room for food production or bioregional ecological thinking.
+            </td>
+            <td data-label="🇩🇰 Copenhagen">
+              <span class="rating rating-strong">Leading</span><br>
+              Ambitious carbon neutrality targets, mandatory green roofs, world-class cycling infrastructure, and genuine municipal commitment to bioregional ecological planning.
+            </td>
+            <td data-label="🍁 Vancouver">
+              <span class="rating rating-weak">Aspirational</span><br>
+              Strong green building standards on paper. High per-capita ecological footprint in practice. No bioregional governance framework. Ecological metrics are not tied to housing or land policy.
+            </td>
+            <td class="col-plt" data-label="🌐 Permanent Land Trust">
+              <span class="rating rating-bold">Foundational</span><br>
+              Living Carbon Offsets as micro-asset investments. Food-producing keystone species on every block. Ten Houses / Nine Realms of Cascadia bioregional governance framework. Stewardship quests earn Community Credits — making ecological action economically rational.
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="source-card">
+      <strong>Source:</strong> Elle Griffin, "<a href="https://www.elysian.press/p/singapore-real-estate-goes-down-in-value" target="_blank">Singapore: Where your home loses value &amp; everyone's better off</a>" — The Elysian, March 5, 2026. Part of the <em>Let Cities Build Utopia</em> series.
+      Copenhagen and Vancouver data from municipal planning documents and Statistics Canada. PLT framework: Ward Stirrat / Block Share, app.blockshare.ca.
+    </div>
+  </div>
+</div>
+
+<!-- ===== SPECTRUM BARS ===== -->
+<div class="section-mist" style="padding-top:0; padding-bottom:0;">
+  <div class="spectrum-section">
+    <div class="eyebrow">Visual Summary</div>
+    <div class="spectrum-title">Where does each model sit on the spectrum?</div>
+
+    <!-- Land Capture -->
+    <div class="spectrum-row">
+      <div class="spec-header">
+        <span class="spec-name">Land Value Capture</span>
+        <div class="spec-poles-row">
+          <span class="spec-pole left">Market Captured</span>
+          <span class="spec-pole right">People Captured</span>
+        </div>
+      </div>
+      <div class="spec-bar-track" style="background: linear-gradient(to right, #fce8e8, #e6f4ea);">
+        <div class="spec-dots">
+          <div class="spec-dot-wrap" style="left:8%">
+            <div class="spec-dot vc"></div>
+            <span class="spec-dot-label">Vancouver</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:42%">
+            <div class="spec-dot cp"></div>
+            <span class="spec-dot-label">Copenhagen</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:88%">
+            <div class="spec-dot sg"></div>
+            <span class="spec-dot-label">Singapore</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:96%">
+            <div class="spec-dot plt"></div>
+            <span class="spec-dot-label">PLT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Affordability -->
+    <div class="spectrum-row">
+      <div class="spec-header">
+        <span class="spec-name">Housing Affordability</span>
+        <div class="spec-poles-row">
+          <span class="spec-pole left">Market Rate / Least Affordable</span>
+          <span class="spec-pole right">Income-Based / Most Affordable</span>
+        </div>
+      </div>
+      <div class="spec-bar-track" style="background: linear-gradient(to right, #fce8e8, #e6f4ea);">
+        <div class="spec-dots">
+          <div class="spec-dot-wrap" style="left:6%">
+            <div class="spec-dot vc"></div>
+            <span class="spec-dot-label">Vancouver</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:52%">
+            <div class="spec-dot cp"></div>
+            <span class="spec-dot-label">Copenhagen</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:82%">
+            <div class="spec-dot sg"></div>
+            <span class="spec-dot-label">Singapore</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:92%">
+            <div class="spec-dot plt"></div>
+            <span class="spec-dot-label">PLT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Community Participation -->
+    <div class="spectrum-row">
+      <div class="spec-header">
+        <span class="spec-name">Community Participation in Governance</span>
+        <div class="spec-poles-row">
+          <span class="spec-pole left">Top-Down / Residents Excluded</span>
+          <span class="spec-pole right">Structural / Residents Decide</span>
+        </div>
+      </div>
+      <div class="spec-bar-track" style="background: linear-gradient(to right, #fce8e8, #e6f4ea);">
+        <div class="spec-dots">
+          <div class="spec-dot-wrap" style="left:14%">
+            <div class="spec-dot vc"></div>
+            <span class="spec-dot-label">Vancouver</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:22%">
+            <div class="spec-dot sg"></div>
+            <span class="spec-dot-label">Singapore</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:55%">
+            <div class="spec-dot cp"></div>
+            <span class="spec-dot-label">Copenhagen</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:92%">
+            <div class="spec-dot plt"></div>
+            <span class="spec-dot-label">PLT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ecological -->
+    <div class="spectrum-row">
+      <div class="spec-header">
+        <span class="spec-name">Ecological Stewardship Integration</span>
+        <div class="spec-poles-row">
+          <span class="spec-pole left">Absent / Aspirational</span>
+          <span class="spec-pole right">Structurally Embedded</span>
+        </div>
+      </div>
+      <div class="spec-bar-track" style="background: linear-gradient(to right, #fce8e8, #e6f4ea);">
+        <div class="spec-dots">
+          <div class="spec-dot-wrap" style="left:15%">
+            <div class="spec-dot vc"></div>
+            <span class="spec-dot-label">Vancouver</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:38%">
+            <div class="spec-dot sg"></div>
+            <span class="spec-dot-label">Singapore</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:70%">
+            <div class="spec-dot cp"></div>
+            <span class="spec-dot-label">Copenhagen</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:94%">
+            <div class="spec-dot plt"></div>
+            <span class="spec-dot-label">PLT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Speculation resistance -->
+    <div class="spectrum-row">
+      <div class="spec-header">
+        <span class="spec-name">Resistance to Speculation</span>
+        <div class="spec-poles-row">
+          <span class="spec-pole left">Land as Commodity</span>
+          <span class="spec-pole right">Speculation Impossible</span>
+        </div>
+      </div>
+      <div class="spec-bar-track" style="background: linear-gradient(to right, #fce8e8, #e6f4ea);">
+        <div class="spec-dots">
+          <div class="spec-dot-wrap" style="left:4%">
+            <div class="spec-dot vc"></div>
+            <span class="spec-dot-label">Vancouver</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:40%">
+            <div class="spec-dot cp"></div>
+            <span class="spec-dot-label">Copenhagen</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:83%">
+            <div class="spec-dot sg"></div>
+            <span class="spec-dot-label">Singapore</span>
+          </div>
+          <div class="spec-dot-wrap" style="left:92%">
+            <div class="spec-dot plt"></div>
+            <span class="spec-dot-label">PLT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec-legend">
+      <div class="spec-legend-item"><div class="spec-legend-dot" style="background:var(--sg-red)"></div> 🇸🇬 Singapore</div>
+      <div class="spec-legend-item"><div class="spec-legend-dot" style="background:var(--cp-blue)"></div> 🇩🇰 Copenhagen</div>
+      <div class="spec-legend-item"><div class="spec-legend-dot" style="background:var(--vc-green)"></div> 🍁 Vancouver</div>
+      <div class="spec-legend-item"><div class="spec-legend-dot" style="background:var(--plt-purple)"></div> 🌐 Permanent Land Trust</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KEY INSIGHTS ===== -->
+<div class="section-dark">
+  <div class="section">
+    <div class="eyebrow">What this tells us</div>
+    <h2>Four models, four lessons</h2>
+    <div class="insight-grid">
+      <div class="insight-card accent-sg">
+        <div class="ic-icon">🇸🇬</div>
+        <h4>Singapore proves it works at scale</h4>
+        <p>The highest-income, most livable, most affordable developed city in the world runs on a model where 90% of land is never privatized and housing never speculates. The 60 years of evidence is complete. What's missing is the political will to replicate it.</p>
+      </div>
+      <div class="insight-card accent-cp">
+        <div class="ic-icon">🇩🇰</div>
+        <h4>Copenhagen shows the co-op middle path</h4>
+        <p>Without Singapore's authoritarian powers, Copenhagen achieves significant affordability through co-operative ownership models that cap resale and distribute governance to residents. A 20% partial answer — but still leaves 80% in the speculative market.</p>
+      </div>
+      <div class="insight-card accent-vc">
+        <div class="ic-icon">🍁</div>
+        <h4>Vancouver is the cautionary tale</h4>
+        <p>Every dimension on this table where Vancouver scores "weak" is a direct result of the same policy choice: allowing 92% of the land to be treated as a private investment vehicle. The city has the highest housing costs, the least social stock, and the most fragmented governance of any of the four models.</p>
+      </div>
+      <div class="insight-card accent-plt">
+        <div class="ic-icon">🌐</div>
+        <h4>The PLT is Singapore without the state</h4>
+        <p>The Permanent Land Trust achieves Singapore's core structural outcome — land held permanently in common, appreciation captured for the community, speculation structurally impossible — through a community-governed trust rather than state authority. It adds what Singapore lacks: ecological stewardship, participatory governance, and a Community Credits economy that makes belonging economically rational.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PLT MECHANISMS ===== -->
+<div class="section">
+  <div class="eyebrow">The Permanent Land Trust Model</div>
+  <h2>How the Block Share & PLT approach closes the gap</h2>
+  <p class="lead">The PLT doesn't require seizing land or electing a Lee Kuan Yew. It requires communities to organize, neighbours to agree, and a legal structure that makes the agreement permanent.</p>
+
+  <div class="mech-grid">
+    <div class="mech-card">
+      <div class="mech-num">01</div>
+      <h4>Income-Based Rent</h4>
+      <p>Rent is set as a fixed percentage of household income — not a market rate. As incomes rise, the trust earns more. As incomes fall, residents pay less. The building never becomes unaffordable because affordability is defined by the resident, not the market.</p>
+    </div>
+    <div class="mech-card">
+      <div class="mech-num">02</div>
+      <h4>Quintile Cross-Subsidization</h4>
+      <p>Higher-earning residents rents subsidize lower-earning neighbours within the same building or neighbourhood. Every income quintile (20%) is represented in every PLT building — producing economically diverse communities rather than income-segregated blocks.</p>
+    </div>
+    <div class="mech-card">
+      <div class="mech-num">03</div>
+      <h4>TFSA / RRSP Mezzanine Financing</h4>
+      <p>Residents and community investors can leverage registered savings (TFSA, RRSP) as mezzanine financing — earning a patient, below-market return while enabling the trust to acquire land without speculative debt. The CPF parallel Singapore used, adapted for Canadian regulatory tools.</p>
+    </div>
+    <div class="mech-card">
+      <div class="mech-num">04</div>
+      <h4>Community Credits Economy</h4>
+      <p>Block Share's Community Credits and Micro-Asset Systems make ecological stewardship, neighbourhood participation, and mutual aid economically legible. Credits earned through Quests — from planting keystone food trees to attending budget votes — are redeemable for goods, services, and reduced costs within the trust economy.</p>
+    </div>
+    <div class="mech-card">
+      <div class="mech-num">05</div>
+      <h4>Permanent Land Covenant</h4>
+      <p>A legal covenant — registered on title — ensures the land can never be sold back into the speculative market. Not in 99 years. Not ever. When residents move on, the land stays in common ownership. The affordability of today's unit is guaranteed for generations to come.</p>
+    </div>
+    <div class="mech-card">
+      <div class="mech-num">06</div>
+      <h4>Bioregional Stewardship</h4>
+      <p>The Ten Houses & Realms of Cascadia framework embeds ecological responsibility into PLT governance. Living Carbon Offsets, food-producing micro-assets, and stewardship quests tie economic participation to the health of the bioregion — something Singapore's density model cannot accommodate.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM CTA ===== -->
+<div class="bs-bottom-cta">
+  <div class="bs-cta-eyebrow">◆ Early Access</div>
+  <h2>Know Your Block's Budget.<br>Earn Community Credits.</h2>
+  <p>
+    Take the 5-minute Block Budget Survey. See your block's $2.4M annual budget,
+    understand how land policy affects your neighbourhood, and earn your first
+    Community Credits as an early participant in the Block Share economy.
+  </p>
+  <a href="/blockonomics/blocksurvey.html" class="bs-cta-btn">
+    Take the Survey — Earn CC →
+  </a>
+  <div class="bs-cta-sub">
+    <a href="/blockonomics/">← Blockonomics</a>
+    <a href="/blockbudget/">Block Explorer Map</a>
+    <a href="https://blockshare.ca">BlockShare.ca</a>
+  </div>
+</div>
+
+<!-- ===== FAB ===== -->
+<div class="bs-fab" id="bsFab">
+  <div class="bs-fab-tag">Be an early tester</div>
+  <a href="/blockonomics/blocksurvey.html" class="bs-fab-btn">
+    ◆ Take the Block Survey
+  </a>
+</div>
+
+    <footer class="bs-site-footer"><div class="footer-inner"><div class="footer-brand"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><p>Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative — neither government programme nor corporate platform.</p></div><div><h4>Blockonomics</h4><ul><li><a href="/blockonomics/">The Framework</a></li><li><a href="/blockbudget/">Block Budget Map</a></li><li><a href="/lei-calculator/">LEI Calculator</a></li></ul><h4 style="margin-top:1.5rem;">Programs</h4><ul><li><a href="/share/">Share Pools</a></li><li><a href="/food/">Beef Collective</a></li><li><a href="/credits/">Community Credits</a></li></ul></div><div><h4>Publications</h4><ul><li><a href="/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="/land-for-whom/">Land For Whom?</a></li><li><a href="/publications/">All Publications</a></li></ul><h4 style="margin-top:1.5rem;">Tools</h4><ul><li><a href="/lei-calculator/">LEI Calculator</a></li><li><a href="/cc-system-diagram/">CC System Diagram</a></li></ul></div><div><h4>Get Involved</h4><ul><li><a href="/onboarding/">Join Your Block</a></li><li><a href="/become-host/">Become a Host</a></li><li><a href="/about/">Our Story</a></li><li><a href="/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Block Share · Vancouver, BC</span><span>A community initiative inspired by E.F. Schumacher's <em>Small is Beautiful</em></span></div></footer>
+
+    <script>
+    (function(){
+        var btn=document.getElementById('mobileMenuBtn'),panel=document.querySelector('.bs-mobile-panel'),close=panel?panel.querySelector('.mobile-nav-close'):null;
+        if(btn&&panel&&close){btn.addEventListener('click',function(){panel.classList.add('open')});close.addEventListener('click',function(){panel.classList.remove('open')});panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){panel.classList.remove('open')})});}
+
+        // Hide FAB when bottom CTA is visible
+        var fab = document.getElementById('bsFab');
+        var cta = document.querySelector('.bs-bottom-cta');
+        if (fab && cta) {
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    fab.style.opacity       = e.isIntersecting ? '0' : '1';
+                    fab.style.pointerEvents = e.isIntersecting ? 'none' : 'auto';
+                });
+            }, { threshold: 0.1 });
+            obs.observe(cta);
+        }
+    })();
+    </script>
+</body>
+</html>

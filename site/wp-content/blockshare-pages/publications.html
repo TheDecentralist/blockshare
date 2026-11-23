@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publications — Block Share</title>
+  <meta name="description" content="Policy analysis, housing economics, and community systems research from the Block Share project. Every piece uses the Lifetime Efficiency Index and Blockonomics framework.">
+
+  <!-- Fonts — matches Block Beats design system -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Shared nav/footer styles (existing) -->
+  <link rel="stylesheet" href="/wp-content/uploads/bs-shared/bs-nav-footer.css">
+
+  <style>
+    /* ── Design tokens ─────────────────────────────────────────── */
+    :root {
+      --forest:   #1C3A2B;
+      --navy:     #1A2744;
+      --cream:    #F5F0E8;
+      --gold:     #C4933F;
+      --gold-lt:  #E8C97A;
+      --sand:     #EDE8DC;
+      --text:     #1A1A1A;
+      --muted:    #5A5A5A;
+      --border:   rgba(28, 58, 43, 0.15);
+
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans:  'DM Sans', system-ui, sans-serif;
+      --mono:  'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Page hero ─────────────────────────────────────────────── */
+    .pub-hero {
+      background: var(--forest);
+      color: var(--cream);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    .pub-hero__eyebrow {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-bottom: 1rem;
+    }
+    .pub-hero__title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      color: var(--cream);
+    }
+    .pub-hero__sub {
+      font-size: 1.05rem;
+      color: rgba(245,240,232,0.75);
+      max-width: 620px;
+      margin: 0 auto 2rem;
+      line-height: 1.65;
+    }
+
+    /* ── Filter tabs ───────────────────────────────────────────── */
+    .pub-filters {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 2rem 2rem 0;
+      background: var(--forest);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(245,240,232,0.1);
+    }
+    .pub-filter-btn {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      border: 1px solid rgba(245,240,232,0.3);
+      background: transparent;
+      color: rgba(245,240,232,0.7);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pub-filter-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-lt);
+    }
+    .pub-filter-btn.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--forest);
+    }
+
+    /* ── Main content ──────────────────────────────────────────── */
+    .pub-main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* ── Section headings ──────────────────────────────────────── */
+    .pub-section {
+      margin-bottom: 3.5rem;
+    }
+    .pub-section[hidden] { display: none; }
+
+    .pub-section__header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .pub-section__title {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      color: var(--navy);
+    }
+    .pub-section__count {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── Article cards ─────────────────────────────────────────── */
+    .pub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .pub-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    .pub-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s;
+    }
+    .pub-card:hover {
+      box-shadow: 0 4px 24px rgba(28,58,43,0.1);
+      transform: translateY(-2px);
+    }
+    .pub-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .pub-card__tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+    }
+    .pub-card__tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      background: var(--sand);
+      color: var(--forest);
+      font-weight: 500;
+    }
+    .pub-card__tag--new {
+      background: var(--gold);
+      color: var(--forest);
+    }
+
+    .pub-card__title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      line-height: 1.3;
+      color: var(--navy);
+      margin-bottom: 0.65rem;
+    }
+    .pub-card__summary {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 1.25rem;
+    }
+    .pub-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .pub-card__cta {
+      color: var(--forest);
+      font-weight: 500;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .pub-card__cta::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+    .pub-card:hover .pub-card__cta::after {
+      transform: translateX(3px);
+    }
+
+    /* ── LEI explainer block ───────────────────────────────────── */
+    .pub-explainers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+    .pub-explainer {
+      background: var(--sand);
+      border-radius: 8px;
+      padding: 1.75rem;
+    }
+    .pub-explainer__eyebrow {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .pub-explainer__title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--navy);
+      margin-bottom: 0.6rem;
+    }
+    .pub-explainer__body {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── Coming section ────────────────────────────────────────── */
+    .pub-coming {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--navy);
+      color: var(--cream);
+      border-radius: 8px;
+    }
+    .pub-coming__title {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      color: var(--gold-lt);
+    }
+    .pub-coming__body {
+      font-size: 0.875rem;
+      color: rgba(245,240,232,0.72);
+      line-height: 1.6;
+    }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .pub-hero { padding: 3.5rem 1.25rem 2.5rem; }
+      .pub-main { padding: 2rem 1.25rem 4rem; }
+      .pub-explainers { grid-template-columns: 1fr; }
+      .pub-grid { grid-template-columns: 1fr; }
+      .pub-filters { padding: 1rem 1rem 0.75rem; top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav injected by bs-nav-footer.js -->
+<div data-bs-nav></div>
+
+<!-- ── Hero ─────────────────────────────────────────────────────── -->
+<header class="pub-hero">
+  <p class="pub-hero__eyebrow">Block Beats · Research &amp; Commentary</p>
+  <h1 class="pub-hero__title">Publications</h1>
+  <p class="pub-hero__sub">Policy analysis, housing economics, and community systems research from the Block Share project. Every piece asks a simple question: who does the system actually serve?</p>
+</header>
+
+<!-- ── Filter tabs ────────────────────────────────────────────────── -->
+<div class="pub-filters" role="tablist" aria-label="Filter by topic">
+  <button class="pub-filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
+  <button class="pub-filter-btn" data-filter="land-housing" role="tab" aria-selected="false">Land &amp; Housing</button>
+  <button class="pub-filter-btn" data-filter="economics" role="tab" aria-selected="false">Economics</button>
+  <button class="pub-filter-btn" data-filter="governance" role="tab" aria-selected="false">Governance</button>
+  <button class="pub-filter-btn" data-filter="mobility-food" role="tab" aria-selected="false">Mobility &amp; Food</button>
+</div>
+
+<!-- ── Main grid ──────────────────────────────────────────────────── -->
+<main class="pub-main">
+
+  <!-- LAND & HOUSING -->
+  <section class="pub-section" data-section="land-housing">
+    <div class="pub-section__header">
+      <h2 class="pub-section__title">Land &amp; Housing</h2>
+      <span class="pub-section__count">4 articles</span>
+    </div>
+    <div class="pub-grid">
+
+      <a href="https://app.blockshare.ca/restore-to-own/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Land</span>
+          <span class="pub-card__tag">Life Pass</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">Restore the Land. Restore the Commons. Earn a Life Pass.</h3>
+        <p class="pub-card__summary">The Dominion Lands Act of 1872 gave away 80 million hectares — a continent enclosed one quarter-section at a time. Restore-to-Own runs the same programme, inverted: return an acre to the commons, earn a lifetime claim on the five basics.</p>
+        <div class="pub-card__meta">
+          <span>~15 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/land-trusts/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Land Trusts</span>
+          <span class="pub-card__tag">False Creek</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">The Land Is Already Here</h3>
+        <p class="pub-card__summary">False Creek South and the fight for a city that works. The tools, the land, and the legal structures exist. What's needed now is people — and the decision of who organises first.</p>
+        <div class="pub-card__meta">
+          <span>~20 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Housing</span>
+          <span class="pub-card__tag">LEI · FEI</span>
+          <span class="pub-card__tag">Interactive</span>
+        </div>
+        <h3 class="pub-card__title">Vancouver Housing Policy Analysis: Five Models Compared</h3>
+        <p class="pub-card__summary">Market rate, Broadway Plan, False Creek South, Copenhagen, and Singapore HDB — evaluated through the LEI/FEI framework. Interactive data tables and extraction analysis.</p>
+        <div class="pub-card__meta">
+          <span>~25 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/land-for-whom/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Land</span>
+          <span class="pub-card__tag">Comparative Policy</span>
+          <span class="pub-card__tag">Interactive</span>
+        </div>
+        <h3 class="pub-card__title">Market Capture or People Captured: Land Value</h3>
+        <p class="pub-card__summary">Singapore solved housing speculation by making property depreciate over time. Copenhagen kept costs low through cooperative ownership. Vancouver did neither. A four-jurisdiction comparison.</p>
+        <div class="pub-card__meta">
+          <span>~18 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ECONOMICS & SYSTEMS -->
+  <section class="pub-section" data-section="economics">
+    <div class="pub-section__header">
+      <h2 class="pub-section__title">Economics &amp; Systems</h2>
+      <span class="pub-section__count">5 articles</span>
+    </div>
+    <div class="pub-grid">
+
+      <a href="https://app.blockshare.ca/third-way/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Economics</span>
+          <span class="pub-card__tag">Framework</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">The 3rd Way: Beyond Market or Government</h3>
+        <p class="pub-card__summary">Neither capitalism nor state socialism. The neighbourhood-scale cooperative model that exists between the two dominant systems — and why it's the only one that accounts for the community's actual assets.</p>
+        <div class="pub-card__meta">
+          <span>~22 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/private-taxes/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Economics</span>
+          <span class="pub-card__tag">Extraction</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">Private Taxes: The Invisible Hand Exposed</h3>
+        <p class="pub-card__summary">Rent, interest, insurance, and platform fees are taxes — they're just collected by private entities rather than governments. Mapping the invisible extraction that precedes every public tax you pay.</p>
+        <div class="pub-card__meta">
+          <span>~20 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/tale-of-two-cycles/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Economics</span>
+          <span class="pub-card__tag">Systems</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">Tale of Two Cycles</h3>
+        <p class="pub-card__summary">The debt cycle and the life cycle run at different speeds and serve different masters. What happens when you map one against the other — and how community systems can bridge the gap.</p>
+        <div class="pub-card__meta">
+          <span>~15 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/debt-interest-death-of-gdp/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Finance</span>
+          <span class="pub-card__tag">Systemic</span>
+        </div>
+        <h3 class="pub-card__title">Debt, Interest &amp; the Death of GDP</h3>
+        <p class="pub-card__summary">Debts that can't be paid won't be — and the conventional macroeconomic framework has no honest answer for what comes next. A systems view of compound interest, growth, and collapse.</p>
+        <div class="pub-card__meta">
+          <span>~18 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/citizen-dashboard-article/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Civic Tech</span>
+          <span class="pub-card__tag">Accountability</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">Why We Need a Citizens Dashboard</h3>
+        <p class="pub-card__summary">Official city communications and peer-reviewed evidence are often in direct contradiction. The Citizens Dashboard makes that gap visible — policy accountability as public infrastructure.</p>
+        <div class="pub-card__meta">
+          <span>~16 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- GOVERNANCE & CIVIC -->
+  <section class="pub-section" data-section="governance">
+    <div class="pub-section__header">
+      <h2 class="pub-section__title">Governance &amp; Civic</h2>
+      <span class="pub-section__count">3 articles</span>
+    </div>
+    <div class="pub-grid">
+
+      <a href="https://app.blockshare.ca/unrepresented/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Democracy</span>
+          <span class="pub-card__tag">Civic</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">Unrepresented: A Democratic Deficit and How to Fix the System</h3>
+        <p class="pub-card__summary">The gap between who votes, who governs, and who benefits has never been wider. A structural analysis of Vancouver's democratic deficit and the design changes that could close it.</p>
+        <div class="pub-card__meta">
+          <span>~18 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/the-fine-print/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Policy</span>
+          <span class="pub-card__tag">Governance</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">The Fine Print</h3>
+        <p class="pub-card__summary">Every major policy document contains language that quietly transfers risk, liability, and cost to residents. A guide to reading what governments actually commit to — and what they don't.</p>
+        <div class="pub-card__meta">
+          <span>~15 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/bill-m216-article/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">BC Policy</span>
+          <span class="pub-card__tag">Interactive</span>
+        </div>
+        <h3 class="pub-card__title">Bill M216: Who Wins and Who Loses</h3>
+        <p class="pub-card__summary">A population-weighted analysis of BC's Professional Reliance Act. 78,000 people gain from the change. 4.9 million lose governance protections. Interactive stakeholder visualisation.</p>
+        <div class="pub-card__meta">
+          <span>~20 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- MOBILITY & FOOD -->
+  <section class="pub-section" data-section="mobility-food">
+    <div class="pub-section__header">
+      <h2 class="pub-section__title">Mobility &amp; Food</h2>
+      <span class="pub-section__count">2 articles</span>
+    </div>
+    <div class="pub-grid">
+
+      <a href="https://app.blockshare.ca/mobility-for-life/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Transport</span>
+          <span class="pub-card__tag">Mobility</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">Mobility for Life: Cost Analysis and the Card Game</h3>
+        <p class="pub-card__summary">What does getting around actually cost across a lifetime? Full cost modelling for transit, rideshare, cycling, and car ownership — plus the Mobility card game built to teach it in schools.</p>
+        <div class="pub-card__meta">
+          <span>~25 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+      <a href="https://app.blockshare.ca/food-for-generations/" class="pub-card">
+        <div class="pub-card__tags">
+          <span class="pub-card__tag">Food</span>
+          <span class="pub-card__tag">Community</span>
+          <span class="pub-card__tag pub-card__tag--new">New</span>
+        </div>
+        <h3 class="pub-card__title">Food for Generations: K–12 Program</h3>
+        <p class="pub-card__summary">A food literacy and local economy program designed for K–12 classrooms. How to build direct farm relationships, cooperative buying, and intergenerational food knowledge into the school system.</p>
+        <div class="pub-card__meta">
+          <span>~20 min</span>
+          <span class="pub-card__cta">Read</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── Framework explainers ──────────────────────────────────── -->
+  <div class="pub-explainers">
+    <div class="pub-explainer">
+      <p class="pub-explainer__eyebrow">The Framework</p>
+      <h3 class="pub-explainer__title">What is the LEI?</h3>
+      <p class="pub-explainer__body">The Lifetime Efficiency Index measures how much of a citizen's finite working lifetime is consumed by basic necessities — housing, food, transport, healthcare — across jurisdictions. It reveals not just what things cost, but how much of your life they take. Vancouver scores 99.9%. Copenhagen scores 63.7%. The gap is not explained by supply alone.</p>
+    </div>
+    <div class="pub-explainer">
+      <p class="pub-explainer__eyebrow">The Framework</p>
+      <h3 class="pub-explainer__title">What is Blockonomics?</h3>
+      <p class="pub-explainer__body">Blockonomics is the analytical framework behind Block Share. It starts with a simple observation: every city block already has a multi-million dollar economy flowing through it. Nobody accounts for it. Blockonomics makes that invisible power visible — then provides tools to redirect even a small fraction toward community systems.</p>
+    </div>
+  </div>
+
+  <!-- ── Coming ─────────────────────────────────────────────────── -->
+  <div class="pub-coming">
+    <h3 class="pub-coming__title">More in development</h3>
+    <p class="pub-coming__body">Upcoming work includes excerpts from <em>Default</em> — the book — Community Credits economic modelling results, agent-based simulation reports, the 10 Core Myths series, and deeper dives into the Blockonomics framework. Follow <a href="https://thedecentralist.net" style="color:var(--gold-lt);text-decoration:none;" target="_blank">The Decentralist</a> for early access.</p>
+  </div>
+
+</main>
+
+<!-- Footer injected by bs-nav-footer.js -->
+<div data-bs-footer></div>
+
+<!-- Shared nav/footer script -->
+<script src="/bs-nav-footer.js"></script>
+
+<script>
+  /* ── Filter logic ─────────────────────────────────────────────── */
+  const filterBtns = document.querySelectorAll('.pub-filter-btn');
+  const sections   = document.querySelectorAll('.pub-section');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      filterBtns.forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', String(b === btn));
+      });
+
+      sections.forEach(sec => {
+        if (filter === 'all' || sec.dataset.section === filter) {
+          sec.hidden = false;
+        } else {
+          sec.hidden = true;
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

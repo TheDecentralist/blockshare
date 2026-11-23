@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Efficiency Index — How much of your life does the system take?</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Karla:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap');
+
+:root {
+  --paper:   #f5ede0;
+  --paper2:  #ede0ce;
+  --ink:     #1e1810;
+  --muted:   #8a7660;
+  --border:  #cfc0a8;
+  --amber:   #c07820;
+  --amber2:  #e09030;
+  --green:   #3a6e4a;
+  --green2:  #5a9e6a;
+  --blue:    #2a5a7a;
+  --red:     #a03828;
+  --life:    #c07820;   /* life-time colour */
+  --housing: #a03828;
+  --transport:#2a5a7a;
+  --food:    #3a6e4a;
+  --energy:  #6a4a8a;
+  --other:   #7a6040;
+  --white:   #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Karla', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* ── Grain overlay ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.7;
+}
+
+.page { max-width: 780px; margin: 0 auto; padding: 60px 28px 120px; position: relative; z-index: 1; }
+
+/* ── Hero ── */
+.hero { margin-bottom: 52px; }
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 14px;
+  opacity: 0; animation: rise 0.6s ease forwards 0.1s;
+}
+
+.hero h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 700; line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 10px;
+  opacity: 0; animation: rise 0.7s ease forwards 0.2s;
+}
+
+.hero h1 em { font-style: italic; color: var(--amber); }
+
+.hero-sub {
+  font-size: 1rem; color: var(--muted); font-family: 'Lora', serif;
+  font-style: italic; line-height: 1.65; max-width: 560px;
+  opacity: 0; animation: rise 0.7s ease forwards 0.35s;
+}
+
+/* ── Life timeline visual ── */
+.life-bar-section {
+  background: var(--ink); border-radius: 12px;
+  padding: 28px 28px 24px; margin-bottom: 40px;
+  opacity: 0; animation: rise 0.7s ease forwards 0.5s;
+}
+
+.life-bar-label {
+  font-family: 'DM Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #6a5e50;
+  margin-bottom: 10px;
+}
+
+.life-bar {
+  height: 36px; background: #2a2018; border-radius: 6px;
+  overflow: hidden; display: flex; margin-bottom: 10px;
+  transition: all 0.3s;
+}
+
+.life-segment {
+  height: 100%; transition: flex 0.9s cubic-bezier(0.16,1,0.3,1);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.life-segment-label {
+  font-family: 'DM Mono', monospace; font-size: 0.6rem;
+  color: rgba(255,255,255,0.75); letter-spacing: 0.05em;
+  white-space: nowrap; overflow: hidden; padding: 0 6px;
+}
+
+.life-bar-legend {
+  display: flex; flex-wrap: wrap; gap: 12px;
+}
+
+.legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; color: #8a7a6a;
+}
+
+.legend-dot {
+  width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0;
+}
+
+/* ── Input form ── */
+.input-section {
+  margin-bottom: 48px;
+  opacity: 0; animation: rise 0.7s ease forwards 0.65s;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 6px;
+}
+
+.section-title {
+  font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.section-body {
+  font-size: 0.88rem; color: var(--muted); margin-bottom: 20px;
+  line-height: 1.65; font-style: italic; font-family: 'Lora', serif;
+}
+
+.inputs-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+
+@media (max-width: 560px) { .inputs-grid { grid-template-columns: 1fr; } }
+
+.input-card {
+  background: var(--paper2); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
+  transition: border-color 0.2s;
+}
+
+.input-card:focus-within { border-color: var(--amber); }
+
+.input-card.full { grid-column: 1 / -1; }
+
+.input-cat-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; font-weight: 600; margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+
+.input-cat-dot {
+  width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0;
+}
+
+.input-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 7px;
+}
+
+.input-row:last-child { margin-bottom: 0; }
+
+.input-sub {
+  font-size: 0.75rem; color: var(--muted); flex: 1;
+  font-family: 'Lora', serif; font-style: italic;
+}
+
+.input-wrap {
+  display: flex; align-items: center;
+  background: var(--paper); border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden;
+}
+
+.input-prefix {
+  padding: 6px 8px; background: var(--border);
+  font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted);
+  border-right: 1px solid var(--border);
+}
+
+.input-field {
+  border: none; background: transparent; outline: none;
+  font-family: 'DM Mono', monospace; font-size: 0.85rem;
+  color: var(--ink); padding: 6px 10px; width: 110px;
+}
+
+.input-suffix {
+  padding: 6px 8px; color: var(--muted);
+  font-family: 'DM Mono', monospace; font-size: 0.72rem;
+}
+
+/* ── Working years input ── */
+.context-strip {
+  display: flex; gap: 10px; margin-bottom: 12px; align-items: center;
+  flex-wrap: wrap;
+}
+
+.context-pill {
+  background: var(--paper2); border: 1px solid var(--border);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 0.78rem; cursor: pointer; transition: all 0.15s;
+  font-family: 'Lora', serif;
+}
+
+.context-pill.active { background: var(--amber); color: white; border-color: var(--amber); }
+
+/* ── Calculate button ── */
+.calc-btn {
+  width: 100%; padding: 16px; background: var(--ink); color: var(--paper);
+  border: none; border-radius: 10px; font-family: 'Lora', serif;
+  font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 16px;
+  letter-spacing: 0.02em; transition: all 0.2s; position: relative;
+  overflow: hidden;
+}
+
+.calc-btn:hover { background: #2e2418; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+.calc-btn:active { transform: translateY(0); }
+
+/* ── Results ── */
+.results {
+  display: none; opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.results.visible { display: block; opacity: 1; }
+
+/* LEI Score hero */
+.lei-score-card {
+  background: var(--ink); color: var(--paper);
+  border-radius: 12px; padding: 32px 32px 28px;
+  margin-bottom: 28px; position: relative; overflow: hidden;
+}
+
+.lei-score-card::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, var(--amber) 0%, transparent 70%);
+  opacity: 0.12; pointer-events: none;
+}
+
+.lei-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber2);
+  margin-bottom: 12px;
+}
+
+.lei-score-row {
+  display: flex; align-items: flex-end; gap: 20px; margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.lei-big {
+  font-family: 'Lora', serif; font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 700; line-height: 1; color: var(--amber2);
+  letter-spacing: -0.03em;
+}
+
+.lei-big-unit {
+  font-family: 'Lora', serif; font-size: 1.4rem;
+  color: #6a5e50; margin-bottom: 8px;
+}
+
+.lei-summary {
+  font-family: 'Lora', serif; font-size: 0.92rem;
+  color: #9a8a78; line-height: 1.65; max-width: 480px;
+}
+
+/* Lifetime bar in results */
+.result-bar-wrap { margin-bottom: 24px; }
+
+.result-bar {
+  height: 48px; background: #1a1410; border-radius: 8px;
+  overflow: hidden; display: flex; margin-bottom: 8px;
+}
+
+/* Category breakdown */
+.cat-breakdown { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+
+.cat-row {
+  background: var(--paper2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px;
+}
+
+.cat-row-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cat-row-left { display: flex; align-items: center; gap: 10px; }
+
+.cat-swatch { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+.cat-name { font-weight: 600; font-size: 0.88rem; }
+
+.cat-years {
+  font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cat-pct {
+  font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted);
+  margin-top: 2px; text-align: right;
+}
+
+.cat-bar {
+  height: 5px; background: var(--border); border-radius: 3px; overflow: hidden;
+}
+
+.cat-fill { height: 100%; border-radius: 3px; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+
+.cat-context {
+  font-size: 0.75rem; color: var(--muted); margin-top: 7px;
+  font-family: 'Lora', serif; font-style: italic;
+}
+
+/* 3rd Way potential */
+.potential-card {
+  border: 1.5px solid var(--green); border-radius: 10px;
+  padding: 18px 20px; margin-bottom: 28px;
+  background: rgba(58,110,74,0.04);
+}
+
+.potential-title {
+  font-family: 'Lora', serif; font-size: 0.95rem; font-weight: 600;
+  color: var(--green); margin-bottom: 4px;
+}
+
+.potential-body { font-size: 0.83rem; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+
+.potential-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.83rem;
+}
+
+.potential-row:last-child { border-bottom: none; }
+.potential-cat { color: var(--muted); }
+.potential-saving { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--green); font-weight: 500; }
+
+/* Project prescriptions */
+.prescriptions { margin-bottom: 40px; }
+
+.rx-title {
+  font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.rx-sub {
+  font-size: 0.85rem; color: var(--muted); font-style: italic;
+  font-family: 'Lora', serif; margin-bottom: 20px;
+}
+
+.rx-cards { display: flex; flex-direction: column; gap: 10px; }
+
+.rx-card {
+  border-radius: 12px; overflow: hidden;
+  border: 1.5px solid var(--border);
+  transition: all 0.2s; cursor: pointer;
+  background: white;
+}
+
+.rx-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+
+.rx-card-header {
+  display: flex; align-items: center; gap: 14px; padding: 16px 18px 12px;
+}
+
+.rx-priority {
+  font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 100px;
+  border: 1px solid currentColor; flex-shrink: 0;
+}
+
+.rx-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+.rx-name {
+  font-family: 'Lora', serif; font-weight: 600; font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.rx-impact {
+  font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500;
+}
+
+.rx-body {
+  padding: 0 18px 14px; font-size: 0.8rem; color: var(--muted);
+  line-height: 1.6; border-top: 1px solid #f0e8dc; padding-top: 10px;
+}
+
+.rx-cta {
+  display: inline-block; margin-top: 8px; font-size: 0.75rem;
+  font-weight: 600; letter-spacing: 0.05em; text-decoration: none;
+  padding: 5px 12px; border-radius: 6px; border: 1.5px solid currentColor;
+  transition: all 0.15s;
+}
+
+/* Sharing note */
+.share-note {
+  background: var(--paper2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 18px 20px; margin-bottom: 28px;
+  font-size: 0.83rem; color: var(--muted); font-family: 'Lora', serif;
+  font-style: italic; line-height: 1.65;
+}
+
+.share-note strong { color: var(--ink); font-style: normal; }
+
+/* Recalculate */
+.recalc-btn {
+  background: transparent; border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 10px 20px; cursor: pointer;
+  font-family: 'Karla', sans-serif; font-size: 0.83rem; color: var(--muted);
+  transition: all 0.15s;
+}
+
+.recalc-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+/* Animations */
+@keyframes rise { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+
+/* ── BLOCK SHARE SITE NAV (injected) ── */
+.bs-site-nav{background:#0f2b1d;border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:9999}
+.bs-site-nav .nav-inner{max-width:1200px;margin:0 auto;padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.bs-site-nav .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
+.bs-site-nav .nav-logo span{color:#f9a825}
+.bs-site-nav .nav-links{display:flex;gap:0;list-style:none;align-items:center}
+.bs-site-nav .nav-links>li{position:relative}
+.bs-site-nav .nav-links>li>a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;font-weight:500;padding:.45rem .75rem;border-radius:6px;transition:all .25s;display:flex;align-items:center;gap:.3rem;font-family:'DM Sans',sans-serif}
+.bs-site-nav .nav-links>li>a:hover,.bs-site-nav .nav-links>li:hover>a{color:#fff;background:rgba(255,255,255,.1)}
+.bs-site-nav .nav-links>li>a .dd-arrow{font-size:.6rem;transition:transform .2s;margin-top:1px}
+.bs-site-nav .nav-links>li:hover>a .dd-arrow{transform:rotate(180deg)}
+.bs-site-nav .nav-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#163d2a;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 0;min-width:240px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:bsDdFadeIn .15s ease-out;z-index:10001}
+.bs-site-nav .nav-links>li:hover .nav-dd{display:block}
+@keyframes bsDdFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.bs-site-nav .nav-dd a{display:block;padding:8px 18px;color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:400;transition:all .15s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.bs-site-nav .nav-dd a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.bs-site-nav .nav-dd .dd-divider{height:1px;background:rgba(255,255,255,.1);margin:6px 16px}
+.bs-site-nav .nav-dd .dd-highlight{color:#f9a825;font-weight:600}
+.bs-site-nav .nav-cta{background:#f9a825;color:#0f2b1d;padding:.45rem 1.1rem;border-radius:6px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:'DM Sans',sans-serif}
+.bs-site-nav .mobile-menu{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+.bs-mobile-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0f2b1d;z-index:20000;padding:1.5rem;overflow-y:auto;font-family:'DM Sans',sans-serif}
+.bs-mobile-panel.open{display:block}
+.bs-mobile-panel .mobile-nav-close{background:none;border:none;color:#fff;font-size:1.8rem;position:absolute;top:1rem;right:1.5rem;cursor:pointer}
+.bs-mobile-panel .m-section{margin-bottom:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)}
+.bs-mobile-panel .m-section:first-child{border-top:none;padding-top:0;margin-top:3rem}
+.bs-mobile-panel .m-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#f9a825;margin-bottom:.5rem}
+.bs-mobile-panel a{display:block;color:rgba(255,255,255,.8);text-decoration:none;font-size:.95rem;padding:.5rem 0}
+.bs-mobile-panel a:hover{color:#fff}
+.bs-mobile-panel .m-cta{display:block;background:#f9a825;color:#0f2b1d;text-align:center;padding:.85rem;border-radius:8px;font-weight:600;font-size:.95rem;margin-top:1.5rem;text-decoration:none}
+.bs-site-footer{background:#0a1a2a;color:#fff;padding:3.5rem 2rem 2rem;font-family:'DM Sans',sans-serif}
+.bs-site-footer .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem}
+.bs-site-footer .footer-brand .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
+.bs-site-footer .footer-brand .nav-logo span{color:#f9a825}
+.bs-site-footer .footer-brand p{color:rgba(255,255,255,.8);font-size:.85rem;margin-top:.75rem;line-height:1.6;max-width:280px}
+.bs-site-footer h4{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#c8891e;margin-bottom:1rem}
+.bs-site-footer ul{list-style:none;padding:0;margin:0}.bs-site-footer li{margin-bottom:.5rem}
+.bs-site-footer a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.85rem}.bs-site-footer a:hover{color:#fff}
+.bs-site-footer .footer-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.8)}
+@media(max-width:600px){.bs-site-nav .nav-links{display:none !important}.bs-site-nav .mobile-menu{display:block}.bs-site-footer .footer-inner{grid-template-columns:1fr}.bs-site-footer .footer-bottom{flex-direction:column;gap:.5rem}}
+@media(max-width:900px){.bs-site-footer .footer-inner{grid-template-columns:1fr 1fr}}
+
+</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="bs-site-nav"><div class="nav-inner"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><ul class="nav-links">
+                <li><a href="/blockonomics/">Blockonomics <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a><div class="dd-divider"></div><a href="/onboarding/" class="dd-highlight">Take the Block Survey →</a></div></li>
+                <li><a href="#">Programs <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a><div class="dd-divider"></div><a href="/cc-system-diagram/">CC System Diagram</a></div></li>
+                <li><a href="/publications/">Publications <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><div class="dd-divider"></div><a href="/publications/" class="dd-highlight">All Publications →</a></div></li>
+                <li><a href="#">Get Involved <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div></li>
+            </ul><a href="/onboarding/" class="nav-cta">Get Started →</a><button class="mobile-menu" id="mobileMenuBtn">☰</button></div></nav>
+
+    <div class="bs-mobile-panel" id="mobileNavPanel">
+        <button class="mobile-nav-close" id="mobileNavClose">✕</button>
+        <div class="m-section"><div class="m-label">Blockonomics</div><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a></div>
+        <div class="m-section"><div class="m-label">Programs</div><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a></div>
+        <div class="m-section"><div class="m-label">Publications</div><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><a href="/publications/">All Publications →</a></div>
+        <div class="m-section"><div class="m-label">Get Involved</div><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div>
+        <a href="/onboarding/" class="m-cta">Get Started →</a>
+    </div>
+
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">Life Efficiency Index · The 3rd Way</div>
+    <h1>How much of your<br><em>life</em> does the system take?</h1>
+    <p class="hero-sub">Your income isn't just money. It's hours. Weeks. Years of your finite time on earth. The LEI shows you exactly how much of your working life the current economic system extracts — and what you could reclaim.</p>
+  </div>
+
+  <!-- Live lifetime bar -->
+  <div class="life-bar-section">
+    <div class="life-bar-label">Your working lifetime · 40 years · live preview</div>
+    <div class="life-bar" id="liveBar">
+      <div class="life-segment" id="seg-housing" style="flex:8;background:var(--housing)"><span class="life-segment-label">Housing</span></div>
+      <div class="life-segment" id="seg-transport" style="flex:4;background:var(--transport)"><span class="life-segment-label">Transport</span></div>
+      <div class="life-segment" id="seg-food" style="flex:3;background:var(--food)"><span class="life-segment-label">Food</span></div>
+      <div class="life-segment" id="seg-energy" style="flex:2;background:var(--energy)"><span class="life-segment-label">Energy</span></div>
+      <div class="life-segment" id="seg-free" style="flex:23;background:#2a2018"><span class="life-segment-label" style="color:#4a3a2a">Your life</span></div>
+    </div>
+    <div class="life-bar-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--housing)"></div>Housing</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--transport)"></div>Transport</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--food)"></div>Food</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--energy)"></div>Energy</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2a2018;border:1px solid #3a2a18"></div>Yours</div>
+    </div>
+  </div>
+
+  <!-- Input form -->
+  <div class="input-section">
+    <div class="section-label">Step 1 — Your situation</div>
+    <div class="section-title">Tell us about your costs</div>
+    <p class="section-body">Estimates are fine. The LEI is designed to show the shape of your extraction, not to be tax-return precise.</p>
+
+    <!-- Working years context -->
+    <div style="margin-bottom:16px">
+      <div style="font-size:0.78rem;color:var(--muted);margin-bottom:8px">Working life assumption:</div>
+      <div class="context-strip">
+        <div class="context-pill active" onclick="setWorkYears(35, this)">35 years</div>
+        <div class="context-pill" onclick="setWorkYears(40, this)">40 years</div>
+        <div class="context-pill" onclick="setWorkYears(45, this)">45 years</div>
+        <div class="context-pill" onclick="setWorkYears(50, this)">50 years</div>
+      </div>
+    </div>
+
+    <div class="inputs-grid">
+
+      <!-- Income -->
+      <div class="input-card full">
+        <div class="input-cat-label">
+          <div class="input-cat-dot" style="background:var(--amber)"></div>
+          Annual Income (before tax)
+        </div>
+        <div class="input-row">
+          <span class="input-sub">Your gross household income</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input class="input-field" type="number" id="income" value="72000" min="0" step="1000" oninput="updateLive()">
+            <span class="input-suffix">/yr</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Housing -->
+      <div class="input-card">
+        <div class="input-cat-label">
+          <div class="input-cat-dot" style="background:var(--housing)"></div>
+          Housing
+        </div>
+        <div class="input-row">
+          <span class="input-sub">Rent or mortgage / month</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input class="input-field" type="number" id="housing" value="2200" min="0" step="100" oninput="updateLive()">
+            <span class="input-suffix">/mo</span>
+          </div>
+        </div>
+        <div class="input-row">
+          <span class="input-sub">Strata / insurance / property tax</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input class="input-field" type="number" id="housingExtra" value="300" min="0" step="50" oninput="updateLive()">
+            <span class="input-suffix">/mo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transport -->
+      <div class="input-card">
+        <div class="input-cat-label">
+          <div class="input-cat-dot" style="background:var(--transport)"></div>
+          Transport
+        </div>
+        <div class="input-row">
+          <span class="input-sub">Car payment / lease</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input class="input-field" type="number" id="carPayment" value="500" min="0" step="50" oninput="updateLive()">
+            <span class="input-suffix">/mo</span>
+          </div>
+        </div>
+        <div class="input-row">
+          <span class="input-sub">Insurance, fuel, transit, parking</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input class="input-field" type="number" id="transportExtra" value="400" min="0" step="50" oninput="updateLive()">
+            <span class="input-suffix">/mo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Food -->
+      <div class="input-card">
+        <div class="input-cat-label">
+          <div class="input-cat-dot" style="background:var(--food)"></div>
+          Food
+        </div>
+        <div class="input-row">
+          <span class="input-sub">Groceries / month</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input class="input-field" type="number" id="groceries" value="800" min="0" step="50" oninput="updateLive()">
+            <span class="input-suffix">/mo</span>
+          </div>
+        </div>
+        <div class="input-row">
+          <span class="input-sub">Dining out / month</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input class="input-field" type="number" id="dining" value="300" min="0" step="50" oninput="updateLive()">
+            <span class="input-suffix">/mo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Energy -->
+      <div class="input-card">
+        <div class="input-cat-label">
+          <div class="input-cat-dot" style="background:var(--energy)"></div>
+          Energy & Utilities
+        </div>
+        <div class="input-row">
+          <span class="input-sub">Hydro, gas, internet / month</span>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input class="input-field" type="number" id="energy" value="280" min="0" step="20" oninput="updateLive()">
+            <span class="input-suffix">/mo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">
+      Calculate my Life Efficiency Index →
+    </button>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+
+    <!-- LEI Score -->
+    <div class="lei-score-card">
+      <div class="lei-eyebrow">Your Life Efficiency Index</div>
+      <div class="lei-score-row">
+        <div class="lei-big" id="leiYears">—</div>
+        <div class="lei-big-unit">years of your working life<br>given to essential costs</div>
+      </div>
+      <p class="lei-summary" id="leiSummary"></p>
+    </div>
+
+    <!-- Lifetime bar result -->
+    <div class="result-bar-wrap">
+      <div class="result-bar" id="resultBar"></div>
+      <div id="resultLegend" class="life-bar-legend" style="margin-top:6px"></div>
+    </div>
+
+    <!-- Category breakdown -->
+    <div class="cat-breakdown" id="catBreakdown"></div>
+
+    <!-- 3rd Way potential -->
+    <div class="potential-card">
+      <div class="potential-title">If you shifted to 3rd Way alternatives</div>
+      <p class="potential-body" id="potentialBody"></p>
+      <div id="potentialRows"></div>
+    </div>
+
+    <!-- Project prescriptions -->
+    <div class="prescriptions">
+      <div class="section-label">Your personal prescription</div>
+      <div class="rx-title">Projects matched to your highest-extraction categories</div>
+      <p class="rx-sub">Ranked by how much life-time each project could return to you — starting with your biggest drains.</p>
+      <div class="rx-cards" id="rxCards"></div>
+    </div>
+
+    <!-- Share on your block -->
+    <div class="share-note">
+      <strong>This is also your block's story.</strong> When you share your LEI with neighbours, patterns emerge — and patterns become the mandate for collective action. The Block Budget Explorer shows what your block's aggregate LEI looks like geographically, and which 3rd Way projects have the highest collective return.
+    </div>
+
+    <button class="recalc-btn" onclick="resetResults()">← Adjust my inputs</button>
+
+  </div>
+
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let workYears = 35;
+
+function setWorkYears(y, el) {
+  workYears = y;
+  document.querySelectorAll('.context-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelector('.life-bar-label').textContent = `Your working lifetime · ${y} years · live preview`;
+  updateLive();
+}
+
+function getInputs() {
+  const income = parseFloat(document.getElementById('income').value) || 72000;
+  const housingMonthly = (parseFloat(document.getElementById('housing').value)||0) +
+                          (parseFloat(document.getElementById('housingExtra').value)||0);
+  const transportMonthly = (parseFloat(document.getElementById('carPayment').value)||0) +
+                             (parseFloat(document.getElementById('transportExtra').value)||0);
+  const foodMonthly = (parseFloat(document.getElementById('groceries').value)||0) +
+                       (parseFloat(document.getElementById('dining').value)||0);
+  const energyMonthly = parseFloat(document.getElementById('energy').value)||0;
+  return { income, housingMonthly, transportMonthly, foodMonthly, energyMonthly };
+}
+
+function calcLEI(inputs) {
+  const { income, housingMonthly, transportMonthly, foodMonthly, energyMonthly } = inputs;
+  const annualIncome = income;
+  const postTax = annualIncome * 0.76; // ~24% avg effective tax rate BC
+
+  const housingAnnual    = housingMonthly * 12;
+  const transportAnnual  = transportMonthly * 12;
+  const foodAnnual       = foodMonthly * 12;
+  const energyAnnual     = energyMonthly * 12;
+  const totalExtracted   = housingAnnual + transportAnnual + foodAnnual + energyAnnual;
+
+  // % of post-tax income
+  const housingPct    = Math.min(housingAnnual    / postTax, 0.95);
+  const transportPct  = Math.min(transportAnnual  / postTax, 0.95);
+  const foodPct       = Math.min(foodAnnual       / postTax, 0.95);
+  const energyPct     = Math.min(energyAnnual     / postTax, 0.95);
+  const totalPct      = Math.min(housingPct + transportPct + foodPct + energyPct, 0.98);
+
+  // Years of working life
+  const housingYrs    = +(housingPct    * workYears).toFixed(1);
+  const transportYrs  = +(transportPct  * workYears).toFixed(1);
+  const foodYrs       = +(foodPct       * workYears).toFixed(1);
+  const energyYrs     = +(energyPct     * workYears).toFixed(1);
+  const totalYrs      = +(totalPct      * workYears).toFixed(1);
+  const freeYrs       = +(workYears - totalYrs).toFixed(1);
+
+  // 3rd Way alternatives (research-based estimates)
+  const thirdWayHousing   = housingYrs * 0.50;  // PLT removes ~50% housing burden
+  const thirdWayTransport = transportYrs * 0.55; // Block Share vehicles, transit
+  const thirdWayFood      = foodYrs * 0.40;      // Collective Beef Co., food pantries
+  const thirdWayEnergy    = energyYrs * 0.45;    // Community energy co-ops
+
+  return {
+    annualIncome, postTax,
+    housingAnnual, transportAnnual, foodAnnual, energyAnnual, totalExtracted,
+    housingPct, transportPct, foodPct, energyPct, totalPct,
+    housingYrs, transportYrs, foodYrs, energyYrs, totalYrs, freeYrs,
+    thirdWayHousing, thirdWayTransport, thirdWayFood, thirdWayEnergy,
+    totalSavingYrs: +((thirdWayHousing+thirdWayTransport+thirdWayFood+thirdWayEnergy)).toFixed(1)
+  };
+}
+
+// ── Live bar update ────────────────────────────────────────────────────────
+function updateLive() {
+  const inputs = getInputs();
+  const lei = calcLEI(inputs);
+  const total = workYears;
+
+  document.getElementById('seg-housing').style.flex   = Math.max(0.5, lei.housingYrs);
+  document.getElementById('seg-transport').style.flex = Math.max(0.5, lei.transportYrs);
+  document.getElementById('seg-food').style.flex      = Math.max(0.5, lei.foodYrs);
+  document.getElementById('seg-energy').style.flex    = Math.max(0.5, lei.energyYrs);
+  document.getElementById('seg-free').style.flex      = Math.max(0.5, lei.freeYrs);
+
+  // Update labels
+  const updateLabel = (id, yrs) => {
+    const el = document.getElementById(id);
+    const w = el.offsetWidth;
+    el.querySelector('.life-segment-label').textContent = w > 50 ? `${yrs}y` : '';
+  };
+  setTimeout(() => {
+    updateLabel('seg-housing', lei.housingYrs);
+    updateLabel('seg-transport', lei.transportYrs);
+    updateLabel('seg-food', lei.foodYrs);
+    updateLabel('seg-energy', lei.energyYrs);
+  }, 50);
+}
+
+// ── Calculate & render results ─────────────────────────────────────────────
+function calculate() {
+  const inputs = getInputs();
+  const lei = calcLEI(inputs);
+
+  // Animate in results
+  const resultsEl = document.getElementById('results');
+  resultsEl.classList.add('visible');
+  resultsEl.scrollIntoView({ behavior:'smooth', block:'start' });
+
+  // Animate LEI number
+  const leiYearsEl = document.getElementById('leiYears');
+  let count = 0;
+  const target = lei.totalYrs;
+  const step = () => {
+    count = Math.min(target, count + 0.4);
+    leiYearsEl.textContent = count.toFixed(1);
+    if (count < target) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+
+  // Summary text
+  const freePct = Math.round(lei.freeYrs / workYears * 100);
+  const totalPct = Math.round(lei.totalPct * 100);
+  document.getElementById('leiSummary').textContent =
+    `Out of your ${workYears}-year working life, ${lei.totalYrs} years — ${totalPct}% of your working time — is already allocated to housing, transport, food, and energy before you make a single discretionary choice. Only ${lei.freeYrs} years (${freePct}%) is genuinely yours.`;
+
+  // Result bar
+  const cats = [
+    { id:'housing',   yrs:lei.housingYrs,   pct:lei.housingPct,   color:'var(--housing)',   label:'Housing' },
+    { id:'transport', yrs:lei.transportYrs, pct:lei.transportPct, color:'var(--transport)', label:'Transport' },
+    { id:'food',      yrs:lei.foodYrs,       pct:lei.foodPct,      color:'var(--food)',      label:'Food' },
+    { id:'energy',    yrs:lei.energyYrs,     pct:lei.energyPct,    color:'var(--energy)',    label:'Energy' },
+  ];
+
+  document.getElementById('resultBar').innerHTML = cats.map(c =>
+    `<div style="flex:${Math.max(0.5,c.yrs)};background:${c.color};transition:flex 0.9s cubic-bezier(0.16,1,0.3,1)"
+          title="${c.label}: ${c.yrs} years"></div>`
+  ).join('') + `<div style="flex:${Math.max(0.5,lei.freeYrs)};background:#1a1410"></div>`;
+
+  document.getElementById('resultLegend').innerHTML = cats.map(c =>
+    `<div class="legend-item"><div class="legend-dot" style="background:${c.color}"></div>${c.label} · ${c.yrs}y</div>`
+  ).join('') + `<div class="legend-item"><div class="legend-dot" style="background:#1a1410;border:1px solid #3a2a18"></div>Yours · ${lei.freeYrs}y</div>`;
+
+  // Category breakdown
+  const contexts = {
+    housing:   `At ${Math.round(lei.housingPct*100)}% of your post-tax income, housing is your largest extraction. The Vancouver median is 38%. Under a Permanent Land Trust, land cost is removed entirely — ownership cost drops by roughly half.`,
+    transport: `Transport at ${Math.round(lei.transportPct*100)}% reflects a car-dependent lifestyle. Block Share vehicles, cycling infrastructure, and transit passes accessed through Community Credyts can reduce this significantly.`,
+    food:      `Food at ${Math.round(lei.foodPct*100)}% of income. Collective purchasing through Collective Beef Co. and neighbourhood food pantries can reduce food cost by 30–40% while improving quality and local resilience.`,
+    energy:    `Energy at ${Math.round(lei.energyPct*100)}%. Community energy co-ops and micro-generation — solar, heat pumps shared across a block — can reduce household energy bills by 40–50%.`,
+  };
+
+  // Sort by years (highest first) for prescription ordering
+  const sorted = [...cats].sort((a,b) => b.yrs - a.yrs);
+
+  document.getElementById('catBreakdown').innerHTML = sorted.map(c => `
+    <div class="cat-row" style="border-left:3px solid ${c.color}">
+      <div class="cat-row-header">
+        <div class="cat-row-left">
+          <div class="cat-swatch" style="background:${c.color}"></div>
+          <span class="cat-name">${c.label}</span>
+        </div>
+        <div>
+          <div class="cat-years" style="color:${c.color}">${c.yrs} years</div>
+          <div class="cat-pct">${Math.round(c.pct*100)}% of working life</div>
+        </div>
+      </div>
+      <div class="cat-bar"><div class="cat-fill" style="width:${Math.min(100,c.pct*100)}%;background:${c.color}"></div></div>
+      <div class="cat-context">${contexts[c.id]}</div>
+    </div>
+  `).join('');
+
+  // 3rd Way potential
+  const totalSaving = lei.totalSavingYrs;
+  document.getElementById('potentialBody').textContent =
+    `If you shifted your four largest essential costs to 3rd Way alternatives — Permanent Land Trust housing, Block Share transport, collective food purchasing, community energy — you could reclaim an estimated ${totalSaving} years of your working life. That's ${totalSaving} more years that are genuinely yours.`;
+
+  const thirdWayCats = [
+    { label:'Housing', current: lei.housingYrs, saving: +lei.thirdWayHousing.toFixed(1), project:'Permanent Land Trust' },
+    { label:'Transport', current: lei.transportYrs, saving: +lei.thirdWayTransport.toFixed(1), project:'Block Share Vehicles' },
+    { label:'Food', current: lei.foodYrs, saving: +lei.thirdWayFood.toFixed(1), project:'Collective Beef Co. + Food Pantry' },
+    { label:'Energy', current: lei.energyYrs, saving: +lei.thirdWayEnergy.toFixed(1), project:'Community Energy Co-op' },
+  ].sort((a,b) => b.saving - a.saving);
+
+  document.getElementById('potentialRows').innerHTML = thirdWayCats.map(r => `
+    <div class="potential-row">
+      <span class="potential-cat">${r.label} — via ${r.project}</span>
+      <span class="potential-saving">+${r.saving} years reclaimed</span>
+    </div>
+  `).join('');
+
+  // Project prescriptions
+  const projects = {
+    housing: {
+      icon: '🏡', name: 'Permanent Land Trust',
+      priority: 'Housing · Priority #1',
+      priorityColor: 'var(--housing)',
+      impact: `+${lei.thirdWayHousing.toFixed(1)} years reclaimed`,
+      body: `A Permanent Land Trust removes land from the speculative market entirely. Housing costs drop by approximately 50% because you are only buying the building — the land is held in common. For your household, this means the difference between giving ${lei.housingYrs} years of your life to housing versus roughly ${(lei.housingYrs - lei.thirdWayHousing).toFixed(1)} years.`,
+      cta: 'Learn about PLT housing', ctaColor: 'var(--housing)',
+    },
+    transport: {
+      icon: '🚗', name: 'Block Share Vehicles',
+      priority: 'Transport · Shared Mobility',
+      priorityColor: 'var(--transport)',
+      impact: `+${lei.thirdWayTransport.toFixed(1)} years reclaimed`,
+      body: `A shared vehicle pool on your block — organised through BlockShare — means ${Math.round(12/0.7)} households can share access to ${Math.round(12/0.7 * 0.08)} vehicles instead of each owning one. Car costs drop to subscription access, insurance is pooled, and maintenance is shared. The average household saves $6,000–$9,000/year.`,
+      cta: 'Join Block Share', ctaColor: 'var(--transport)',
+    },
+    food: {
+      icon: '🥩', name: 'Collective Beef Co. & Food Pantry',
+      priority: 'Food · Collective Purchasing',
+      priorityColor: 'var(--food)',
+      impact: `+${lei.thirdWayFood.toFixed(1)} years reclaimed`,
+      body: `Collective Beef Co. connects households directly to grass-fed producers — cutting the market intermediary and reducing quality meat costs by 30–40%. Combined with a neighbourhood food pantry for staples and surplus, your block can collectively reduce food costs while improving quality and building local food resilience.`,
+      cta: 'Join Collective Beef Co.', ctaColor: 'var(--food)',
+    },
+    energy: {
+      icon: '⚡', name: 'Community Energy Co-op',
+      priority: 'Energy · Shared Generation',
+      priorityColor: 'var(--energy)',
+      impact: `+${lei.thirdWayEnergy.toFixed(1)} years reclaimed`,
+      body: `A community solar or heat pump installation, structured as a co-op across your block, can reduce household energy costs by 40–50%. The capital cost is shared, the savings are shared, and the block builds collective ownership of its own energy infrastructure — reducing dependency on utility companies and volatile energy markets.`,
+      cta: 'Explore energy co-ops', ctaColor: 'var(--energy)',
+    },
+  };
+
+  // Rank prescriptions by potential saving (highest first)
+  const ranked = sorted.map(c => projects[c.id]);
+
+  document.getElementById('rxCards').innerHTML = ranked.map((p, i) => `
+    <div class="rx-card">
+      <div class="rx-card-header">
+        <span class="rx-icon">${p.icon}</span>
+        <div style="flex:1">
+          <div class="rx-name">${p.name}</div>
+          <div class="rx-impact" style="color:${p.priorityColor}">${p.impact}</div>
+        </div>
+        <span class="rx-priority" style="color:${p.priorityColor}">${i===0?'Highest priority':'Priority '+(i+1)}</span>
+      </div>
+      <div class="rx-body">
+        ${p.body}
+        <br>
+        <span class="rx-cta" style="color:${p.priorityColor};border-color:${p.priorityColor}">${p.cta} →</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Animate bars after render
+  setTimeout(() => {
+    document.querySelectorAll('.cat-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0';
+      setTimeout(() => el.style.width = w, 50);
+    });
+  }, 200);
+}
+
+function resetResults() {
+  document.getElementById('results').classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Init live bar
+updateLive();
+</script>
+
+    <footer class="bs-site-footer"><div class="footer-inner"><div class="footer-brand"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><p>Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative — neither government programme nor corporate platform.</p></div><div><h4>Blockonomics</h4><ul><li><a href="/blockonomics/">The Framework</a></li><li><a href="/blockbudget/">Block Budget Map</a></li><li><a href="/lei-calculator/">LEI Calculator</a></li></ul><h4 style="margin-top:1.5rem;">Programs</h4><ul><li><a href="/share/">Share Pools</a></li><li><a href="/food/">Beef Collective</a></li><li><a href="/credits/">Community Credits</a></li></ul></div><div><h4>Publications</h4><ul><li><a href="/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="/land-for-whom/">Land For Whom?</a></li><li><a href="/publications/">All Publications</a></li></ul><h4 style="margin-top:1.5rem;">Tools</h4><ul><li><a href="/lei-calculator/">LEI Calculator</a></li><li><a href="/cc-system-diagram/">CC System Diagram</a></li></ul></div><div><h4>Get Involved</h4><ul><li><a href="/onboarding/">Join Your Block</a></li><li><a href="/become-host/">Become a Host</a></li><li><a href="/about/">Our Story</a></li><li><a href="/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Block Share · Vancouver, BC</span><span>A community initiative inspired by E.F. Schumacher's <em>Small is Beautiful</em></span></div></footer>
+
+    <script>
+    (function(){
+        var btn=document.getElementById('mobileMenuBtn'),panel=document.querySelector('.bs-mobile-panel'),close=panel?panel.querySelector('.mobile-nav-close'):null;
+        if(btn&&panel&&close){btn.addEventListener('click',function(){panel.classList.add('open')});close.addEventListener('click',function(){panel.classList.remove('open')});panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){panel.classList.remove('open')})});}
+    })();
+    </script>
+</body>
+</html>

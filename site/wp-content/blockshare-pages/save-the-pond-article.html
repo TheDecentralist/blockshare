@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Save Our Pond — Block Share</title>
+<!-- Standalone page pattern: bs-nav-footer.js injects its own CSS and
+     builds #bs-nav itself. No external CSS link needed or wanted here —
+     it would make the script skip its own styling and leave the nav
+     unstyled, since it assumes a stylesheet link means one is already
+     handling it. See blockshare-nav-architecture-v1.md. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1E4D7B;
+    --green:#2E7D32;
+    --ink:#1c1c1c;
+    --paper:#fbf9f5;
+    --line:#dcd5c8;
+    --muted:#5a564c;
+    /* Block Share site-wide content palette (matches onboarding.html / other
+       article pages). NOT the same namespace as bs-nav-footer.js's injected
+       --bs-forest / --bs-gold / --bs-navy, which only style the nav/footer
+       chrome itself. The media bar below needs these defined locally on
+       every article page — see blockshare-nav-architecture-v1.md. */
+    --forest:#0f2b1d;
+    --gold:#f9a825;
+    --navy:#1E4D7B;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'EB Garamond', Georgia, serif;
+    font-size:19px;
+    line-height:1.6;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px 80px;}
+  header.hero{
+    border-bottom:3px solid var(--blue);
+    padding:56px 0 32px;
+    text-align:center;
+  }
+  .kicker{
+    font-family:'Source Sans Pro',sans-serif;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:13px;
+    color:var(--green);
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  h1{
+    color:var(--blue);
+    font-weight:700;
+    font-size:44px;
+    margin:0 0 14px;
+  }
+  .lede{
+    font-size:21px;
+    color:var(--muted);
+    max-width:600px;
+    margin:0 auto;
+    font-style:italic;
+  }
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h2{
+    font-family:'Source Sans Pro',sans-serif;
+    font-size:14px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--green);
+    font-weight:700;
+    margin:0 0 18px;
+  }
+  .argument p{font-size:19px;}
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:8px;
+  }
+  .stat{
+    background:#fff;
+    border:1px solid var(--line);
+    border-top:4px solid var(--blue);
+    padding:22px 16px;
+    text-align:center;
+  }
+  .stat .num{
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:700;
+    font-size:30px;
+    color:var(--blue);
+    display:block;
+    line-height:1.1;
+    margin-bottom:6px;
+  }
+  .stat .label{font-size:15px;color:var(--muted);}
+  .source-note{font-size:13px;color:var(--muted);font-family:'Source Sans Pro',sans-serif;margin-top:10px;}
+  .citywide{
+    background:#fff;
+    border-left:4px solid var(--green);
+    padding:22px 24px;
+    font-size:18px;
+  }
+  .citywide strong{color:var(--green);}
+  ol.alts{padding-left:22px;}
+  ol.alts li{margin-bottom:12px;}
+  .alt-list{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
+  .alt-box{
+    border:1px solid var(--line);
+    border-left:4px solid var(--green);
+    background:#fff;
+    padding:14px 18px;
+  }
+  .alt-box .label{
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:700;
+    color:var(--blue);
+    font-size:15px;
+    display:block;
+    margin-bottom:4px;
+  }
+  .alt-box p{margin:0;color:var(--muted);font-size:15px;}
+  .ask{
+    background:var(--blue);
+    color:#fff;
+    padding:40px 32px;
+    border-radius:2px;
+  }
+  .ask h2{color:#cfe0ee;}
+  .ask-steps{display:grid;gap:16px;margin-top:18px;}
+  .ask-step{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.25);
+    padding:16px 18px;
+  }
+  .ask-step .num{
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:700;
+    color:var(--green);
+    background:#fff;
+    border-radius:50%;
+    width:26px;height:26px;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:14px;
+    margin-right:10px;
+  }
+  .ask-step a{color:#9fd89f;font-weight:700;}
+  .cta-btn{
+    display:inline-block;
+    margin-top:24px;
+    background:#fff;
+    color:var(--blue);
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:700;
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:2px;
+    font-size:16px;
+  }
+  table.series{width:100%;border-collapse:collapse;font-size:16px;}
+  table.series th{
+    font-family:'Source Sans Pro',sans-serif;
+    text-align:left;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    border-bottom:2px solid var(--line);
+    padding:8px 6px;
+  }
+  table.series td{padding:10px 6px;border-bottom:1px solid var(--line);}
+  .secondary-cta{
+    margin-top:18px;
+    font-family:'Source Sans Pro',sans-serif;
+    font-size:14px;
+    color:#cfe0ee;
+  }
+  .secondary-cta a{color:#9fd89f;font-weight:600;}
+  footer.brand{
+    text-align:center;
+    padding:40px 0 0;
+  }
+  footer.brand .mark{
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:700;
+    color:var(--blue);
+    font-size:15px;
+  }
+  footer.brand p{font-size:15px;color:var(--muted);}
+
+  /* --- Petition form --- */
+  .petition-box{
+    background:#fff;
+    border:1px solid var(--line);
+    border-top:4px solid var(--green);
+    padding:32px;
+  }
+  .petition-box .statement{
+    font-size:16px;
+    color:var(--muted);
+    border-left:3px solid var(--line);
+    padding-left:16px;
+    margin-bottom:26px;
+  }
+  form.petition-form{
+    font-family:'Source Sans Pro',sans-serif;
+  }
+  .form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-bottom:16px;
+  }
+  .form-field{display:flex;flex-direction:column;}
+  .form-field.full{grid-column:1/-1;}
+  .form-field label{
+    font-size:12px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .form-field input{
+    font-family:'Source Sans Pro',sans-serif;
+    font-size:15px;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:var(--paper);
+  }
+  .form-field textarea{
+    font-family:'Source Sans Pro',sans-serif;
+    font-size:15px;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:var(--paper);
+    resize:vertical;
+  }
+  .form-field input[type="file"]{
+    padding:8px 0;
+    border:none;
+    background:none;
+  }
+  .form-field input:focus, .form-field textarea:focus{outline:2px solid var(--blue);outline-offset:1px;}
+  .consent-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:14px;
+    color:var(--muted);
+    margin:18px 0 22px;
+  }
+  .consent-row input{margin-top:3px;}
+  .submit-btn{
+    background:var(--blue);
+    color:#fff;
+    border:none;
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:700;
+    font-size:16px;
+    padding:14px 30px;
+    border-radius:2px;
+    cursor:pointer;
+  }
+  .submit-btn:hover{background:#163a5c;}
+  .form-note{
+    font-family:'Source Sans Pro',sans-serif;
+    font-size:12px;
+    color:var(--muted);
+    margin-top:12px;
+  }
+
+  /* --- Contribute cards --- */
+  .contrib-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:8px;
+  }
+  .contrib-card{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:24px 18px;
+    text-align:center;
+  }
+  .contrib-card .icon{
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--green);
+    margin-bottom:10px;
+  }
+  .contrib-card h3{
+    font-size:22px;
+    margin:0 0 10px;
+    color:var(--blue);
+  }
+  .contrib-card p{font-size:15px;color:var(--muted);margin:0 0 16px;}
+  .contrib-card a{
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--blue);
+    text-decoration:none;
+    border-bottom:1px solid var(--blue);
+    padding-bottom:2px;
+  }
+
+  /* --- Explore Block Share --- */
+  .explore-box{
+    background:var(--ink);
+    color:#eee7d8;
+    padding:36px 32px;
+    text-align:center;
+  }
+  .explore-box h2{color:#c9a97a;}
+  .explore-box p{font-size:17px;max-width:520px;margin:0 auto 20px;color:#d8d2c4;}
+  .explore-box .cta-btn{background:#eee7d8;color:var(--ink);}
+
+  /* --- Escalation closing note --- */
+  .escalation{
+    background:#fff;
+    border:1px dashed var(--blue);
+    padding:24px 26px;
+    font-size:17px;
+    font-style:italic;
+    color:var(--muted);
+  }
+  .escalation strong{color:var(--blue);font-style:normal;}
+
+  @media (max-width:600px){
+    .form-row{grid-template-columns:1fr;}
+    .contrib-grid{grid-template-columns:1fr;}
+  }
+
+  /* --- Images --- */
+  figure.lead-image{
+    margin:0 0 8px;
+    text-align:center;
+  }
+  figure.lead-image img{
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    display:block;
+  }
+  figure.lead-image figcaption{
+    font-family:'Source Sans Pro',sans-serif;
+    font-size:13px;
+    color:var(--muted);
+    margin-top:8px;
+  }
+  figure.inline-diagram{
+    margin:20px auto 4px;
+    text-align:center;
+    max-width:420px;
+  }
+  figure.inline-diagram img{
+    width:100%;
+    height:auto;
+    aspect-ratio:1/1;
+    border:1px solid var(--line);
+    display:block;
+    margin:0 auto;
+  }
+  figure.inline-diagram figcaption{
+    font-family:'Source Sans Pro',sans-serif;
+    font-size:13px;
+    color:var(--muted);
+    margin-top:8px;
+  }
+
+  /* --- Skip-to-petition link --- */
+  .skip-link{
+    text-align:center;
+    margin-top:14px;
+  }
+  .skip-link a{
+    font-family:'Source Sans Pro',sans-serif;
+    font-size:14px;
+    font-weight:700;
+    color:var(--green);
+    text-decoration:underline;
+  }
+
+  /* --- Floating petition CTA --- */
+  .float-cta{
+    position:fixed;
+    bottom:80px;
+    right:20px;
+    z-index:200;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:14px 22px;
+    border-radius:30px;
+    text-decoration:none;
+    box-shadow:0 4px 14px rgba(0,0,0,.28);
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .float-cta:hover{background:#163a5c;}
+  .float-cta.is-hidden{opacity:0;pointer-events:none;transform:translateY(12px);}
+  @media (max-width:600px){
+    .float-cta{
+      left:16px;right:16px;bottom:14px;
+      text-align:center;
+      border-radius:8px;
+    }
+  }
+
+  /* --- Mid-page CTA banner --- */
+  .mid-cta{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#eef3f7;
+    padding:16px 4px;
+    flex-wrap:wrap;gap:12px;
+  }
+  .mid-cta span{
+    font-family:'Source Sans Pro',sans-serif;
+    font-weight:600;
+    color:var(--blue);
+    font-size:15px;
+  }
+  .cta-btn-sm{
+    background:var(--blue);color:#fff;
+    font-family:'Source Sans Pro',sans-serif;font-weight:700;
+    text-decoration:none;padding:10px 20px;border-radius:2px;
+    font-size:14px;white-space:nowrap;
+  }
+  .cta-btn-sm:hover{background:#163a5c;}
+
+  /* ── BS-NAV placeholder (per blockshare-nav-architecture-v1.md — do not add sizing) ── */
+  #bs-nav { display: block; }
+
+  /* ── MEDIA BAR (verbatim from blockshare-nav-architecture-v1.md) ── */
+  .media-bar {
+    background: var(--forest);
+    border-bottom: 2px solid var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    max-height: 52px;
+  }
+  .media-bar.expanded { max-height: 480px; }
+  .media-bar-pill {
+    max-width: 860px; margin: 0 auto;
+    display: flex; align-items: center;
+    height: 52px; padding: 0 1.5rem; gap: 0.5rem;
+  }
+  .mb-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); flex-shrink: 0; margin-right: 0.5rem;
+  }
+  .mb-btn {
+    display: flex; align-items: center; gap: 0.4rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 500;
+    padding: 0.3rem 0.85rem; border-radius: 20px;
+    cursor: pointer; white-space: nowrap;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .mb-btn:hover { background: rgba(255,255,255,0.18); text-decoration: none; color: #fff; }
+  .mb-btn.active { background: var(--gold); color: var(--forest); border-color: var(--gold); }
+  .mb-btn svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
+  .mb-toggle {
+    margin-left: auto; background: none; border: none;
+    color: rgba(255,255,255,0.5); font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.08em;
+    cursor: pointer; padding: 0.3rem 0.5rem; white-space: nowrap;
+  }
+  .mb-panel {
+    display: none; max-width: 860px; margin: 0 auto;
+    padding: 0 1.5rem 1.5rem;
+  }
+  .media-bar.expanded .mb-panel.active-panel { display: block; }
+  .mb-panel iframe { width: 100%; height: 360px; border-radius: 8px; border: none; display: block; }
+  .mb-panel .podcast-embed {
+    background: rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem;
+  }
+  .mb-panel .podcast-embed p { color: rgba(245,240,232,0.85); font-size: 0.9rem; margin-bottom: 1rem; }
+  .mb-panel .podcast-embed audio { width: 100%; accent-color: var(--gold); }
+  @media (max-width:600px){
+    h1{font-size:32px;}
+    .stat-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Standalone page pattern: no manual #bs-nav placeholder — bs-nav-footer.js
+     creates one and prepends it to <body> itself when none is found. -->
+
+<!-- ── MEDIA BAR ── -->
+<div class="media-bar" id="mediaBar">
+  <div class="media-bar-pill">
+    <span class="mb-label">Watch or Listen</span>
+    <button class="mb-btn" id="mbBtnYT" onclick="mbToggle('yt')">
+      <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.4 12 20.4 12 20.4s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+      Watch
+    </button>
+    <button class="mb-btn" id="mbBtnPod" onclick="mbToggle('pod')">
+      <svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4zm-6 9a6 6 0 0 0 12 0h-2a4 4 0 0 1-8 0H6zm5 7h2v2h-2v-2z"/></svg>
+      Listen
+    </button>
+    <a class="mb-btn" href="https://thedecentralistnet.substack.com/" target="_blank" rel="noopener">✦ Substack</a>
+    <button class="mb-toggle" id="mbToggleBtn" onclick="mbToggle(null)">▾ expand</button>
+  </div>
+  <div class="mb-panel" id="mbPanelYT">
+    <iframe src="https://www.youtube.com/embed/2IxFVXCWHG8" title="Save Our Pond — Summer Water Restrictions" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="mb-panel" id="mbPanelPod">
+    <div class="podcast-embed">
+      <!-- Episode title inferred from the MP3 filename — swap if you have the exact title you want displayed -->
+      <p><strong style="color:#fff">Neighbours Fight to Save Vancouver's Park Ponds</strong> · The Decentralist Podcast</p>
+      <audio controls preload="none" style="width:100%">
+        <source src="https://app.blockshare.ca/wp-content/uploads/2026/07/Neighbors_Fight_to_Save_Vancouver_Park_Ponds.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+</div>
+
+<script>
+var _mbCurrent = null;
+function mbToggle(panel) {
+  var bar = document.getElementById('mediaBar');
+  var btn = document.getElementById('mbToggleBtn');
+  if (panel && panel === _mbCurrent) {
+    bar.classList.remove('expanded');
+    document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+    document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+    _mbCurrent = null;
+    btn.textContent = '▾ expand';
+  } else if (panel) {
+    bar.classList.add('expanded');
+    document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+    document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+    var targetPanel = panel === 'yt' ? document.getElementById('mbPanelYT') : document.getElementById('mbPanelPod');
+    var targetBtn   = panel === 'yt' ? document.getElementById('mbBtnYT')   : document.getElementById('mbBtnPod');
+    if (targetPanel) targetPanel.classList.add('active-panel');
+    if (targetBtn)   targetBtn.classList.add('active');
+    _mbCurrent = panel;
+    btn.textContent = '▴ close';
+  } else {
+    if (bar.classList.contains('expanded')) {
+      bar.classList.remove('expanded');
+      document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+      document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+      _mbCurrent = null;
+      btn.textContent = '▾ expand';
+    }
+  }
+}
+</script>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Block Share &middot; The Decentralist</div>
+    <h1>Save Our Pond</h1>
+    <p class="lede">The wildlife in Vancouver's parks is dying of thirst — and the math says it doesn't have to.</p>
+    <p class="skip-link"><a href="#petition">In a hurry? Skip straight to the petition →</a></p>
+  </header>
+
+  <figure class="lead-image">
+    <img src="https://app.blockshare.ca/wp-content/uploads/2026/07/Saving_Vancouver_Ponds__Tokyo_Blueprint-scaled.png" alt="Saving Vancouver Ponds: the Tokyo Blueprint — alternatives Tokyo has implemented that Vancouver has not.">
+    <figcaption>Tokyo, Vancouver's own sister city, solved this decades ago. Vancouver hasn't tried.</figcaption>
+  </figure>
+
+  <section class="argument">
+    <h2>The Argument</h2>
+    <p>For the last several summers, the City of Vancouver has turned off the water supply to park ponds and water features it built itself, citing water restrictions. Vanier Park's pond — created in the 1960s alongside the Museum of Vancouver — is a confirmed example. The fish, birds, frogs, bees, amphibians, and turtles that depend on it have no recourse.</p>
+    <p>This is not a genuine water shortage problem. It is a governance failure: a bureaucratic decision made without electoral accountability, without exploring the alternatives, and without asking the residents who live beside these spaces and steward them. "Water restrictions" is the excuse on file. It does not hold up against the numbers, and it does not hold up against the alternatives the City has never tried. Nobody loses their seat over a dry pond. Nobody answers to the frogs.</p>
+  </section>
+
+  <section>
+    <h2>What the City Hasn't Tried</h2>
+    <p style="margin-top:-6px;color:var(--muted);font-size:16px;">None of this is exotic engineering. These are basic, decades-old practices. The City has tried none of them.</p>
+    <figure class="inline-diagram">
+      <img src="https://app.blockshare.ca/wp-content/uploads/2026/07/Water-Recycling-with-blue-wash.png" alt="Line drawing of the five water-recycling and conservation methods the City hasn't tried.">
+    </figure>
+    <div class="alt-list">
+      <div class="alt-box"><span class="label">A. Conservation</span><p>A modest, voluntary household ask. Never made.</p></div>
+      <div class="alt-box"><span class="label">B. Cisterns</span><p>Rooftop rainwater capture. Standard in Tokyo, Vancouver's own sister city, since the 1990s. Vancouver has none.</p></div>
+      <div class="alt-box"><span class="label">C. Groundwater Wells</span><p>Untapped water already reaching English Bay.</p></div>
+      <div class="alt-box"><span class="label">D. Drainage Redirection</span><p>Ocean-bound stormwater could refill ponds instead.</p></div>
+      <div class="alt-box"><span class="label">E. Grey Water Recovery</span><p>Reused water for irrigation and pond maintenance.</p></div>
+    </div>
+  </section>
+
+  <section style="padding:0;">
+    <div class="mid-cta">
+      <span>Convinced already?</span>
+      <a href="#petition" class="cta-btn-sm">Sign the Petition →</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="citywide">
+      <strong>Vanier Park isn't unique.</strong> Vancouver has hundreds of park ponds and water features built by the City and now left to dry every summer — including the pond at Granville Island, alongside its splash park, which is also shut down each season. This campaign starts with the full case on one pond. It is mapping the rest, block by block.
+    </div>
+    <p class="source-note" style="margin-top:14px;">Vanier Park's deficit runs roughly 12,000 litres a day at peak summer — about 1 in every 87,000 litres used region-wide. Full calculations (4,605.33 m² surface, Metro Vancouver / Environment Canada sourcing) available on request.</p>
+  </section>
+
+
+  <section class="ask">
+    <h2>Join Save Our Pond</h2>
+    <div class="ask-steps">
+      <div class="ask-step"><span class="num">1</span><strong>Sign</strong> — the petition asking the City to maintain wildlife water features year-round.</div>
+      <div class="ask-step"><span class="num">2</span><strong>Pledge</strong> — shorten your shower.</div>
+      <div class="ask-step"><span class="num">3</span><strong>Steward</strong> — become a Block Host or Block Reporter. Organize and inform your Block and your community.</div>
+    </div>
+    <a class="cta-btn" href="#petition">Sign the Petition →</a>
+  </section>
+
+  <section id="petition">
+    <div id="thankYou" style="display:none;background:var(--green);color:#fff;padding:18px 24px;border-radius:2px;margin-bottom:20px;font-family:'Source Sans Pro',sans-serif;font-weight:600;font-size:16px;">
+      ✓ Thank you — your signature has been recorded. Share this page to help the campaign grow.
+    </div>
+    <script>if(location.search.indexOf('signed=1')!==-1){document.getElementById('thankYou').style.display='block';history.replaceState(null,'',location.pathname);}</script>
+    <h2>Sign the Petition</h2>
+    <div class="petition-box">
+      <p class="statement">We call on the City of Vancouver and the Vancouver Park Board to maintain water supply to park ponds and wildlife water features year-round — and to actually study conservation, cisterns, groundwater wells, drainage redirection, and grey water recovery before letting another pond dry out.</p>
+
+      <form class="petition-form" action="https://formsubmit.co/18e4e2badb80ea0e21c9f4d83035c709" method="POST">
+        <input type="hidden" name="_subject" value="Save Our Pond — New Petition Signature">
+        <input type="hidden" name="_captcha" value="true">
+        <input type="hidden" name="_next" value="https://app.blockshare.ca/save-the-pond/?signed=1">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="pf-name">Name</label>
+            <input type="text" id="pf-name" name="name" required>
+          </div>
+          <div class="form-field">
+            <label for="pf-email">Email</label>
+            <input type="email" id="pf-email" name="email" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="pf-postal">Postal Code</label>
+            <input type="text" id="pf-postal" name="postal_code">
+          </div>
+          <div class="form-field">
+            <label for="pf-phone">Phone (optional)</label>
+            <input type="tel" id="pf-phone" name="phone">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field full">
+            <label for="pf-comment">Your Comment — Tell Us About This Pond</label>
+            <textarea id="pf-comment" name="comment" rows="3" placeholder="Optional. Not published — for our records and future episodes only."></textarea>
+          </div>
+        </div>
+
+        <label class="consent-row">
+          <input type="checkbox" name="consent_media">
+          I'm willing to have my comment, photo, audio, or video used by Block Share / The Decentralist in future Save Our Pond content (with my name, or anonymously — my choice).
+        </label>
+        <label class="consent-row">
+          <input type="checkbox" name="consent_updates">
+          Yes — Block Share can send me updates on Save Our Pond and related community initiatives.
+        </label>
+        <button type="submit" class="submit-btn">Add My Signature →</button>
+        <p class="form-note">Your info is used only for this campaign and Block Share follow-up — never sold, never shared.</p>
+      </form>
+    </div>
+  </section>
+
+
+
+  <section class="argument">
+    <h2>The Bigger Picture: Trees, Snowpack, and What Tokyo Already Knows</h2>
+    <p>The pond isn't the only thing running dry.</p>
+    <p>In late June 2026, Metro Vancouver imposed its Stage 3 watering restrictions — the most severe in at least a decade — banning all sprinkler and soaker-hose use for trees, shrubs, and flowers. Within days, horticulturalists and parks veterans were raising alarms: Vancouver's urban tree canopy, already shrinking at a documented rate, cannot survive on hand-watering alone. Metro Vancouver's own climate projections warn that the deep spring snowpack in mountainous watersheds is expected to decrease by over 50% compared to present day — the same snowpack that fills the reservoirs that feed the taps that water the parks that keep the ponds full.</p>
+    <p>These are not separate problems. They are the same problem.</p>
+    <p>The five alternatives we've been asking the city to try for the Vanier Park pond — cisterns, groundwater wells, drainage redirection, greywater recovery, and conservation infrastructure — are the identical toolkit the urban forestry community has been requesting for years to keep the city's tree canopy alive through increasingly brutal summers. The city has been slow to act on both fronts for the same structural reason: it treats water as a delivered utility, not a locally managed resource.</p>
+
+    <h2 style="margin-top:32px;">A Short-Term Signal, Not a Structural Fix</h2>
+    <p>There is one piece of genuinely new information worth noting. Metro Vancouver's Stage 3 restrictions were triggered in part by an infrastructure upgrade: a century-old, metre-wide water pipeline running under Stanley Park was temporarily taken offline for replacement. Officials indicated the new high-pressure main was expected to be back in service by the end of July 2026, at which point Stage 3 restrictions would be reassessed. That's a meaningful near-term reprieve for ponds, boulevards, and struggling street trees.</p>
+    <p>But a new pipe is not a new water supply. Snowpack acts as water storage — unlike rain, which washes immediately through the system, snow stays in the mountains and releases gradually into spring and summer. Metro Vancouver's South Coast snowpack recorded 61% of normal as recently as February 2026 — a warm winter pattern that forecasters expect to recur. Southern B.C. experienced successive summer streamflow droughts in 2023 and 2024, with flows running 23–43% below historical means. The pipeline fix buys time. It does not buy snowpack.</p>
+
+    <h2 style="margin-top:32px;">What Tokyo Already Built</h2>
+    <p>This is not a hard problem. It is an unbegun one.</p>
+    <p>In the early 1980s, a municipal official in east Tokyo named Makoto Murase designed a water recovery system that collected, filtered, and stored rainwater in large underground holding tanks — easing flooded sewers and providing a resource used for irrigation, toilets, washing, and drinking. After an early version proved successful at Tokyo's Sumo Stadium, the city made underground rainwater tanks mandatory for all new buildings — including the Skytree, Japan's tallest. Today, more than a thousand buildings in Tokyo harvest and recycle their own rainwater.</p>
+    <p>Tokyo treats water scarcity not as an isolated incident but as a recurring risk to be managed with foresight. Vancouver treats it as a summer inconvenience to be managed with a press release.</p>
+    <p>The Vanier Park pond is a small ask. Keep the pond full. Try the five alternatives before you drain it. That is still true and still the point of this campaign. But we want to be clear about where this is going: the infrastructure required to protect ponds, water the urban tree canopy, and sustain the city's parks through decades of declining snowpack is the same infrastructure. Cisterns. Wells. Drainage. Greywater. The tools are known. The models exist. The only thing missing is the political will to begin.</p>
+  </section>
+
+  <section>
+    <h2>Save Our Pond — Series 1</h2>
+    <table class="series">
+      <tr><th>Ep.</th><th>Location</th><th>Subject</th></tr>
+      <tr><td>1</td><td>Vanier Park</td><td>What About Wells — groundwater solution</td></tr>
+      <tr><td>2</td><td>TBD pond</td><td>What About Cisterns? — rainwater capture</td></tr>
+      <tr><td>3</td><td>TBD pond</td><td>What About Drainage? — redirection infrastructure</td></tr>
+      <tr><td>4</td><td>TBD pond</td><td>What About Grey Water? — building-scale recovery</td></tr>
+      <tr><td>5</td><td>City-wide</td><td>The Map — every at-risk pond in Vancouver</td></tr>
+      <tr><td>6</td><td>City Hall</td><td>The Petition Delivery</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <div class="escalation">
+      Today's ask is small because the problem is still small — <strong>a few thimbles of water a day</strong>, city-wide. It won't stay that way. Every summer Vancouver gets hotter, that thimble grows — and the City still won't have tried the basics. We're starting here because this is where the excuse falls apart easiest. We won't stop here.
+    </div>
+  </section>
+
+  <section class="explore-box">
+    <h2 style="font-family:'Source Sans Pro',sans-serif;font-size:13px;letter-spacing:.12em;">Beyond the Pond</h2>
+    <p>Save Our Pond is one campaign inside a bigger idea: neighbours running their own governance, economy, and accountability, block by block. Block Share is the platform behind it.</p>
+    <a class="cta-btn" href="https://app.blockshare.ca">Explore Block Share →</a>
+  </section>
+
+  <!-- No custom footer here — bs-nav-footer.js auto-appends the real site
+       footer (BlockShare logo, four link columns, CTA band) after this
+       point. A hand-built footer here would either duplicate it or clash
+       with its markup. See blockshare-nav-architecture-v1.md. -->
+
+</div>
+
+<a href="#petition" class="float-cta" id="floatCta">Sign the Petition →</a>
+
+<script>
+(function(){
+  var petitionEl = document.getElementById('petition');
+  var floatBtn = document.getElementById('floatCta');
+  if(!petitionEl || !floatBtn || !('IntersectionObserver' in window)) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      floatBtn.classList.toggle('is-hidden', entry.isIntersecting);
+    });
+  }, {threshold:0.2});
+  obs.observe(petitionEl);
+})();
+</script>
+
+<!-- Buy Me a Coffee floating widget -->
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="TheDecentralist" data-description="Support me on Buy me a coffee!" data-message="Thanks for Visiting. If you are feeling the love, please Buy Me A Coffee" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<!-- Standalone page pattern (Pattern B): script goes last, after all page
+     content. It injects its own CSS, creates and prepends #bs-nav, and
+     auto-appends the real site footer at the end of body — no CSS link,
+     no manual placeholder, no custom footer needed anywhere on this page. -->
+<script src="/bs-nav-footer.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+slug	server_file	type	source_file	bytes	note
+blockonomics	blockonomics.html	core	blockonomics.html	1865791	
+blockbudget	blockbudget/index.html	core	Block_Budget_Data_Explorer_v11.html	887088	Explorer v11 (newest, 3 Apr)
+bs-home	blockshare-homepage.html	core	blockshare-homepage.html	23487	Alt: bs-home-v2.html (20 Apr) - confirm which was live
+about	about.html	core	about.html	14732	
+share	share.html	core	Share-BlockShare-v2.html	32452	From Downloads (11 Jun); confirm
+credits	credits.html	core	credits.html	24891	
+find-your-block	find-your-block.html	core	find-your-block.html	93185	Identical file to join-block/onboarding (same size)
+join-block	join-block.html	core	join-block.html	93185	Identical file to find-your-block/onboarding
+become-host	become-host.html	core	become-host.html	32524	
+lei-calculator	life-efficiency-index.html	dynamic	life-efficiency-index.html	45540	
+block-budget	blockbudget/index.html	dynamic	(alias)	0	alias of blockbudget
+vancouver-housing-policy-analysis	vancouver_housing_policy_7.html	dynamic	vancouver_housing_policy_7.html	86877	
+bill-m216-article	bill-m216-article_3.html	dynamic	bill-m216-article_3.html	60065	
+land-for-whom	singapore-land-trust-r3.html	dynamic	singapore-land-trust-r3.html	63660	
+publications	publications.html	dynamic	publications-v3.html	25566	v3 (20 Apr) - newest, includes Restore to Own card [nav path rewritten]
+debt-interest-death-of-gdp	debts-that-cant-be-paid.html	dynamic	debts-that-cant-be-paid.html	50779	
+ward-stirrat-biography	ward-stirrat.html	dynamic	ward-stirrat.html	36003	
+private-taxes	private-taxes-v4.html	dynamic	private-taxes-v4.html	74094	v5 also exists (21 Apr newer) - confirm
+private-taxes-short	private-taxes-short.html	dynamic	private-taxes-short.html	200780	
+tale-of-two-cycles	tale-of-two-cycles.html	dynamic	tale-of-two-cycles.html	36045	
+food-for-generations	food-for-generations.html	dynamic	food-for-generations-updated.html	98454	
+third-way	the-3rd-way.html	dynamic	the-3rd-way.html	64244	
+mobility-for-life	mobility-for-life.html	dynamic	mobility-for-life.html	769947	
+unrepresented	unrepresented-web-article.html	dynamic	unrepresented-web-article.html	51278	
+citizen-dashboard-article	citizens-dashboard-article.html	dynamic	citizens-dashboard-article.html	64933	from Downloads
+citizens-dashboard	citizens-dashboard.html	dynamic	citizens-dashboard.html	66610	
+land-trusts	permanent-land-trust.html	dynamic	permanent-land-trust.html	71212	
+restore-to-own	restore-to-own-v4.html	dynamic	restore-to-own-v4.html	56970	pre-April-20 nav; no 'Restore to Own' menu item in its nav
+contact	contact.html	dynamic	contact.html	18386	plugin JS path rewritten to /bs-nav-footer.js [nav path rewritten]
+buy-back-your-block	buy-back-your-block.html	dynamic	micro-asset-buy-back.html	90244	BEST GUESS - verify this is the right page
+cc-system-diagram	cc-diagram-html.html	dynamic	cc-diagram-html.html	31252	Mar 10 version (Downloads has a different Mar 8 copy)
+save-the-pond	save-the-pond-article.html	dynamic	save-the-pond-article.html	32104	Jul 2026; petition form action is a placeholder
+tpir-article	tpir-article.html	dynamic	tpir-article.html	19732	slug is a guess
+tpir-collaboration	tpir-collaboration.html	dynamic	tpir-collaboration.html	40001	slug is a guess
+peoples-policy	peoples-policy.html	dynamic	peoples-policy.html	32147	slug is a guess
+soft-launch	blockshare-soft-launch.html	dynamic	blockshare-soft-launch.html	53410	slug is a guess; WooCommerce/myCRED bits need those plugins

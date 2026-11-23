@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soft Launch — Block Share</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0D1B2A;--navy-mid:#1B2D45;--forest:#2C5545;
+  --terra:#C4633A;--cream:#F4EDE3;--dim:#B8AFA3;
+  --gold:#C8A84B;--gold-pale:rgba(200,168,75,.12)
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--navy);color:var(--cream);line-height:1.6}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 2rem;background:rgba(13,27,42,.96);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(244,237,227,.07)}
+.nav-logo{font-family:'DM Serif Display',Georgia,serif;font-size:1.15rem;color:var(--cream);text-decoration:none}
+.nav-logo em{color:var(--gold);font-style:normal}
+.nav-links{display:flex;gap:1.25rem;align-items:center}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:.82rem;transition:color .15s}
+.nav-links a:hover{color:var(--cream)}
+.nav-cta{background:var(--terra)!important;color:var(--cream)!important;padding:.38rem .95rem;border-radius:6px;font-weight:600!important}
+.hero{padding:5.5rem 1.5rem 4.5rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(44,85,69,.35) 0%,transparent 70%);pointer-events:none}
+.kicker{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.hero h1{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(2.6rem,7vw,4.8rem);
+  font-weight:400;color:var(--cream);line-height:1.07;margin-bottom:1.2rem}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:clamp(.95rem,2.2vw,1.15rem);color:var(--dim);max-width:580px;margin:0 auto 2.5rem;line-height:1.7}
+.hero-btns{display:flex;gap:.85rem;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-p{background:var(--terra);color:var(--cream);padding:.7rem 1.6rem;border-radius:8px;font-weight:600;font-size:.95rem;text-decoration:none;transition:opacity .15s}
+.btn-o{border:1.5px solid var(--gold);color:var(--gold);padding:.68rem 1.55rem;border-radius:8px;font-weight:600;font-size:.95rem;text-decoration:none;transition:opacity .15s}
+.btn-p:hover,.btn-o:hover{opacity:.82}
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:.25rem 3rem;
+  border-top:1px solid rgba(244,237,227,.1);padding-top:2.5rem}
+.stat-n{font-family:'DM Serif Display',Georgia,serif;font-size:2.6rem;color:var(--gold);line-height:1;margin-bottom:.2rem}
+.stat-l{font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em}
+.section{padding:5rem 1.5rem}
+.section-alt{background:var(--navy-mid)}
+.wrap{max-width:1100px;margin:0 auto}
+.sec-k{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.sec-h{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(1.9rem,4.5vw,3rem);
+  font-weight:400;color:var(--cream);line-height:1.12;margin-bottom:.7rem}
+.sec-s{color:var(--dim);font-size:1rem;max-width:580px;line-height:1.65;margin-bottom:2.25rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.15rem;border-bottom:1px solid rgba(244,237,227,.09);margin-bottom:1.5rem}
+.tab{background:none;border:none;border-bottom:2.5px solid transparent;margin-bottom:-1px;
+  color:var(--dim);font-family:'DM Sans',system-ui,sans-serif;font-size:.83rem;font-weight:500;
+  padding:.6rem 1rem;cursor:pointer;transition:all .15s}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover:not(.on){color:var(--cream)}
+.panel{display:none}
+.panel.on{display:grid}
+.pgrid{grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:.65rem}
+.pc{display:flex;flex-direction:column;background:var(--navy);border:1px solid rgba(244,237,227,.08);
+  border-radius:10px;padding:1rem 1.15rem;text-decoration:none;color:inherit;
+  transition:transform .18s,border-color .18s,box-shadow .18s}
+.pc:hover{transform:translateY(-3px);border-color:rgba(200,168,75,.3);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.pc-i{font-size:1.25rem;margin-bottom:.45rem}
+.pc-n{font-family:'DM Serif Display',Georgia,serif;font-size:.93rem;color:var(--cream);line-height:1.3;margin-bottom:.22rem}
+.pc-d{font-size:.73rem;color:var(--dim);line-height:1.45;flex:1}
+.pc-l{font-size:.68rem;color:var(--gold);font-weight:600;margin-top:.55rem}
+.pgrid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:1rem}
+.pj{background:var(--navy-mid);border:1px solid rgba(244,237,227,.09);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;gap:.7rem}
+.pj.ft{background:var(--forest);border-color:var(--gold)}
+.pj-i{font-size:1.9rem}
+.pj-t{display:inline-block;font-size:.63rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--gold-pale);color:var(--gold);padding:2px 9px;border-radius:20px;width:fit-content}
+.pj-h{font-family:'DM Serif Display',Georgia,serif;font-size:1.15rem;color:var(--cream);line-height:1.25}
+.pj-d{font-size:.81rem;color:var(--dim);line-height:1.55;flex:1}
+.pj-b{font-family:'DM Serif Display',Georgia,serif;font-size:1.7rem;color:var(--gold);line-height:1}
+.pj-w{font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem}
+.btrack{background:rgba(244,237,227,.1);border-radius:4px;height:4px;overflow:hidden;margin-top:.5rem}
+.bfill{height:100%;background:var(--gold);border-radius:4px;width:0;transition:width 1.2s ease}
+.tbox{text-align:center;margin:2.5rem auto 0;padding:1.5rem 2rem;background:var(--navy-mid);
+  border-radius:12px;border:1px solid rgba(244,237,227,.09);max-width:380px}
+.tbox-l{font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.15em;margin-bottom:.3rem}
+.tbox-n{font-family:'DM Serif Display',Georgia,serif;font-size:2.6rem;color:var(--gold);line-height:1}
+.tbox-s{font-size:.78rem;color:var(--dim);margin-top:.4rem}
+.tlist{display:flex;flex-direction:column;gap:.55rem;max-width:680px;margin:0 auto}
+.tr{display:flex;align-items:center;gap:1rem;background:var(--navy-mid);border:1px solid rgba(244,237,227,.09);
+  border-radius:10px;padding:.9rem 1.2rem;text-decoration:none;color:inherit;transition:transform .18s,box-shadow .18s}
+.tr:hover{transform:translateX(5px);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.t-i{font-size:1.5rem;width:2rem;text-align:center;flex-shrink:0}
+.t-in{flex:1;min-width:0}
+.t-n{font-family:'DM Serif Display',Georgia,serif;font-size:.97rem;color:var(--cream);margin-bottom:.12rem}
+.t-d{font-size:.76rem;color:var(--dim)}
+.t-s{display:flex;flex-direction:column;align-items:flex-end;gap:.35rem;flex-shrink:0}
+.t-p{font-size:.98rem;font-weight:600;color:var(--cream)}
+.t-b{display:inline-block;background:var(--terra);color:var(--cream);padding:.28rem .8rem;border-radius:6px;font-size:.72rem;font-weight:700;letter-spacing:.04em}
+.or-r{display:flex;align-items:center;gap:.75rem;margin:.3rem 0}
+.or-r::before,.or-r::after{content:'';flex:1;height:1px;background:rgba(244,237,227,.08)}
+.or-r span{color:var(--dim);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.cr{background:var(--forest);border:1px solid var(--gold);border-radius:10px;padding:1.1rem 1.2rem;
+  display:flex;align-items:center;gap:1rem;position:relative}
+.cr-badge{position:absolute;top:-10px;right:1rem;background:var(--gold);color:var(--navy);
+  font-size:.63rem;font-weight:700;letter-spacing:.07em;padding:2px 9px;border-radius:20px;text-transform:uppercase}
+.cin{display:flex;align-items:center;background:rgba(13,27,42,.6);
+  border:1px solid rgba(244,237,227,.2);border-radius:6px;padding:.28rem .55rem;max-width:155px}
+.cin span{color:var(--gold);font-weight:700;margin-right:.25rem;font-size:.88rem}
+.cin input{background:transparent;border:none;outline:none;color:var(--cream);font-size:.86rem;
+  width:100%;font-family:'DM Sans',system-ui,sans-serif}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type=number]{-moz-appearance:textfield}
+#cbtn{background:rgba(200,168,75,.25);color:var(--dim);border:none;padding:.48rem .95rem;
+  border-radius:6px;font-size:.76rem;font-weight:700;letter-spacing:.04em;cursor:default;
+  white-space:nowrap;transition:all .15s;font-family:'DM Sans',system-ui,sans-serif;flex-shrink:0}
+#cbtn.ready{background:var(--gold);color:var(--navy);cursor:pointer}
+footer{border-top:1px solid rgba(244,237,227,.07);padding:2.5rem 1.5rem;text-align:center}
+.fl{font-family:'DM Serif Display',Georgia,serif;font-size:1.5rem;color:var(--cream);margin-bottom:.6rem}
+.fl em{color:var(--gold);font-style:normal}
+.flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:1.25rem;margin:.85rem 0}
+.flinks a{color:var(--dim);text-decoration:none;font-size:.8rem;transition:color .15s}
+.flinks a:hover{color:var(--gold)}
+.fcopy{color:var(--dim);font-size:.68rem;opacity:.55;margin-top:.85rem}
+/* ── NARRATIVE (Year in Review) ── */
+.narr{padding:4rem 1.5rem;border-top:1px solid rgba(244,237,227,.07)}
+.narr-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+.narr-col-title{font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(1.45rem,3vw,2rem);color:var(--cream);line-height:1.2;margin-bottom:1.35rem}
+.narr-col-title em{color:var(--gold);font-style:italic}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:.8rem}
+.check-list li{display:flex;gap:.75rem;align-items:flex-start;font-size:.88rem;color:var(--dim);line-height:1.55}
+.check-list li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0;padding-top:.08rem}
+.check-list strong{color:var(--cream);font-weight:600}
+.next-list{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.nl{background:var(--navy-mid);border:1px solid rgba(244,237,227,.09);border-radius:9px;
+  padding:.9rem 1rem;display:flex;gap:.8rem;align-items:flex-start}
+.nl-ico{flex-shrink:0;font-size:1.15rem;padding-top:.05rem}
+.nl-name{font-family:'DM Serif Display',Georgia,serif;font-size:.92rem;color:var(--cream);
+  line-height:1.25;margin-bottom:.18rem}
+.nl-desc{font-size:.77rem;color:var(--dim);line-height:1.5}
+.nl-budget{display:inline-block;margin-top:.3rem;font-size:.7rem;font-weight:700;
+  color:var(--gold);letter-spacing:.03em}
+.narr-total{margin-top:1.25rem;padding:.9rem 1.1rem;
+  background:rgba(200,168,75,.1);border-left:3px solid var(--gold);border-radius:0 8px 8px 0}
+.narr-total-l{font-size:.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.2rem}
+.narr-total-n{font-family:'DM Serif Display',Georgia,serif;font-size:1.75rem;color:var(--gold);line-height:1}
+.narr-total-s{font-size:.73rem;color:var(--dim);margin-top:.2rem}
+/* ── METRIC CARDS (animated accomplishments) ── */
+@keyframes mcIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.metric-stack{display:flex;flex-direction:column;gap:.65rem}
+.mc{display:flex;gap:1.1rem;align-items:center;background:var(--navy-mid);
+  border:1px solid rgba(244,237,227,.08);border-left:4px solid var(--gold);
+  border-radius:10px;padding:1rem 1.25rem;opacity:0;transform:translateY(18px)}
+.mc.visible{animation:mcIn .55s var(--d,0ms) ease forwards}
+.mc.mc-terra{border-left-color:var(--terra)}
+.mc.mc-forest{border-left-color:#5A9A6F}
+.mc.mc-blue{border-left-color:rgba(100,155,215,.75)}
+.mc-n{font-family:'DM Serif Display',Georgia,serif;font-size:2.75rem;color:var(--gold);
+  line-height:1;min-width:4.5rem;text-align:right;flex-shrink:0}
+.mc-n.dual{font-size:1.75rem;min-width:6.2rem;display:flex;align-items:baseline;gap:.1rem;justify-content:flex-end}
+.mc-sep{color:var(--dim);font-size:1.3rem;padding:0 .2rem}
+.mc-unit{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;
+  text-align:right;margin-top:.2rem;line-height:1.3}
+.mc-body{flex:1;min-width:0}
+.mc-label{font-family:'DM Serif Display',Georgia,serif;font-size:.95rem;color:var(--cream);
+  line-height:1.25;margin-bottom:.22rem}
+.mc-desc{font-size:.73rem;color:var(--dim);line-height:1.5}
+/* ── SECTION BACKGROUNDS (each section its own tone) ── */
+section.narr        { background: #0A1C11 }   /* dark forest — earthy, celebratory */
+section#what-we-built { background: #111E34 } /* cool deep blue — archive/catalog */
+section#whats-next  { background: #090704 }     /* very dark warm near-black */
+section#support     { background: #0D1B2A }     /* navy — focused action */
+#whats-next .pj     { background: #352712; border: 1.5px solid rgba(244,237,227,.2);
+                      box-shadow: 0 4px 18px rgba(0,0,0,.55) }
+#whats-next .pj.ft  { background: #2C1E08; border-color: var(--gold) }
+#whats-next .pj .pj-d { color: #C5B99A }
+#whats-next .phase-summary { background: rgba(200,168,75,.13); border: 1px solid rgba(200,168,75,.3) }
+footer              { background: #060D18 }   /* near-black — proper end */
+/* Cards adapted to their section backgrounds */
+.narr .mc           { background: #183024; border-color: rgba(244,237,227,.1) }
+.narr .nl           { background: #1E3828; border: 1.5px solid rgba(200,168,75,.22);
+                      border-radius: 10px; box-shadow: 0 3px 12px rgba(0,0,0,.45) }
+.narr .narr-total   { background: rgba(200,168,75,.12); border-left-color: var(--gold) }
+#whats-next .pj     { background: #231908; border-color: rgba(244,237,227,.12);
+                      box-shadow: 0 2px 12px rgba(0,0,0,.35) }
+#whats-next .pj.ft  { background: #1E1506; border-color: var(--gold) }
+#whats-next .phase-summary { background: rgba(200,168,75,.1) }
+#what-we-built .pc  { background: #18253A }   /* slightly lighter than section bg */
+/* Animation timing */
+@keyframes mcIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+.mc.visible { animation: mcIn .45s var(--d,0ms) ease forwards }
+.btn-gold{background:var(--gold);color:var(--navy);padding:.72rem 1.8rem;border-radius:8px;
+  font-weight:700;font-size:1rem;text-decoration:none;letter-spacing:.01em;transition:opacity .15s;
+  box-shadow:0 2px 12px rgba(200,168,75,.35)}
+.btn-gold:hover{opacity:.88}
+/* ── CATEGORY BORDER COLOURS ── */
+#tab-articles .pc{border-top:3px solid var(--terra)}
+#tab-tools .pc{border-top:3px solid var(--gold)}
+#tab-programs .pc{border-top:3px solid #5A9A6F}
+#tab-general .pc{border-top:3px solid rgba(100,150,210,.55)}
+/* ── CARD COLLAPSE ── */
+.panel.collapsed .pc{display:none}
+.panel.collapsed .pc:nth-child(-n+3){display:flex}
+.show-more{display:block;width:100%;margin-top:.75rem;padding:.6rem;background:none;
+  border:1px solid rgba(244,237,227,.12);border-radius:8px;color:var(--gold);
+  font-family:'DM Sans',system-ui,sans-serif;font-size:.78rem;font-weight:600;
+  letter-spacing:.04em;cursor:pointer;transition:all .15s}
+.show-more:hover{background:rgba(200,168,75,.08);border-color:rgba(200,168,75,.3)}
+/* ── NEXT PHASE COLLAPSE ── */
+#phase-grid.collapsed .pj{display:none}
+#phase-grid.collapsed .pj:first-child{display:flex}
+.phase-summary{max-width:480px;margin:.85rem auto 0;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.75rem 1.1rem;background:var(--gold-pale);
+  border:1px solid rgba(200,168,75,.25);border-radius:8px}
+.ps-budget{font-family:'DM Serif Display',Georgia,serif;font-size:1.35rem;color:var(--gold);white-space:nowrap}
+.ps-label{font-size:.74rem;color:var(--dim);line-height:1.4}
+.ps-btn{background:none;border:1px solid var(--gold);color:var(--gold);
+  font-family:'DM Sans',system-ui,sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.05em;padding:.38rem .85rem;border-radius:6px;cursor:pointer;
+  white-space:nowrap;transition:all .15s}
+.ps-btn:hover{background:rgba(200,168,75,.12)}
+/* ── SUPPORT TAGLINE ── */
+.sec-tagline{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(1rem,2.5vw,1.3rem);
+  color:var(--gold);font-style:italic;line-height:1.3;margin:0 auto .65rem;max-width:560px}
+.sec-tagline-sub{font-size:.88rem;color:var(--cream);max-width:520px;
+  margin:0 auto 1.75rem;line-height:1.65;opacity:.82}
+.vol-divider{display:flex;align-items:center;gap:.75rem;max-width:680px;margin:1.5rem auto .5rem}
+.vol-divider::before,.vol-divider::after{content:'';flex:1;height:1px;background:rgba(244,237,227,.08)}
+.vol-divider span{color:var(--gold);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.vol-head{text-align:center;max-width:680px;margin:.75rem auto 1.1rem}
+.vol-head-title{font-family:'DM Serif Display',Georgia,serif;font-size:1.2rem;color:var(--cream);margin-bottom:.25rem}
+.vol-head-sub{font-size:.78rem;color:var(--dim)}
+.vol-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;max-width:680px;margin:0 auto}
+.vol-card{display:flex;gap:.85rem;align-items:flex-start;background:var(--forest);
+  border:1px solid rgba(200,168,75,.2);border-radius:10px;padding:.95rem 1.1rem;
+  text-decoration:none;color:inherit;transition:transform .18s,box-shadow .18s,border-color .18s}
+.vol-card:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,.3);border-color:rgba(200,168,75,.5)}
+.vol-card.full{grid-column:1/-1}
+.vol-ico{font-size:1.4rem;flex-shrink:0;padding-top:.05rem}
+.vol-name{font-family:'DM Serif Display',Georgia,serif;font-size:.92rem;color:var(--cream);line-height:1.25;margin-bottom:.18rem}
+.vol-desc{font-size:.73rem;color:var(--dim);line-height:1.45}
+.vol-cta{display:inline-block;font-size:.68rem;color:var(--gold);font-weight:700;margin-top:.35rem;letter-spacing:.03em}
+@media(max-width:560px){.vol-grid{grid-template-columns:1fr}.vol-card.full{grid-column:auto}}
+@media(max-width:820px){
+  /* Narr two-column → single column */
+  .narr-grid{grid-template-columns:1fr;gap:2rem}
+  .narr-col-title{font-size:1.5rem}
+  /* Project cards → single column */
+  .pgrid4{grid-template-columns:1fr}
+  /* Volunteer grid → single column */
+  .vol-grid{grid-template-columns:1fr}
+  /* Hero buttons → stack vertically */
+  .hero-btns{flex-direction:column;align-items:center}
+  .hero-btns a{width:100%;max-width:340px;text-align:center}
+}
+@media(max-width:640px){
+  body{overflow-x:hidden}
+  nav{padding:.75rem 1rem}
+  .nav-links a:not(.nav-cta){display:none}
+  .hero{padding:4rem 1rem 3rem}
+  .stats{gap:.4rem 1.5rem}
+  .stat-n{font-size:1.75rem}
+  .stat-l{font-size:.6rem;letter-spacing:.08em}
+  .section{padding:3.5rem 1rem}
+  .narr{padding:2.5rem 1rem}
+  .mc{gap:.7rem;padding:.85rem 1rem}
+  .mc-n{font-size:2.1rem;min-width:3.2rem}
+  .mc-n.dual{font-size:1.45rem;min-width:4.8rem}
+  .mc-label{font-size:.88rem}
+  .t-d{display:none}
+  .tlist{padding:0}
+  .or-r,.vol-divider{margin-left:0;margin-right:0}
+  .phase-summary{flex-direction:column;text-align:center;gap:.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://blockshare.ca">Block<em>Share</em></a>
+  <div class="nav-links">
+    <a href="https://app.blockshare.ca/about/">About</a>
+    <a href="https://app.blockshare.ca/publications/">Publications</a>
+    <a href="https://substack.com/@thedecentralistnet" target="_blank" rel="noopener">Substack</a>
+    <a class="nav-cta" href="#support">Support Your Block</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="kicker">🎉 &nbsp;June 2026 · Vancouver, BC</div>
+    <h1>Soft Launch of<br><em>Block Share!</em></h1>
+    <p class="hero-sub">
+      One year of Civic Platform Building.<br>
+      A civic technology platform for neighbourhood-scale economics — land, food, credits, and commons at the only scale where change is actually possible.
+    </p>
+    <div class="hero-btns">
+      <a class="btn-gold" href="#support">🎉 &nbsp;Celebrate — Buy Me A Coffee, Or&hellip;</a>
+      <a class="btn-p" href="#what-we-built">See What We Built →</a>
+      <a class="btn-o" href="#whats-next">What's Next</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n">53+</div><div class="stat-l">Research Projects</div></div>
+      <div class="stat"><div class="stat-n">25+</div><div class="stat-l">Civic Reports</div></div>
+      <div class="stat"><div class="stat-n">8</div><div class="stat-l">Civic Tools</div></div>
+      <div class="stat"><div class="stat-n">7</div><div class="stat-l">Programs</div></div>
+      <div class="stat"><div class="stat-n">17+</div><div class="stat-l">Podcasts</div></div>
+      <div class="stat"><div class="stat-n">15+</div><div class="stat-l">Explainer Videos</div></div>
+      <div class="stat"><div class="stat-n">36+</div><div class="stat-l">Articles Published</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── YEAR IN REVIEW NARRATIVE ── -->
+<section class="narr">
+  <div class="wrap">
+    <div class="narr-grid">
+
+      <!-- Left column: Accomplishments -->
+      <div>
+        <h2 class="narr-col-title">In the past year,<br><em>we have...</em></h2>
+        <div class="metric-stack">
+
+          <div class="mc mc-terra" style="--d:0ms">
+            <div>
+              <div class="mc-n" data-count="25" data-plus="1">0</div>
+            </div>
+            <div class="mc-body">
+              <div class="mc-label">Civic Reports &amp; Analyses</div>
+              <div class="mc-desc">Housing, land value, democratic deficit, and community economics — all free at app.blockshare.ca</div>
+            </div>
+          </div>
+
+          <div class="mc mc-blue" style="--d:120ms">
+            <div>
+              <div class="mc-n" data-count="17" data-plus="1">0</div>
+            </div>
+            <div class="mc-body">
+              <div class="mc-label">Podcasts</div>
+              <div class="mc-desc">Published on The Decentralist · Substack Newsletter</div>
+            </div>
+          </div>
+
+          <div class="mc" style="--d:240ms">
+            <div>
+              <div class="mc-n" data-count="15" data-plus="1">0</div>
+            </div>
+            <div class="mc-body">
+              <div class="mc-label">Explainer Videos</div>
+              <div class="mc-desc">Published on The Decentralist · YouTube</div>
+            </div>
+          </div>
+
+          <div class="mc mc-forest" style="--d:240ms">
+            <div>
+              <div class="mc-n" data-count="8" data-plus="0">0</div>
+            </div>
+            <div class="mc-body">
+              <div class="mc-label">Civic Technology Tools</div>
+              <div class="mc-desc">Policy Decoder v2.4, Block Budget Map (5,806 blocks), LEI Calculator, Citizens Dashboard + more</div>
+            </div>
+          </div>
+
+          <div class="mc mc-blue" style="--d:360ms">
+            <div>
+              <div class="mc-n" data-count="7" data-plus="0">0</div>
+            </div>
+            <div class="mc-body">
+              <div class="mc-label">Community Programs</div>
+              <div class="mc-desc">Game of Towers, Food for Generations K-12, Mobility for Life, and more</div>
+            </div>
+          </div>
+
+          <div class="mc mc-terra" style="--d:480ms">
+            <div>
+              <div class="mc-n" data-count="36" data-plus="1">0</div>
+            </div>
+            <div class="mc-body">
+              <div class="mc-label">Articles Published</div>
+              <div class="mc-desc">Across the Block Share platform — all open and live</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right column: Next Phase -->
+      <div>
+        <h2 class="narr-col-title">...and are ready for<br><em>the next phase</em></h2>
+        <ul class="next-list">
+          <li class="nl">
+            <span class="nl-ico">🔬</span>
+            <div>
+              <div class="nl-name">Finish the Policy Decoder</div>
+              <div class="nl-desc">Complete before the November 2026 elections — so citizens can decode what candidates are actually promising before they vote.</div>
+              <span class="nl-budget">$25,000 · Election-ready · Fall 2026</span>
+            </div>
+          </li>
+          <li class="nl">
+            <span class="nl-ico">🚩</span>
+            <div>
+              <div class="nl-name">Block Flag Competition</div>
+              <div class="nl-desc">Launch a design competition for flags representing all 5,806 Vancouver blocks — a civic identity project for every neighbourhood.</div>
+              <span class="nl-budget">$25,000 · Summer 2026</span>
+            </div>
+          </li>
+          <li class="nl">
+            <span class="nl-ico">📱</span>
+            <div>
+              <div class="nl-name">Expand the Block Share App</div>
+              <div class="nl-desc">From prototype to a fully functional neighbourhood platform — sharing pools, food ordering, Community Credyts, and block-level dashboards.</div>
+              <span class="nl-budget">$50,000 · Summer / Fall 2026</span>
+            </div>
+          </li>
+          <li class="nl">
+            <span class="nl-ico">🌱</span>
+            <div>
+              <div class="nl-name">Food for Generations K-12</div>
+              <div class="nl-desc">Expand into more Vancouver schools — connecting students to local food systems, cooperatives, and community economics from K through 12.</div>
+              <span class="nl-budget">$100,000 · Fall 2026</span>
+            </div>
+          </li>
+        </ul>
+        <div class="narr-total">
+          <div class="narr-total-l">Total 18-Month Budget</div>
+          <div class="narr-total-n">$200,000</div>
+          <div class="narr-total-s">Across 4 programs · 2026–2027</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="what-we-built" class="section section-alt">
+  <div class="wrap">
+    <div class="sec-k">Now Live</div>
+    <h2 class="sec-h">A Year of Being Live</h2>
+    <p class="sec-s">Every article, tool, and program below was published over the past year. Click any tab to explore — or scroll down to support the build.</p>
+    <div class="tabs">
+      <button class="tab on" onclick="showTab('articles',this)">📰 Articles &amp; Analysis (13)</button>
+      <button class="tab" onclick="showTab('tools',this)">🛠️ Civic Tools (8)</button>
+      <button class="tab" onclick="showTab('programs',this)">🎮 Programs (7)</button>
+      <button class="tab" onclick="showTab('general',this)">📄 General (9)</button>
+    </div>
+
+    <div class="panel pgrid on collapsed" id="tab-articles">
+      <a class="pc" href="https://app.blockshare.ca/private-taxes/" target="_blank"><div class="pc-i">💸</div><div class="pc-n">Private Taxes</div><div class="pc-d">The Invisible Hand exposed — how private interests extract public value through land, finance, and infrastructure.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/the-fine-print/" target="_blank"><div class="pc-i">🔍</div><div class="pc-n">The Fine Print</div><div class="pc-d">What housing policy documents don't say — the hidden terms shaping who benefits and who doesn't.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/tale-of-two-cycles/" target="_blank"><div class="pc-i">🔄</div><div class="pc-n">Tale of Two Cycles</div><div class="pc-d">How the debt cycle and the land cycle intersect — and why breaking either requires changing both.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/vancouver-housing-policy-analysis/" target="_blank"><div class="pc-i">🏙️</div><div class="pc-n">Vancouver Housing Policy Analysis</div><div class="pc-d">A six-dimension typology for evaluating housing policy: tenure, subsidy flow, land value capture, and more.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/bill-m216-article/" target="_blank"><div class="pc-i">📜</div><div class="pc-n">Bill M-216 — Winners &amp; Losers</div><div class="pc-d">Who actually benefits from BC's approach to housing supply — a full structural analysis.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/land-for-whom/" target="_blank"><div class="pc-i">🌏</div><div class="pc-n">Land For Whom</div><div class="pc-d">Market capture vs. people's land — the Singapore model, Henry George, and what Vancouver could learn.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/debt-interest-death-of-gdp/" target="_blank"><div class="pc-i">📉</div><div class="pc-n">Debt, Interest &amp; Death of GDP</div><div class="pc-d">The debts that can't be paid — and the accounting system that pretends they can.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/unrepresented/" target="_blank"><div class="pc-i">🗳️</div><div class="pc-n">Unrepresented</div><div class="pc-d">A democratic deficit analysis — who isn't at the table in Vancouver's policy process, and how to fix it.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/third-way/" target="_blank"><div class="pc-i">⚖️</div><div class="pc-n">The 3rd Way</div><div class="pc-d">Beyond market and government — the commons as a third sector, and Blockonomics as its operating system.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/restore-to-own/" target="_blank"><div class="pc-i">🔑</div><div class="pc-n">Restore to Own</div><div class="pc-d">A pathway for residents to reclaim derelict properties through community land stewardship.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/buy-back-your-block/" target="_blank"><div class="pc-i">🏘️</div><div class="pc-n">Buy Back Your Block</div><div class="pc-d">The micro-asset model for collective neighbourhood ownership — how blocks buy themselves back.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/citizen-dashboard-article/" target="_blank"><div class="pc-i">📊</div><div class="pc-n">Why We Need a Citizens Dashboard</div><div class="pc-d">The case for a public accountability ledger tracking what government spends and what it returns.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/missing-pools/" target="_blank"><div class="pc-i">🏊</div><div class="pc-n">Opening Public Pools &amp; Open Public Ledgers</div><div class="pc-d">Investigative report on Vancouver's aquatic infrastructure deficit — what the numbers reveal about public value.</div><div class="pc-l">Read →</div></a>
+      <button class="show-more" onclick="togglePanel('tab-articles',this,'13 articles')">Show all 13 articles ↓</button>
+    </div>
+
+    <div class="panel pgrid collapsed" id="tab-tools">
+      <a class="pc" href="https://policy-decoder.blockshare.ca" target="_blank"><div class="pc-i">🔬</div><div class="pc-n">Policy Decoder Machine v2.4</div><div class="pc-d">AI-powered policy transparency — 7-step wizard, LTE Jurisdiction Comparator, People's Policy feed, map view, and citizen accounts.</div><div class="pc-l">Open Tool →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/blockbudget/" target="_blank"><div class="pc-i">🗺️</div><div class="pc-n">Block Budget Map</div><div class="pc-d">Interactive Leaflet.js map of all 5,806 Vancouver city blocks with SuperBlock overlays and neighbourhood data.</div><div class="pc-l">Open Map →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/lei-calculator/" target="_blank"><div class="pc-i">⚡</div><div class="pc-n">Life Efficiency Index Calculator</div><div class="pc-d">Compare Vancouver (99.9%) to Copenhagen (63.7%) and other cities on the Lifetime Transportation Efficiency index.</div><div class="pc-l">Calculate →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/citizens-dashboard/" target="_blank"><div class="pc-i">📡</div><div class="pc-n">Citizens Dashboard</div><div class="pc-d">A public value ledger tracking municipal spending, infrastructure gaps, and community return on investment.</div><div class="pc-l">Open →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/cc-system-diagram/" target="_blank"><div class="pc-i">🔗</div><div class="pc-n">Community Credits System Diagram</div><div class="pc-d">Interactive diagram of the MYCC/LOCC Credyts system — backing, flow, demurrage, and seigniorage.</div><div class="pc-l">Explore →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/app/" target="_blank"><div class="pc-i">📱</div><div class="pc-n">Block Share App</div><div class="pc-d">The core web app — Home, Stuff, Food, and Me tabs. The neighbourhood operating system in prototype.</div><div class="pc-l">Open App →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/find-your-block/" target="_blank"><div class="pc-i">📍</div><div class="pc-n">Find Your Block</div><div class="pc-d">Enter your postal code and get assigned to your Vancouver block — first step into Block Share.</div><div class="pc-l">Find Block →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/blockonomics/" target="_blank"><div class="pc-i">🌐</div><div class="pc-n">Blockonomics Overview</div><div class="pc-d">The 3rd Way ecosystem map — how Blockonomics, Block Share, and all programs connect into one framework.</div><div class="pc-l">Explore →</div></a>
+      <button class="show-more" onclick="togglePanel('tab-tools',this,'8 tools')">Show all 8 tools ↓</button>
+    </div>
+
+    <div class="panel pgrid collapsed" id="tab-programs">
+      <a class="pc" href="https://app.blockshare.ca/food-for-generations/" target="_blank"><div class="pc-i">🌱</div><div class="pc-n">Food for Generations K-12</div><div class="pc-d">A school-based food education program connecting classrooms to local farms, cooperatives, and community economics.</div><div class="pc-l">Learn More →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/game-of-towers/" target="_blank"><div class="pc-i">🏗️</div><div class="pc-n">Game of Towers</div><div class="pc-d">A civic simulation workshop and board game run at schools and community events — teaching land economics through play.</div><div class="pc-l">Learn More →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/mobility-for-life/" target="_blank"><div class="pc-i">🚲</div><div class="pc-n">Mobility for Life</div><div class="pc-d">A full cost analysis of transportation over 75 years — plus a card game revealing the true price of car dependence.</div><div class="pc-l">Learn More →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/buy-back-your-block/" target="_blank"><div class="pc-i">🏘️</div><div class="pc-n">Buy Back Your Block</div><div class="pc-d">The micro-asset collective ownership model — how neighbours pool resources to acquire and steward shared property.</div><div class="pc-l">Learn More →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/land-trusts/" target="_blank"><div class="pc-i">🌿</div><div class="pc-n">Permanent Land Trust</div><div class="pc-d">A framework for permanently affordable land stewardship — modelled on False Creek South and the CLT tradition.</div><div class="pc-l">Learn More →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/food/" target="_blank"><div class="pc-i">🥩</div><div class="pc-n">Bio-Ag Direct Beef Collective</div><div class="pc-d">A community beef cooperative — direct from regenerative farms, box pricing, seasonal ordering, transparent sourcing.</div><div class="pc-l">Learn More →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/share/" target="_blank"><div class="pc-i">🤝</div><div class="pc-n">Community Sharing Pools</div><div class="pc-d">Neighbourhood-scale asset sharing — tools, equipment, vehicles, and skills — with Community Credyts as the exchange layer.</div><div class="pc-l">Learn More →</div></a>
+      <button class="show-more" onclick="togglePanel('tab-programs',this,'7 programs')">Show all 7 programs ↓</button>
+    </div>
+
+    <div class="panel pgrid collapsed" id="tab-general">
+      <a class="pc" href="https://app.blockshare.ca/bs-home/" target="_blank"><div class="pc-i">🏠</div><div class="pc-n">Block Share Homepage</div><div class="pc-d">The main platform entry — Share, Food, and Credits overview with onboarding pathways.</div><div class="pc-l">Visit →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/about/" target="_blank"><div class="pc-i">📖</div><div class="pc-n">About — Our Story</div><div class="pc-d">The principles, intellectual thinkers, and 15-year timeline behind Block Share and Blockonomics.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/credits/" target="_blank"><div class="pc-i">🪙</div><div class="pc-n">Community Credits</div><div class="pc-d">The MYCC/LOCC backing model — how Community Credyts work, how to earn and spend them, and the rank system.</div><div class="pc-l">Explore →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/join-block/" target="_blank"><div class="pc-i">✍️</div><div class="pc-n">Join Your Block</div><div class="pc-d">The resident registration form — find your block and join the network.</div><div class="pc-l">Join →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/become-host/" target="_blank"><div class="pc-i">🌟</div><div class="pc-n">Become a Block Host</div><div class="pc-d">Apply to host a sharing pool — multi-step application with roles and responsibilities defined.</div><div class="pc-l">Apply →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/host-dashboard/" target="_blank"><div class="pc-i">📋</div><div class="pc-n">Host Dashboard</div><div class="pc-d">The Block Host management interface — member tracking, activity log, and neighbourhood ledger (demo).</div><div class="pc-l">Preview →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/ward-stirrat-biography/" target="_blank"><div class="pc-i">👤</div><div class="pc-n">Ward Stirrat — Biography</div><div class="pc-d">The intellectual journey and credentials behind fifteen years of civic economic design.</div><div class="pc-l">Read →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/publications/" target="_blank"><div class="pc-i">📚</div><div class="pc-n">Publications Index</div><div class="pc-d">The full catalogue of Block Beats articles, reports, and analyses published on the platform.</div><div class="pc-l">Browse →</div></a>
+      <a class="pc" href="https://app.blockshare.ca/contact/" target="_blank"><div class="pc-i">✉️</div><div class="pc-n">Contact</div><div class="pc-d">For partnerships, collaborations, media inquiries, or to bring Block Share to your neighbourhood.</div><div class="pc-l">Contact →</div></a>
+      <button class="show-more" onclick="togglePanel('tab-general',this,'9 pages')">Show all 9 pages ↓</button>
+    </div>
+  </div>
+</section>
+
+<section id="whats-next" class="section">
+  <div class="wrap">
+    <div class="sec-k">What's Next</div>
+    <h2 class="sec-h">The Next Phase</h2>
+    <p class="sec-s">Four programs ready to launch — combined budget of $200,000 over 18 months. Your support makes it possible.</p>
+    <div class="pgrid4 collapsed" id="phase-grid">
+      <div class="pj">
+        <div class="pj-i">🔬</div>
+        <div class="pj-t">Before November 2026</div>
+        <div class="pj-h">Finish the Policy Decoder</div>
+        <div class="pj-d">Complete before the upcoming elections — so citizens can actually decode what candidates are promising before they vote.</div>
+        <div><div class="pj-b">$25,000</div><div class="pj-w">Election-ready · Fall 2026</div><div class="btrack"><div class="bfill" data-w="0"></div></div></div>
+      </div>
+      <div class="pj ft">
+        <div class="pj-i">🚩</div>
+        <div class="pj-t">Summer 2026</div>
+        <div class="pj-h">Block Flag Competition</div>
+        <div class="pj-d">Launch a design competition for flags representing all 5,806 Vancouver blocks — a civic identity project for every neighbourhood.</div>
+        <div><div class="pj-b">$25,000</div><div class="pj-w">5,806 Blocks · Summer 2026</div><div class="btrack"><div class="bfill" data-w="0"></div></div></div>
+      </div>
+      <div class="pj">
+        <div class="pj-i">📱</div>
+        <div class="pj-t">Summer / Fall 2026</div>
+        <div class="pj-h">Expand Block Share App</div>
+        <div class="pj-d">From prototype to a fully functional neighbourhood platform — sharing pools, food ordering, Community Credyts, and block-level dashboards.</div>
+        <div><div class="pj-b">$50,000</div><div class="pj-w">Full Platform · Fall 2026</div><div class="btrack"><div class="bfill" data-w="0"></div></div></div>
+      </div>
+      <div class="pj">
+        <div class="pj-i">🌱</div>
+        <div class="pj-t">Fall 2026</div>
+        <div class="pj-h">Food for Generations K-12</div>
+        <div class="pj-d">Expand into more Vancouver schools — connecting students to local food systems, cooperatives, and community economics from K through 12.</div>
+        <div><div class="pj-b">$100,000</div><div class="pj-w">K–12 Expansion · Fall 2026</div><div class="btrack"><div class="bfill" data-w="0"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Budget summary bar (always visible) -->
+    <div class="phase-summary">
+      <div>
+        <div class="ps-budget">$200,000</div>
+        <div class="ps-label">Total across 4 programs · 2026–2027</div>
+      </div>
+      <button class="ps-btn" onclick="togglePhase(this)">See all 4 projects ↓</button>
+    </div>
+  </div>
+</section>
+
+<section id="support" class="section section-alt">
+  <div class="wrap" style="text-align:center">
+    <div class="sec-k">Support Your Block</div>
+    <h2 class="sec-h">Buy Me A Coffee, Or&hellip;</h2>
+    <p class="sec-tagline">"The world's 1st block-scale civic economics platform."</p>
+    <p class="sec-tagline-sub">The Block is the Cellular Unit for restoring "neighbourliness" to our Civic Life.<br>Every contribution — coffee or developer month — goes directly to the build.</p>
+    <div class="tlist">
+      <a class="tr" href="https://app.blockshare.ca/product/coffee-donut/" target="_blank"><div class="t-i">☕</div><div class="t-in"><div class="t-n">Coffee &amp; Donut</div><div class="t-d">A warm start to the day</div></div><div class="t-s"><div class="t-p">$5</div><div class="t-b">Support →</div></div></a>
+      <a class="tr" href="https://app.blockshare.ca/product/beer/" target="_blank"><div class="t-i">🍺</div><div class="t-in"><div class="t-n">Beer</div><div class="t-d">Toast the soft launch with me</div></div><div class="t-s"><div class="t-p">$10</div><div class="t-b">Support →</div></div></a>
+      <a class="tr" href="https://app.blockshare.ca/product/pizza/" target="_blank"><div class="t-i">🍕</div><div class="t-in"><div class="t-n">Pizza</div><div class="t-d">Fuel a late-night build session</div></div><div class="t-s"><div class="t-p">$25</div><div class="t-b">Support →</div></div></a>
+      <a class="tr" href="https://app.blockshare.ca/product/wine/" target="_blank"><div class="t-i">🍷</div><div class="t-in"><div class="t-n">Bottle of Wine</div><div class="t-d">Something worth savouring</div></div><div class="t-s"><div class="t-p">$30</div><div class="t-b">Support →</div></div></a>
+      <a class="tr" href="https://app.blockshare.ca/product/groceries/" target="_blank"><div class="t-i">🛒</div><div class="t-in"><div class="t-n">Bag of Groceries</div><div class="t-d">Stock the fridge for the sprint</div></div><div class="t-s"><div class="t-p">$100</div><div class="t-b">Support →</div></div></a>
+      <a class="tr" href="https://app.blockshare.ca/product/tank-of-gas/" target="_blank"><div class="t-i">⛽</div><div class="t-in"><div class="t-n">Tank of Gas</div><div class="t-d">Keep the wheels turning</div></div><div class="t-s"><div class="t-p">$200</div><div class="t-b">Support →</div></div></a>
+      <a class="tr" href="https://app.blockshare.ca/product/developer-day/" target="_blank"><div class="t-i">👨‍💻</div><div class="t-in"><div class="t-n">Developer · Day</div><div class="t-d">One full focused day of building</div></div><div class="t-s"><div class="t-p">$500</div><div class="t-b">Support →</div></div></a>
+      <a class="tr" href="https://app.blockshare.ca/product/developer-week/" target="_blank"><div class="t-i">📅</div><div class="t-in"><div class="t-n">Developer · Week</div><div class="t-d">Real momentum — a week at a time</div></div><div class="t-s"><div class="t-p">$2,500</div><div class="t-b">Support →</div></div></a>
+      <a class="tr" href="https://app.blockshare.ca/product/developer-month/" target="_blank"><div class="t-i">🚀</div><div class="t-in"><div class="t-n">Developer · Month</div><div class="t-d">Runway to ship what matters</div></div><div class="t-s"><div class="t-p">$10,000</div><div class="t-b">Support →</div></div></a>
+      <div class="or-r"><span>or</span></div>
+      <div class="cr">
+        <div class="cr-badge">Your Choice</div>
+        <div class="t-i">🎁</div>
+        <div class="t-in" style="text-align:left">
+          <div class="t-n" style="margin-bottom:.38rem">Something Else</div>
+          <div class="cin"><span>$</span><input type="number" id="camount" min="1" step="1" placeholder="Enter amount"></div>
+          <div style="font-size:.7rem;color:var(--dim);margin-top:.35rem">Any amount — goes directly to the build.</div>
+        </div>
+        <button id="cbtn" onclick="goCustom()">Support →</button>
+      </div>
+    </div>
+
+    <!-- ── GIVE YOUR TIME ── -->
+    <div class="vol-divider"><span>or give your time</span></div>
+
+    <div class="vol-head">
+      <div class="vol-head-title">Contribute Your Time, Skills &amp; Voice</div>
+      <div class="vol-head-sub">Block Share runs on people as much as it runs on code. Here's how to get involved.</div>
+    </div>
+
+    <div class="vol-grid">
+      <a class="vol-card" href="https://app.blockshare.ca/contact/" target="_blank">
+        <span class="vol-ico">🕐</span>
+        <div>
+          <div class="vol-name">Contribute Your Time, Skills &amp; Assets</div>
+          <div class="vol-desc">Got design, research, legal, dev, or organizing skills? We'd love to talk about how you can plug in.</div>
+          <span class="vol-cta">Get in touch →</span>
+        </div>
+      </a>
+      <a class="vol-card" href="https://app.blockshare.ca/become-host/" target="_blank">
+        <span class="vol-ico">🏠</span>
+        <div>
+          <div class="vol-name">Become a Block Host</div>
+          <div class="vol-desc">Manage a sharing pool on your block — the anchor role in the Block Share neighbourhood network.</div>
+          <span class="vol-cta">Apply now →</span>
+        </div>
+      </a>
+      <a class="vol-card" href="https://app.blockshare.ca/contact/" target="_blank">
+        <span class="vol-ico">📰</span>
+        <div>
+          <div class="vol-name">Become a Block Reporter</div>
+          <div class="vol-desc">Cover your neighbourhood for Block Beats — civic journalism at the block level, where it matters most.</div>
+          <span class="vol-cta">Learn more →</span>
+        </div>
+      </a>
+      <a class="vol-card" href="https://app.blockshare.ca/contact/" target="_blank">
+        <span class="vol-ico">📣</span>
+        <div>
+          <div class="vol-name">Host an Information Session</div>
+          <div class="vol-desc">Bring Block Share to your building, office, school, or community group — we'll come to you.</div>
+          <span class="vol-cta">Book a session →</span>
+        </div>
+      </a>
+      <a class="vol-card full" href="https://app.blockshare.ca/contact/" target="_blank">
+        <span class="vol-ico">🚪</span>
+        <div>
+          <div class="vol-name">Canvas Your Building, Block, or Commercial Street</div>
+          <div class="vol-desc">Sign up your neighbours as Block Share members — door by door, block by block. The most powerful thing anyone can do to grow this network is make the ask in person.</div>
+          <span class="vol-cta">Start canvassing →</span>
+        </div>
+      </a>
+    </div>
+
+    <p style="color:var(--dim);font-size:.76rem;margin-top:1.75rem;line-height:1.7">
+      Every contribution goes directly to building Block Share.<br>No platform fees. No middlemen. Just the work.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">Block<em>Share</em></div>
+  <p style="color:var(--dim);font-size:.83rem;max-width:440px;margin:.5rem auto;line-height:1.65">
+    A civic technology platform for neighbourhood-scale economics.<br>Vancouver, BC · blockshare.ca
+  </p>
+  <div class="flinks">
+    <a href="https://blockshare.ca">Home</a>
+    <a href="https://app.blockshare.ca/about/">About</a>
+    <a href="https://app.blockshare.ca/publications/">Publications</a>
+    <a href="https://policy-decoder.blockshare.ca">Policy Decoder</a>
+    <a href="https://substack.com/@thedecentralistnet" target="_blank" rel="noopener">The Decentralist</a>
+    <a href="https://app.blockshare.ca/contact/">Contact</a>
+  </div>
+  <p class="fcopy">© 2026 Block Share · Ward Stirrat · Vancouver, BC</p>
+</footer>
+
+<script>
+function showTab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  const panel=document.getElementById('tab-'+name);
+  panel.classList.add('on');
+  // Re-apply collapsed if not already expanded
+  if(!panel.dataset.expanded) panel.classList.add('collapsed');
+  btn.classList.add('on');
+}
+function togglePanel(id,btn,label){
+  const panel=document.getElementById(id);
+  if(panel.classList.toggle('collapsed')){
+    btn.textContent='Show all '+label+' ↓';
+    delete panel.dataset.expanded;
+  } else {
+    btn.textContent='Show fewer ↑';
+    panel.dataset.expanded='1';
+  }
+}
+function togglePhase(btn){
+  const grid=document.getElementById('phase-grid');
+  if(grid.classList.toggle('collapsed')){
+    btn.textContent='See all 4 projects ↓';
+  } else {
+    btn.textContent='Show less ↑';
+  }
+}
+const ca=document.getElementById('camount'),cb=document.getElementById('cbtn');
+ca.addEventListener('input',()=>{
+  const v=parseFloat(ca.value);
+  if(!isNaN(v)&&v>=1){cb.classList.add('ready');cb.textContent='Give $'+Math.round(v).toLocaleString('en-CA')+' →';}
+  else{cb.classList.remove('ready');cb.textContent='Support →';}
+});
+ca.addEventListener('keydown',e=>{if(e.key==='Enter')goCustom();});
+function goCustom(){
+  const v=parseFloat(ca.value);
+  if(isNaN(v)||v<1)return;
+  window.open('https://app.blockshare.ca/product/your-choice-support/?nyprice='+v.toFixed(2),'_blank','noopener,noreferrer');
+}
+// ── Count-up animation (returns Promise so we can await it) ──
+function countUp(el, target, suffix, dur) {
+  return new Promise(resolve => {
+    const t0 = performance.now();
+    const step = ts => {
+      const p = Math.min((ts - t0) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(ease * target) + (p >= 1 ? suffix : '');
+      if (p < 1) requestAnimationFrame(step);
+      else resolve();
+    };
+    requestAnimationFrame(step);
+  });
+}
+// ── Sequential metric card animation ──
+// Each card slides in, counter starts 250ms later, next card waits for counter to finish
+async function runMetrics(cards) {
+  const COUNTER_DUR = 1100; // ms — deliberately slow for impact
+  const SLIDE_WAIT  = 250;  // ms after slide before counter starts
+  const CARD_GAP    = 300;  // ms pause between cards
+
+  for (let i = 0; i < cards.length; i++) {
+    const card = cards[i];
+    // Override any CSS --d delay; JS controls all timing now
+    card.style.setProperty('--d', '0ms');
+    card.classList.add('visible');
+    // Let card slide partway in before counting
+    await new Promise(r => setTimeout(r, SLIDE_WAIT));
+    // Count all numbers in this card (dual card counts both simultaneously)
+    const nums = [...card.querySelectorAll('[data-count]')];
+    await Promise.all(nums.map(n =>
+      countUp(n, +n.dataset.count, n.dataset.plus === '1' ? '+' : '', COUNTER_DUR)
+    ));
+    // Gap before revealing next card
+    if (i < cards.length - 1) await new Promise(r => setTimeout(r, CARD_GAP));
+  }
+}
+// Trigger once when metric-stack scrolls into view
+const metricStack = document.querySelector('.metric-stack');
+if (metricStack) {
+  let fired = false;
+  const stackObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !fired) {
+      fired = true;
+      stackObs.disconnect();
+      runMetrics([...metricStack.querySelectorAll('.mc')]);
+    }
+  }, { threshold: 0.15 });
+  stackObs.observe(metricStack);
+}
+</script>
+</body>
+</html>

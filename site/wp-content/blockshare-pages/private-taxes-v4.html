@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Taxes: The Invisible Hand in Your Pocket | Block Share</title>
+  <meta name="description" content="A new analytical framework — the Time Differential Ratio — names and measures the Private Tax Burden: the hidden cost that for-profit service delivery imposes on every hour of your working life." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --forest:       #1D3D2F;
+      --forest-mid:   #2E5D45;
+      --forest-light: #3D7A5A;
+      --gold:         #C9A84C;
+      --gold-light:   #E2C47A;
+      --gold-pale:    #F5EDD6;
+      --cream:        #FAF7F0;
+      --cream-dark:   #F0EBE0;
+      --navy:         #1A2744;
+      --navy-mid:     #2A3F6F;
+      --coop:         #1B6B3A;
+      --private-red:  #8B3A3A;
+      --text-body:    #2C2C2C;
+      --text-muted:   #6B6B6B;
+      --text-light:   #9A9A9A;
+      --border:       rgba(201,168,76,0.25);
+      --border-soft:  rgba(201,168,76,0.12);
+
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+      --max-w: 780px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text-body);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* nav injects itself via JS — body padding set by nav/footer styles */
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--navy);
+      background-image:
+        radial-gradient(ellipse 130% 90% at 80% 40%, rgba(42,63,111,0.5) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 80% at 10% 70%, rgba(29,61,47,0.4) 0%, transparent 60%),
+        repeating-linear-gradient(-55deg, transparent, transparent 50px,
+          rgba(201,168,76,0.025) 50px, rgba(201,168,76,0.025) 51px);
+      color: var(--cream);
+      padding: 88px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .hero-inner { max-width: var(--max-w); margin: 0 auto; position: relative; z-index: 1; }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    .hero-label::before { content: ''; width: 32px; height: 1px; background: var(--gold); display: block; }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 5.5vw, 3.6rem);
+      line-height: 1.12;
+      color: var(--cream);
+      margin-bottom: 22px;
+      max-width: 660px;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-light); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      line-height: 1.68;
+      color: rgba(250,247,240,0.72);
+      max-width: 580px;
+      margin-bottom: 44px;
+    }
+
+    .hero-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .hero-meta-item {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(250,247,240,0.4);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-meta-item span { color: rgba(250,247,240,0.72); }
+
+    /* ── Layout ── */
+    .article-wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .section { margin-bottom: 64px; }
+
+    .section-number {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 3vw, 2.1rem);
+      line-height: 1.22;
+      color: var(--forest);
+      margin-bottom: 26px;
+    }
+    h3 {
+      font-family: var(--font-display);
+      font-size: 1.28rem;
+      color: var(--navy);
+      margin: 40px 0 14px;
+      line-height: 1.3;
+    }
+
+    p { margin-bottom: 20px; }
+    p:last-child { margin-bottom: 0; }
+
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 60px 0;
+    }
+
+    /* ── Intro block ── */
+    .intro-block {
+      border-left: 3px solid var(--gold);
+      background: linear-gradient(135deg, var(--gold-pale) 0%, var(--cream) 100%);
+      padding: 36px 40px;
+      margin: 64px 0 60px;
+      border-radius: 0 6px 6px 0;
+    }
+    .intro-block p {
+      font-family: var(--font-display);
+      font-size: 1.22rem;
+      line-height: 1.65;
+      color: var(--forest);
+      font-style: italic;
+      margin: 0;
+    }
+
+    /* ── Pullquote ── */
+    .pullquote {
+      margin: 48px 0;
+      padding: 0 0 0 32px;
+      border-left: 2px solid var(--gold);
+    }
+    .pullquote p {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      line-height: 1.5;
+      color: var(--forest);
+      font-style: italic;
+      margin: 0;
+    }
+
+    /* ── Reference callout (Monbiot) ── */
+    .ref-callout {
+      background: var(--navy);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin: 36px 0;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .ref-callout-icon {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      color: var(--gold);
+      line-height: 1;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .ref-callout-body { flex: 1; }
+    .ref-callout-head {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .ref-callout-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--cream);
+      font-style: italic;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .ref-callout p {
+      font-size: 0.88rem;
+      color: rgba(250,247,240,0.6);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Model cards ── */
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 36px 0 40px;
+    }
+    .model-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .model-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .model-card.public::before   { background: var(--forest); }
+    .model-card.coop::before     { background: var(--coop); }
+    .model-card.private::before  { background: var(--private-red); }
+
+    .model-card-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .model-card.public .model-card-tag   { color: var(--forest); }
+    .model-card.coop .model-card-tag     { color: var(--coop); }
+    .model-card.private .model-card-tag  { color: var(--private-red); }
+
+    .model-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .model-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+    .model-card .abbr {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 14px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .model-card.public .abbr   { background: rgba(29,61,47,0.08); color: var(--forest); }
+    .model-card.coop .abbr     { background: rgba(27,107,58,0.08); color: var(--coop); }
+    .model-card.private .abbr  { background: rgba(139,58,58,0.08); color: var(--private-red); }
+
+    /* ── Dark equation table ── */
+    .eq-table-wrap {
+      margin: 32px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--navy);
+    }
+    .eq-table-header {
+      padding: 14px 22px 12px;
+      background: rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .eq-table-header span {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .eq-table-header::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,0.2); }
+
+    .eq-table { width: 100%; border-collapse: collapse; }
+    .eq-table th {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(250,247,240,0.3);
+      text-align: left;
+      padding: 10px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .eq-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      vertical-align: top;
+    }
+    .eq-table tr:last-child td { border-bottom: none; }
+    .eq-table .eq-abbr {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      color: var(--gold-light);
+      white-space: nowrap;
+    }
+    .eq-table .eq-formula {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--cream);
+      white-space: nowrap;
+    }
+    .eq-table .eq-formula .op { color: rgba(250,247,240,0.3); margin: 0 4px; }
+    .eq-table .eq-desc { font-size: 0.84rem; color: rgba(250,247,240,0.5); line-height: 1.55; }
+
+    @media (max-width: 600px) {
+      .eq-table thead { display: none; }
+      .eq-table, .eq-table tbody, .eq-table tr, .eq-table td { display: block; width: 100%; }
+      .eq-table tr { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .eq-table tr:last-child { border-bottom: none; }
+      .eq-table td { padding: 3px 20px; border: none; }
+      .eq-table .eq-abbr { color: var(--gold); font-size: 0.8rem; }
+      .eq-table .eq-formula { font-size: 1rem; }
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin: 40px 0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, white 100%);
+    }
+    .callout-head {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .callout p { font-size: 0.95rem; color: var(--text-body); line-height: 1.7; margin-bottom: 12px; }
+    .callout p:last-child { margin-bottom: 0; }
+
+    /* ── Example table ── */
+    .example-table-wrap {
+      margin: 36px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .example-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; background: white; }
+    .example-table th {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--cream-dark);
+    }
+    .example-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-soft);
+      vertical-align: middle;
+    }
+    .example-table tr:last-child td { border-bottom: none; }
+    .model-label { font-weight: 500; color: var(--navy); }
+    .abbr-cell { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+    .time-bar-wrap { display: flex; align-items: center; gap: 10px; }
+    .time-bar { height: 8px; border-radius: 4px; flex-shrink: 0; }
+    .time-bar.public  { background: var(--forest-light, #3D7A5A); }
+    .time-bar.coop    { background: var(--coop); }
+    .time-bar.private { background: #C0392B; }
+    .time-val { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 500; }
+
+    @media (max-width: 560px) {
+      .example-table thead { display: none; }
+      .example-table, .example-table tbody, .example-table tr, .example-table td { display: block; width: 100%; }
+      .example-table tr { padding: 12px 0; border-bottom: 1px solid var(--border-soft); }
+      .example-table td { padding: 3px 16px; border: none; }
+      .example-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-bottom: 2px;
+      }
+    }
+
+    /* ── Ratio cards ── */
+    .ratio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 16px;
+      margin: 36px 0;
+    }
+    .ratio-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px 20px;
+      text-align: center;
+    }
+    .ratio-card .ratio-val {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      color: var(--forest);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .ratio-card.warning .ratio-val { color: var(--private-red); }
+    .ratio-card .ratio-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .ratio-card .ratio-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── TDR table ── */
+    .tdr-table-wrap {
+      margin: 32px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .tdr-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; background: white; }
+    .tdr-table th {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 10px 18px;
+      background: var(--cream-dark);
+      border-bottom: 1px solid var(--border);
+    }
+    .tdr-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-soft);
+      vertical-align: middle;
+    }
+    .tdr-table tr:last-child td { border-bottom: none; }
+    .tdr-table .tdr-term { font-family: var(--font-mono); font-size: 0.88rem; color: var(--gold); font-weight: 500; white-space: nowrap; }
+    .tdr-table .tdr-calc { font-family: var(--font-mono); font-size: 0.95rem; color: var(--navy); white-space: nowrap; }
+    .tdr-table .tdr-calc .result { font-weight: 600; color: var(--forest); }
+    .tdr-table tr.highlight td { background: rgba(139,58,58,0.05); }
+    .tdr-table tr.highlight .tdr-calc .result { color: var(--private-red); font-size: 1.05rem; }
+    .tdr-table .tdr-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; }
+
+    @media (max-width: 560px) {
+      .tdr-table thead { display: none; }
+      .tdr-table, .tdr-table tbody, .tdr-table tr, .tdr-table td { display: block; width: 100%; }
+      .tdr-table tr { padding: 12px 0; border-bottom: 1px solid var(--border-soft); }
+      .tdr-table td { padding: 3px 16px; border: none; }
+    }
+
+    /* ── Finding banner ── */
+    .finding-banner {
+      background: var(--forest);
+      border-radius: 10px;
+      padding: 40px 44px;
+      margin: 56px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .finding-banner::before {
+      content: ''; position: absolute; bottom: -40px; right: -40px;
+      width: 220px; height: 220px; border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.12);
+    }
+    .finding-banner::after {
+      content: ''; position: absolute; bottom: -20px; right: -20px;
+      width: 150px; height: 150px; border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.08);
+    }
+    .finding-banner-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .finding-list { display: flex; flex-direction: column; gap: 0; }
+    .finding-item { padding: 16px 0; }
+    .finding-item-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .finding-item-stat {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .finding-item-desc {
+      font-size: 0.95rem;
+      color: rgba(250,247,240,0.72);
+      line-height: 1.6;
+    }
+    .finding-item-desc em { color: var(--gold-light); font-style: italic; }
+    .finding-item-divider {
+      height: 1px;
+      background: rgba(201,168,76,0.15);
+    }
+    .finding-banner p {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      line-height: 1.55;
+      color: var(--cream);
+      max-width: 560px;
+      margin: 0;
+    }
+    .finding-banner p em { color: var(--gold-light); font-style: italic; }
+
+    /* ── Country table ── */
+    .country-table-wrap {
+      margin: 32px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .country-table { width: 100%; border-collapse: collapse; background: white; font-size: 0.9rem; }
+    .country-table th {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 12px 18px;
+      background: var(--cream-dark);
+      border-bottom: 1px solid var(--border);
+    }
+    .country-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-soft);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    .country-table tr:last-child td { border-bottom: none; }
+    .country-name { font-weight: 600; color: var(--navy); white-space: nowrap; }
+    .ownership-rate { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 500; color: var(--coop); white-space: nowrap; }
+    .model-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      background: rgba(27,107,58,0.1);
+      color: var(--coop);
+      display: inline-block;
+    }
+
+    @media (max-width: 560px) {
+      .country-table thead { display: none; }
+      .country-table, .country-table tbody, .country-table tr, .country-table td { display: block; width: 100%; }
+      .country-table tr { padding: 14px 0; border-bottom: 1px solid var(--border-soft); }
+      .country-table td { padding: 3px 16px; border: none; }
+      .country-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-bottom: 2px;
+      }
+    }
+
+    /* ── Glossary ── */
+    .glossary { background: var(--cream-dark); border-radius: 8px; padding: 28px 32px; margin: 40px 0; }
+    .glossary h4 {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .glossary-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 10px 32px;
+    }
+    .glossary-list li {
+      font-size: 0.88rem;
+      color: var(--text-body);
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+    }
+    .glossary-list .term {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--forest);
+      background: rgba(29,61,47,0.08);
+      padding: 2px 7px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* footer rendered by nav/footer inline script */
+
+    @media (max-width: 600px) {
+      .hero { padding: 60px 20px 56px; }
+      .intro-block { padding: 28px 24px; }
+      .finding-banner { padding: 32px 28px; }
+      .model-grid { grid-template-columns: 1fr; }
+      .ref-callout { flex-direction: column; gap: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ── Suggested Articles ── */
+    .suggested-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 24px 72px;
+      border-top: 1px solid rgba(201,168,76,0.2);
+    }
+    .suggested-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .suggested-articles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .suggested-article {
+      display: block;
+      text-decoration: none;
+      background: var(--cream-dark, #F0EBE0);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 8px;
+      padding: 22px 24px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .suggested-article:hover {
+      border-color: var(--gold);
+      background: var(--gold-pale, #F5EDD6);
+    }
+    .suggested-article--primary {
+      grid-column: 1 / -1;
+      background: var(--forest);
+      border-color: transparent;
+    }
+    .suggested-article--primary:hover {
+      background: #163326;
+      border-color: var(--gold);
+    }
+    .suggested-article__tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .suggested-article__title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      line-height: 1.3;
+      color: var(--text-body);
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    .suggested-article--primary .suggested-article__title {
+      color: var(--cream);
+      font-size: 1.15rem;
+    }
+    .suggested-article__desc {
+      font-size: 0.84rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .suggested-article--primary .suggested-article__desc {
+      color: rgba(250,247,240,0.6);
+    }
+    .suggested-article__cta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+    @media (max-width: 600px) {
+      .suggested-articles { grid-template-columns: 1fr; }
+      .suggested-article--primary { grid-column: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- nav injected by inline script below -->
+
+  <!-- ══ HERO ══ -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">Block Share · Economic Analysis</p>
+      <h1>Private Taxes:<br><em>The Invisible Hand</em><br>in Your Pocket</h1>
+      <p class="hero-sub">Adam Smith's "invisible hand" promised that markets, left alone, would allocate resources efficiently for all. What it actually allocates — measurably, in hours of your working life — tells a very different story. This is a framework for reading that story in plain numbers.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">DATE &nbsp;<span>March 17, 2026</span></div>
+        <div class="hero-meta-item">AUTHOR &nbsp;<span>Ward Stirrat</span></div>
+        <div class="hero-meta-item">SERIES &nbsp;<span>LTE Index / TEI Framework</span></div>
+        <div class="hero-meta-item">READ &nbsp;<span>~14 min</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-wrap">
+
+      <div class="intro-block">
+        <p>There are two tax systems operating on your life simultaneously. One is visible, centralized, debated in parliaments, reported in budgets. The other has no face, no ballot, and no line on your tax return — yet for most people in privatized economies, it costs more of their working life than the first one ever will.</p>
+      </div>
+
+      <!-- ══ 01 · The Invisible Hand ══ -->
+      <section class="section">
+        <span class="section-number">01 · The Doctrine Behind the Hand</span>
+        <h2>The Invisible Hand That Picks Your Pocket</h2>
+
+        <p>In 1776, Adam Smith wrote of an "invisible hand" guiding self-interested market actors toward outcomes that benefit society as a whole. It was a modest, qualified observation — used only three times across his entire body of work. Two centuries later, it had been transformed into something else entirely: the theological cornerstone of a global economic ideology that subordinated democratic governance to the logic of capital markets.</p>
+
+        <p>This transformation — from a tentative metaphor to an unquestionable natural law — is the subject of <em>The Invisible Doctrine</em> by journalist George Monbiot and filmmaker Peter Hutchison. Neoliberalism, they argue, is simultaneously all-encompassing and seldom, if ever, explicitly named. The ultra-rich were cast as heroic "independents" staking out new territory beyond the reaches of nefarious governments — and from this foundation, the doctrine that markets always allocate better than democratic institutions was systematically installed into university departments, political parties, media organisations, and the operating assumptions of governments worldwide.</p>
+
+        <div class="ref-callout">
+          <div class="ref-callout-icon">"</div>
+          <div class="ref-callout-body">
+            <div class="ref-callout-head">Further Reading</div>
+            <div class="ref-callout-title">The Invisible Doctrine: The Secret History of Neoliberalism (& How It Came to Control Your Life)</div>
+            <p>George Monbiot &amp; Peter Hutchison · Penguin Books, 2024 · Also available as a documentary film (2025). A short, sharp, forensic account of how a fringe philosophy in the 1930s became the operating system of global economic policy — and what it has cost us in democracy, ecology, and the fabric of public life.</p>
+          </div>
+        </div>
+
+        <p>The consequences are visible everywhere: privatisation leads to a decline in both access to, and the quality of, public services. Healthcare under privatisation becomes a gamble. Education becomes a commodity, accessible only to those who can pay. Housing is transformed into a speculative asset class, pushing millions into precarity.</p>
+
+        <p>The Private Tax framework challenges the invisible hand doctrine: not a values argument, but a measurement one. If markets allocate efficiently, that efficiency should be evidenced in the universal currency of human time. When we count — for any given service — how many work hours of your life does each delivery model cost, the invisible hand becomes very visible indeed. And it's not allocating efficiently. It is extracting.</p>
+
+        <div class="pullquote">
+          <p>The same invisible hand that supposedly allocates efficiently is the hand in your pocket. The Private Tax framework simply counts what it takes — in hours of your finite life.</p>
+        </div>
+
+        <p>Public taxes are centralized and visible. You see them: on your pay stub, debated in the legislature, reported in the news. There is a public face to the transaction — a mechanism you can challenge, vote on, or contest. Private taxes are different in every respect: distributed, opaque, shapeshifting behind narrative masks — <em>market efficiency</em>, <em>consumer choice</em>, <em>shareholder value</em>, <em>competitive pricing</em>. Never named as a tax. Now, we can name it and measure it.</p>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══ 02 · Three Models ══ -->
+      <section class="section">
+        <span class="section-number">02 · Three Delivery Models</span>
+        <h2>The Triangle of Service Delivery</h2>
+
+        <p>Any good or service provided to a population can be delivered through one of three structural models. Each has a fundamentally different relationship to democratic accountability, cost overhead, and the distribution of surplus. To measure their relative costs, we first define them precisely.</p>
+
+        <div class="model-grid">
+
+          <div class="model-card public">
+            <div class="model-card-tag">Model A</div>
+            <h4>Public Tax System Delivery</h4>
+            <p>The population has, ideally, democratic influence over the good faith political actors operating the system. Overhead is constrained by public mandate. Surplus is reinvested into services benefiting the population, rather than extracted through privatization. Funded through tax revenue backed by collective income and low-cost treasury financing.</p>
+            <div class="abbr">PTSD</div>
+          </div>
+
+          <div class="model-card coop">
+            <div class="model-card-tag">Model B</div>
+            <h4>Non-Profit / Cooperative Delivery</h4>
+            <p>A cooperative or non-profit entity delivers the equivalent service. Every member votes on budget and service fees. Transparent, democratically operated, and directly accountable to its membership. Structurally equivalent to democratic public delivery in terms of accountability, with operational efficiency advantages at neighbourhood-to-city scale — including lower overhead and leaner governance structures.</p>
+            <div class="abbr">NPTSD &nbsp;/&nbsp; NPSD</div>
+          </div>
+
+          <div class="model-card private">
+            <div class="model-card-tag">Model C</div>
+            <h4>Private Sector Service Delivery</h4>
+            <p>When a for-profit private corporation delivers the service, surplus is extracted to shareholders rather than reinvested or returned to users. No democratic accountability. Narrative control is exerted through the common tropes of "choice," "competition," and "efficiency" — these narratives replace transparency about cost structure.</p>
+            <div class="abbr">PSSD</div>
+          </div>
+
+        </div>
+
+        <p>Model B — Non-Profit / Cooperative Delivery (NPTSD) — is treated as the democratic efficiency baseline: structurally equivalent to public government in terms of member accountability, but with the additional advantage of direct member ownership. The cooperative model is well-established, neutral in governance, and requires no affiliation with any particular platform or currency system to understand.</p>
+
+        <p>The distance between Model B (NPTSD) and Model C — Private Sector Service Delivery (PSSD) — measured in work-hours of human life, is what we are calling the <strong>Private Tax Burden</strong>. The invisible hand's fee for its services. Counted in time.</p>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══ 03 · The Time Metric ══ -->
+      <section class="section">
+        <span class="section-number">03 · The Time Metric</span>
+        <h2>Work Hours as the Universal Currency</h2>
+
+        <p>The standard measures of economic comparison — price, GDP, cost-of-living indices — are denominated in money, which is subject to inflation, manipulation, and context-dependence. A dollar in 1980 is not a dollar in 2026. A dollar in Vancouver is not a dollar in a rural town two hours away.</p>
+
+        <p>But an hour of your life is an hour of your life. It is the one currency perfectly equalized across every person and every era. We all receive the same 24 hours per day. The question is: how many of those hours must you surrender as work in order to receive a given service?</p>
+
+        <div class="pullquote">
+          <p>Time is the only currency that cannot be inflated, cannot be printed, and cannot be redistributed. It is the truest measure of burden — and the most direct measure of what any economic system actually costs you.</p>
+        </div>
+
+        <p>This is the foundation of the <strong>LTE Index (Life Time Efficiency)</strong> — the broader framework within which Private Tax analysis sits. The LTE Index measures how much of a person's working lifetime is consumed by the cost of living, rather than available for everything else that makes a life worth living: relationships, creativity, rest, civic participation. Its companion measure, the <strong>Time Extraction Index (TEI)</strong>, isolates the parasitic portion of that consumption — the share flowing not into service delivery but into financial extraction with no corresponding service value.</p>
+
+        <p>Private Tax analysis applies this framework at the service level. For any given service, it asks: how many more hours of your finite life does the for-profit delivery model cost you, compared to public or cooperative alternatives? That surplus — in hours, days, and months of your working life — is the Private Tax. It is being collected whether you see it or not. The invisible hand is not invisible because it doesn't exist. It is invisible because we have been given no instrument to measure it. The Time Differential Ratio is that instrument.</p>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══ 04 · The Math ══ -->
+      <section class="section">
+        <span class="section-number">04 · The Mathematics</span>
+        <h2>The Time Differential Ratio</h2>
+
+        <p>To move from concept to measurement, we define two key differentials and a ratio that relates them. In all equations, <strong>T</strong> represents work time measured in hours — the hours of your life required to pay for a given service under each delivery model. <strong>D</strong> represents the delivery differential — the time-cost difference between any two models, whether that difference is a premium (more hours) or an advantage (fewer hours).</p>
+
+        <h3>Core Equations</h3>
+
+        <div class="eq-table-wrap">
+          <div class="eq-table-header"><span>Equation Set — Private Tax Framework</span></div>
+          <table class="eq-table">
+            <thead>
+              <tr>
+                <th style="width:10%">Term</th>
+                <th style="width:30%">Equation</th>
+                <th>Plain-Language Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="eq-abbr">TD¹</td>
+                <td class="eq-formula">PSSD <span class="op">−</span> NPTSD</td>
+                <td class="eq-desc">The time premium of Model C – Private (PSSD) over Model B – Cooperative (NPTSD). The raw hours of your life extracted above and beyond the cooperative cost of the same service.</td>
+              </tr>
+              <tr>
+                <td class="eq-abbr">TD²</td>
+                <td class="eq-formula">PTSD <span class="op">−</span> NPTSD</td>
+                <td class="eq-desc">The cooperative efficiency advantage — how many hours per year Model B – Cooperative (NPTSD) saves relative to Model A – Public (PTSD). Reflects the absence of bureaucratic overhead and leaner governance in the cooperative model. A positive number means the cooperative is more efficient than public delivery.</td>
+              </tr>
+              <tr>
+                <td class="eq-abbr">TDR</td>
+                <td class="eq-formula">TD¹ <span class="op">÷</span> TD²</td>
+                <td class="eq-desc">Time Differential Ratio — how many times larger the private extraction premium (TD¹) is than the cooperative efficiency advantage (TD²). A high TDR is the structural fingerprint of extraction rather than genuine operational cost difference.</td>
+              </tr>
+              <tr>
+                <td class="eq-abbr">PTB</td>
+                <td class="eq-formula">(PSSD <span class="op">÷</span> PTSD) <span class="op">−</span> 1</td>
+                <td class="eq-desc">Private Tax Burden as a percentage premium above the public baseline (Model A – PTSD). The share of every hour you work for this service that delivers no additional value — it flows directly into shareholder extraction.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>The Efficiency Comparison Ratio</h3>
+
+        <p>We can compare any two models directly as a multiplier — asking simply: how many times more of your life does Model C – Private (PSSD) cost compared to Model A – Public (PTSD) or Model B – Cooperative (NPTSD)? This <strong>Efficiency Comparison Ratio (ECR)</strong> makes the Private Tax Burden immediately legible without requiring calculation.</p>
+
+        <div class="callout">
+          <div class="callout-head">What the ECR Means</div>
+          <p>An ECR of 2.5 between Model C – Private (PSSD) and Model A – Public (PTSD) means: to receive the same service under a for-profit model, you must work 2.5 times longer than under public delivery. The extra 1.5× — meaning 150 additional hours for every 100 hours of public-equivalent cost — represents pure extraction. Value produced by your labour flows to shareholders rather than back into the service you received.</p>
+          <p>This is the Private Tax. It is not collected by a government. It is not debated in parliament. It does not appear on any ballot. But it is collected, reliably and systematically, every time you pay for a privatized service. The invisible hand is not allocating efficiently. It is allocating — to itself.</p>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══ 05 · Worked Example ══ -->
+      <section class="section">
+        <span class="section-number">05 · Worked Example</span>
+        <h2>Three Models, One Service: The Numbers</h2>
+
+        <p>To make this concrete, consider a single representative service — home insurance, internet provision, or pharmaceutical supply — measured across all three delivery models in annual work hours required to pay for it.</p>
+
+        <div class="example-table-wrap">
+          <table class="example-table">
+            <thead>
+              <tr>
+                <th>Delivery Model</th>
+                <th>Abbrev.</th>
+                <th>Annual Work Hours Required</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="model-label" data-label="Model">Model A – Public Tax System Delivery</td>
+                <td class="abbr-cell" data-label="Abbrev.">PTSD</td>
+                <td data-label="Work Hours">
+                  <div class="time-bar-wrap">
+                    <div class="time-bar public" style="width:80px;"></div>
+                    <span class="time-val">100 hrs</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="model-label" data-label="Model">Model B – Non-Profit / Cooperative Delivery</td>
+                <td class="abbr-cell" data-label="Abbrev.">NPTSD</td>
+                <td data-label="Work Hours">
+                  <div class="time-bar-wrap">
+                    <div class="time-bar coop" style="width:64px;"></div>
+                    <span class="time-val">80 hrs</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="model-label" data-label="Model">Model C – Private Sector Service Delivery</td>
+                <td class="abbr-cell" data-label="Abbrev.">PSSD</td>
+                <td data-label="Work Hours">
+                  <div class="time-bar-wrap">
+                    <div class="time-bar private" style="width:200px;"></div>
+                    <span class="time-val">250 hrs</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Efficiency Comparison Ratios</h3>
+
+        <p>Expressing each model as a multiple of the public delivery baseline (Model A – PTSD = 100 hrs), with Model B – Cooperative (NPTSD) at 80 hrs — 20% more efficient than public delivery:</p>
+
+        <div class="ratio-grid">
+          <div class="ratio-card">
+            <div class="ratio-label">PTSD ÷ NPTSD</div>
+            <div class="ratio-val">0.8×</div>
+            <div class="ratio-desc">Model B – Cooperative costs 20% <em>less</em> than Model A – Public. The efficiency advantage of member ownership, lower overhead, and operations costs over government delivery.</div>
+          </div>
+          <div class="ratio-card warning">
+            <div class="ratio-label">PSSD ÷ PTSD</div>
+            <div class="ratio-val">2.5×</div>
+            <div class="ratio-desc">Model C – Private costs 150% more than Model A – Public. That 1.5× excess — 150 hours of your annual working life above public cost — is the Private Tax burden.</div>
+          </div>
+          <div class="ratio-card warning">
+            <div class="ratio-label">PSSD ÷ NPTSD</div>
+            <div class="ratio-val">3.1×</div>
+            <div class="ratio-desc">Model C – Private costs 212% more than Model B – Cooperative — the most efficient baseline. Against cooperative delivery, the private extraction premium is even more stark.</div>
+          </div>
+        </div>
+
+        <h3>Time Differential Ratio (TDR) Calculation</h3>
+
+        <div class="tdr-table-wrap">
+          <table class="tdr-table">
+            <thead>
+              <tr>
+                <th style="width:12%">Term</th>
+                <th style="width:35%">Calculation</th>
+                <th>What It Means</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tdr-term">TD¹</td>
+                <td class="tdr-calc">250 − 80 = <span class="result">170 hrs</span></td>
+                <td class="tdr-desc">The private extraction premium above Model B – Cooperative (NPTSD). 170 hours of annual work-time that deliver no additional service value — pure shareholder extraction.</td>
+              </tr>
+              <tr>
+                <td class="tdr-term">TD²</td>
+                <td class="tdr-calc">100 − 80 = <span class="result">20 hrs</span></td>
+                <td class="tdr-desc">The cooperative efficiency advantage over Model A – Public (PTSD). Model B saves 20 hours per year through lower overhead and leaner operations. A positive number confirming the cooperative is the most efficient baseline.</td>
+              </tr>
+              <tr class="highlight">
+                <td class="tdr-term">TDR</td>
+                <td class="tdr-calc">170 ÷ 20 = <span class="result">8.5×</span></td>
+                <td class="tdr-desc">The private extraction premium is 8.5 times larger than the cooperative efficiency advantage. This is the structural fingerprint of systematic extraction — a difference of this magnitude cannot be explained by operational costs.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>The TDR of 8.5 is the key diagnostic number. It tells us that the step from Model A – Public (PTSD) to Model B – Cooperative (NPTSD) is not a premium at all — it is a 20-hour <em>saving</em>, the dividend of member ownership, lean governance, and lower operational overhead. But the step from Model B – Cooperative to Model C – Private (PSSD) is 8.5 times that magnitude, and moves entirely in the wrong direction. That asymmetry cannot be explained by operational costs. It is the structural fingerprint of the invisible hand at work — allocating, systematically, to itself.</p>
+
+        <div class="finding-banner">
+          <div class="finding-banner-label">Key Finding — Private Tax Burden in Work-Hours</div>
+          <div class="finding-list">
+            <div class="finding-item">
+              <div class="finding-item-label">Model A – Public vs. Model C – Private</div>
+              <div class="finding-item-stat">2.5×</div>
+              <div class="finding-item-desc">Private delivery costs 150% more than public. For every 100 hrs owed under public delivery, private demands 250 hrs — <em>150 hrs of your life flowing to shareholder extraction.</em></div>
+            </div>
+            <div class="finding-item-divider"></div>
+            <div class="finding-item">
+              <div class="finding-item-label">Model B – Cooperative vs. Model C – Private</div>
+              <div class="finding-item-stat">3.1×</div>
+              <div class="finding-item-desc">Private delivery costs 212% more than cooperative. Against the most efficient baseline, the extraction premium is even more stark — <em>170 hrs of surplus life-time taken with no additional service delivered.</em></div>
+            </div>
+            <div class="finding-item-divider"></div>
+            <div class="finding-item">
+              <div class="finding-item-label">Time Differential Ratio</div>
+              <div class="finding-item-stat">8.5×</div>
+              <div class="finding-item-desc">The private premium is 8.5 times larger than the cooperative efficiency advantage over public. <em>That is the invisible hand's fee. Now it has a number.</em></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══ 06 · LTE Index / TEI ══ -->
+      <section class="section">
+        <span class="section-number">06 · Framework Integration</span>
+        <h2>Private Tax as a Dimension of the LTE Index and TEI</h2>
+
+        <p>This analysis does not stand alone. It extends the Block Share framework for measuring the true cost of economic systems on human lives — specifically the <strong>LTE Index (Life Time Efficiency)</strong> and the <strong>Time Extraction Index (TEI)</strong>.</p>
+
+        <h3>Connection to the LTE Index</h3>
+
+        <p>The LTE Index frames economic burden as a percentage of working lifetime consumed by the cost of maintaining a given standard of living. A city with an LTE Index of 99% means that 99% of working hours are consumed by basic costs — leaving almost nothing for the rest of life. Vancouver currently sits near that ceiling.</p>
+
+        <p>Private Tax analysis extends this logic from the aggregate to the service level. Rather than asking "what share of your total lifetime is consumed?" it asks, service by service: "what share of your lifetime cost for this service is pure extraction — hours flowing to shareholders rather than back into service delivery?" The Private Tax Burden (PTB) percentage becomes a service-level LTE Index component. Applied systematically across healthcare, insurance, housing, utilities, telecommunications, and financial services, it produces a comprehensive map of extraction embedded in the cost of living — invisible in aggregate statistics, clearly legible in life-hours.</p>
+
+        <h3>Connection to the TEI</h3>
+
+        <p>The Time Extraction Index (TEI) separates the parasitic extraction component of economic systems from genuine value creation. In housing analysis, we used the TEI to distinguish mortgage principal — real shelter value — from mortgage interest, which is financial extraction. The same logic applies here: the private delivery premium (TD¹) is the TEI applied to services. It is the portion of your payment that delivers nothing additional; it simply routes value from your labour to a shareholder. The TDR gives the TEI a service-level expression: a TDR of 8.5 tells us the extraction component is 8.5 times the size of the cooperative efficiency advantage over public delivery — the ratio of extraction to genuine operational difference.</p>
+
+        <h3>The Private Tax Index (PTI)</h3>
+
+        <p>Over time, this framework enables construction of a <strong>Private Tax Index (PTI)</strong> — a sector-by-sector account of the extraction premium embedded in privatized service delivery, expressed in lifetime hours and as a percentage of the LTE Index. This allows direct empirical comparison across cities and policy regimes: not "does privatization cost more?" (it does) but "exactly how many months of your working life does privatization cost you, and across which sectors?" It transforms a political argument into an accounting one. And accounting is harder to argue with than ideology.</p>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══ 07 · Policy ══ -->
+      <section class="section">
+        <span class="section-number">07 · Policy & Practice</span>
+        <h2>The Hand, the State, and the Cooperative Alternative</h2>
+
+        <p>Every time a government privatizes a public service — or fails to consider returning a privatized one to public or cooperative management — an implicit transfer is made. In our illustrative example here, that transfer represents a premium of approximately <strong>150%</strong> in time-cost per service, per household, per year — redirected from the lifetime accounts of every user of that service to the income accounts of shareholders. Applied across multiple privatized services, that cumulative percentage becomes months of working life annually.</p>
+
+        <p>But the more important policy insight from this analysis is not simply the case <em>against</em> privatization. It is the case <em>for</em> cooperative and public ownership — and the measured cost of the neoliberal doctrine that has systematically displaced them over the past fifty years.</p>
+
+        <div class="callout">
+          <div class="callout-head">On Government Delivery — A Nuanced Picture</div>
+          <p>It would be an oversimplification to position government delivery as uniformly superior without acknowledging its own inefficiencies. Policy is frequently shaped not by public debate or democratic accountability but by the calculus of corporate profit. Governments are subject to private-sector lobbying, short electoral cycles that discourage long-term infrastructure investment, and political incentives that favour announcements over outcomes.</p>
+          <p>The cooperative model inherits the accountability virtues of democratic government — member votes on budgets and service specifications — while being structurally insulated from the political economy vulnerabilities that compromise government delivery. It is not a theoretical ideal; it is a proven institutional form with a long operational track record across housing, insurance, utilities, banking, and food systems worldwide.</p>
+        </div>
+
+        <h3>Cooperative Ownership as a Structural Private Tax Elimination</h3>
+
+        <p>The cooperative model has a structural property that neither government nor private corporations share: the population served are simultaneously <strong>owners</strong>, <strong>users</strong>, and <strong>beneficiaries</strong> of the infrastructure they collectively hold. This creates an institutional bias toward long-term efficiency and resilience — the opposite of shareholder extraction logic.</p>
+
+        <p>When housing, utilities, broadband, and local services are held as cooperative assets, the private sector loses its primary entry point: capital scarcity and the information asymmetry between providers and users. The Private Tax is not just reduced; it is structurally displaced. The invisible hand's fee drops toward zero not because of regulation, but because the mechanism of extraction — absentee ownership, information asymmetry, artificial scarcity — has been removed from the equation.</p>
+
+        <h3>Global Precedents: Public Land, High Ownership, Low Time-Cost</h3>
+
+        <p>The proposition that public or cooperative land and infrastructure ownership produces efficient, high-quality services at low time-cost is not theoretical. Several countries demonstrate it at scale — not through coercion, but by offering a demonstrably more efficient model that populations choose because it works and because the Private Tax on housing approaches zero when land is de-commodified.</p>
+
+        <div class="country-table-wrap">
+          <table class="country-table">
+            <thead>
+              <tr>
+                <th>Country / City</th>
+                <th>Housing Rate</th>
+                <th>Land Model</th>
+                <th>Key Features</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="country-name" data-label="Country">China</td>
+                <td class="ownership-rate" data-label="Rate">~95%</td>
+                <td data-label="Model"><span class="model-tag">State Land Lease</span></td>
+                <td data-label="Features">All land publicly owned; residents hold long-term use rights on structures. Housing is treated as infrastructure rather than a speculative asset class. Private extraction of land value is structurally prevented rather than regulated.</td>
+              </tr>
+              <tr>
+                <td class="country-name" data-label="Country">Singapore</td>
+                <td class="ownership-rate" data-label="Rate">80–90%</td>
+                <td data-label="Model"><span class="model-tag">Public Land + HDB</span></td>
+                <td data-label="Features">Housing Development Board builds and manages approximately 80% of housing stock on state-owned land. Prices are set relative to income, not market speculation. The result is some of the highest home ownership rates in the world at a fraction of the time-cost found in fully privatized markets.</td>
+              </tr>
+              <tr>
+                <td class="country-name" data-label="Country">Vienna, Austria</td>
+                <td class="ownership-rate" data-label="Rate">60% social</td>
+                <td data-label="Model"><span class="model-tag">Municipal + Cooperative</span></td>
+                <td data-label="Features">Residents specify what gets built. Developers and builders submit competing proposals; residents vote on which to approve and fund. The population designs its own housing infrastructure — the cooperative principle applied at city scale, with the private sector playing a delivery role under democratic direction rather than market control.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>What these models share is not state coercion but structural efficiency: when land and key infrastructure are removed from the speculative market, the Private Tax on the most significant single component of the cost of living approaches zero. The LTE Index improves dramatically — not because wages rise, but because extraction is removed from the equation. The invisible hand is shown the door.</p>
+
+        <p>Vienna's model is particularly instructive: it is not government dictating what gets built — it is government providing the framework within which residents vote for what they want built and who builds it. The population retains agency. The developer retains a role. But the extraction premium disappears, because the land value accretes to the community rather than to private capital. The invisible hand allocates. Just not to itself.</p>
+
+        <h3>The Block Share Application</h3>
+
+        <p>The Block Share / Community Credyts ecosystem is, in one sense, an applied response to Private Tax burden at neighbourhood scale. By building cooperative resource-sharing infrastructure — with democratic governance, open accounts, and surplus returned to members — it operates structurally as Model B – Non-Profit / Cooperative Delivery (NPTSD) rather than Model C – Private Sector Service Delivery (PSSD). The LTE Index improvement from participating in a Block Share neighbourhood is, in measurable part, a Private Tax reduction: hours of your life reclaimed from extraction and returned to living.</p>
+
+        <p>Community Credyts — denominated in time rather than dollars, issued against real labour and assets — make the time-cost accounting explicit in every transaction. When you earn and spend Credyts, you are operating in the framework this article describes. The currency itself is a Private Tax measurement instrument — and a reduction instrument simultaneously.</p>
+
+        <p>The next step is making the measurement systematic: applying the TDR and PTI to the services most commonly accessed by cooperative and Block Share communities — insurance, childcare, eldercare, telecommunications, energy, housing — and publishing those numbers as community knowledge. Not advocacy. Accounting. The invisible hand, finally, in plain sight.</p>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══ Glossary ══ -->
+      <section class="section">
+        <span class="section-number">Reference</span>
+        <h2>Abbreviations &amp; Terms</h2>
+
+        <div class="glossary">
+          <h4>Standard Abbreviations — Private Tax / LTE Index Framework</h4>
+          <ul class="glossary-list">
+            <li><span class="term">PTSD</span> Model A – Public Tax System Delivery</li>
+            <li><span class="term">NPTSD</span> Model B – Non-Profit / Cooperative Delivery</li>
+            <li><span class="term">PSSD</span> Model C – Private Sector Service Delivery</li>
+            <li><span class="term">TD¹</span> Time Differential 1 — private extraction premium (PSSD − NPTSD)</li>
+            <li><span class="term">TD²</span> Time Differential 2 — cooperative efficiency advantage (PTSD − NPTSD)</li>
+            <li><span class="term">TDR</span> Time Differential Ratio (TD¹ ÷ TD²)</li>
+            <li><span class="term">PTB</span> Private Tax Burden (PSSD ÷ PTSD − 1, expressed as %)</li>
+            <li><span class="term">PTI</span> Private Tax Index (sector-aggregated PTB)</li>
+            <li><span class="term">ECR</span> Efficiency Comparison Ratio (model-to-model multiplier)</li>
+            <li><span class="term">LTE Index</span> Life Time Efficiency Index</li>
+            <li><span class="term">TEI</span> Time Extraction Index</li>
+            <li><span class="term">T</span> Time — work hours required to fund the service</li>
+            <li><span class="term">SD</span> Services Delivered</li>
+            <li><span class="term">PLT / CLT</span> Permanent / Community Land Trust</li>
+          </ul>
+        </div>
+      </section>
+
+    </div><!-- /article-wrap -->
+
+    <!-- ── Suggested Articles ── -->
+    <div class="suggested-wrap">
+      <div class="suggested-label">Continue Reading</div>
+      <div class="suggested-articles">
+        <a href="https://app.blockshare.ca/private-taxes-overview/" class="suggested-article suggested-article--primary">
+          <div class="suggested-article__tag">Short Read · ~4 min</div>
+          <div class="suggested-article__title">Private Taxes: The Overview</div>
+          <div class="suggested-article__desc">The top-line narrative without the equations — a concise entry point to share with anyone new to this framework.</div>
+          <div class="suggested-article__cta">Read the overview →</div>
+        </a>
+        <a href="https://app.blockshare.ca/lei-calculator/" class="suggested-article">
+          <div class="suggested-article__tag">Interactive Tool</div>
+          <div class="suggested-article__title">LTE Index Calculator</div>
+          <div class="suggested-article__desc">Calculate how much of your working lifetime is consumed by the cost of living — and how much is being extracted.</div>
+          <div class="suggested-article__cta">Try the calculator →</div>
+        </a>
+        <a href="https://app.blockshare.ca/debt-interest-death-of-gdp/" class="suggested-article">
+          <div class="suggested-article__tag">Publication</div>
+          <div class="suggested-article__title">Debt, Interest &amp; the Death of GDP</div>
+          <div class="suggested-article__desc">How compound interest and debt servicing silently consume the productive output of entire economies.</div>
+          <div class="suggested-article__cta">Read the article →</div>
+        </a>
+        <a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/" class="suggested-article">
+          <div class="suggested-article__tag">Publication</div>
+          <div class="suggested-article__title">Vancouver Housing Policy Analysis</div>
+          <div class="suggested-article__desc">Private extraction in one of the world's most unaffordable housing markets — measured in time, not just dollars.</div>
+          <div class="suggested-article__cta">Read the article →</div>
+        </a>
+        <a href="https://app.blockshare.ca/bill-m216-article/" class="suggested-article">
+          <div class="suggested-article__tag">Publication</div>
+          <div class="suggested-article__title">Bill M216: Winners &amp; Losers</div>
+          <div class="suggested-article__desc">A population-weighted analysis of BC's Professional Reliance Act. 78,000 people win. 4.9 million lose.</div>
+          <div class="suggested-article__cta">Read the article →</div>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══ Block Share Nav & Footer — matches blockshare-nav-footer.php v1.1.0 ══ -->
+  <nav id="bs-nav" class="site-nav"></nav>
+  <footer id="bs-footer" class="site-footer"></footer>
+
+  <script>
+  (function(){
+    var n=document.getElementById("bs-nav");
+    document.body.insertBefore(n,document.body.firstChild);
+    n.innerHTML='<div class="site-nav__inner"><a href="https://app.blockshare.ca/bs-home/" class="site-nav__brand">Block<span>Share</span></a><div class="site-nav__links"><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Blockonomics &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">Life Efficiency Index</a><a href="https://app.blockshare.ca/onboarding/">Take the Block Survey &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Programs &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a><a href="https://app.blockshare.ca/cc-system-diagram/">CC System Diagram</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Publications &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Get Involved &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div></div><a href="https://app.blockshare.ca/onboarding/" class="site-nav__cta">Get Started &rarr;</a></div><button class="site-nav__hamburger" aria-label="Open menu">&#9776;</button></div>';
+    var f=document.getElementById("bs-footer");
+    f.innerHTML='<div class="site-footer__inner"><div class="footer-grid"><div><div class="footer-brand">Block<span>Share</span></div><p class="footer-tagline">Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative &mdash; neither government programme nor corporate platform.</p></div><div class="footer-col"><h4>Blockonomics</h4><ul><li><a href="https://app.blockshare.ca/blockonomics/">The Framework</a></li><li><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a></li><li><a href="https://app.blockshare.ca/lei-calculator/">LEI Calculator</a></li></ul></div><div class="footer-col"><h4>Programs</h4><ul><li><a href="https://app.blockshare.ca/share/">Share Pools</a></li><li><a href="https://app.blockshare.ca/food/">Beef Collective</a></li><li><a href="https://app.blockshare.ca/credits/">Community Credits</a></li></ul></div><div class="footer-col"><h4>Publications</h4><ul><li><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a></li><li><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt &amp; the Death of GDP</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a></li><li><a href="https://app.blockshare.ca/publications/">All Publications</a></li></ul></div><div class="footer-col"><h4>Get Involved</h4><ul><li><a href="https://app.blockshare.ca/onboarding/">Join Your Block</a></li><li><a href="https://app.blockshare.ca/become-host/">Become a Host</a></li><li><a href="https://app.blockshare.ca/about/">Our Story</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a></li><li><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-copy">&copy; 2026 Block Share &middot; Vancouver, BC &middot; A community initiative inspired by E.F. Schumacher\'s <em>Small is Beautiful</em></div></div>';
+    var hb=document.querySelector(".site-nav__hamburger");
+    var ov=document.createElement("div");
+    ov.className="bs-mobile-overlay";
+    ov.id="bs-mobile-menu";
+    ov.style.display="none";
+    ov.innerHTML='<button class="bs-mobile-overlay__close" aria-label="Close menu">&times;</button><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Blockonomics</div><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">Life Efficiency Index</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Programs</div><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Publications</div><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Get Involved</div><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div><a href="https://app.blockshare.ca/onboarding/" class="bs-mobile-overlay__cta">Get Started &rarr;</a>';
+    document.body.appendChild(ov);
+    function openMobile(){ov.style.display="flex";ov.classList.add("active");document.body.style.overflow="hidden";}
+    function closeMobile(){ov.classList.remove("active");ov.style.display="none";document.body.style.overflow="";}
+    if(hb)hb.addEventListener("click",openMobile);
+    var cb=ov.querySelector(".bs-mobile-overlay__close");
+    if(cb)cb.addEventListener("click",closeMobile);
+    ov.querySelectorAll("a").forEach(function(a){a.addEventListener("click",closeMobile);});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMobile();});
+  })();
+  </script>
+
+  <style>
+  .site-nav,.site-footer,.bs-mobile-overlay{--bg-dark:#0f1419;--border-dark:#1e293b;--border-dark-light:#334155;--text-light:#e8ecf1;--text-light-secondary:#94a3b8;--text-light-muted:#64748b;--green-400:#4ade80;--green-500:#22c55e;--font-display:'Playfair Display',Georgia,serif;--font-body:'Source Sans 3','Segoe UI',sans-serif;}
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,20,25,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-dark);}
+  .site-nav__inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;}
+  .site-nav__brand{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-light);text-decoration:none;letter-spacing:-0.02em;}
+  .site-nav__brand span{color:var(--green-400);}
+  .site-nav__links{display:flex;gap:6px;align-items:center;}
+  .site-nav__dropdown{position:relative;}
+  .site-nav__dropdown-trigger{color:var(--text-light-secondary);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:8px 12px;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+  .site-nav__dropdown:hover .site-nav__dropdown-trigger{color:var(--green-400);}
+  .site-nav__dropdown-menu{display:none;position:absolute;top:100%;left:0;background:var(--bg-dark);border:1px solid var(--border-dark-light);border-radius:8px;padding:8px 0;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:1010;}
+  .site-nav__dropdown:hover .site-nav__dropdown-menu{display:block;}
+  .site-nav__dropdown-menu a{display:block;padding:8px 20px;font-size:14px;color:var(--text-light-secondary);text-decoration:none;}
+  .site-nav__dropdown-menu a:hover{color:var(--green-400);background:rgba(74,222,128,0.06);}
+  .site-nav__cta{display:inline-block;background:var(--green-500);color:var(--bg-dark);padding:7px 16px;border-radius:6px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:0.06em;text-decoration:none;}
+  .site-nav__cta:hover{opacity:0.9;}
+  .site-nav__hamburger{display:none;background:none;border:none;color:var(--text-light);font-size:24px;cursor:pointer;padding:4px 8px;}
+  @media(max-width:900px){.site-nav__links{display:none;}.site-nav__hamburger{display:block;}}
+  .bs-mobile-overlay{position:fixed;inset:0;z-index:2000;background:rgba(15,20,25,0.98);padding:72px 24px 24px;overflow-y:auto;flex-direction:column;}
+  .bs-mobile-overlay__close{position:absolute;top:16px;right:24px;background:none;border:none;color:var(--text-light);font-size:28px;cursor:pointer;}
+  .bs-mobile-overlay__section{margin-bottom:24px;}
+  .bs-mobile-overlay__heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:10px;font-family:var(--font-body);}
+  .bs-mobile-overlay a{display:block;padding:8px 0;font-size:16px;color:var(--text-light-secondary);text-decoration:none;}
+  .bs-mobile-overlay a:hover{color:var(--green-400);}
+  .bs-mobile-overlay__cta{display:inline-block;margin-top:16px;background:var(--green-500);color:var(--bg-dark);padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center;}
+  .site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 24px 32px;}
+  .site-footer__inner{max-width:1200px;margin:0 auto;}
+  .footer-grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:40px;margin-bottom:32px;}
+  .footer-brand{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-light);margin-bottom:12px;}
+  .footer-brand span{color:var(--green-400);}
+  .footer-tagline{font-size:14px;color:var(--text-light-muted);line-height:1.6;}
+  .footer-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-secondary);margin-bottom:14px;}
+  .footer-col ul{list-style:none;margin:0;padding:0;}
+  .footer-col li{margin-bottom:8px;}
+  .footer-col a{font-size:14px;color:var(--text-light-muted);text-decoration:none;transition:color 0.2s;}
+  .footer-col a:hover{color:var(--green-400);}
+  .footer-copy{font-size:13px;color:var(--text-light-muted);border-top:1px solid var(--border-dark);padding-top:20px;text-align:center;}
+  @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+  body{padding-top:56px!important;}
+  </style>
+
+</body>
+</html>

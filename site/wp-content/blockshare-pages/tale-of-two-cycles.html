@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Tale of Two Cycles | Block Share</title>
+  <meta name="description" content="How the Small Water Cycle and the Small Money Cycle share a common purpose — and a common enemy. A framework for understanding why ecological and economic repair follow the same logic." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+
+  <style>
+    :root {
+      --forest:       #0f2b1d;
+      --forest-light: #163d2a;
+      --forest-mid:   #1a4a33;
+      --navy:         #1E4D7B;
+      --navy-dark:    #153a5e;
+      --slate:        #2c3e50;
+      --gold:         #f9a825;
+      --gold-dim:     #c8891e;
+      --gold-light:   #fdd835;
+      --cream:        #faf6f0;
+      --cream-dark:   #f0ebe3;
+      --text:         #1a1a1a;
+      --text-light:   #555;
+      --text-muted:   #888;
+      --white-a10:    rgba(255,255,255,.1);
+      --white-a15:    rgba(255,255,255,.15);
+      --white-a60:    rgba(255,255,255,.6);
+      --white-a80:    rgba(255,255,255,.8);
+      --white-a85:    rgba(255,255,255,.85);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; line-height: 1.6; color: var(--text); background: var(--cream); }
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── HERO — forest ── */
+    .hero { background: var(--forest); color: #fff; padding: 6rem 2rem 5rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: radial-gradient(ellipse at 80% 20%, var(--forest-mid) 0%, transparent 70%); }
+    .hero-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow { font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
+    .hero-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--gold); }
+    .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); line-height: 1.08; max-width: 660px; margin-bottom: 1.5rem; letter-spacing: -.02em; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub { font-size: 1.15rem; max-width: 580px; color: var(--white-a80); line-height: 1.7; margin-bottom: 2.5rem; }
+    .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .hero-meta-item { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; color: var(--white-a60); display: flex; align-items: center; gap: 6px; }
+    .hero-meta-item span { color: var(--white-a85); }
+
+    /* ── SECTION COMMON ── */
+    .section { padding: 4.5rem 2rem; }
+    .section-inner { max-width: 780px; margin: 0 auto; }
+    .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--gold-dim); margin-bottom: .75rem; }
+
+    .section-light { background: var(--cream); }
+    .section-warm { background: var(--cream-dark); }
+    .section-forest { background: var(--forest); color: #fff; }
+    .section-forest .eyebrow { color: var(--gold); }
+    .section-navy { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); color: #fff; }
+    .section-navy .eyebrow { color: var(--gold); }
+
+    .section-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.22; margin-bottom: 1.5rem; }
+    .section-light h2, .section-warm h2 { color: var(--text); }
+    .section-forest h2, .section-navy h2 { color: #fff; }
+
+    .section-inner p { margin-bottom: 1.25rem; line-height: 1.8; }
+    .section-light p, .section-warm p { color: var(--text-light); }
+    .section-forest p, .section-navy p { color: var(--white-a85); }
+    .section-inner p:last-child { margin-bottom: 0; }
+
+    /* ── Pullquote section ── */
+    .pullquote-section { padding: 4rem 2rem; }
+    .pullquote-inner { max-width: 850px; margin: 0 auto; text-align: center; }
+    .pullquote-bar { width: 48px; height: 3px; background: var(--gold); margin: 0 auto 2rem; }
+    .pullquote-inner blockquote { font-family: 'DM Serif Display', serif; font-size: clamp(1.4rem, 3vw, 1.8rem); line-height: 1.45; color: var(--forest); margin-bottom: 1.25rem; font-style: italic; }
+    .pullquote-inner cite { font-family: 'DM Sans', sans-serif; font-style: normal; font-size: .85rem; color: var(--text-muted); }
+
+    /* ── Cycle cards ── */
+    .cycle-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+    .cycle-card { background: var(--white-a10); border: 1px solid var(--white-a10); border-radius: 12px; padding: 2rem 1.5rem; position: relative; overflow: hidden; }
+    .cycle-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .cycle-card.water::before { background: #5dade2; }
+    .cycle-card.money::before { background: #66bb6a; }
+    .cycle-card-tag { font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; margin-bottom: .5rem; }
+    .cycle-card.water .cycle-card-tag { color: #5dade2; }
+    .cycle-card.money .cycle-card-tag { color: #66bb6a; }
+    .cycle-card h4 { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: #fff; margin-bottom: .75rem; }
+    .cycle-card p { font-size: .88rem; color: var(--white-a80); line-height: 1.65; margin: 0; }
+
+    /* ── Stat cards ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2.5rem 0; }
+    .stat-card { text-align: center; padding: 2rem 1rem; }
+    .stat-card .val { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 600; color: var(--gold); }
+    .stat-card .label { font-size: .8rem; color: var(--white-a85); margin-top: .25rem; }
+
+    /* ── Inline pullquote (within article sections) ── */
+    .inline-quote {
+      margin: 2rem 0;
+      padding: 0 0 0 1.5rem;
+      border-left: 2px solid var(--gold);
+    }
+    .section-light .inline-quote p,
+    .section-warm .inline-quote p { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--forest); font-style: italic; margin: 0; }
+    .section-forest .inline-quote p,
+    .section-navy .inline-quote p { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--gold-light); font-style: italic; margin: 0; }
+    .section-forest .inline-quote { border-left-color: var(--gold); }
+
+    /* ── CTA ── */
+    .cta-section { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); padding: 5rem 2rem; text-align: center; position: relative; }
+    .cta-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 3px; background: var(--gold); }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .cta-inner h2 { color: #fff; font-size: 2.2rem; margin-bottom: 1rem; }
+    .cta-inner p { color: var(--white-a85); margin-bottom: 2.5rem; font-size: 1.05rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold { background: var(--gold); color: var(--forest); padding: .85rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: .95rem; transition: all .25s; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-ghost { border: 1.5px solid var(--white-a60); color: #fff; padding: .85rem 2rem; border-radius: 8px; font-weight: 500; text-decoration: none; font-size: .95rem; transition: all .25s; }
+    .btn-ghost:hover { border-color: #fff; background: var(--white-a10); }
+
+    @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) {
+      .hero { padding: 4rem 1.5rem 3rem; }
+      .section { padding: 3.5rem 1.5rem; }
+      .pullquote-section { padding: 3rem 1.5rem; }
+      .cycle-grid { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-inner > * { animation: fadeUp .6s ease-out both; }
+    .hero-eyebrow { animation-delay: .1s; }
+    .hero h1 { animation-delay: .2s; }
+    .hero-sub { animation-delay: .3s; }
+    .hero-meta { animation-delay: .4s; }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Block Share · Community Economics</div>
+      <h1>A Tale of <em>Two Cycles</em></h1>
+      <p class="hero-sub">How the Small Water Cycle and the Small Money Cycle share a common purpose — and a common enemy. Two systems, one principle: life sustains itself through recirculation, diversity, and proximity.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">DATE &nbsp;<span>March 18, 2026</span></div>
+        <div class="hero-meta-item">AUTHOR &nbsp;<span>Ward Stirrat</span></div>
+        <div class="hero-meta-item">SERIES &nbsp;<span>Death Dollars vs. Life Credits</span></div>
+        <div class="hero-meta-item">READ &nbsp;<span>~8 min</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 01 · THE CRISIS — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">01 · The Common Cause</div>
+      <h2>We Are Living in the Drought-and-Flood Era.</h2>
+      <p>Aquifers are collapsing beneath industrial farmland while floodwaters overwhelm cities downstream. Household wealth is being stripped toward a shrinking financial core while communities starve for the capital they need to sustain local life. These are not separate crises. They are the same crisis — expressed in water on one side and money on the other — and they share a common cause: systems engineered to extract and concentrate, rather than to circulate and replenish.<sup>1</sup></p>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>Two crises. One cause. Systems engineered to extract and concentrate, rather than to circulate and replenish.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 02 · GRAVITATIONAL LOGIC — navy ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">02 · The Gravitational Logic</div>
+      <h2>Big Money Works Like a Black Hole.</h2>
+      <p>It doesn't merely accumulate mass — it warps the space around it, pulling everything inward, collapsing the conditions that allow diverse life to exist. Ten generations ago, the harnessing of fossil fuels gave Big Energy the power to accelerate this process: to extract value from natural systems faster than those systems could replenish themselves, and to funnel that value into an ever-smaller, ever-denser financial core.</p>
+      <p>The result, in both the physical and economic landscape, is the drought-and-flood world we now inhabit — feast at the centre, famine at the periphery, and a slow erasure of the deep-rooted systems that sustain life over the long term.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 03 · THE THESIS — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">03 · The Thesis</div>
+      <h2>Two Cycles. One Diagnosis. One Methodology for Repair.</h2>
+      <p>The Small Water Cycle restores what Big Agriculture stripped: the diverse, deep-rooted plant life that holds soil, captures rainfall, and replenishes aquifers across a multi-generational time horizon. The Small Money Cycle restores what Big Capital extracted: the local circularity of value that keeps communities economically resilient and ecologically invested.</p>
+      <p>Neither is a metaphor for the other. They are parallel expressions of the same underlying principle: that life, whether biological or economic, sustains itself through recirculation, diversity, and proximity — not through concentration, monoculture, and extraction.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · THE IRONY — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">04 · The Irony</div>
+      <h2>The Remedy Is Not a Bigger Opposing Force.</h2>
+      <p>Here is the irony. The system capable of breaking the grip of the financial black hole is modelled not on a competing financial instrument, but on the logic of a watershed. The Small Money Cycle — as embodied in Community Credyts and the Block Share platform — does what the Small Water Cycle does. It distributes rather than concentrates. Recirculates rather than extracts. Invests in the local conditions for long-term life rather than feeding distant accumulation.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>The remedy to gravitational collapse is not a bigger opposing force. It is the restoration of the small, the local, and the deeply rooted.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 05 · WHAT THEY SHARE — navy ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">05 · Shared Methodology</div>
+      <h2>What the Two Cycles Share</h2>
+      <p>The Small Water Cycle and the Small Money Cycle share a common methodology: repair through recirculation. Both work to realign the dominant systems of the Macro Extractive Economy — systems that hoard money and carbon alike — with a Micro Economy that restores diversity and balance at the local level. Economic resilience and ecological resilience are not separate goals. They are the same goal, pursued through the same mechanics.</p>
+
+      <div class="cycle-grid">
+        <div class="cycle-card water">
+          <div class="cycle-card-tag">Ecological</div>
+          <h4>Small Water Cycle</h4>
+          <p>Restores diverse, deep-rooted plant life that holds soil, captures rainfall, and replenishes aquifers. Replaces shallow-rooted monocrops with self-sustaining ecosystems across multi-generational time horizons.</p>
+        </div>
+        <div class="cycle-card money">
+          <div class="cycle-card-tag">Economic</div>
+          <h4>Small Money Cycle</h4>
+          <p>Restores local circularity of value through micro-local-ownership and complementary currency. Replaces macro-extraction by distant corporations with community-held capacity that recirculates locally.</p>
+        </div>
+      </div>
+
+      <p>The strategy is to <em>go small everywhere.</em> Seed enough micro-economies and the macro parasitic forces — the extractive machinery of the Status Quo — lose their hosts.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 06 · SMALL WATER — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">06 · Ecological Repair</div>
+      <h2>The Small Water Cycle: Replanting What Was Stripped</h2>
+      <p>The Small Water Cycle requires us to replant what was stripped: the diverse, deep-rooted, self-sustaining plant life that Big Agriculture replaced with shallow-rooted monocrops. Corn, wheat, soy, rice — these commodified crops generate short-term profit for private capital. They also destroy the long-term viability of our most fundamental infrastructure: soil and water.</p>
+      <p>The natural systems we depend on for survival are not accounted for in the short-term money horizon. The existential cost of depleting them does not appear on any balance sheet.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>Shallow-rooted crops produce short-term gain. Deep-rooted ecosystems produce long-term life. The same is true of money systems.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 07 · SMALL MONEY — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">07 · Economic Repair</div>
+      <h2>The Small Money Cycle: Recirculating What Was Extracted</h2>
+      <p>The Small Money Cycle mirrors this logic. Where the Small Water Cycle maintains a resilient watershed by keeping water circulating locally across generations, the Small Money Cycle maintains a resilient economy by keeping value circulating locally across the same time horizon. Both eliminate the parasitic extraction layer — Big Capital in one case, Big Ag in the other — that drains the system faster than it can replenish itself.</p>
+      <p>The mechanics are straightforward. Distribute and recirculate at the local level so that the distance between the creators of value and the maintainers of infrastructure approaches zero. Replace macro-ownership by distant Mega Corps with micro-local-ownership — small units of local capacity held by the people who depend on them.</p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="val">2.6×</div>
+          <div class="label">Local value multiplier</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">94%</div>
+          <div class="label">Big bank lending to corporates</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">95%</div>
+          <div class="label">Brands under conglomerate control</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 08 · BIG MONEY — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">08 · The Extraction Machine</div>
+      <h2>How Big Money Captures Big Systems</h2>
+      <p>Big Capital derives its dominance through a simple mechanism: extract value from local land and local economies, then distribute it upwards to a concentrated group of transnational corporations and their shareholders. The 'Illusion of Choice' visualization makes this visible: 95% of all branded products we consume are controlled by a handful of parent conglomerates. The Big Banking system reinforces the pattern — lending 94% of capital to large corporates and only 6% to small-and-medium-sized businesses. Big Banks align with Big Business because concentrated corporate assets yield higher interest returns. The system feeds itself.</p>
+      <p>The Big Fish Eats Smaller Fish analogy maps the trajectory: value flows from innovators to consolidators, creating 'Monopoly Whales' who gain not just wealth but the power to maintain the very systems that perpetuate their dominance. It is a self-reinforcing architecture of Empire. The Local Credits System is designed to organise the Small Fish.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>Simply changing the value accounting narrative allows us to see how two systems count toward death or life in the long-term.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 09 · LONG GAME — navy ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">09 · Time Horizon</div>
+      <h2>Playing the Long Game</h2>
+      <p>Playing the long game turns out to be both the best survival strategy and the most efficient way to distribute economic value. A system that values survival discounts systems that degrade it. Change the accounting narrative — from short-term extraction to long-term sustenance — and the two systems reveal themselves for what they are: one counts toward Death, the other toward Life.</p>
+
+      <h3 style="color: #fff; margin-top: 2.5rem;">A Tale of Two Currencies</h3>
+      <p>This narrative — extraction versus resilience — is explored in the 'Death Dollars vs. Life Credits' series. Here we apply the same lens to water and currency together. Both the Small Water Cycle and the Small Currency Cycle seek to restore the local circularity that Big Capital and Big Ag have disrupted — in the monetary economy and the agricultural land economy alike.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 10 · WHERE THIS POINTS — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">10 · The Block Share Application</div>
+      <h2>Where This Points</h2>
+      <p>The Community Credyts system used in Block Share is a Small Money Cycle in precisely this sense. A Community Currency designed not to hoard value and extract it outward, but to recirculate it within the community that created it. Peer-issued. Locally governed. Ecologically anchored.</p>
+      <p>The small water cycle restores a watershed's ability to hold, filter, and return water to the life that depends on it. The Small Money Cycle restores a neighbourhood's ability to hold, exchange, and return value to the people and ecosystems that generate it. (Also, see the breakthrough <a href="/blockonomics/" style="color: var(--navy); font-weight: 600; text-decoration: underline; text-underline-offset: 3px;">Blockonomics</a> tool.)</p>
+    </div>
+  </section>
+
+  <!-- ═══ 11 · CLOSING — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">The Principle</div>
+      <h2>Not a Law of Nature. A Choice of System.</h2>
+      <p>The Drought-and-Flood Economy — feast for a few, famine for the rest — is not a law of nature. It is the consequence of systems designed to concentrate. The antidote is systems designed to circulate. The Small Water Cycle and the Small Money Cycle are not metaphors for each other. They are expressions of the same principle: life sustains itself through balance, diversity, and local return. Any system that violates these principles is a system in the process of collapse.</p>
+    </div>
+  </section>
+
+  <!-- ═══ FINAL PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>Life sustains itself through balance, diversity, and local return. Any system that violates these principles is a system in the process of collapse.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>Your block already has power.<br>Now you can <em style="color: var(--gold);">see</em> it.</h2>
+      <p>Complete the Block Survey to earn your first 100+ Community Credits and join the neighbourhood economy.</p>
+      <div class="cta-buttons">
+        <a href="/onboarding/" class="btn-gold">Get Started →</a>
+        <a href="https://app.blockshare.ca/block-budget/" class="btn-ghost">Explore Blockonomics</a>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- ══ Block Share Nav & Footer — matches blockshare-nav-footer.php v1.1.0 ══ -->
+  <nav id="bs-nav" class="site-nav"></nav>
+  <footer id="bs-footer" class="site-footer"></footer>
+
+  <script>
+  (function(){
+    var n=document.getElementById("bs-nav");
+    document.body.insertBefore(n,document.body.firstChild);
+    n.innerHTML='<div class="site-nav__inner"><a href="https://app.blockshare.ca/bs-home/" class="site-nav__brand">Block<span>Share</span></a><div class="site-nav__links"><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Blockonomics &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a><a href="https://app.blockshare.ca/onboarding/">Take the Block Survey &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Programs &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a><a href="https://app.blockshare.ca/cc-system-diagram/">CC System Diagram</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Publications &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Get Involved &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div></div><a href="https://app.blockshare.ca/onboarding/" class="site-nav__cta">Get Started &rarr;</a></div><button class="site-nav__hamburger" aria-label="Open menu">&#9776;</button></div>';
+    var f=document.getElementById("bs-footer");
+    f.innerHTML='<div class="site-footer__inner"><div class="footer-grid"><div><div class="footer-brand">Block<span>Share</span></div><p class="footer-tagline">Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative &mdash; neither government programme nor corporate platform.</p></div><div class="footer-col"><h4>Blockonomics</h4><ul><li><a href="https://app.blockshare.ca/blockonomics/">The Framework</a></li><li><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a></li><li><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a></li></ul></div><div class="footer-col"><h4>Programs</h4><ul><li><a href="https://app.blockshare.ca/share/">Share Pools</a></li><li><a href="https://app.blockshare.ca/food/">Beef Collective</a></li><li><a href="https://app.blockshare.ca/credits/">Community Credits</a></li></ul></div><div class="footer-col"><h4>Publications</h4><ul><li><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a></li><li><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt &amp; the Death of GDP</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a></li><li><a href="https://app.blockshare.ca/publications/">All Publications</a></li></ul></div><div class="footer-col"><h4>Get Involved</h4><ul><li><a href="https://app.blockshare.ca/onboarding/">Join Your Block</a></li><li><a href="https://app.blockshare.ca/become-host/">Become a Host</a></li><li><a href="https://app.blockshare.ca/about/">Our Story</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a></li><li><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-copy">&copy; 2026 Block Share &middot; Vancouver, BC &middot; A community initiative inspired by E.F. Schumacher\'s <em>Small is Beautiful</em></div></div>';
+    var hb=document.querySelector(".site-nav__hamburger");
+    var ov=document.createElement("div");
+    ov.className="bs-mobile-overlay";
+    ov.id="bs-mobile-menu";
+    ov.style.display="none";
+    ov.innerHTML='<button class="bs-mobile-overlay__close" aria-label="Close menu">&times;</button><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Blockonomics</div><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Programs</div><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Publications</div><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Get Involved</div><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div><a href="https://app.blockshare.ca/onboarding/" class="bs-mobile-overlay__cta">Get Started &rarr;</a>';
+    document.body.appendChild(ov);
+    function openMobile(){ov.style.display="flex";ov.classList.add("active");document.body.style.overflow="hidden";}
+    function closeMobile(){ov.classList.remove("active");ov.style.display="none";document.body.style.overflow="";}
+    if(hb)hb.addEventListener("click",openMobile);
+    var cb=ov.querySelector(".bs-mobile-overlay__close");
+    if(cb)cb.addEventListener("click",closeMobile);
+    ov.querySelectorAll("a").forEach(function(a){a.addEventListener("click",closeMobile);});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMobile();});
+  })();
+  </script>
+
+  <style>
+  .site-nav,.site-footer,.bs-mobile-overlay{--bg-dark:#0f1419;--border-dark:#1e293b;--border-dark-light:#334155;--text-light:#e8ecf1;--text-light-secondary:#94a3b8;--text-light-muted:#64748b;--green-400:#4ade80;--green-500:#22c55e;--font-display:'Playfair Display',Georgia,serif;--font-body:'Source Sans 3','Segoe UI',sans-serif;}
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,20,25,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-dark);}
+  .site-nav__inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;}
+  .site-nav__brand{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-light);text-decoration:none;letter-spacing:-0.02em;}
+  .site-nav__brand span{color:var(--green-400);}
+  .site-nav__links{display:flex;gap:6px;align-items:center;}
+  .site-nav__dropdown{position:relative;}
+  .site-nav__dropdown-trigger{color:var(--text-light-secondary);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:8px 12px;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+  .site-nav__dropdown:hover .site-nav__dropdown-trigger{color:var(--green-400);}
+  .site-nav__dropdown-menu{display:none;position:absolute;top:100%;left:0;background:var(--bg-dark);border:1px solid var(--border-dark-light);border-radius:8px;padding:8px 0;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:1010;}
+  .site-nav__dropdown:hover .site-nav__dropdown-menu{display:block;}
+  .site-nav__dropdown-menu a{display:block;padding:8px 20px;font-size:14px;color:var(--text-light-secondary);text-decoration:none;}
+  .site-nav__dropdown-menu a:hover{color:var(--green-400);background:rgba(74,222,128,0.06);}
+  .site-nav__cta{display:inline-block;background:var(--green-500);color:var(--bg-dark);padding:7px 16px;border-radius:6px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:0.06em;text-decoration:none;}
+  .site-nav__cta:hover{opacity:0.9;}
+  .site-nav__hamburger{display:none;background:none;border:none;color:var(--text-light);font-size:24px;cursor:pointer;padding:4px 8px;}
+  @media(max-width:900px){.site-nav__links{display:none;}.site-nav__hamburger{display:block;}}
+  .bs-mobile-overlay{position:fixed;inset:0;z-index:2000;background:rgba(15,20,25,0.98);padding:72px 24px 24px;overflow-y:auto;flex-direction:column;}
+  .bs-mobile-overlay__close{position:absolute;top:16px;right:24px;background:none;border:none;color:var(--text-light);font-size:28px;cursor:pointer;}
+  .bs-mobile-overlay__section{margin-bottom:24px;}
+  .bs-mobile-overlay__heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:10px;font-family:var(--font-body);}
+  .bs-mobile-overlay a{display:block;padding:8px 0;font-size:16px;color:var(--text-light-secondary);text-decoration:none;}
+  .bs-mobile-overlay a:hover{color:var(--green-400);}
+  .bs-mobile-overlay__cta{display:inline-block;margin-top:16px;background:var(--green-500);color:var(--bg-dark);padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center;}
+  .site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 24px 32px;}
+  .site-footer__inner{max-width:1200px;margin:0 auto;}
+  .footer-grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:40px;margin-bottom:32px;}
+  .footer-brand{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-light);margin-bottom:12px;}
+  .footer-brand span{color:var(--green-400);}
+  .footer-tagline{font-size:14px;color:var(--text-light-muted);line-height:1.6;}
+  .footer-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-secondary);margin-bottom:14px;}
+  .footer-col ul{list-style:none;margin:0;padding:0;}
+  .footer-col li{margin-bottom:8px;}
+  .footer-col a{font-size:14px;color:var(--text-light-muted);text-decoration:none;transition:color 0.2s;}
+  .footer-col a:hover{color:var(--green-400);}
+  .footer-copy{font-size:13px;color:var(--text-light-muted);border-top:1px solid var(--border-dark);padding-top:20px;text-align:center;}
+  @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+  body{padding-top:56px!important;}
+  </style>
+
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Block Host - Block Share</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/wp-content/uploads/bs-shared/bs-nav-footer.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            line-height: 1.6;
+            padding-top: 56px !important;
+        }
+
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: #1ABC9C;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Block Info Card */
+        .block-card {
+            background: linear-gradient(135deg, #1ABC9C, #27AE60);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .block-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .block-card .status {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .required {
+            color: #E74C3C;
+        }
+
+        .helper-text {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.25rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.875rem;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #1ABC9C;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .radio-item:hover {
+            background: #e9ecef;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Checkbox Group */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .checkbox-item:hover {
+            background: #e9ecef;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 0.25rem;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            flex: 1;
+        }
+
+        .checkbox-label strong {
+            display: block;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .checkbox-label span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #e8f5e9;
+            border-left: 4px solid #27AE60;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .info-box h4 {
+            color: #27AE60;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-box ul {
+            margin-left: 1.5rem;
+            color: #333;
+        }
+
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #F39C12;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .warning-box h4 {
+            color: #F39C12;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Agreement Section */
+        .agreement {
+            background: #fff9e6;
+            border: 2px solid #F39C12;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .agreement-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .agreement-checkbox input {
+            margin-top: 0.25rem;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            flex: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary {
+            background: #1ABC9C;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h2 {
+            color: #155724;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .form-section {
+                padding: 1.5rem;
+            }
+        }
+        .bs-mobile-overlay{display:none!important}.bs-mobile-overlay.active{display:flex!important}
+    </style>
+</head>
+<body>
+    <nav id="bs-nav"></nav>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Form (Initially Shown) -->
+        <div id="application-form">
+            <!-- Hero -->
+            <div class="hero">
+                <p class="subtitle">Lead Your Building</p>
+                <h1>Become a Block Host</h1>
+                <p>Build neighborhood resilience while earning credits, cash, or product</p>
+            </div>
+
+            <!-- Block Info -->
+            <div class="block-card">
+                <h2 id="display-block">Block 140, Renfrew-Collingwood</h2>
+                <div class="status">✓ Available Territory</div>
+            </div>
+
+            <!-- Benefits -->
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Earn While Serving</h3>
+                    <p>5% commission on food orders, credits for pool management</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏆</div>
+                    <h3>Territory Rights</h3>
+                    <p>First Host gets seniority as programs expand</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛠️</div>
+                    <h3>Tools & Training</h3>
+                    <p>6 modules, mobile app, direct support</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌱</div>
+                    <h3>Community Impact</h3>
+                    <p>Lead the solidarity economy in your building</p>
+                </div>
+            </div>
+
+            <!-- What Hosts Do -->
+            <div class="info-box">
+                <h4>What Block Hosts Do:</h4>
+                <ul>
+                    <li>Organize and coordinate sharing pools (tools, equipment, spaces)</li>
+                    <li>Manage food orders and coordinate deliveries</li>
+                    <li>Welcome new residents and answer questions</li>
+                    <li>Facilitate democratic voting on building priorities</li>
+                    <li>Build connections and trust among neighbors</li>
+                    <li>Act as liaison between residents and Block Share</li>
+                </ul>
+            </div>
+
+            <!-- Time Commitment -->
+            <div class="warning-box">
+                <h4>Time Commitment:</h4>
+                <p><strong>Sharing Pool Host:</strong> 2-3 hours/week for pool management, resident onboarding, issue resolution</p>
+                <p><strong>Food Host:</strong> 6 hours per order cycle (every 6-8 weeks) for coordination and delivery</p>
+                <p style="margin-top: 0.75rem; color: #666;">Many hosts do both! The roles complement each other and build on the same neighborhood relationships.</p>
+            </div>
+
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <span>👤</span> Personal Information
+                </h2>
+                <p class="section-subtitle">Tell us about yourself</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name <span class="required">*</span></label>
+                        <input type="text" id="first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name <span class="required">*</span></label>
+                        <input type="text" id="last-name" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email <span class="required">*</span></label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone <span class="required">*</span></label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Street Address <span class="required">*</span></label>
+                    <input type="text" id="address" required>
+                    <p class="helper-text">Must be within the block territory you're applying to host</p>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Unit/Apt Number</label>
+                        <input type="text" id="unit">
+                    </div>
+                    <div class="form-group">
+                        <label>How long have you lived here? <span class="required">*</span></label>
+                        <select id="residency-length" required>
+                            <option value="">Select...</option>
+                            <option value="less-6-months">Less than 6 months</option>
+                            <option value="6-12-months">6-12 months</option>
+                            <option value="1-2-years">1-2 years</option>
+                            <option value="2-5-years">2-5 years</option>
+                            <option value="5-plus-years">5+ years</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Building Type <span class="required">*</span></label>
+                    <select id="building-type" required>
+                        <option value="">Select...</option>
+                        <option value="apartment">Apartment Building</option>
+                        <option value="condo">Condo Building</option>
+                        <option value="townhouse">Townhouse Complex</option>
+                        <option value="duplex">Duplex/Triplex</option>
+                        <option value="mixed">Mixed-use Building</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Approximate Number of Units in Your Building <span class="required">*</span></label>
+                    <input type="number" id="building-units" min="2" required>
+                </div>
+            </div>
+
+            <!-- Host Role Selection -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <span>🎯</span> Which Host Role Interests You?
+                </h2>
+                <p class="section-subtitle">You can select both</p>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="role" value="sharing-pool" id="role-sharing">
+                        <div class="checkbox-label">
+                            <strong>Sharing Pool Host</strong>
+                            <span>Manage shared tools, equipment, and spaces. ~2-3 hrs/week. Earn 50 credits/month + 5 credits per item added.</span>
+                        </div>
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="role" value="food" id="role-food">
+                        <div class="checkbox-label">
+                            <strong>Food Host (Beef Collective)</strong>
+                            <span>Coordinate group beef orders. ~6 hrs per cycle (every 6-8 weeks). Earn 5% commission in credits, cash, or beef.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Experience & Skills -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <span>💪</span> Experience & Skills
+                </h2>
+                <p class="section-subtitle">Help us understand your strengths</p>
+
+                <div class="form-group">
+                    <label>Relevant Experience</label>
+                    <textarea id="experience" placeholder="Have you organized community events? Managed groups? Run a small business? Coordinated volunteers? Tell us about any relevant experience..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>What skills would you bring to this role?</label>
+                    <textarea id="skills" placeholder="e.g., Communication, organization, conflict resolution, logistics, technology, food handling..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Do you know your neighbors? <span class="required">*</span></label>
+                    <select id="neighbor-connections" required>
+                        <option value="">Select...</option>
+                        <option value="know-many">Yes, I know many neighbors by name</option>
+                        <option value="know-some">I know some neighbors casually</option>
+                        <option value="know-few">I know a few neighbors</option>
+                        <option value="know-none">Not yet, but excited to connect</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Motivation -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <span>❤️</span> Your Motivation
+                </h2>
+                <p class="section-subtitle">Why do you want to host?</p>
+
+                <div class="form-group">
+                    <label>Why do you want to become a Block Host? <span class="required">*</span></label>
+                    <textarea id="motivation" required placeholder="What draws you to this role? What do you hope to achieve for your building/block?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>What does 'neighborhood economy' or 'solidarity economy' mean to you?</label>
+                    <textarea id="vision" placeholder="Share your thoughts on building local economic resilience..."></textarea>
+                </div>
+            </div>
+
+            <!-- Availability -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <span>📅</span> Availability
+                </h2>
+                <p class="section-subtitle">Help us understand your capacity</p>
+
+                <div class="form-group">
+                    <label>When are you typically available? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="availability" value="weekday-mornings">
+                            <span>Weekday Mornings</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="availability" value="weekday-afternoons">
+                            <span>Weekday Afternoons</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="availability" value="weekday-evenings">
+                            <span>Weekday Evenings</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="availability" value="weekends">
+                            <span>Weekends</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Do you have storage space available for shared items or food orders?</label>
+                    <select id="storage-space">
+                        <option value="">Select...</option>
+                        <option value="dedicated-room">Yes, dedicated room/closet</option>
+                        <option value="closet-space">Yes, closet/shelf space</option>
+                        <option value="limited">Limited space</option>
+                        <option value="none">No extra space currently</option>
+                    </select>
+                    <p class="helper-text">Not required, but helpful for managing shared items or coordinating food deliveries</p>
+                </div>
+            </div>
+
+            <!-- Compensation Preference -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <span>💵</span> Compensation Preference
+                </h2>
+                <p class="section-subtitle">For Food Host commissions (5% of building orders)</p>
+
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="compensation" value="credits">
+                        <div>
+                            <strong>Community Credits</strong><br>
+                            <span style="color: #666; font-size: 0.9rem;">Earn credits to spend locally or on food orders</span>
+                        </div>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="compensation" value="cash">
+                        <div>
+                            <strong>Cash Payment</strong><br>
+                            <span style="color: #666; font-size: 0.9rem;">Receive cash/e-transfer payment</span>
+                        </div>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="compensation" value="beef">
+                        <div>
+                            <strong>Extra Beef</strong><br>
+                            <span style="color: #666; font-size: 0.9rem;">Get additional beef product value</span>
+                        </div>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="compensation" value="mix">
+                        <div>
+                            <strong>Mix</strong><br>
+                            <span style="color: #666; font-size: 0.9rem;">Combination of the above</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Agreement -->
+            <div class="agreement">
+                <h4 style="margin-bottom: 1rem; color: #333;">Host Commitments</h4>
+                
+                <div class="agreement-checkbox">
+                    <input type="checkbox" id="agree-training" required>
+                    <label for="agree-training">
+                        I commit to completing the 6 host training modules within 2 weeks of approval
+                    </label>
+                </div>
+
+                <div class="agreement-checkbox">
+                    <input type="checkbox" id="agree-communication" required>
+                    <label for="agree-communication">
+                        I commit to responding to neighbor inquiries within 48 hours
+                    </label>
+                </div>
+
+                <div class="agreement-checkbox">
+                    <input type="checkbox" id="agree-guidelines" required>
+                    <label for="agree-guidelines">
+                        I commit to following Block Share community guidelines and treating all residents with respect
+                    </label>
+                </div>
+
+                <div class="agreement-checkbox">
+                    <input type="checkbox" id="agree-time" required>
+                    <label for="agree-time">
+                        I understand the time commitment and can dedicate the necessary hours to serve my building/block
+                    </label>
+                </div>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="window.location.href='/onboarding/'">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" id="submit-btn" onclick="submitApplication()">
+                    Submit Application
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Message (Initially Hidden) -->
+        <div id="success-message" class="success-message">
+            <h2>🎉 Application Submitted!</h2>
+            <p>Thank you for applying to become a Block Host for <strong id="success-block"></strong></p>
+            
+            <div class="info-box" style="text-align: left; margin-top: 2rem;">
+                <h4>What Happens Next:</h4>
+                <ul>
+                    <li>We'll review your application within 48 hours</li>
+                    <li>If approved, you'll receive login credentials and training materials</li>
+                    <li>Complete the 6 self-paced training modules (~2-3 hours total)</li>
+                    <li>Your host tools will be activated in the Block Share app</li>
+                    <li>We'll help you with your first outreach to neighbors</li>
+                    <li>You'll join the Host network for ongoing support</li>
+                </ul>
+            </div>
+
+            <div class="button-group" style="margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="window.location.href='/bs-home/'">
+                    Return to Home
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='/onboarding/'">
+                    Find Another Block
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get block info from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const blockNumber = urlParams.get('block') || '140';
+        const neighborhood = urlParams.get('neighborhood') || 'Renfrew-Collingwood';
+
+        // Display block info
+        document.getElementById('display-block').textContent = `Block ${blockNumber}, ${neighborhood}`;
+
+        // Form submission
+        function submitApplication() {
+            // Validate required fields
+            const requiredFields = [
+                'first-name', 'last-name', 'email', 'phone',
+                'address', 'residency-length', 'building-type',
+                'building-units', 'neighbor-connections', 'motivation'
+            ];
+
+            let isValid = true;
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#E74C3C';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#e0e0e0';
+                }
+            });
+
+            // Check at least one role selected
+            const rolesChecked = document.querySelectorAll('input[name="role"]:checked').length;
+            if (rolesChecked === 0) {
+                alert('Please select at least one host role (Sharing Pool Host or Food Host).');
+                return;
+            }
+
+            // Check availability
+            const availabilityChecked = document.querySelectorAll('input[name="availability"]:checked').length;
+            if (availabilityChecked === 0) {
+                alert('Please select at least one availability time slot.');
+                return;
+            }
+
+            // Check all agreements
+            const agreements = ['agree-training', 'agree-communication', 'agree-guidelines', 'agree-time'];
+            for (let agreementId of agreements) {
+                if (!document.getElementById(agreementId).checked) {
+                    alert('Please agree to all host commitments to continue.');
+                    return;
+                }
+            }
+
+            if (!isValid) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Collect form data
+            const formData = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                unit: document.getElementById('unit').value,
+                residencyLength: document.getElementById('residency-length').value,
+                buildingType: document.getElementById('building-type').value,
+                buildingUnits: document.getElementById('building-units').value,
+                roles: Array.from(document.querySelectorAll('input[name="role"]:checked'))
+                    .map(cb => cb.value),
+                experience: document.getElementById('experience').value,
+                skills: document.getElementById('skills').value,
+                neighborConnections: document.getElementById('neighbor-connections').value,
+                motivation: document.getElementById('motivation').value,
+                vision: document.getElementById('vision').value,
+                availability: Array.from(document.querySelectorAll('input[name="availability"]:checked'))
+                    .map(cb => cb.value),
+                storageSpace: document.getElementById('storage-space').value,
+                compensationPreference: document.querySelector('input[name="compensation"]:checked')?.value,
+                block: blockNumber,
+                neighborhood: neighborhood,
+                timestamp: new Date().toISOString()
+            };
+
+            console.log('Application submitted:', formData);
+
+            // In production, send to backend API
+            // await fetch('/api/host-application', { method: 'POST', body: JSON.stringify(formData) });
+
+            // Show success message
+            document.getElementById('application-form').style.display = 'none';
+            document.getElementById('success-message').classList.add('show');
+            document.getElementById('success-block').textContent = 
+                `Block ${blockNumber}, ${neighborhood}`;
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Real-time validation
+        document.querySelectorAll('input[required], select[required], textarea[required]').forEach(field => {
+            field.addEventListener('blur', function() {
+                if (!this.value.trim()) {
+                    this.style.borderColor = '#E74C3C';
+                } else {
+                    this.style.borderColor = '#27AE60';
+                }
+            });
+        });
+    </script>
+
+    <!-- FOOTER injected by bs-nav-footer.js -->
+    <footer id="bs-footer"></footer>
+
+    <!-- Shared nav/footer injector -->
+    <script src="/wp-content/uploads/bs-shared/bs-nav-footer.js?v=7"></script>
+</body>
+</html>

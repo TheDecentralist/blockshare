@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>"Unrepped" — Unrepresented | Block Share</title>
+  <meta name="description" content="The Crisis of Non-Representation in Civic Democracy and the Path Back to People Power. How participatory budgeting and Citizen Circles can restore democratic agency." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --forest:       #0f2b1d;
+      --forest-light: #163d2a;
+      --forest-mid:   #1a4a33;
+      --navy:         #1E4D7B;
+      --navy-dark:    #153a5e;
+      --slate:        #2c3e50;
+      --gold:         #f9a825;
+      --gold-dim:     #c8891e;
+      --gold-light:   #fdd835;
+      --cream:        #faf6f0;
+      --cream-dark:   #f0ebe3;
+      --text:         #1a1a1a;
+      --text-light:   #555;
+      --text-muted:   #888;
+      --white-a10:    rgba(255,255,255,.1);
+      --white-a15:    rgba(255,255,255,.15);
+      --white-a60:    rgba(255,255,255,.6);
+      --white-a80:    rgba(255,255,255,.8);
+      --white-a85:    rgba(255,255,255,.85);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; line-height: 1.6; color: var(--text); background: var(--cream); }
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── HERO — navy ── */
+    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); color: #fff; padding: 6rem 2rem 5rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; border: 1px solid rgba(255,255,255,0.06); border-radius: 50%; }
+    .hero::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 280px; height: 280px; border: 1px solid rgba(255,255,255,0.04); border-radius: 50%; }
+    .hero-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow { font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
+    .hero-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--gold); }
+    .hero h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); line-height: 1.0; max-width: 660px; margin-bottom: .4rem; letter-spacing: -.02em; }
+    .hero h1 em { font-style: italic; color: var(--gold); display: block; font-size: .55em; line-height: 1.4; margin-top: .4rem; letter-spacing: 0; }
+    .hero-sub { font-size: 1.15rem; max-width: 580px; color: var(--white-a80); line-height: 1.7; margin-bottom: 2.5rem; margin-top: 1.5rem; }
+    .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .hero-meta-item { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; color: var(--white-a60); display: flex; align-items: center; gap: 6px; }
+    .hero-meta-item span { color: var(--white-a85); }
+
+    /* ── SECTION COMMON ── */
+    .section { padding: 4.5rem 2rem; }
+    .section-inner { max-width: 780px; margin: 0 auto; }
+    .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--gold-dim); margin-bottom: .75rem; }
+
+    .section-light { background: var(--cream); }
+    .section-warm { background: var(--cream-dark); }
+    .section-forest { background: var(--forest); color: #fff; }
+    .section-forest .eyebrow { color: var(--gold); }
+    .section-navy { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); color: #fff; }
+    .section-navy .eyebrow { color: var(--gold); }
+
+    .section-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.22; margin-bottom: 1.5rem; }
+    .section-light h2, .section-warm h2 { color: var(--text); }
+    .section-forest h2, .section-navy h2 { color: #fff; }
+
+    .section-inner p { margin-bottom: 1.25rem; line-height: 1.8; }
+    .section-light p, .section-warm p { color: var(--text-light); }
+    .section-forest p, .section-navy p { color: var(--white-a85); }
+    .section-inner p:last-child { margin-bottom: 0; }
+
+    /* ── Pullquote section ── */
+    .pullquote-section { padding: 4rem 2rem; }
+    .pullquote-inner { max-width: 850px; margin: 0 auto; text-align: center; }
+    .pullquote-bar { width: 48px; height: 3px; background: var(--gold); margin: 0 auto 2rem; }
+    .pullquote-inner blockquote { font-family: 'DM Serif Display', serif; font-size: clamp(1.4rem, 3vw, 1.8rem); line-height: 1.45; color: var(--forest); margin-bottom: 1.25rem; font-style: italic; }
+    .pullquote-inner cite { font-family: 'DM Sans', sans-serif; font-style: normal; font-size: .85rem; color: var(--text-muted); }
+
+    /* ── Inline pullquote (within article sections) ── */
+    .inline-quote {
+      margin: 2rem 0;
+      padding: 0 0 0 1.5rem;
+      border-left: 2px solid var(--gold);
+    }
+    .section-light .inline-quote p,
+    .section-warm .inline-quote p { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--forest); font-style: italic; margin: 0; }
+    .section-forest .inline-quote p,
+    .section-navy .inline-quote p { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--gold-light); font-style: italic; margin: 0; }
+    .section-forest .inline-quote { border-left-color: var(--gold); }
+    .section-navy .inline-quote { border-left-color: var(--gold); }
+
+    /* ── Tier table ── */
+    .tier-table { width: 100%; border-collapse: collapse; margin: 2rem 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--white-a15); }
+    .section-light .tier-table { border-color: #d0d0d0; }
+    .tier-table thead th { font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; padding: .75rem 1rem; text-align: left; }
+    .section-navy .tier-table thead th,
+    .section-forest .tier-table thead th { background: var(--white-a10); color: var(--gold); border-bottom: 1px solid var(--white-a15); }
+    .section-light .tier-table thead th { background: var(--navy); color: #fff; border-bottom: 1px solid var(--navy-dark); }
+    .tier-table tbody td { padding: .85rem 1rem; font-size: .9rem; line-height: 1.5; vertical-align: top; }
+    .section-navy .tier-table tbody td,
+    .section-forest .tier-table tbody td { border-bottom: 1px solid var(--white-a10); color: var(--white-a85); }
+    .section-light .tier-table tbody td { border-bottom: 1px solid #e8e8e8; color: var(--text-light); }
+    .tier-table tbody tr:nth-child(odd) { background: var(--white-a10); }
+    .section-light .tier-table tbody tr:nth-child(odd) { background: #f7f5f0; }
+    .section-light .tier-table tbody tr:nth-child(even) { background: #fff; }
+    .tier-table .tier-name { font-weight: 600; color: #fff; white-space: nowrap; }
+    .section-light .tier-table .tier-name { color: var(--navy); }
+    .tier-table .tier-scale { font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: var(--gold); }
+    .section-light .tier-table .tier-scale { color: var(--gold-dim); }
+    .tier-table caption { caption-side: bottom; font-size: .78rem; color: var(--white-a60); padding: .75rem 1rem; line-height: 1.5; text-align: left; font-style: italic; border-top: 1px solid var(--white-a10); }
+    .section-light .tier-table caption { color: var(--text-muted); border-top-color: #e0e0e0; }
+
+    /* ── Stat cards ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2.5rem 0; }
+    .stat-card { text-align: center; padding: 2rem 1rem; background: var(--white-a10); border-radius: 12px; border: 1px solid var(--white-a10); }
+    .stat-card .val { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 600; color: var(--gold); }
+    .stat-card .label { font-size: .8rem; color: var(--white-a85); margin-top: .25rem; }
+
+    /* ── Cycle / comparison cards ── */
+    .cycle-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+    .cycle-card { background: var(--white-a10); border: 1px solid var(--white-a10); border-radius: 12px; padding: 2rem 1.5rem; position: relative; overflow: hidden; }
+    .cycle-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .cycle-card.broken::before { background: #e74c3c; }
+    .cycle-card.repair::before { background: #4ade80; }
+    .cycle-card-tag { font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; margin-bottom: .5rem; }
+    .cycle-card.broken .cycle-card-tag { color: #e74c3c; }
+    .cycle-card.repair .cycle-card-tag { color: #4ade80; }
+    .cycle-card h4 { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: #fff; margin-bottom: .75rem; }
+    .cycle-card p { font-size: .88rem; color: var(--white-a80); line-height: 1.65; margin: 0; }
+
+    /* ── Callout box (proof-of-concept) ── */
+    .callout-box { background: var(--white-a10); border: 1px solid var(--white-a15); border-radius: 12px; padding: 1.75rem; margin: 2rem 0; position: relative; overflow: hidden; }
+    .callout-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); }
+    .callout-box-label { font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: .75rem; }
+    .section-light .callout-box { background: #fff; border-color: #d0d0d0; }
+    .section-light .callout-box p { color: var(--text-light); }
+
+    /* ── Big stat block (standalone) ── */
+    .block-beat-stat { padding: 4.5rem 2rem; text-align: center; }
+    .block-beat-stat .stat-num { font-family: 'JetBrains Mono', monospace; font-size: clamp(3rem, 8vw, 5rem); font-weight: 600; color: var(--gold); line-height: 1; margin-bottom: .4rem; }
+    .block-beat-stat .stat-label { font-family: 'JetBrains Mono', monospace; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--white-a60); margin-bottom: 1.5rem; }
+    .block-beat-stat .stat-body { font-size: 1.05rem; color: var(--white-a85); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── CTA ── */
+    .cta-section { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); padding: 5rem 2rem; text-align: center; position: relative; }
+    .cta-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 3px; background: var(--gold); }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .cta-inner h2 { color: #fff; font-size: 2.2rem; margin-bottom: 1rem; }
+    .cta-inner p { color: var(--white-a85); margin-bottom: 2.5rem; font-size: 1.05rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold { background: var(--gold); color: var(--forest); padding: .85rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: .95rem; transition: all .25s; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-ghost { border: 1.5px solid var(--white-a60); color: #fff; padding: .85rem 2rem; border-radius: 8px; font-weight: 500; text-decoration: none; font-size: .95rem; transition: all .25s; }
+    .btn-ghost:hover { border-color: #fff; background: var(--white-a10); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) {
+      .hero { padding: 4rem 1.5rem 3rem; }
+      .section { padding: 3.5rem 1.5rem; }
+      .pullquote-section { padding: 3rem 1.5rem; }
+      .cycle-grid { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .tier-table .tier-role { display: none; }
+    }
+
+    /* ── Animation ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-inner > * { animation: fadeUp .6s ease-out both; }
+    .hero-eyebrow { animation-delay: .1s; }
+    .hero h1 { animation-delay: .2s; }
+    .hero-sub { animation-delay: .3s; }
+    .hero-meta { animation-delay: .4s; }
+
+    /* ── MEDIA BAR ── */
+    .media-bar {
+      background: var(--forest);
+      border-bottom: 2px solid var(--gold);
+      position: sticky; top: 56px; z-index: 900;
+      overflow: hidden;
+      transition: max-height .35s ease;
+      max-height: 52px;
+    }
+    .media-bar.expanded { max-height: 420px; }
+    .media-bar-pill {
+      max-width: 780px; margin: 0 auto;
+      display: flex; align-items: center;
+      gap: 0; height: 52px; padding: 0 1.5rem;
+      flex-wrap: nowrap;
+    }
+    .mb-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); flex-shrink: 0; margin-right: 1rem;
+    }
+    .mb-btn {
+      display: flex; align-items: center; gap: .4rem;
+      background: var(--white-a10); border: 1px solid var(--white-a15);
+      color: #fff; font-size: .78rem; font-weight: 500;
+      padding: .3rem .85rem; border-radius: 20px; cursor: pointer;
+      white-space: nowrap; margin-right: .5rem;
+      text-decoration: none; transition: background .2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .mb-btn:hover { background: var(--white-a15); }
+    .mb-btn.active { background: var(--gold); color: var(--forest); border-color: var(--gold); }
+    .mb-btn svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
+    .mb-toggle {
+      margin-left: auto; background: none; border: none;
+      color: var(--white-a60); font-size: .7rem; cursor: pointer;
+      font-family: 'JetBrains Mono', monospace; letter-spacing: .08em;
+      white-space: nowrap; padding: .3rem .5rem;
+    }
+    .mb-panel {
+      display: none; max-width: 780px; margin: 0 auto;
+      padding: 1rem 1.5rem 1.5rem;
+    }
+    .media-bar.expanded .mb-panel.active-panel { display: block; }
+    .mb-panel iframe { width: 100%; border-radius: 10px; border: none; }
+    .mb-panel .podcast-embed {
+      background: var(--forest-mid); border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+    .mb-panel .podcast-embed p {
+      color: var(--white-a85) !important; font-size: .9rem; margin-bottom: .75rem;
+    }
+    .mb-panel .podcast-embed a {
+      display: inline-block; background: var(--gold); color: var(--forest);
+      padding: .5rem 1.25rem; border-radius: 6px; font-weight: 600;
+      font-size: .85rem; text-decoration: none;
+    }
+
+    /* ── INFOGRAPHIC ── */
+    .infographic-wrap {
+      margin: 2.5rem 0; border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(0,0,0,.1);
+    }
+    .section-forest .infographic-wrap,
+    .section-navy .infographic-wrap { border-color: rgba(255,255,255,.1); }
+    .infographic-wrap img { width: 100%; display: block; }
+    .infographic-cap {
+      font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-muted); padding: .6rem 1rem;
+      background: var(--cream-dark); text-align: center;
+    }
+    .section-forest .infographic-cap,
+    .section-navy .infographic-cap { background: rgba(0,0,0,.2); color: var(--white-a60); }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Block Share · Democracy &amp; Governance</div>
+      <h1>"UNREPPED"<em>— Unrepresented —</em></h1>
+      <p class="hero-sub">The Crisis of Non-Representation in Civic Democracy &amp; the Path Back to People Power</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">DATE &nbsp;<span>March 19, 2026</span></div>
+        <div class="hero-meta-item">AUTHOR &nbsp;<span>Ward Stirrat</span></div>
+        <div class="hero-meta-item">SERIES &nbsp;<span>Death Dollars vs. Life Credits</span></div>
+        <div class="hero-meta-item">READ &nbsp;<span>~10 min</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ MEDIA BAR ══ -->
+  <div class="media-bar" id="mediaBar">
+    <div class="media-bar-pill">
+      <span class="mb-label">Watch or Listen</span>
+      <button class="mb-btn" id="mbBtnYT" onclick="mbToggle('yt')">
+        <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.4 12 20.4 12 20.4s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+        YouTube Explainer
+      </button>
+      <button class="mb-btn" id="mbBtnPod" onclick="mbToggle('pod')">
+        <svg viewBox="0 0 24 24"><path d="M12 1a9 9 0 0 1 9 9v4a9 9 0 0 1-18 0v-4a9 9 0 0 1 9-9zm0 2a7 7 0 0 0-7 7v4a7 7 0 0 0 14 0v-4a7 7 0 0 0-7-7zm-1 17h2v2h-2v-2zm4.5-1.5a6.5 6.5 0 0 1-7 0l1-1.7a4.5 4.5 0 0 0 5 0l1 1.7z"/></svg>
+        Podcast · The Decentralist
+      </button>
+      <button class="mb-toggle" id="mbToggleBtn" onclick="mbToggle(null)">▾ expand</button>
+    </div>
+    <div class="mb-panel" id="mbPanelYT">
+      <iframe height="340" src="https://www.youtube.com/embed/JzMxawsJ0UQ" title="Ward Stirrat's Radical Plan — YouTube" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div class="mb-panel" id="mbPanelPod">
+      <div class="podcast-embed">
+        <p><strong style="color:#fff;">The Decentralist · Ward Stirrat's Radical Plan</strong><br>
+        The case for direct democracy, participatory budgeting, and reclaiming the power that was always ours.</p>
+        <audio controls preload="metadata" style="width:100%;border-radius:8px;margin-bottom:.75rem;">
+          <source src="https://app.blockshare.ca/wp-content/uploads/2026/03/Ward_Stirrats_radical_plan.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <a href="https://thedecentralistnet.substack.com" target="_blank" rel="noopener" style="font-size:.8rem;color:rgba(255,255,255,.5);text-decoration:none;">Also available on Substack →</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ 01 · THE PROBLEM — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">01 · The Problem</div>
+      <h2>What Does It Mean to Be "Unrepped"?</h2>
+      <p>"Unrepped" is our Urban Dictionary-worthy term for a feeling most citizens know but can't name: the experience of being unrepresented by your own political representative in government.</p>
+      <p><strong>Repped Off?</strong> By the person elected to <em>speak</em> for you, who — once elected — ceases to <em>listen</em> to you.</p>
+      <p><strong>Picture it this way:</strong> the moment your representative wins their seat, they put on a pair of noise-cancelling headphones. The instructions they hear come from a different channel — a club you were never a member of. The voices filtering through are those of party whips, lobbyists, major donors, and the bureaucratic machinery that was already in motion before they arrived. Your voice? That is the noise they have filtered out.</p>
+      <p>Welcome to the worst way to run a governance system.</p>
+      <p>If public servants were rated the way restaurants are — with star ratings, real-time reviews, performance metrics — no one would 'order' from this establishment. The service is slow, the menu bears no resemblance to what you asked for, and the bill arrives regardless.</p>
+
+      <div class="infographic-wrap">
+        <img src="https://app.blockshare.ca/wp-content/uploads/2026/03/unrepped-infographic-v1-scaled.png" alt="Reclaiming People Power: From Unrepped to Citizen Circles — infographic showing the democratic deficit, democratic muscle atrophy, and the Citizen Circle solution with nested community tiers and the 5% budget mandate" />
+        <div class="infographic-cap">Reclaiming People Power · From "Unrepped" to Citizen Circles</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BLOCK BEAT: PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>How do we resolve the tension between representatives who claim to work for 'us' but increasingly work for 'the party' — or simply go with the flow dictated by the bureaucracy's perspective?</blockquote>
+    </div>
+  </section>
+
+
+  <!-- ═══ 02 · HISTORY — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">02 · A Brief History</div>
+      <h2>How We Got Here</h2>
+      <p>The representative system as we know it is a relatively recent and increasingly strained design. To understand its failures, we need to trace its history against the older, more durable model it displaced.</p>
+      <p>The best approach to governance, traceable throughout human history, has been the <strong style="color:#fff;">Citizen Circle</strong> — where the problems, priorities, and directions of a community are discussed, debated, and decided by the <strong style="color:#fff;">smallest unit of society</strong>: a naturally self-selected group of people from a neighbourhood or city block, where there is already <strong style="color:#fff;">common ground</strong> and <strong style="color:#fff;">shared interests.</strong></p>
+      <p>These <strong style="color:#fff;">Community Circles</strong> are the foundational unit of group decision-making. They have been almost entirely abandoned. Allowing ourselves to drift from these deep-rooted traditions has stripped us of our agency and our voice — and left us with nothing but <strong style="color:#fff;">Electoral Performance Rituals.</strong></p>
+    </div>
+  </section>
+
+
+  <!-- ═══ BLOCK BEAT: TIER TABLE — navy ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">The Structure</div>
+      <h2>The Layered Architecture of Participatory Governance</h2>
+      <p>From the ground up — the natural tiers of community decision-making:</p>
+
+      <table class="tier-table">
+        <thead>
+          <tr>
+            <th>Circle Level</th>
+            <th>Scale</th>
+            <th class="tier-role">Role &amp; Appointment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tier-name">Neighbourhood / Elder Circles*</td>
+            <td class="tier-scale">~50 people</td>
+            <td class="tier-role">Shadows &amp; advises Neighbourhood Circles. Mentors incoming leaders and reports back down to Neighbourhood Circle Councils.</td>
+          </tr>
+          <tr>
+            <td class="tier-name">Neighbourhood Circles + Elders*</td>
+            <td class="tier-scale">~50 people</td>
+            <td class="tier-role">Current leadership tier (Leader &amp; Alternate) — dynamically appointed by Neighbourhood Councils.</td>
+          </tr>
+          <tr>
+            <td class="tier-name">Super Block Circles + Elders*</td>
+            <td class="tier-scale">~500 people</td>
+            <td class="tier-role">Leader &amp; Alternate — dynamically appointed by each Super Block, ratified by the Super Block Cohort.</td>
+          </tr>
+          <tr>
+            <td class="tier-name">Citizen Circles + Elders*</td>
+            <td class="tier-scale">~5,000 people</td>
+            <td class="tier-role">Leader &amp; Alternate — dynamically appointed by Block Councils, representing each Block.</td>
+          </tr>
+        </tbody>
+        <caption>* Each Circle level has a check, balance, and advisory group of Elders — constituted from former Circle Leaders, Business, Union, and Government Policy representatives — with former Circle Leaders holding the majority voice. Scale uses Vancouver's ~5,000 blocks as our local example.</caption>
+      </table>
+
+      <div class="inline-quote">
+        <p>Proximity to consequence is the only reliable source of good governance.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ BLOCK BEAT: COMPARISON CARDS — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">The Contrast</div>
+      <h2>Two Models of Governance</h2>
+
+      <div class="cycle-grid">
+        <div class="cycle-card broken">
+          <div class="cycle-card-tag">The Broken Model</div>
+          <h4>Representative Democracy</h4>
+          <p>Vote once every four years. Hope your representative listens. Accept the outcomes decided by party whips, lobbyists, and bureaucratic inertia. Your voice is filtered out.</p>
+        </div>
+        <div class="cycle-card repair">
+          <div class="cycle-card-tag">The Repair</div>
+          <h4>Citizen Circle Democracy</h4>
+          <p>Participate continuously. Debate with your neighbours. Set priorities from the ground up. Consensus emerges from proximity to consequence — not from party allegiance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ 03 · THE MODEL — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">03 · The Model</div>
+      <h2>How Good Governance Actually Works</h2>
+      <p>The governance model that has proven itself across 7,000+ generations of human history operates through mediated priorities and deliberation. Decisions are filtered by rational ranked choice, constrained by the principle of subsidiarity, and guided by Civic Elders: those who have served in leadership at the neighbourhood level for at least two terms. They 'know the ropes' — not because they were appointed, but because they earned it.</p>
+      <p>In this model, <strong>the power of persuasion prevails over the persuasion by power.</strong> Consensus is built from the bottom up, not imposed from the top down.</p>
+      <p>When projects or policies fail to reach consensus at the next Circle Level up (5,000 → 500), they remain viable — if there is sufficient cooperation at the Block level, through Block-level funding or by consolidating with other Blocks across the city that share aligned priorities. Access to aggregated Community Credit Pools at successive layers — up to and including City Budgets — is extended to Blocks that vote with sufficient mandate.</p>
+
+      <div class="callout-box">
+        <div class="callout-box-label">Proof of Concept</div>
+        <p>A Block receives 5% of its local city budget allocation to direct toward projects that citizens themselves vote for.</p>
+        <p>This is not a theory. The Paris participatory budgeting model has been operating this way for over ten years, redirecting billions in city spending to citizen-defined priorities.</p>
+      </div>
+
+      <div class="infographic-wrap">
+        <img src="https://app.blockshare.ca/wp-content/uploads/2026/03/Democracy-a-3rd-way-infographic-scaled.png" alt="The Citizen Circle: A Blueprint for Direct Democracy — infographic showing the case for a new model, the Paris proof of concept, the 4-step neighbourhood budget initiative, and rational decision-making tools including the LTE Index" />
+        <div class="infographic-cap">The Citizen Circle · A Blueprint for Direct Democracy</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ BLOCK BEAT: PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>An Electorate empowered is greater than an Electorate informed.</blockquote>
+    </div>
+  </section>
+
+
+  <!-- ═══ 04 · THE ARCHITECTURE — navy ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">04 · The Architecture</div>
+      <h2>The Nested Decision Model</h2>
+      <p>These nested decision processes consolidate across each Circle level so that the most common problems, priorities, and projects generate shared objectives that emerge naturally at each tier — not objectives imposed by fiat from above.</p>
+      <p>Consensus-building platforms — like Ethelo — are powerful mechanisms for policy directives to evolve in real time. The 'sentiment metric' is expressed as 'budget allocation': a common currency of preference, simply based on the percentage of your priorities you assign to each option. The feedback loop is immediate — your cohort's priorities show you, in real time, whether you are an outlier or within the consensus.</p>
+      <p>The iterative cycle allows any participant to both vote and propose a new approach. Critically, these metrics should be visible as <strong style="color:#fff;">Work Hours</strong> or <strong style="color:#fff;">Life Hours</strong> — the lifespan cost of a given proposal.</p>
+
+      <div class="callout-box">
+        <div class="callout-box-label">For Example</div>
+        <p><em>One month of work for one year of service benefit — or one month of work for five years of return.</em></p>
+        <p>This is the language of the <strong style="color:#fff;">Lifetime Efficiency Index (LTE)</strong> — measuring governance outcomes in terms of the actual <strong style="color:#fff;">time</strong> they cost or save from citizens' finite lives. It makes the abstract concrete, and the political personal.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ BLOCK BEAT: STAT CARDS — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">By the Numbers</div>
+      <h2>The Democratic Deficit, Measured</h2>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="val">4 yrs</div>
+          <div class="label">Between democratic inputs</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">~0%</div>
+          <div class="label">Of policy you actually voted on</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">100%</div>
+          <div class="label">Of the bill you still pay</div>
+        </div>
+      </div>
+
+      <p>If you can only express your will once every four years, you are not holding power. You have ceded it to a system that imposes its will upon you, without your consent.</p>
+    </div>
+  </section>
+
+
+  <!-- ═══ 05 · THE STANDARD — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">05 · The Standard</div>
+      <h2>Why Rationality Must Be Built In</h2>
+      <p>The test of a good governance system is simple: does it deliver your actual policy priorities?</p>
+      <p>Whether your specific representative votes the way you want is almost beside the point. What matters is whether the system produces outcomes aligned with what you and your community actually need — and had a real voice in advocating for.</p>
+      <p><strong>Rationality</strong> must be built into the system by design — not left to chance. 'Solutions' like 'More Police' have a <em>proven</em> history of being non-correlative to desired outcomes — specifically, reducing the perception or reality of risk — while alternative budget allocations that <em><strong>do</strong></em> change risk profiles or visible signals of disorder go chronically underfunded. The data is clear. The politics obscure it.</p>
+      <p>We can inject rationality through policy metrics tied to 'lifetime' cost-benefit analysis — such as the LTE Index, which provides balanced evaluation based on provable math. If a policy costs citizens more of their lives than it returns in benefit, it rationally fails the LTE test.</p>
+    </div>
+  </section>
+
+
+  <!-- ═══ BLOCK BEAT: PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>Unused muscles atrophy. If left unused long enough, once-functional organs become vestigial ones. The same is true of democratic institutions.</blockquote>
+    </div>
+  </section>
+
+
+  <!-- ═══ 06 · THE WARNING — forest ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">06 · The Warning</div>
+      <h2>The Atrophy of Democratic Muscle</h2>
+      <p>Left unchecked, the exercise of power drifts — away from 'the Power to Exercise' and toward those who simply <em>exercise power.</em> Unused muscles atrophy. If left unused long enough, once-functional organs become vestigial ones.</p>
+      <p>Your <strong style="color:#fff;">appendix</strong> is the classic example: a remnant of a once-functioning part of the body, now prone to infections that can kill the whole system. We frequently choose to surgically remove these troublesome anachronisms.</p>
+      <p>Extended to the body politic: frequent use of our collective decision-making organs is required to keep them functional. Otherwise, those who DO exercise power become the <strong style="color:#fff;">Dominant Power.</strong> The exercise of power through the polls is increasingly just performative — if we can only express our will once every four years, we are not holding power. We have ceded it to a system that imposes its will upon us, without our consent.</p>
+      <p>The longer this broken system persists, the more our institutional 'organs' become vestigial — no longer contributing to the body of the community — increasing the risk of infection by the virus of <em>neoliberalism</em> and the dictatorship of the few.</p>
+    </div>
+  </section>
+
+
+  <!-- ═══ BLOCK BEAT: BIG STAT — navy ═══ -->
+  <section class="block-beat-stat section-navy">
+    <div class="stat-num">$2.4M</div>
+    <div class="stat-label">Average Vancouver Citizen Block Budget</div>
+    <p class="stat-body">Redirect just 5% of that — $120,000 — and you bring real budget authority directly under your community's control. That is real power you can exercise <strong>today.</strong></p>
+  </section>
+
+
+  <!-- ═══ 07 · THE SOLUTION — cream ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">07 · The Solution</div>
+      <h2>Reclaim Your Democratic Voice Through Direct Democracy</h2>
+      <p>We have laid bare both the problem and the solution path out of the 'unrepped' quicksand — escaping the suffocating death of Democracy. Non-representation is currently a trap embedded in our political and community governance systems.</p>
+      <p>The solution is not to wait for government to fix itself. The solution is to by-pass them with <strong>Direct Democracy</strong> — and there is a very practical entry point available to every citizen today, right now.</p>
+
+      <div class="inline-quote">
+        <p>Democracy literally means 'People Power.' We can reassert the power we actually have — regardless of whether a party elite or bureaucratic system chooses to acknowledge it.</p>
+      </div>
+
+      <p><strong>The path is this:</strong> Vote for your Block Budget — <strong>your</strong> priorities, <strong>your</strong> projects, <strong>your</strong> policies. The participatory budgeting model, proven at scale in Paris and in dozens of cities worldwide, demonstrates that governments have no choice but to acquiesce to the policy and budget allocation directives of a sufficiently organized electorate.</p>
+      <p>If enough of us reclaim our power, no government can resist an organized electorate. Not because we overthrow anything — but because we simply begin exercising the democratic authority we already possess. <strong>The power was always ours. We just forgot how to exercise it.</strong></p>
+    </div>
+  </section>
+
+
+  <!-- ═══ BLOCK BEAT: FINAL PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>The power was always ours. We just forgot how to exercise it.</blockquote>
+    </div>
+  </section>
+
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>Discover Your Block Budget.<br>Let the <em style="color: var(--gold);">Real</em> Voting Begin.</h2>
+      <p>Find your block. See your numbers. Not in the next election. Not after the next committee meeting. <strong>Today.</strong></p>
+      <div class="cta-buttons">
+        <a href="https://app.blockshare.ca/block-budget/" class="btn-gold">Open the Block Budget Explorer →</a>
+        <a href="https://app.blockshare.ca/onboarding/" class="btn-ghost">Join Your Block</a>
+      </div>
+    </div>
+  </section>
+
+
+
+  <script>
+  // Media bar toggle
+  var _mbCurrent = null;
+  function mbToggle(panel) {
+    var bar = document.getElementById('mediaBar');
+    var btn = document.getElementById('mbToggleBtn');
+    if (panel && panel === _mbCurrent) {
+      bar.classList.remove('expanded');
+      document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+      document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+      _mbCurrent = null;
+      btn.textContent = '▾ expand';
+    } else if (panel) {
+      bar.classList.add('expanded');
+      document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+      document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+      var targetPanel = panel === 'yt' ? document.getElementById('mbPanelYT') : document.getElementById('mbPanelPod');
+      var targetBtn   = panel === 'yt' ? document.getElementById('mbBtnYT')   : document.getElementById('mbBtnPod');
+      if (targetPanel) targetPanel.classList.add('active-panel');
+      if (targetBtn)   targetBtn.classList.add('active');
+      _mbCurrent = panel;
+      btn.textContent = '▴ close';
+    } else {
+      if (bar.classList.contains('expanded')) {
+        bar.classList.remove('expanded');
+        document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+        document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+        _mbCurrent = null;
+        btn.textContent = '▾ expand';
+      }
+    }
+  }
+  </script>
+
+  <!-- ══ Block Share Nav & Footer — matches blockshare-nav-footer.php v1.1.0 ══ -->
+  <nav id="bs-nav" class="site-nav"></nav>
+  <footer id="bs-footer" class="site-footer"></footer>
+
+  <script>
+  (function(){
+    var n=document.getElementById("bs-nav");
+    document.body.insertBefore(n,document.body.firstChild);
+    n.innerHTML='<div class="site-nav__inner"><a href="https://app.blockshare.ca/bs-home/" class="site-nav__brand">Block<span>Share</span></a><div class="site-nav__links"><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Blockonomics &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a><a href="https://app.blockshare.ca/onboarding/">Take the Block Survey &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Programs &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a><a href="https://app.blockshare.ca/cc-system-diagram/">CC System Diagram</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Publications &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Get Involved &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div></div><a href="https://app.blockshare.ca/onboarding/" class="site-nav__cta">Get Started &rarr;</a></div><button class="site-nav__hamburger" aria-label="Open menu">&#9776;</button></div>';
+    var f=document.getElementById("bs-footer");
+    f.innerHTML='<div class="site-footer__inner"><div class="footer-grid"><div><div class="footer-brand">Block<span>Share</span></div><p class="footer-tagline">Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative &mdash; neither government programme nor corporate platform.</p></div><div class="footer-col"><h4>Blockonomics</h4><ul><li><a href="https://app.blockshare.ca/blockonomics/">The Framework</a></li><li><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a></li><li><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a></li></ul></div><div class="footer-col"><h4>Programs</h4><ul><li><a href="https://app.blockshare.ca/share/">Share Pools</a></li><li><a href="https://app.blockshare.ca/food/">Beef Collective</a></li><li><a href="https://app.blockshare.ca/credits/">Community Credits</a></li></ul></div><div class="footer-col"><h4>Publications</h4><ul><li><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a></li><li><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt &amp; the Death of GDP</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a></li><li><a href="https://app.blockshare.ca/publications/">All Publications</a></li></ul></div><div class="footer-col"><h4>Get Involved</h4><ul><li><a href="https://app.blockshare.ca/onboarding/">Join Your Block</a></li><li><a href="https://app.blockshare.ca/become-host/">Become a Host</a></li><li><a href="https://app.blockshare.ca/about/">Our Story</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a></li><li><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-copy">&copy; 2026 Block Share &middot; Vancouver, BC &middot; A community initiative inspired by E.F. Schumacher\'s <em>Small is Beautiful</em></div></div>';
+    var hb=document.querySelector(".site-nav__hamburger");
+    var ov=document.createElement("div");
+    ov.className="bs-mobile-overlay";
+    ov.id="bs-mobile-menu";
+    ov.style.display="none";
+    ov.innerHTML='<button class="bs-mobile-overlay__close" aria-label="Close menu">&times;</button><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Blockonomics</div><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Programs</div><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Publications</div><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Get Involved</div><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div><a href="https://app.blockshare.ca/onboarding/" class="bs-mobile-overlay__cta">Get Started &rarr;</a>';
+    document.body.appendChild(ov);
+    function openMobile(){ov.style.display="flex";ov.classList.add("active");document.body.style.overflow="hidden";}
+    function closeMobile(){ov.classList.remove("active");ov.style.display="none";document.body.style.overflow="";}
+    if(hb)hb.addEventListener("click",openMobile);
+    var cb=ov.querySelector(".bs-mobile-overlay__close");
+    if(cb)cb.addEventListener("click",closeMobile);
+    ov.querySelectorAll("a").forEach(function(a){a.addEventListener("click",closeMobile);});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMobile();});
+  })();
+  </script>
+
+  <style>
+  .site-nav,.site-footer,.bs-mobile-overlay{--bg-dark:#0f1419;--border-dark:#1e293b;--border-dark-light:#334155;--text-light:#e8ecf1;--text-light-secondary:#94a3b8;--text-light-muted:#64748b;--green-400:#4ade80;--green-500:#22c55e;--font-display:'Playfair Display',Georgia,serif;--font-body:'Source Sans 3','Segoe UI',sans-serif;}
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,20,25,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-dark);}
+  .site-nav__inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;}
+  .site-nav__brand{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-light);text-decoration:none;letter-spacing:-0.02em;}
+  .site-nav__brand span{color:var(--green-400);}
+  .site-nav__links{display:flex;gap:6px;align-items:center;}
+  .site-nav__dropdown{position:relative;}
+  .site-nav__dropdown-trigger{color:var(--text-light-secondary);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:8px 12px;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+  .site-nav__dropdown:hover .site-nav__dropdown-trigger{color:var(--green-400);}
+  .site-nav__dropdown-menu{display:none;position:absolute;top:100%;left:0;background:var(--bg-dark);border:1px solid var(--border-dark-light);border-radius:8px;padding:8px 0;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:1010;}
+  .site-nav__dropdown:hover .site-nav__dropdown-menu{display:block;}
+  .site-nav__dropdown-menu a{display:block;padding:8px 20px;font-size:14px;color:var(--text-light-secondary);text-decoration:none;}
+  .site-nav__dropdown-menu a:hover{color:var(--green-400);background:rgba(74,222,128,0.06);}
+  .site-nav__cta{display:inline-block;background:var(--green-500);color:var(--bg-dark);padding:7px 16px;border-radius:6px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:0.06em;text-decoration:none;}
+  .site-nav__cta:hover{opacity:0.9;}
+  .site-nav__hamburger{display:none;background:none;border:none;color:var(--text-light);font-size:24px;cursor:pointer;padding:4px 8px;}
+  @media(max-width:900px){.site-nav__links{display:none;}.site-nav__hamburger{display:block;}}
+  .bs-mobile-overlay{position:fixed;inset:0;z-index:2000;background:rgba(15,20,25,0.98);padding:72px 24px 24px;overflow-y:auto;flex-direction:column;}
+  .bs-mobile-overlay__close{position:absolute;top:16px;right:24px;background:none;border:none;color:var(--text-light);font-size:28px;cursor:pointer;}
+  .bs-mobile-overlay__section{margin-bottom:24px;}
+  .bs-mobile-overlay__heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:10px;font-family:var(--font-body);}
+  .bs-mobile-overlay a{display:block;padding:8px 0;font-size:16px;color:var(--text-light-secondary);text-decoration:none;}
+  .bs-mobile-overlay a:hover{color:var(--green-400);}
+  .bs-mobile-overlay__cta{display:inline-block;margin-top:16px;background:var(--green-500);color:var(--bg-dark);padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center;}
+  .site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 24px 32px;}
+  .site-footer__inner{max-width:1200px;margin:0 auto;}
+  .footer-grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:40px;margin-bottom:32px;}
+  .footer-brand{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-light);margin-bottom:12px;}
+  .footer-brand span{color:var(--green-400);}
+  .footer-tagline{font-size:14px;color:var(--text-light-muted);line-height:1.6;}
+  .footer-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-secondary);margin-bottom:14px;}
+  .footer-col ul{list-style:none;margin:0;padding:0;}
+  .footer-col li{margin-bottom:8px;}
+  .footer-col a{font-size:14px;color:var(--text-light-muted);text-decoration:none;transition:color 0.2s;}
+  .footer-col a:hover{color:var(--green-400);}
+  .footer-copy{font-size:13px;color:var(--text-light-muted);border-top:1px solid var(--border-dark);padding-top:20px;text-align:center;}
+  @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+  body{padding-top:56px!important;}
+  </style>
+
+</body>
+</html>

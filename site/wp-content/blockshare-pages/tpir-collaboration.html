@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Price is NOT Right — Pop-Up Shoppe Strategy | Block Share</title>
+<meta name="description" content="Working document: Pop-Up Community Shoppe strategy, table inventory, quest cards, and collaboration tasks. Block Share / Community Credyts — Vancouver.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   BLOCK SHARE DESIGN SYSTEM
+   Forest #1E3A2F | Gold #C8963E | Cream #F5F0E8
+   Navy #1A2744 | Sage #4A7C59 | Teal #1A5C6B
+========================================================= */
+:root {
+  --forest: #1E3A2F;
+  --gold: #C8963E;
+  --cream: #F5F0E8;
+  --navy: #1A2744;
+  --sage: #4A7C59;
+  --teal: #1A5C6B;
+  --light-gold: #F0D9A8;
+  --white: #FFFFFF;
+  --border: rgba(200,150,62,0.22);
+  --text: #2a2a3a;
+  --muted: #6a6a7a;
+  --green-live: #2d8a5e;
+  --pending-bg: #f0f0f4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.75;
+  font-size: 16px;
+}
+
+/* ── PAGE WRAPPER (WP-safe max-width) ── */
+.bs-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 5rem;
+}
+
+/* ── HERO BANNER ── */
+.bs-hero {
+  background: var(--forest);
+  color: var(--cream);
+  padding: 3.5rem 3rem 3rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.bs-hero::after {
+  content: '';
+  position: absolute;
+  top: -60px; right: -80px;
+  width: 320px; height: 320px;
+  border: 1px solid rgba(200,150,62,0.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.bs-hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+
+.bs-hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+
+.bs-hero h1 em { font-style: italic; color: var(--gold); }
+
+.bs-hero .hero-sub {
+  font-size: 1rem;
+  color: rgba(245,240,232,0.72);
+  max-width: 580px;
+  margin-top: 0.5rem;
+  line-height: 1.65;
+}
+
+.bs-hero .hero-meta {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.meta-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  border-radius: 2px;
+  border: 1px solid rgba(200,150,62,0.35);
+  color: var(--gold);
+}
+
+/* ── COLLAB NOTICE ── */
+.collab-notice {
+  background: rgba(26,92,107,0.08);
+  border: 1px solid rgba(26,92,107,0.25);
+  border-left: 4px solid var(--teal);
+  padding: 1rem 1.4rem;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 2.5rem;
+}
+
+.collab-notice p {
+  font-size: 0.88rem;
+  color: var(--navy);
+  line-height: 1.6;
+}
+
+.collab-notice strong { font-weight: 600; color: var(--teal); }
+
+/* ── SECTION HEADINGS ── */
+.bs-section {
+  margin-bottom: 2.75rem;
+}
+
+.bs-section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.25rem;
+}
+
+.bs-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.bs-section p {
+  font-size: 0.94rem;
+  color: var(--text);
+  margin-bottom: 0.65rem;
+  line-height: 1.75;
+}
+
+/* ── ARCH STACK ── */
+.arch-stack { margin: 1rem 0 0.5rem; }
+
+.arch-row {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  background: var(--white);
+}
+
+.arch-row:first-child { border-radius: 4px 4px 0 0; }
+.arch-row:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 4px 4px; }
+
+.arch-stripe {
+  width: 6px;
+  flex-shrink: 0;
+}
+
+.arch-row:nth-child(1) .arch-stripe { background: var(--gold); }
+.arch-row:nth-child(2) .arch-stripe { background: var(--forest); }
+.arch-row:nth-child(3) .arch-stripe { background: var(--teal); }
+.arch-row:nth-child(4) .arch-stripe { background: var(--sage); }
+.arch-row:nth-child(5) .arch-stripe { background: var(--navy); }
+
+.arch-body {
+  padding: 0.85rem 1.2rem;
+  flex: 1;
+}
+
+.arch-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.15rem;
+}
+
+.arch-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 0.2rem;
+}
+
+.arch-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.arch-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  color: var(--gold);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* ── TASK TABLE ── */
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.task-table thead th {
+  background: var(--forest);
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  font-weight: 400;
+}
+
+.task-table thead th:first-child { border-radius: 4px 0 0 0; }
+.task-table thead th:last-child { border-radius: 0 4px 0 0; }
+
+.task-table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.task-table tbody tr:hover { background: rgba(200,150,62,0.04); }
+
+.task-table tbody td {
+  padding: 0.55rem 0.75rem;
+  color: var(--text);
+  vertical-align: top;
+}
+
+.task-table .cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--sage);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.task-table .owner {
+  font-size: 0.78rem;
+  color: var(--teal);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.task-table .status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: 0.15rem 0.4rem;
+  white-space: nowrap;
+}
+
+.status-todo { background: #f5f0e8; color: var(--muted); border: 1px solid #ddd; }
+.status-inprogress { background: rgba(200,150,62,0.12); color: var(--gold); border: 1px solid rgba(200,150,62,0.3); }
+.status-done { background: rgba(45,138,94,0.1); color: var(--green-live); border: 1px solid rgba(45,138,94,0.25); }
+
+.checkbox-col {
+  width: 28px;
+  text-align: center;
+}
+
+.task-cb {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--forest);
+  cursor: pointer;
+}
+
+/* ── INVENTORY TABLE ── */
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  margin-top: 0.75rem;
+}
+
+.inv-table th {
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--forest);
+  border-bottom: 2px solid var(--gold);
+  padding: 0.4rem 0.6rem 0.5rem;
+}
+
+.inv-table td {
+  padding: 0.48rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+
+.inv-table tr:last-child td { border-bottom: none; }
+
+.inv-table .icat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--sage);
+  font-weight: 600;
+}
+
+.icat.highlight { color: var(--teal); }
+
+/* ── CARD GRID ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.9rem;
+  margin-top: 0.85rem;
+}
+
+.edition-card {
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+}
+
+.edition-card.launch {
+  background: var(--navy);
+  color: var(--cream);
+}
+
+.edition-card.wave2 {
+  background: var(--white);
+  border: 1px dashed rgba(26,55,76,0.2);
+  color: var(--navy);
+}
+
+.ed-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.edition-card.launch .ed-status { color: var(--gold); }
+.edition-card.wave2 .ed-status { color: rgba(26,55,76,0.35); }
+
+.edition-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.edition-card.wave2 h4 { color: rgba(26,55,76,0.45); }
+
+.edition-card p {
+  font-size: 0.76rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.edition-card.launch p { color: rgba(245,240,232,0.72); }
+.edition-card.wave2 p { color: rgba(26,55,76,0.38); }
+
+/* ── QUEST CARDS GRID ── */
+.quest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 0.9rem;
+  margin-top: 0.85rem;
+}
+
+.quest-card {
+  background: var(--forest);
+  color: var(--cream);
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+}
+
+.q-audience {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.35rem;
+}
+
+.quest-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.93rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.quest-card p {
+  font-size: 0.77rem;
+  color: rgba(245,240,232,0.75);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── PHASE BLOCKS ── */
+.phase-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.3rem 1.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.phase-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--forest);
+  color: var(--gold);
+  padding: 0.18rem 0.55rem;
+  border-radius: 2px;
+  display: inline-block;
+  margin-bottom: 0.65rem;
+}
+
+.phase-block h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+}
+
+.phase-block ul {
+  list-style: none;
+  padding: 0;
+}
+
+.phase-block ul li {
+  font-size: 0.88rem;
+  color: var(--text);
+  padding: 0.18rem 0 0.18rem 1.1rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.phase-block ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 0.72rem;
+  top: 0.32rem;
+}
+
+/* ── CALLOUT ── */
+.callout {
+  background: var(--light-gold);
+  border-left: 4px solid var(--gold);
+  padding: 1rem 1.3rem;
+  border-radius: 0 4px 4px 0;
+  margin: 1.1rem 0;
+}
+
+.callout p {
+  font-size: 0.88rem;
+  color: var(--navy);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.65;
+}
+
+.callout strong { font-style: normal; font-weight: 600; }
+
+/* ── FLYWHEEL ── */
+.flywheel {
+  background: var(--forest);
+  color: var(--cream);
+  border-radius: 6px;
+  padding: 1.75rem 2rem;
+  margin-top: 1rem;
+}
+
+.fw-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 1.25rem;
+}
+
+.fw-step {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.45rem 0;
+  align-items: flex-start;
+}
+
+.fw-n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--gold);
+  width: 18px;
+  flex-shrink: 0;
+  padding-top: 0.2rem;
+}
+
+.fw-step strong { color: var(--gold); font-size: 0.88rem; display: block; }
+.fw-step span { font-size: 0.8rem; color: rgba(245,240,232,0.68); line-height: 1.45; }
+
+.fw-connector {
+  margin-left: 1.6rem;
+  color: rgba(200,150,62,0.35);
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.08rem 0;
+}
+
+/* ── ORNAMENT DIVIDER ── */
+hr.ornament {
+  border: none;
+  text-align: center;
+  margin: 2.5rem 0;
+}
+
+hr.ornament::before {
+  content: '◆  ◆  ◆';
+  color: var(--gold);
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+}
+
+/* ── FOOTER ── */
+.bs-footer {
+  background: var(--navy);
+  color: rgba(245,240,232,0.45);
+  text-align: center;
+  padding: 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  margin-top: 4rem;
+}
+
+.bs-footer a { color: var(--gold); text-decoration: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .bs-hero { padding: 2rem 1.5rem; }
+  .arch-desc { display: none; }
+  .card-grid, .quest-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<div class="bs-hero">
+  <div class="bs-hero-eyebrow">Block Share · Community Credyts · Vancouver</div>
+  <h1>"The Price is <em>NOT</em> Right"</h1>
+  <p class="hero-sub">Pop-Up Community Shoppe — Strategy, Collaboration Tasks &amp; Program Outline.<br>Working document for the Block Share team and early collaborators.</p>
+  <div class="hero-meta">
+    <span class="meta-pill">March 16, 2026</span>
+    <span class="meta-pill">v2 · Active</span>
+    <span class="meta-pill">app.blockshare.ca</span>
+  </div>
+</div>
+
+<div class="bs-page">
+
+<!-- COLLAB NOTICE -->
+<div class="collab-notice">
+  <p><strong>Working Document — Collaborators:</strong> This page is shared with Ward Stirrat, Paula Temrick, and the Block Share team. Use the task tables below to track ownership and progress. Sections marked ★ need sourcing or decisions before the first Pop-Up. Please add your name to items you are taking on.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     00 · ARCHITECTURE
+════════════════════════════════════════════ -->
+<div class="bs-section">
+  <div class="bs-section-label">00 · Architecture</div>
+  <h2>The Community Economy Tool Stack</h2>
+  <p>Five distinct layers — each one a door into the next. Understanding the stack prevents confusion at the table and makes it clear what to hand someone at each stage of engagement.</p>
+
+  <div class="arch-stack">
+    <div class="arch-row">
+      <div class="arch-stripe"></div>
+      <div class="arch-body">
+        <div class="arch-lbl">Signal Layer</div>
+        <div class="arch-title">🏷 The Price Tag — Symbol &amp; Signal</div>
+        <div class="arch-desc">A visual icon, not a form factor. On Shoppe items it signals dual pricing ($ + CC). On merchant doors it means "Alt Payments Accepted Here." Also the workshop / talk / book chapter title.</div>
+      </div>
+      <div class="arch-arrow">↓</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-stripe"></div>
+      <div class="arch-body">
+        <div class="arch-lbl">Action Layer</div>
+        <div class="arch-title">📋 Quest Card — Onboarding &amp; Action Tool</div>
+        <div class="arch-desc">Recipe card format (~4"×6"). Numbered, audience-matched. Converts curiosity into action. Completion requires registration + vouching — building the trust graph organically.</div>
+      </div>
+      <div class="arch-arrow">↓</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-stripe"></div>
+      <div class="arch-body">
+        <div class="arch-lbl">Identity &amp; Payment Layer</div>
+        <div class="arch-title">💳 Community Card — The New Economy Credential</div>
+        <div class="arch-desc">Multi-edition, demographic-segmented. Familiar card form factor — just pointing in a different direction. Active functions live now; pending functions shown in the UI to signal the emerging system.</div>
+      </div>
+      <div class="arch-arrow">↓</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-stripe"></div>
+      <div class="arch-body">
+        <div class="arch-lbl">Currency Layer</div>
+        <div class="arch-title">⬡ Community Credyts — Medium of Exchange</div>
+        <div class="arch-desc">Earned via Quests, purchased at the Shoppe, or received as seigniorage. Loaded onto the Community Card. Backed 33/33/33: Cash / Labour / Assets.</div>
+      </div>
+      <div class="arch-arrow">↓</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-stripe"></div>
+      <div class="arch-body">
+        <div class="arch-lbl">Ecosystem Layer</div>
+        <div class="arch-title">🏘 Block Share — The Platform</div>
+        <div class="arch-desc">The full neighbourhood resource-sharing, micro-asset, and governance platform. Grows as participants join, merchants sign on, and Quests are completed.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="ornament">
+
+<!-- ═══════════════════════════════════════════
+     01 · COLLABORATION TASKS
+════════════════════════════════════════════ -->
+<div class="bs-section">
+  <div class="bs-section-label">01 · Collaboration Tasks ★</div>
+  <h2>Task Tracker — What Needs to Happen Before Launch</h2>
+  <p>Items below are the pre-launch critical path. Assign names, update status as work progresses. Sections are grouped by category.</p>
+
+  <table class="task-table">
+    <thead>
+      <tr>
+        <th class="checkbox-col">✓</th>
+        <th>Task</th>
+        <th>Category</th>
+        <th>Owner</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- VISUAL / BRAND -->
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Design 🏷 Price Tag symbol — icon version (stickers, door decals, Quest Card badge)</td>
+        <td class="cat">Brand</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Design wooden hangtag template — dual price format ($ / CC / LTE)</td>
+        <td class="cat">Brand</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Design sandwich board — large 🏷 symbol + "Alt Payments Accepted Here"</td>
+        <td class="cat">Brand</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <!-- QUEST CARDS -->
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Draft Quest Cards #001–012 — seed set (recipe card format, all primary audiences)</td>
+        <td class="cat">Quests</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Print/imprint first run of Quest Cards (sponsor or self-funded)</td>
+        <td class="cat">Quests</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <!-- COMMUNITY CARD -->
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Finalise launch card editions: Visitor+, Locals+, Green+, Dine Out+</td>
+        <td class="cat">Card</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Design Community Card UI — active vs. pending functions for early adopters</td>
+        <td class="cat">Card</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Print first run of Community Cards (4 launch editions)</td>
+        <td class="cat">Card</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <!-- TECH / PAYMENTS -->
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Confirm myCredyts payment rails are live</td>
+        <td class="cat">Tech</td>
+        <td class="owner">Ward</td>
+        <td><span class="status status-inprogress">In Progress</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Set up receiving bank account for fiat-side transactions</td>
+        <td class="cat">Tech</td>
+        <td class="owner">Ward</td>
+        <td><span class="status status-inprogress">In Progress</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Short sign-up form live — entry point for new participants</td>
+        <td class="cat">Tech</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <!-- TABLE INVENTORY -->
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Source new &amp; used goods for demo table (call-out to network)</td>
+        <td class="cat">Inventory</td>
+        <td class="owner">Paula</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Source local food items (local producers vs. corp — "Illusion of Choice" demo)</td>
+        <td class="cat">Inventory</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Source service vouchers (coaches, skills providers) for table</td>
+        <td class="cat">Inventory</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Source ecological units (CO₂ / O₂ / 1m² Farmland certificates) for table</td>
+        <td class="cat">Inventory</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Borrow / source table &amp; chairs (or identify sponsor)</td>
+        <td class="cat">Inventory</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Prototype Virtual Twin collectible — 3D printed cube or certificate format</td>
+        <td class="cat">Inventory</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <!-- VENUE / PARTNERS -->
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Confirm first Pop-Up location and date (Granville Island recommended)</td>
+        <td class="cat">Venue</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Approach 3–5 Granville Island merchants for QR placement + 🏷 door sticker</td>
+        <td class="cat">Venue</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <!-- COMMS -->
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Write 1-page TPIR talk description for group booking (schools, orgs, events)</td>
+        <td class="cat">Comms</td>
+        <td class="owner">Ward</td>
+        <td><span class="status status-inprogress">In Progress</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Source or commission "Alt Price Tag" theme song / audio identity</td>
+        <td class="cat">Comms</td>
+        <td class="owner">—</td>
+        <td><span class="status status-todo">To Do</span></td>
+      </tr>
+      <tr>
+        <td class="checkbox-col"><input type="checkbox" class="task-cb"></td>
+        <td>Publish public-facing "Pop-Up Shoppe" article to Block Share site</td>
+        <td class="cat">Comms</td>
+        <td class="owner">Ward</td>
+        <td><span class="status status-inprogress">In Progress</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="ornament">
+
+<!-- ═══════════════════════════════════════════
+     02 · TABLE INVENTORY
+════════════════════════════════════════════ -->
+<div class="bs-section">
+  <div class="bs-section-label">02 · Table Inventory ★</div>
+  <h2>What Goes on the Table</h2>
+  <p>Every item wears a wooden-style Price Tag hangtag showing dual pricing. The Community Card itself is a table product — it has its own Alt Price Tag. Items marked ★ need sourcing decisions before launch.</p>
+
+  <table class="inv-table">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Examples / Notes</th>
+        <th>Source</th>
+        <th>Status ★</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="icat">New &amp; Used Goods</td>
+        <td>Donated / gathered objects — general goods at pay-what-you-can</td>
+        <td>Network call-out</td>
+        <td>★ To Source</td>
+      </tr>
+      <tr>
+        <td class="icat">Upcycled Items</td>
+        <td>Repaired / remade items. "Fixit = Quest" hangtag for repairable items</td>
+        <td>Makers / repair cafes</td>
+        <td>★ To Source</td>
+      </tr>
+      <tr>
+        <td class="icat">Food</td>
+        <td>Local producer items alongside corporate equivalents — side-by-side "Illusion of Choice" display</td>
+        <td>Local producers / market</td>
+        <td>★ To Source</td>
+      </tr>
+      <tr>
+        <td class="icat">Service Vouchers</td>
+        <td>Coaching sessions, skill trades, lessons — redeemable in Credyts</td>
+        <td>Community service providers</td>
+        <td>★ To Source</td>
+      </tr>
+      <tr>
+        <td class="icat">Ecological Units</td>
+        <td>1kg CO₂ offset, 1kg O₂ certificate, 1m² Farmland deed, Micro-Climate cooling °C unit</td>
+        <td>Micro-Asset Matrix / partners</td>
+        <td>★ To Source</td>
+      </tr>
+      <tr>
+        <td class="icat">Virtual Twins</td>
+        <td>Certificate or 3D plastic cube with collectible "twin" inside — one per real-world item/Quest</td>
+        <td>3D printer / design</td>
+        <td>★ Prototype</td>
+      </tr>
+      <tr>
+        <td class="icat highlight">Community Card ★</td>
+        <td>Launch editions: Visitor+, Locals+, Green+, Dine Out+. Each card wears its own Alt Price Tag ($ vs CC cost)</td>
+        <td>Block Share print run</td>
+        <td>★ To Print</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="ornament">
+
+<!-- ═══════════════════════════════════════════
+     03 · COMMUNITY CARD SUITE
+════════════════════════════════════════════ -->
+<div class="bs-section">
+  <div class="bs-section-label">03 · Community Card Suite</div>
+  <h2>Card Editions — Launch &amp; Next Wave</h2>
+  <p>The Community Card is the primary identity and payment credential of the Community Economy. It is a table product in its own right — familiar enough to pick up without explanation, different enough to start a conversation. Active functions are live on day one; pending functions are shown in the UI to signal an emerging system to early adopters.</p>
+
+  <div class="callout">
+    <p><strong>Early Adopter framing:</strong> Pending functions shown greyed-out in the card UI are not gaps — they are the roadmap. Early adopters are not missing features; they are <em>part of building the system</em>. Being among the first 100 cardholders is a credential in itself.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="edition-card launch">
+      <div class="ed-status">✦ Launch Edition</div>
+      <h4>Visitor+</h4>
+      <p>Transport, local food bonuses, entertainment, events &amp; attractions. Transferable. Perfect Granville Island intercept for visitors.</p>
+    </div>
+    <div class="edition-card launch">
+      <div class="ed-status">✦ Launch Edition</div>
+      <h4>Locals+ (Base)</h4>
+      <p>Free entry card. Mobile, WiFi, collectibles. Activated by text. Quest completions load first Credyts.</p>
+    </div>
+    <div class="edition-card launch">
+      <div class="ed-status">✦ Launch Edition</div>
+      <h4>Green+</h4>
+      <p>Ecological audience — trees, birds, CO₂ / farmland units. Quest: Trees &amp; Birds Map.</p>
+    </div>
+    <div class="edition-card launch">
+      <div class="ed-status">✦ Launch Edition</div>
+      <h4>Dine Out+</h4>
+      <p>Local food bonuses, UPC / Illusion of Choice Quest, participating restaurant QR codes.</p>
+    </div>
+    <div class="edition-card wave2">
+      <div class="ed-status">○ Next Wave</div>
+      <h4>Heritage+</h4>
+      <p>Seniors, legacy quests, non-market housing mapping, Global Human Passport.</p>
+    </div>
+    <div class="edition-card wave2">
+      <div class="ed-status">○ Next Wave</div>
+      <h4>Outdoor+</h4>
+      <p>Young families, nature mapping, 1m² farmland, neighbourhood quests.</p>
+    </div>
+    <div class="edition-card wave2">
+      <div class="ed-status">○ Next Wave</div>
+      <h4>Social+</h4>
+      <p>20-somethings, LTE calculation, block power check-in, independent biz QR scan.</p>
+    </div>
+    <div class="edition-card wave2">
+      <div class="ed-status">○ Next Wave</div>
+      <h4>Block Edition</h4>
+      <p>Sub-branded to specific Block / Super-Block / Neighbourhood as density grows.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="ornament">
+
+<!-- ═══════════════════════════════════════════
+     04 · QUEST CARDS
+════════════════════════════════════════════ -->
+<div class="bs-section">
+  <div class="bs-section-label">04 · Quest Cards</div>
+  <h2>Sample Quests — Seed Set #001–009</h2>
+  <p>Recipe card format (~4"×6"). Matched to visitor audience type at the table. The 🏷 icon appears on each card as a badge connecting Quest to the broader Price Tag / Alt Economy system. Quest completion requires registration and a vouch.</p>
+
+  <div class="quest-grid">
+    <div class="quest-card">
+      <div class="q-audience">Young Families · #Green</div>
+      <h4>Trees &amp; Birds Map</h4>
+      <p>Photograph &amp; name 5 plants/trees and 5 birds. Map them on Block Share. Get vouched by a companion.</p>
+    </div>
+    <div class="quest-card">
+      <div class="q-audience">Young Families · #Future</div>
+      <h4>Buy 1m² Farmland</h4>
+      <p>Secure 1m² of farmland for your children's future. Receive your deed as a Virtual Twin.</p>
+    </div>
+    <div class="quest-card">
+      <div class="q-audience">Elementary · #Food</div>
+      <h4>Illusion of Choice</h4>
+      <p>Scan UPC codes on 5 products at a store. Discover who really makes what you eat.</p>
+    </div>
+    <div class="quest-card">
+      <div class="q-audience">Seniors · #Heritage</div>
+      <h4>Legacy Quest</h4>
+      <p>Apply for your Global Human Passport. Document your Block's history. Get vouched by a neighbour.</p>
+    </div>
+    <div class="quest-card">
+      <div class="q-audience">Sports Groups · #Assets</div>
+      <h4>Micro-Assets</h4>
+      <p>Identify &amp; register a shareable micro-asset in your club or neighbourhood on Block Share.</p>
+    </div>
+    <div class="quest-card">
+      <div class="q-audience">High School Sr. · #Housing</div>
+      <h4>Non-Market Housing</h4>
+      <p>Find, photograph &amp; map one non-market housing building. Research its ownership model.</p>
+    </div>
+    <div class="quest-card">
+      <div class="q-audience">20-Somethings · #LTE</div>
+      <h4>Calculate Your LTE</h4>
+      <p>Discover your Lifetime Efficiency Index — how many life-hours does rent cost you per year?</p>
+    </div>
+    <div class="quest-card">
+      <div class="q-audience">Community Groups · #TPIR</div>
+      <h4>Book a TPIR Talk</h4>
+      <p>Book "The Price is NOT Right" workshop for your group. Earn Credyts for your organisation.</p>
+    </div>
+    <div class="quest-card">
+      <div class="q-audience">Independent Biz · #Local</div>
+      <h4>Block Power Check-In</h4>
+      <p>Visit a local independent business, scan the QR code inside, and spend Credyts with local merchants.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="ornament">
+
+<!-- ═══════════════════════════════════════════
+     05 · ROLLOUT PHASES
+════════════════════════════════════════════ -->
+<div class="bs-section">
+  <div class="bs-section-label">05 · Rollout</div>
+  <h2>Phase-by-Phase Implementation</h2>
+
+  <div class="phase-block">
+    <div class="phase-badge">Phase 0 · Prep</div>
+    <h3>Guerrilla Assembly — Start With What You Have</h3>
+    <ul>
+      <li>Borrow tables &amp; chairs (or sponsor); DIY or sponsored sandwich board with 🏷 symbol</li>
+      <li>Print Quest Cards (recipe format) and Community Cards (4 launch editions)</li>
+      <li>Every item — including every card — gets a dual-price hangtag before the table opens</li>
+      <li>Sign-up form live; myCredyts payment rails confirmed; receiving bank account set up</li>
+      <li>3–5 Granville Island merchants confirmed with QR codes + 🏷 door stickers</li>
+    </ul>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-badge">Phase 1 · First Intercept</div>
+    <h3>The Demo Table Goes Live</h3>
+    <ul>
+      <li>Deploy at Granville Island — foot traffic, independent merchants, contained pilot geography</li>
+      <li>Pay What You Can / Need model — the table IS the demonstration of the alt economy</li>
+      <li>"Price Tag" (Jessie J) as ambient audio hook (permission sourced or alt version used)</li>
+      <li>Host matches Quest Card + Community Card edition to each visitor's audience type</li>
+      <li>First Credyts loaded on Quest completion; vouching mechanic begins</li>
+    </ul>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-badge">Phase 2 · Talk Track</div>
+    <h3>"The Price is NOT Right" as Education</h3>
+    <ul>
+      <li>45–60 min workshop / talk — available to schools, organisations, community event organisers</li>
+      <li>Frames the "Real Price Tag" → Life Accounting / Account model → LEI → FEI</li>
+      <li>Quest: "Calculate Your LTE" is the take-home action; Community Card is the take-home tool</li>
+      <li>The Shoppe can run as an "alternative table" at any gathering — no advocacy required from the host</li>
+    </ul>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-badge">Phase 3 · Network Weave</div>
+    <h3>Cards + Quests Build the Social Graph</h3>
+    <ul>
+      <li>Each completed Quest + vouch = one new verified node in the Block Share network</li>
+      <li>Community Card holders spend Credyts at participating merchants; merchant QR codes are the spending rail</li>
+      <li>🏷 symbol visible on merchant doors — the signal network becomes a neighbourhood phenomenon</li>
+      <li>Local groups (schools, clubs, causes) fund projects through Community Card pre-sales</li>
+    </ul>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-badge">Phase 4 · Scale</div>
+    <h3>Pending Functions Activate — The Suite Comes Online</h3>
+    <ul>
+      <li>Transit pass integration, WiFi hotspot access, Global Human Passport link</li>
+      <li>Ecological sub-wallets go live (CO₂ / O₂ / Farmland per card)</li>
+      <li>Prize draws activate: Win your Rent, Win your Groceries (daily / weekly / monthly)</li>
+      <li>Block Edition cards issued as neighbourhood density reaches threshold</li>
+      <li>myCredyts multi-capital sub-wallets: #Tag + Value accounting across all card types</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="ornament">
+
+<!-- ═══════════════════════════════════════════
+     06 · FLYWHEEL
+════════════════════════════════════════════ -->
+<div class="bs-section">
+  <div class="bs-section-label">06 · Synthesis</div>
+  <h2>The Flywheel</h2>
+  <p>Every element is both a standalone thing and a door into the next. The system builds itself as people participate. Early adopters are not joining a finished product — they are building it by being here.</p>
+
+  <div class="flywheel">
+    <div class="fw-heading">How It All Connects</div>
+    <div class="fw-step"><div class="fw-n">01</div><div><strong>🏷 Price Tag Symbol</strong><span>Signals "Alt Economy active here" — on items, on doors, on the sandwich board</span></div></div>
+    <div class="fw-connector">↓</div>
+    <div class="fw-step"><div class="fw-n">02</div><div><strong>Pop-Up Community Shoppe</strong><span>Street-level curiosity &amp; conversation — Pay What You Can / Need model</span></div></div>
+    <div class="fw-connector">↓</div>
+    <div class="fw-step"><div class="fw-n">03</div><div><strong>📋 Quest Card (recipe card)</strong><span>Audience-matched — converts curiosity into action with a vouch requirement</span></div></div>
+    <div class="fw-connector">↓</div>
+    <div class="fw-step"><div class="fw-n">04</div><div><strong>💳 Community Card issued</strong><span>Edition matched to interest. Active functions live. Pending functions signal emergence.</span></div></div>
+    <div class="fw-connector">↓</div>
+    <div class="fw-step"><div class="fw-n">05</div><div><strong>⬡ Community Credyts loaded</strong><span>Earned via Quest, purchased at Shoppe, or received as seigniorage</span></div></div>
+    <div class="fw-connector">↓</div>
+    <div class="fw-step"><div class="fw-n">06</div><div><strong>🏪 Local Merchants join</strong><span>Display 🏷 on door. Accept Community Card. Credyts circulate locally.</span></div></div>
+    <div class="fw-connector">↓</div>
+    <div class="fw-step"><div class="fw-n">07</div><div><strong>🏘 Block Share ecosystem grows</strong><span>From the street up. Block Editions emerge. Pending functions activate. The system builds itself.</span></div></div>
+  </div>
+
+  <div class="callout" style="margin-top:1.25rem">
+    <p><strong>This is doable and rational as a starting place</strong> because it requires no permission, no large capital, and no fully-built infrastructure. The table, the symbol, the Quest Cards, and four Community Card editions are enough to begin.</p>
+  </div>
+</div>
+
+</div><!-- end .bs-page -->
+
+<div class="bs-footer">
+  Block Share · Community Credyts · <a href="https://app.blockshare.ca">app.blockshare.ca</a> · March 16, 2026 · Working Document v2
+</div>
+
+</body>
+</html>

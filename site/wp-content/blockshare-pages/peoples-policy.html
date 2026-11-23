@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>People's Policy — Citizens Dashboard · blockshare.ca</title>
+<meta name="description" content="A living record of what Vancouver citizens actually want changed — built from independent policy analysis and collective civic action.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terracotta: #C1502E; --forest: #2C5F2E; --cream: #F5F0E8;
+    --navy: #1A2744; --gold: #B8860B; --sand: #E8E0D0;
+    --mist: #F9F6F1; --ink: #1A1A1A; --mid: #6B6B6B; --border: #D4C9B8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--mist); color: var(--ink); }
+
+  /* HEADER */
+  .pp-header {
+    background: var(--navy);
+    border-bottom: 3px solid var(--forest);
+    padding: 2.5rem 2rem 2rem;
+  }
+  .pp-header-inner { max-width: 900px; margin: 0 auto; }
+  .pp-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .pp-eyebrow a { color: var(--gold); text-decoration: none; opacity: 0.7; }
+  .pp-eyebrow a:hover { opacity: 1; }
+  .pp-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--cream); line-height: 1.15; margin-bottom: 0.7rem;
+  }
+  .pp-title em { color: var(--forest); font-style: normal; }
+  .pp-subtitle {
+    font-size: 0.95rem; color: rgba(245,240,232,0.65);
+    max-width: 580px; line-height: 1.65; margin-bottom: 1.4rem;
+  }
+  .pp-stats-row {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .pp-stat {
+    background: rgba(245,240,232,0.06);
+    border: 1px solid rgba(245,240,232,0.12);
+    border-radius: 3px; padding: 10px 16px; text-align: center;
+  }
+  .pp-stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem; color: var(--cream); line-height: 1;
+  }
+  .pp-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(245,240,232,0.45); margin-top: 3px;
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    background: white; border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem; position: sticky; top: 0; z-index: 50;
+  }
+  .filter-bar-inner {
+    max-width: 900px; margin: 0 auto;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .filter-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mid); flex-shrink: 0;
+  }
+  .filter-select {
+    background: var(--mist); border: 1px solid var(--border);
+    border-radius: 3px; padding: 7px 28px 7px 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    color: var(--ink); appearance: none; outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6B6B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 8px center;
+    cursor: pointer; min-width: 180px;
+  }
+  .filter-select:focus { border-color: var(--navy); }
+  .filter-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; color: var(--mid);
+    margin-left: auto;
+  }
+
+  /* MAIN */
+  .pp-main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* NEIGHBOURHOOD SUMMARY */
+  .neighbourhood-strip {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem;
+  }
+  .nbhood-chip {
+    background: white; border: 1px solid var(--border); border-radius: 3px;
+    padding: 7px 12px; cursor: pointer; transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 100px; text-align: center;
+  }
+  .nbhood-chip:hover { border-color: var(--forest); background: rgba(44,95,46,0.04); }
+  .nbhood-chip.active { border-color: var(--forest); background: rgba(44,95,46,0.08); }
+  .nbhood-chip-name {
+    font-size: 0.78rem; font-weight: 600; color: var(--navy); margin-bottom: 2px;
+  }
+  .nbhood-chip-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; color: var(--mid);
+  }
+
+  /* POLICY CARDS */
+  .policy-card {
+    background: white; border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(26,39,68,0.05);
+    transition: box-shadow 0.2s;
+  }
+  .policy-card:hover { box-shadow: 0 4px 16px rgba(26,39,68,0.1); }
+  .pc-body { padding: 1.2rem 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .pc-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .pc-content { flex: 1; min-width: 0; }
+  .pc-text { font-size: 0.95rem; line-height: 1.65; color: var(--ink); margin-bottom: 0.6rem; }
+  .pc-meta {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  }
+  .pc-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; padding: 2px 7px; border-radius: 2px;
+    border: 1px solid var(--border); color: var(--mid);
+  }
+  .pc-nbhoods {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; color: var(--forest);
+    background: rgba(44,95,46,0.07); border: 1px solid rgba(44,95,46,0.2);
+    padding: 2px 7px; border-radius: 2px;
+  }
+  .pc-side {
+    flex-shrink: 0; text-align: center; display: flex;
+    flex-direction: column; align-items: center; gap: 6px;
+  }
+  .pc-support-count {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem; color: var(--navy); line-height: 1;
+  }
+  .pc-support-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--mid);
+  }
+  .pc-support-bar {
+    width: 48px; height: 4px; background: var(--sand);
+    border-radius: 2px; overflow: hidden;
+  }
+  .pc-support-fill { height: 100%; background: var(--forest); border-radius: 2px; }
+
+  .pc-footer {
+    padding: 0.7rem 1.5rem;
+    background: var(--mist); border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px;
+  }
+  .pc-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; color: var(--mid);
+  }
+  .pc-source a { color: var(--gold); text-decoration: none; }
+  .pc-source a:hover { text-decoration: underline; }
+  .support-btn {
+    background: var(--forest); color: white; border: none;
+    border-radius: 3px; padding: 6px 16px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; transition: background 0.2s; display: flex; align-items: center; gap: 6px;
+  }
+  .support-btn:hover { background: #1f4520; }
+  .support-btn.supported { background: var(--mid); cursor: default; }
+  .share-btn-small {
+    background: none; border: 1px solid var(--border); border-radius: 3px;
+    padding: 6px 12px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+    color: var(--mid); cursor: pointer; transition: all 0.2s;
+  }
+  .share-btn-small:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ONBOARDING MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(26,39,68,0.75); z-index: 200;
+    align-items: center; justify-content: center; padding: 1.5rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: white; border-radius: 4px;
+    max-width: 500px; width: 100%;
+    max-height: 92vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  .modal-head {
+    background: var(--navy); padding: 1.2rem 1.4rem;
+    border-bottom: 3px solid var(--forest);
+    flex-shrink: 0;
+  }
+  .modal-body { padding: 1.4rem; overflow-y: auto; flex: 1; min-height: 0; }
+  .modal-rec-preview {
+    background: var(--mist); border: 1px solid var(--border);
+    border-radius: 3px; padding: 0.8rem 1rem; margin-bottom: 1.2rem;
+    display: flex; gap: 10px; align-items: flex-start;
+    max-height: 120px; overflow-y: auto;
+  }
+  .modal-rec-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .modal-rec-text { font-size: 0.85rem; line-height: 1.6; color: var(--ink); }
+
+  /* MYCC INCENTIVE BANNER */
+  .mycc-banner {
+    background: rgba(184,134,11,0.08); border: 1px solid rgba(184,134,11,0.25);
+    border-radius: 3px; padding: 0.8rem 1rem; margin-bottom: 1.2rem;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .mycc-banner-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .mycc-banner-text { font-size: 0.82rem; line-height: 1.55; color: var(--ink); }
+  .mycc-banner-text strong { color: var(--gold); }
+  .mycc-tally {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;
+  }
+  .mycc-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; padding: 2px 8px; border-radius: 2px;
+    background: rgba(184,134,11,0.12); color: var(--gold);
+    border: 1px solid rgba(184,134,11,0.2);
+  }
+
+  .form-group { margin-bottom: 1rem; }
+  .form-label {
+    display: block; font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 0.4rem;
+  }
+  .form-label .required { color: var(--terracotta); margin-left: 3px; }
+  .form-label .optional {
+    font-weight: 400; text-transform: none; letter-spacing: 0;
+    color: var(--mid); font-size: 0.7rem; margin-left: 4px;
+  }
+  .form-input {
+    width: 100%; background: var(--mist); border: 1px solid var(--border);
+    border-radius: 3px; padding: 9px 12px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--ink);
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--navy); }
+  .form-hint {
+    font-size: 0.72rem; color: var(--mid); margin-top: 3px; line-height: 1.4;
+  }
+  .form-hint .credit { color: var(--gold); font-weight: 600; }
+  .consent-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--mist); border: 1px solid var(--border);
+    border-radius: 3px; padding: 0.8rem; margin-bottom: 1.2rem;
+  }
+  .consent-row input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; }
+  .consent-text { font-size: 0.78rem; line-height: 1.5; color: var(--mid); }
+  .modal-actions { display: flex; gap: 8px; }
+  .submit-btn {
+    flex: 1; background: var(--forest); color: white; border: none;
+    border-radius: 3px; padding: 11px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .submit-btn:hover { background: #1f4520; }
+  .submit-btn:disabled { background: var(--mid); cursor: not-allowed; }
+  .cancel-btn {
+    background: none; border: 1px solid var(--border); border-radius: 3px;
+    padding: 11px 18px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; color: var(--mid); cursor: pointer;
+  }
+  .modal-error {
+    background: rgba(193,80,46,0.08); border: 1px solid rgba(193,80,46,0.25);
+    border-radius: 3px; padding: 8px 12px; margin-bottom: 1rem;
+    font-size: 0.82rem; color: var(--terracotta); display: none;
+  }
+
+  /* SUCCESS STATE */
+  .success-panel { padding: 1.5rem; text-align: center; overflow-y: auto; flex: 1; min-height: 0; }
+  .success-icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+  .success-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem; color: var(--navy); margin-bottom: 0.5rem;
+  }
+  .success-sub { font-size: 0.875rem; color: var(--mid); line-height: 1.65; margin-bottom: 1.2rem; }
+  .mycc-award {
+    background: rgba(184,134,11,0.08); border: 1px solid rgba(184,134,11,0.25);
+    border-radius: 3px; padding: 1rem; margin-bottom: 1.2rem;
+    display: inline-block; min-width: 200px;
+  }
+  .mycc-award-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; color: var(--gold); line-height: 1;
+  }
+  .mycc-award-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(184,134,11,0.7); margin-top: 2px;
+  }
+  .mycc-pending-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; color: var(--mid); margin-top: 4px;
+  }
+  .success-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .success-btn {
+    padding: 9px 18px; border-radius: 3px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .success-btn:hover { opacity: 0.85; }
+  .success-btn.primary { background: var(--terracotta); color: white; border: none; }
+  .success-btn.secondary { background: none; border: 1px solid var(--border); color: var(--navy); }
+  .success-btn.share { background: var(--gold); color: white; border: none; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center; padding: 4rem 2rem;
+    border: 1px dashed var(--border); border-radius: 4px; background: white;
+  }
+  .empty-state-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .empty-state h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem; color: var(--navy); margin-bottom: 0.5rem;
+  }
+  .empty-state p { font-size: 0.875rem; color: var(--mid); line-height: 1.6; }
+  .empty-state a { color: var(--terracotta); text-decoration: none; font-weight: 600; }
+
+  /* FOOTER */
+  .pp-footer {
+    background: var(--navy); padding: 2rem;
+    border-top: 3px solid var(--forest);
+  }
+  .pp-footer-inner {
+    max-width: 900px; margin: 0 auto;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 2rem; flex-wrap: wrap;
+  }
+  .pp-footer-left { }
+  .pp-footer-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem; color: var(--cream); margin-bottom: 0.4rem;
+  }
+  .pp-footer-logo span { color: var(--gold); }
+  .pp-footer-text { font-size: 0.78rem; color: rgba(245,240,232,0.5); line-height: 1.6; max-width: 380px; }
+  .pp-footer-links { display: flex; flex-direction: column; gap: 6px; }
+  .pp-footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; color: var(--gold); text-decoration: none;
+    letter-spacing: 0.06em;
+  }
+  .pp-footer-links a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .pc-body { flex-direction: column; }
+    .pc-side { flex-direction: row; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="pp-header">
+  <div class="pp-header-inner">
+    <div class="pp-eyebrow">
+      <a href="https://blockshare.ca">Citizens Dashboard — blockshare.ca</a>
+      <span>·</span>
+      <a href="https://policy-decoder.blockshare.ca">Policy Decoder</a>
+    </div>
+    <h1 class="pp-title">The <em>People's</em> Policy</h1>
+    <p class="pp-subtitle">A living record of what Vancouver citizens actually want changed — built from independent policy analysis and collective civic action. Not a petition. A mandate.</p>
+    <div class="pp-stats-row" id="stats-row">
+      <div class="pp-stat"><div class="pp-stat-num" id="stat-policies">—</div><div class="pp-stat-label">Policy Positions</div></div>
+      <div class="pp-stat"><div class="pp-stat-num" id="stat-citizens">—</div><div class="pp-stat-label">Citizens Supporting</div></div>
+      <div class="pp-stat"><div class="pp-stat-num" id="stat-neighbourhoods">—</div><div class="pp-stat-label">Neighbourhoods</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <span class="filter-label">Filter by</span>
+    <select class="filter-select" id="neighbourhood-filter" onchange="applyFilter()">
+      <option value="">All Neighbourhoods</option>
+    </select>
+    <select class="filter-select" id="jurisdiction-filter" onchange="applyFilter()" style="min-width:160px">
+      <option value="">All Jurisdictions</option>
+      <option value="City of Vancouver">City of Vancouver</option>
+      <option value="Government of British Columbia">Province of BC</option>
+      <option value="Government of Canada / Parliament">Federal</option>
+    </select>
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+</div>
+
+<main class="pp-main">
+
+  <!-- NEIGHBOURHOOD CHIPS -->
+  <div class="neighbourhood-strip" id="neighbourhood-strip"></div>
+
+  <!-- POLICY FEED -->
+  <div id="policy-feed">
+    <div class="empty-state">
+      <div class="empty-state-icon">⏳</div>
+      <h3>Loading People's Policy…</h3>
+      <p>Fetching citizen-supported policy positions.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ONBOARDING MODAL -->
+<div class="modal-overlay" id="support-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-eyebrow">Support This Policy Position</div>
+      <div class="modal-title">Add your voice to the People's Policy</div>
+    </div>
+    <div id="modal-content" style="flex:1;min-height:0;display:flex;flex-direction:column;">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="pp-footer">
+  <div class="pp-footer-inner">
+    <div class="pp-footer-left">
+      <div class="pp-footer-logo">Block<span>Share</span> Citizens Dashboard</div>
+      <div class="pp-footer-text">The People's Policy is an independent citizen accountability instrument — not affiliated with any party, government, or advertiser. Every position here was generated by citizen-driven analysis and supported by real Vancouver residents.</div>
+    </div>
+    <div class="pp-footer-links">
+      <a href="https://policy-decoder.blockshare.ca">Run a Policy Analysis →</a>
+      <a href="https://app.blockshare.ca/block-budget">Discover Your Block Budget →</a>
+      <a href="https://blockshare.ca/block-flag">Block Flag Competition →</a>
+      <a href="https://ko-fi.com/blockshare">Keep This Tool Independent ☕</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── STATE ──
+let allFeed = [];
+let neighbourhoodSummary = [];
+let activeNeighbourhood = null;
+let pendingRecommendationId = null;
+let pendingReportId = null;
+let currentCitizenId = null;
+
+// ── INIT ──
+async function init() {
+  await loadFeed();
+}
+
+async function loadFeed() {
+  try {
+    const qs = buildQueryString();
+    const r = await fetch('/api/peoples-policy' + (qs ? '?' + qs : ''));
+    const data = await r.json();
+    allFeed = data.feed || [];
+    neighbourhoodSummary = data.neighbourhood_summary || [];
+    renderStats();
+    renderNeighbourhoodChips();
+    renderFeed(allFeed);
+    populateNeighbourhoodFilter();
+  } catch (err) {
+    document.getElementById('policy-feed').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">⚠️</div>
+        <h3>Could not load policy feed</h3>
+        <p>${err.message}</p>
+      </div>`;
+  }
+}
+
+function buildQueryString() {
+  const nb = document.getElementById('neighbourhood-filter')?.value || '';
+  const jur = document.getElementById('jurisdiction-filter')?.value || '';
+  const parts = [];
+  if (nb) parts.push('neighbourhood=' + encodeURIComponent(nb));
+  if (jur) parts.push('jurisdiction=' + encodeURIComponent(jur));
+  return parts.join('&');
+}
+
+function applyFilter() { loadFeed(); }
+
+// ── RENDER STATS ──
+function renderStats() {
+  const totalSupports = allFeed.reduce((a, r) => a + (r.support_count || 0), 0);
+  const nbhoods = new Set(allFeed.flatMap(r => r.neighbourhoods || []).filter(Boolean));
+  document.getElementById('stat-policies').textContent = allFeed.length;
+  document.getElementById('stat-citizens').textContent = totalSupports;
+  document.getElementById('stat-neighbourhoods').textContent = nbhoods.size;
+  document.getElementById('filter-count').textContent = `${allFeed.length} position${allFeed.length !== 1 ? 's' : ''}`;
+}
+
+// ── NEIGHBOURHOOD CHIPS ──
+function renderNeighbourhoodChips() {
+  const strip = document.getElementById('neighbourhood-strip');
+  if (!neighbourhoodSummary.length) { strip.innerHTML = ''; return; }
+  strip.innerHTML = neighbourhoodSummary.slice(0, 12).map(nb => `
+    <div class="nbhood-chip ${activeNeighbourhood === nb.neighbourhood ? 'active' : ''}"
+         onclick="filterByNeighbourhood('${nb.neighbourhood}')">
+      <div class="nbhood-chip-name">${nb.neighbourhood}</div>
+      <div class="nbhood-chip-count">${nb.total_supports || 0} supports</div>
+    </div>`).join('');
+}
+
+function filterByNeighbourhood(nb) {
+  activeNeighbourhood = activeNeighbourhood === nb ? null : nb;
+  document.getElementById('neighbourhood-filter').value = activeNeighbourhood || '';
+  loadFeed();
+}
+
+function populateNeighbourhoodFilter() {
+  const sel = document.getElementById('neighbourhood-filter');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">All Neighbourhoods</option>' +
+    neighbourhoodSummary.map(nb =>
+      `<option value="${nb.neighbourhood}" ${nb.neighbourhood === current ? 'selected' : ''}>${nb.neighbourhood} (${nb.total_supports || 0})</option>`
+    ).join('');
+}
+
+// ── RENDER FEED ──
+function renderFeed(feed) {
+  const container = document.getElementById('policy-feed');
+  if (!feed.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📋</div>
+        <h3>No policy positions here yet</h3>
+        <p>Be the first to <a href="https://policy-decoder.blockshare.ca">decode a policy</a> and support a structural recommendation for this area.</p>
+      </div>`;
+    return;
+  }
+
+  const maxSupport = Math.max(...feed.map(r => r.support_count || 0), 1);
+  container.innerHTML = feed.map(rec => {
+    const pct = Math.round(((rec.support_count || 0) / maxSupport) * 100);
+    const nbStr = rec.neighbourhoods?.filter(Boolean).slice(0, 3).join(', ') || '';
+    const nbCount = rec.neighbourhood_count || 0;
+    const reportUrl = `https://policy-decoder.blockshare.ca/report/${rec.report_id}`;
+    return `
+      <div class="policy-card" id="card-${rec.id}">
+        <div class="pc-body">
+          <div class="pc-icon">${rec.icon || '📋'}</div>
+          <div class="pc-content">
+            <div class="pc-text">${rec.text}</div>
+            <div class="pc-meta">
+              ${rec.jurisdiction ? `<span class="pc-tag">${rec.jurisdiction}</span>` : ''}
+              ${rec.gov_level    ? `<span class="pc-tag">${rec.gov_level}</span>` : ''}
+              ${nbStr ? `<span class="pc-nbhoods">${nbStr}${nbCount > 3 ? ` +${nbCount-3} more` : ''}</span>` : ''}
+            </div>
+          </div>
+          <div class="pc-side">
+            <div class="pc-support-count">${rec.support_count || 0}</div>
+            <div class="pc-support-label">supporters</div>
+            <div class="pc-support-bar">
+              <div class="pc-support-fill" style="width:${pct}%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-source">
+            From report: <a href="${reportUrl}" target="_blank">${rec.report_id}</a>
+            · ${new Date(rec.created_at).toLocaleDateString('en-CA')}
+          </span>
+          <div style="display:flex;gap:6px">
+            <button class="share-btn-small" onclick="shareRecommendation(${rec.id}, '${rec.report_id}')">⤴ Share</button>
+            <button class="support-btn" id="support-btn-${rec.id}" onclick="openSupportModal(${rec.id}, '${rec.report_id}', \`${rec.text.replace(/`/g,"'")}\`, '${rec.icon || '📋'}')">
+              ＋ Support This
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── SUPPORT MODAL ──
+function openSupportModal(recId, reportId, text, icon) {
+  pendingRecommendationId = recId;
+  pendingReportId = reportId;
+  document.getElementById('modal-content').innerHTML = buildModalForm(recId, text, icon);
+  document.getElementById('support-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('support-modal').classList.remove('open');
+  pendingRecommendationId = null;
+  pendingReportId = null;
+}
+
+document.getElementById('support-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+function buildModalForm(recId, text, icon) {
+  return `
+    <div class="modal-body">
+      <div class="modal-rec-preview">
+        <span class="modal-rec-icon">${icon}</span>
+        <span class="modal-rec-text">${text}</span>
+      </div>
+      <div class="mycc-banner">
+        <span class="mycc-banner-icon">🪙</span>
+        <div class="mycc-banner-text">
+          <strong>Earn Community Credits (MYCC)</strong> for your civic engagement.
+          Credits are held pending and activate when you complete your Block Share membership.
+          <div class="mycc-tally">
+            <span class="mycc-item">+25 MYCC — phone number</span>
+            <span class="mycc-item">+15 MYCC — address</span>
+            <span class="mycc-item">+10 MYCC — support action</span>
+            <span class="mycc-item">+15 MYCC — sharing</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-error" id="modal-error"></div>
+      <div class="form-group">
+        <label class="form-label">Full Name <span class="required">*</span></label>
+        <input type="text" class="form-input" id="input-name" placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          Mobile Phone <span class="required">*</span>
+          <span class="optional">primary — earns +25 MYCC</span>
+        </label>
+        <input type="tel" class="form-input" id="input-phone" placeholder="604-555-0100">
+        <div class="form-hint">Your phone helps assign you to your Block. <span class="credit">Earns 25 Community Credits.</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          Street Address
+          <span class="optional">preferred — earns +15 MYCC</span>
+        </label>
+        <input type="text" class="form-input" id="input-address" placeholder="123 Main Street, Vancouver">
+        <div class="form-hint">Used for precise Block assignment. <span class="credit">Earns 15 Community Credits.</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          Postal Code
+          <span class="optional">minimum if no address — earns +10 MYCC</span>
+        </label>
+        <input type="text" class="form-input" id="input-postal" placeholder="V5T 3G7" maxlength="7" oninput="this.value=this.value.toUpperCase()">
+        <div class="form-hint">Routes you to your Neighbourhood and Super-Block.</div>
+      </div>
+      <div class="consent-row">
+        <input type="checkbox" id="input-consent">
+        <span class="consent-text">I consent to Block Share storing my contact information to track this policy initiative and notify me of progress. I understand this is an independent citizen platform, not affiliated with any government or political party. My data will not be sold or shared.</span>
+      </div>
+      <div class="modal-actions">
+        <button class="submit-btn" id="submit-support-btn" onclick="submitSupport()">Add My Support →</button>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>`;
+}
+
+async function submitSupport() {
+  const name    = document.getElementById('input-name')?.value.trim();
+  const phone   = document.getElementById('input-phone')?.value.trim();
+  const address = document.getElementById('input-address')?.value.trim();
+  const postal  = document.getElementById('input-postal')?.value.trim();
+  const consent = document.getElementById('input-consent')?.checked;
+  const errBox  = document.getElementById('modal-error');
+
+  errBox.style.display = 'none';
+  if (!name) { errBox.textContent = 'Please enter your name.'; errBox.style.display = 'block'; return; }
+  if (!phone) { errBox.textContent = 'A mobile phone number is required to verify your Block.'; errBox.style.display = 'block'; return; }
+  if (!postal && !address) { errBox.textContent = 'Please provide either a postal code or street address.'; errBox.style.display = 'block'; return; }
+  if (!consent) { errBox.textContent = 'Please confirm your consent to continue.'; errBox.style.display = 'block'; return; }
+
+  const btn = document.getElementById('submit-support-btn');
+  btn.textContent = 'Recording…'; btn.disabled = true;
+
+  try {
+    const r = await fetch('/api/support', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        recommendation_id: pendingRecommendationId,
+        report_id: pendingReportId,
+        citizen: { full_name: name, phone, address, postal_code: postal, consent },
+      }),
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Submission failed');
+    currentCitizenId = data.citizen_id;
+    showSuccessPanel(data);
+  } catch (err) {
+    errBox.textContent = err.message;
+    errBox.style.display = 'block';
+    btn.textContent = 'Add My Support →';
+    btn.disabled = false;
+  }
+}
+
+function showSuccessPanel(data) {
+  const nb = data.neighbourhood || 'your neighbourhood';
+  const sb = data.super_block || '';
+  const mycc = data.mycc_pending || 0;
+  const shareUrl = `https://policy-decoder.blockshare.ca/report/${pendingReportId}`;
+
+  document.getElementById('modal-content').innerHTML = `
+    <div class="success-panel">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Your voice is on the record.</div>
+      <div class="success-sub">
+        You've been added to the People's Policy for <strong>${nb}</strong>${sb ? ` — ${sb}` : ''}.
+        This position now has one more citizen behind it.
+      </div>
+      <div class="mycc-award">
+        <div class="mycc-award-num">${mycc}</div>
+        <div class="mycc-award-label">Community Credits Pending</div>
+        <div class="mycc-pending-note">Activates on Block Share signup</div>
+      </div>
+      <div class="success-sub" style="margin-bottom:1rem">
+        Share this analysis to earn an additional <strong style="color:var(--gold)">+15 MYCC</strong> and grow the mandate.
+      </div>
+      <div class="success-actions">
+        <button class="success-btn share" onclick="triggerShare('${shareUrl}')">⤴ Share & Earn +15 MYCC</button>
+        <button class="success-btn primary" onclick="closeModal();loadFeed()">See All Positions</button>
+        <a class="success-btn secondary" href="https://app.blockshare.ca/block-budget" target="_blank">My Block Budget →</a>
+      </div>
+    </div>`;
+
+  // Update the support count on the card immediately
+  const btn = document.getElementById(`support-btn-${pendingRecommendationId}`);
+  if (btn) { btn.textContent = '✓ Supported'; btn.classList.add('supported'); btn.disabled = true; }
+}
+
+async function triggerShare(url) {
+  if (currentCitizenId && pendingRecommendationId) {
+    await fetch('/api/support/share', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ citizen_id: currentCitizenId, recommendation_id: pendingRecommendationId }),
+    }).catch(() => {});
+  }
+  if (navigator.share) {
+    navigator.share({ title: "People's Policy — Citizens Dashboard", url })
+      .catch(() => copyToClipboard(url));
+  } else {
+    copyToClipboard(url);
+  }
+}
+
+function shareRecommendation(recId, reportId) {
+  const url = `https://policy-decoder.blockshare.ca/report/${reportId}`;
+  if (navigator.share) {
+    navigator.share({ title: "Citizens Policy Analysis — blockshare.ca", url }).catch(() => copyToClipboard(url));
+  } else {
+    copyToClipboard(url);
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => alert('Link copied to clipboard!')).catch(() => prompt('Copy this link:', text));
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A 25 sq ft stake in your block. Income-geared pricing, a Vendor Take-Back mortgage, and a GP/LP structure that makes community ownership of commercial real estate possible at any income level." />
+  <title>The Buy-Back | Block Share</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Design Tokens ─── */
+    :root {
+      --terracotta: #C1502E;
+      --forest:     #2C5F2E;
+      --cream:      #F5F0E8;
+      --navy:       #1A2744;
+      --gold:       #B8860B;
+      --charcoal:   #2D2D2D;
+      --muted:      #6B6B6B;
+      --border:     #D9D3C7;
+      --highlight:  #FFF8F0;
+
+      --serif:  'DM Serif Display', Georgia, serif;
+      --sans:   'DM Sans', system-ui, sans-serif;
+      --mono:   'JetBrains Mono', monospace;
+
+      --col:  720px;
+      --wide: 960px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 18px; scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--charcoal);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      background: var(--navy);
+      color: #fff;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 110%, rgba(44,95,46,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-kicker {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .hero-kicker span { color: #4a6080; }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.15;
+      max-width: 780px;
+      margin: 0 auto 1.4rem;
+      letter-spacing: -0.01em;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: #a8b8c8;
+      max-width: 560px;
+      margin: 0 auto 2.8rem;
+      line-height: 1.65;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6a7f98;
+    }
+    .meta-item strong { color: #c8d8e8; font-weight: 500; display: block; margin-top: 0.2rem; }
+
+    /* ─── Article Layout ─── */
+    .article-body { width: 100%; padding: 0; margin: 0; }
+
+    /* ─── Section rhythm — FULL WIDTH ─── */
+    .article-section { width: 100%; padding: 4.5rem 2rem; }
+    .section-inner { max-width: 760px; margin: 0 auto; }
+    .section-light  { background: var(--cream); }
+    .section-warm   { background: #EDE8DC; }
+    .section-forest { background: var(--forest); color: #fff; }
+    .section-navy   { background: var(--navy);   color: #fff; }
+    .section-cta    { background: var(--terracotta); color: #fff; text-align: center; }
+
+    .section-forest .section-label { color: var(--gold); }
+    .section-navy .section-label   { color: var(--gold); }
+    .section-forest h2, .section-navy h2 { color: #fff; }
+    .section-forest h3 { color: #E8F4E8; }
+    .section-navy h3   { color: #c8d8e8; }
+    .section-forest p,  .section-navy p  { color: #E8F4E8; }
+    .section-forest strong, .section-navy strong { color: #fff; }
+    .section-forest em, .section-navy em { color: var(--gold); }
+    .section-forest blockquote { border-left-color: var(--gold); color: var(--gold); }
+    .section-navy blockquote   { border-left-color: var(--gold); color: var(--gold); }
+    /* Panel and callout inside forest section need contrast treatment */
+    .section-forest .panel { background: rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.15); }
+    .section-forest .panel .panel-title { color: rgba(255,255,255,0.55); }
+    .section-forest .panel h3 { color: #E8F4E8; border-top: 1px solid rgba(255,255,255,0.15); }
+    .section-forest .panel h3:first-child { border-top: none; }
+    .section-forest .panel p { color: #D4ECD4; }
+    .section-cta h2 { color: #fff; font-size: clamp(1.8rem,4vw,2.8rem); margin-bottom: 1rem; }
+    .section-cta p  { color: rgba(255,255,255,0.85); max-width: 560px; margin: 0 auto 2rem; }
+
+    /* ─── Section Labels ─── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .section-forest .section-label::after,
+    .section-navy .section-label::after { background: rgba(255,255,255,0.2); }
+
+    /* ─── Headings ─── */
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      line-height: 1.2;
+      color: var(--navy);
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.01em;
+    }
+    h2 em { font-style: italic; color: var(--terracotta); }
+    h3 {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--navy);
+      margin: 2rem 0 0.6rem;
+    }
+
+    /* ─── Body Text ─── */
+    p { margin-bottom: 1.3rem; font-size: 1rem; color: var(--charcoal); }
+    strong { font-weight: 600; }
+
+    /* ─── Pull Quote ─── */
+    blockquote {
+      border-left: 3px solid var(--terracotta);
+      margin: 2.5rem 0;
+      padding: 1rem 0 1rem 1.8rem;
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--navy);
+    }
+
+    /* ─── Stat Cards ─── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 2.5rem 0;
+    }
+    .stat-card { background: #fff; padding: 1.4rem 1.2rem; text-align: center; }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--terracotta);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ─── Panel ─── */
+    .panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      margin: 2.5rem 0;
+    }
+    .panel-title {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    /* ─── Thirds ─── */
+    .thirds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; }
+    .third-item { padding: 1rem; background: var(--highlight); border-radius: 3px; }
+    .third-num  { font-family: var(--serif); font-size: 1.8rem; color: var(--forest); display: block; }
+    .third-desc { font-size: 0.8rem; color: var(--charcoal); margin-top: 0.3rem; line-height: 1.4; }
+
+    /* ─── Compare Grid ─── */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .compare-col  { padding: 1.4rem; border-radius: 3px; }
+    .compare-col.old { background: #e8e4dc; border: 1px solid #c8c4bc; }
+    .compare-col.new { background: #1C3A2B; color: #fff; }
+    .compare-col h4 {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      color: #555;
+    }
+    .compare-col ul { list-style: none; font-size: 0.88rem; line-height: 1.6; }
+    .compare-col.old ul { color: #2D2D2D; }
+    .compare-col.new ul { color: #d4edd4; }
+    .compare-col.old li::before { content: '— '; color: #888; }
+    .compare-col.new li::before { content: '+ '; color: #8fc98f; }
+    .compare-col.new h4 { color: rgba(255,255,255,0.65); }
+
+    /* ─── Flow Steps ─── */
+    .flow { margin: 2.5rem 0; counter-reset: flow-counter; }
+    .flow-step {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      margin-bottom: 1.4rem;
+      counter-increment: flow-counter;
+    }
+    .flow-step::before {
+      content: counter(flow-counter);
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 50%;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.2rem;
+    }
+    .flow-step-content strong { display: block; font-size: 0.95rem; color: var(--navy); margin-bottom: 0.2rem; }
+    .flow-step-content p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+    /* ─── Callout box ─── */
+    .callout {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 4px;
+      padding: 2rem 2.2rem;
+      margin: 2.5rem 0;
+    }
+    .callout p { color: #c8d8e8; margin: 0; font-size: 0.95rem; }
+    .callout strong { color: #fff; }
+
+    /* ─── Table ─── */
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 2rem 0; }
+    thead th {
+      background: var(--navy);
+      color: #fff;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 0.7rem 0.9rem; }
+    tbody tr:nth-child(odd) td { background: #FFF8F0; }
+    tbody td strong { color: var(--terracotta); }
+    .section-forest table, .section-navy table { border-collapse: collapse; }
+    .section-forest thead th, .section-navy thead th { background: #0a1e0d; color: #f9a825; border-bottom: 1px solid rgba(255,255,255,0.15); }
+    .section-forest tbody tr, .section-navy tbody tr { border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .section-forest tbody td, .section-navy tbody td { color: #e8f4e8; }
+    .section-forest tbody td strong, .section-navy tbody td strong { color: #f9a825; }
+    .section-forest tbody tr:nth-child(odd) td, .section-navy tbody tr:nth-child(odd) td { background: rgba(255,255,255,0.06); }
+    .section-forest tbody tr:nth-child(even) td, .section-navy tbody tr:nth-child(even) td { background: rgba(0,0,0,0.22); }
+
+    /* ─── Income quintile badge ─── */
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 99px;
+      letter-spacing: 0.07em;
+    }
+    .badge-sub  { background: #FAECE7; color: #712B13; }
+    .badge-base { background: #E1F5EE; color: #085041; }
+    .badge-prem { background: #EEEDFE; color: #3C3489; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 780px) {
+      .flow-cards-4 { grid-template-columns: 1fr 1fr !important; }
+    }
+    @media (max-width: 640px) {
+      .thirds       { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .flow-cards-4 { grid-template-columns: 1fr !important; }
+    }
+
+    /* ── Nav overrides ── */
+    body { padding-top: 56px !important; }
+    .site-nav { background: #0f1419 !important; border-bottom: 1px solid #1e293b !important; }
+    .site-nav__dropdown-menu { background: #0f1419 !important; border: 1px solid #334155 !important; }
+    .site-nav__dropdown-menu a { color: #94a3b8 !important; }
+    .site-nav__dropdown-menu a:hover { color: #4ade80 !important; }
+    .site-nav__brand { color: #e8ecf1 !important; }
+    .site-nav__dropdown-trigger { color: #94a3b8 !important; }
+
+    /* ── MEDIA BAR ── */
+    .media-bar {
+      background: var(--forest);
+      border-bottom: 2px solid var(--gold);
+      position: sticky;
+      top: 56px;
+      z-index: 50;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+      max-height: 52px;
+    }
+    .media-bar.expanded { max-height: 480px; }
+    .media-bar-pill {
+      max-width: 860px; margin: 0 auto;
+      display: flex; align-items: center;
+      height: 52px; padding: 0 1.5rem; gap: 0.5rem;
+    }
+    .mb-label {
+      font-family: var(--mono);
+      font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); flex-shrink: 0; margin-right: 0.5rem;
+    }
+    .mb-btn {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; font-family: var(--sans);
+      font-size: 0.78rem; font-weight: 500;
+      padding: 0.3rem 0.85rem; border-radius: 20px;
+      cursor: pointer; white-space: nowrap;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .mb-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .mb-btn.active { background: var(--gold); color: var(--forest); border-color: var(--gold); }
+    .mb-btn svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
+    .mb-toggle {
+      margin-left: auto; background: none; border: none;
+      color: rgba(255,255,255,0.5); font-family: var(--mono);
+      font-size: 0.7rem; cursor: pointer; padding: 0.3rem 0.5rem; white-space: nowrap;
+    }
+    .mb-panel { display: none; max-width: 860px; margin: 0 auto; padding: 0 1.5rem 1.5rem; }
+    .media-bar.expanded .mb-panel.active-panel { display: block; }
+    .mb-panel iframe { width: 100%; height: 360px; border-radius: 8px; border: none; display: block; }
+    .mb-panel .podcast-embed { background: rgba(255,255,255,0.08); border-radius: 8px; padding: 1.25rem 1.5rem; }
+    .mb-panel .podcast-embed p { color: rgba(245,240,232,0.85); font-size: 0.9rem; margin-bottom: 1rem; }
+    .mb-panel .podcast-embed audio { width: 100%; }
+
+    /* ── Calculator embed ── */
+    .calc-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.75rem;
+      margin: 2.5rem 0;
+    }
+    .calc-header {
+      background: var(--forest);
+      border-radius: 6px 6px 0 0;
+      padding: 1rem 1.5rem;
+      margin: -1.75rem -1.75rem 1.5rem;
+    }
+    .calc-header-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
+    }
+    .calc-header h3 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      color: #fff;
+      margin: 0;
+    }
+    .calc-header p {
+      font-size: 0.75rem;
+      color: rgba(245,240,232,0.65);
+      margin: 0.25rem 0 0;
+    }
+
+    /* Calculator internal styles (light theme matching v10 cream) */
+    .cw { padding: 0; }
+    .csec { font-size: 11px; font-weight: 500; color: #6B6B6B; letter-spacing: .07em; text-transform: uppercase; margin-bottom: .6rem; margin-top: 1rem; }
+    .csec:first-of-type { margin-top: 0; }
+    .cg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: .8rem; }
+    .cg3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9px; margin-bottom: .8rem; }
+    .cg4 { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 9px; margin-bottom: .8rem; }
+    .cg5 { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; margin-bottom: .8rem; }
+    .cctrl { background: #F5F0E8; border-radius: 4px; padding: .6rem .75rem; border: 1px solid #D9D3C7; }
+    .cctrl label { font-size: 11px; color: #6B6B6B; display: block; margin-bottom: 3px; }
+    .cctrl .cv { font-size: 15px; font-weight: 500; color: #2D2D2D; margin-bottom: 5px; }
+    .cctrl input[type=range] { width: 100%; accent-color: #2C5F2E; }
+    .cmc { background: #F5F0E8; border-radius: 4px; padding: .6rem .75rem; border: 1px solid #D9D3C7; }
+    .cmc .cml { font-size: 11px; color: #6B6B6B; margin-bottom: 2px; }
+    .cmc .cmv { font-size: 17px; font-weight: 500; color: #2D2D2D; }
+    .cmc .cms { font-size: 11px; color: #6B6B6B; margin-top: 1px; }
+    .cqc { border-radius: 4px; padding: .6rem .5rem; text-align: center; border: 0.5px solid transparent; }
+    .cqc .cql { font-size: 10px; font-weight: 500; margin-bottom: 2px; }
+    .cqc .cqrate { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+    .cqc .cqfreq { font-size: 10px; margin-bottom: 3px; }
+    .cqc .cqdp { font-size: 11px; font-weight: 500; margin-bottom: 2px; }
+    .cqc .cqpay { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+    .cqc .cqtotal { font-size: 10px; margin-bottom: 4px; }
+    .cqc .cqbadge { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 99px; font-weight: 500; margin-bottom: 3px; }
+    .cqc .cqtax { font-size: 10px; padding: 3px 5px; border-radius: 4px; margin-top: 2px; }
+    .cdivider { border: none; border-top: 1px solid #D9D3C7; margin: .8rem 0; }
+    .crate-balance { display: flex; align-items: center; gap: 10px; padding: .6rem .875rem; background: #F5F0E8; border-radius: 4px; margin-bottom: .8rem; border: 1px solid #D9D3C7; }
+    .crb-label { font-size: 12px; color: #6B6B6B; flex: 1; }
+    .crb-val { font-size: 14px; font-weight: 500; }
+    .cprog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+    .cprog-label { font-size: 11px; color: #6B6B6B; width: 82px; flex-shrink: 0; }
+    .cprog-track { flex: 1; height: 8px; background: #D9D3C7; border-radius: 99px; overflow: hidden; }
+    .cprog-fill { height: 100%; border-radius: 99px; transition: width .25s; }
+    .cprog-val { font-size: 11px; font-weight: 500; min-width: 80px; text-align: right; }
+    .cchart-wrap { position: relative; width: 100%; height: 200px; margin-bottom: .8rem; }
+    .clegend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: .5rem; font-size: 11px; color: #6B6B6B; }
+    .clegend span { display: flex; align-items: center; gap: 4px; }
+    .cldot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+    .cnote { padding: .7rem .875rem; background: #F5F0E8; border-radius: 4px; border-left: 2px solid #1D9E75; font-size: 12px; color: #6B6B6B; line-height: 1.6; margin-bottom: .7rem; }
+    .cnote strong { color: #2D2D2D; }
+    .cnote-purple { border-left-color: #534AB7; }
+    .cnote-amber  { border-left-color: #B8860B; }
+    .crsp-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; margin-bottom: .8rem; }
+    .crc { border-radius: 4px; padding: .6rem .5rem; text-align: center; border: 0.5px solid transparent; }
+    .ctotal-strip { display: flex; justify-content: space-between; align-items: center; padding: .6rem .875rem; background: #fff; border: 1px solid #D9D3C7; border-radius: 4px; margin-bottom: .7rem; }
+    .ctotal-strip .ctl { font-size: 12px; color: #6B6B6B; }
+    .ctotal-strip .ctv { font-size: 15px; font-weight: 500; color: #2D2D2D; }
+
+    @media (max-width: 640px) {
+      .cg3, .cg5, .crsp-grid { grid-template-columns: 1fr 1fr !important; }
+      .cg4 { grid-template-columns: 1fr 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ Media Bar ══ -->
+<div class="media-bar" id="mediaBar">
+  <div class="media-bar-pill">
+    <span class="mb-label">Watch or Listen</span>
+    <button class="mb-btn" id="mbBtnYT" onclick="mbToggle('yt')">
+      <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.4 12 20.4 12 20.4s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+      Watch
+    </button>
+    <button class="mb-btn" id="mbBtnPod" onclick="mbToggle('pod')">
+      <svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4zm-6 9a6 6 0 0 0 12 0h-2a4 4 0 0 1-8 0H6zm5 7h2v2h-2v-2z"/></svg>
+      Listen
+    </button>
+    <a class="mb-btn" href="SUBSTACK_URL" target="_blank" rel="noopener">&#10022; Substack</a>
+    <button class="mb-toggle" id="mbToggleBtn" onclick="mbToggle(null)">&#9662; expand</button>
+  </div>
+  <div class="mb-panel" id="mbPanelYT">
+    <div id="ytThumb" style="position:relative;background:#111;border-radius:8px;overflow:hidden;padding-bottom:56.25%;height:0;cursor:pointer;" onclick="loadYT()">
+      <img src="https://img.youtube.com/vi/YOUTUBE_ID/maxresdefault.jpg" alt="The Buy-Back — Watch on YouTube" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.85;">
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
+        <div style="width:72px;height:72px;background:rgba(220,0,0,0.92);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.5);">
+          <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:#fff;margin-left:5px;"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,0.65);padding:0.35rem 1rem;border-radius:20px;">Click to Watch</div>
+      </div>
+    </div>
+    <div id="ytPlayer" style="display:none;position:relative;padding-bottom:56.25%;height:0;border-radius:8px;overflow:hidden;"></div>
+  </div>
+  <div class="mb-panel" id="mbPanelPod">
+    <div class="podcast-embed">
+      <p><strong style="color:#fff">The Buy-Back: 25 Square Feet at a Time</strong> &middot; The Decentralist Podcast</p>
+      <audio controls preload="none" style="width:100%">
+        <source src="MP3_URL" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Hero ══ -->
+<section class="hero">
+  <div class="hero-kicker">
+    Block Share <span>·</span> Buy Back Your Block <span>·</span> Micro-Asset Programme
+  </div>
+  <h1>Own Your Block —<br /><em>25 Square Feet at a Time</em></h1>
+  <p class="hero-sub">
+    Commercial real estate on your block is leaving the neighbourhood every time it changes hands. The Buy-Back is the mechanism that reverses that flow — using income-geared pricing, a Vendor Take-Back mortgage, and community co-ownership to make the block buyable at any income level.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">DATE <strong>May 2026</strong></div>
+    <div class="meta-item">AUTHOR <strong>Ward Stirrat</strong></div>
+    <div class="meta-item">SERIES <strong>Buy Back Your Block</strong></div>
+    <div class="meta-item">READ <strong>~10 min</strong></div>
+  </div>
+</section>
+
+<!-- ══ Article Body ══ -->
+<main class="article-body">
+
+  <!-- ── Section 01 · The Problem ── -->
+  <div class="article-section section-light">
+  <div class="section-inner">
+    <div class="section-label">01 · The Problem</div>
+    <h2>Every Time Your Block Changes Hands, <em>It Leaves the Neighbourhood.</em></h2>
+
+    <p>
+      Commercial property on your street generates value. The café at the corner, the studio above the pharmacy, the ground-floor shop — all of it produces economic activity daily. But when the building that houses these spaces comes to market, the buyer is almost never someone who uses it. They are buying yield. They are buying leverage. And the neighbourhood that built the value of the building gets nothing from the transaction except a rent increase.
+    </p>
+    <p>
+      This is not incidental. It is the structural logic of how commercial real estate works: <strong>ownership follows capital, not community.</strong> The people with the most money buy the places where the most people live, and charge the rest for access. The baker who makes the café worth visiting cannot afford the building. The musician who makes the block worth living on cannot afford the studio.
+    </p>
+    <p>
+      The Blockonomics framework measures this dynamic through two lenses. The Leakage Rate — what proportion of locally generated spending exits to absentee owners — and the Private Tax Burden — the share of working life consumed by payments to remote shareholders rather than to publicly accountable institutions. In most Canadian urban commercial blocks, both numbers are large and growing.
+    </p>
+
+    <blockquote>
+      Every time a commercial property sells to a speculative buyer, the neighbourhood loses a piece of the floor it built. The Buy-Back model puts that floor back in community hands.
+    </blockquote>
+
+    <p>
+      The conventional answer to this problem is either government intervention — which moves slowly and rarely holds — or co-operative formation — which is complicated, expensive, and requires a cohort with identical resources. The Buy-Back is a third path. It uses existing commercial and legal instruments — the Vendor Take-Back mortgage, the GP/LP limited partnership structure — to make community acquisition possible at scale, across income levels, without waiting for a policy change or a government grant.
+    </p>
+  </div>
+  </div>
+
+  <!-- ── Section 02 · The Mechanism ── -->
+  <div class="article-section section-warm">
+  <div class="section-inner">
+    <div class="section-label">02 · The Mechanism</div>
+    <h2>25 Square Feet: The <em>Micro-Asset</em> Model</h2>
+
+    <p>
+      The insight at the centre of the Buy-Back model is a reframing of scale. A 5,000 square foot commercial property at $850 per square foot — a reasonable Vancouver commercial benchmark — costs $4.25 million. That number puts community ownership out of reach for almost everyone as individuals. But divided into 25 square foot micro-units, each unit costs $21,250. That is a price point accessible to first-time investors across most income ranges, particularly with income-geared deposit requirements.
+    </p>
+    <p>
+      The micro-unit is not a physical partition of the building. It is a <strong>fractional beneficial interest</strong> in the underlying property, held collectively through a GP/LP (General Partner / Limited Partner) structure — the same legal vehicle used in every major commercial real estate deal in Canada. What changes is who the limited partners are.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">25</div>
+        <div class="stat-label">Square feet<br/>per micro-unit</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Income quintiles<br/>each priced fairly</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">25yr</div>
+        <div class="stat-label">Vendor Take-Back<br/>mortgage term</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4.5%</div>
+        <div class="stat-label">Weighted avg rate<br/>vendor receives</div>
+      </div>
+    </div>
+
+    <p>
+      Once the community acquires the property, the LP units represent pro-rata ownership of what the block already uses. As tenants pay rent into the property, distributions flow to LP unit holders. The building appreciates — and when it does, every 25 sq ft stake appreciates with it. The baker cannot afford the building alone. But forty people from the same street, each owning 25 square feet, can.
+    </p>
+
+    <div class="panel">
+      <div class="panel-title">GP/LP Structure — How It Works</div>
+      <div style="display:grid;gap:1.2rem;">
+        <div>
+          <h3 style="margin:0 0 0.4rem;font-size:1rem;">The General Partner (GP)</h3>
+          <p style="margin:0;font-size:0.9rem;">A community-controlled entity — a local not-for-profit, a land trust, or a purpose-built Block Share GP entity — that holds the property, manages tenants, handles distributions, and acts as the interface between the LP investors and the vendor. The GP is accountable to the LP community, not to outside shareholders.</p>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:1.2rem;">
+          <h3 style="margin:0 0 0.4rem;font-size:1rem;">The Limited Partners (LPs)</h3>
+          <p style="margin:0;font-size:0.9rem;">Community members who hold micro-units. LP status gives each holder a fractional ownership stake, pro-rata participation in rental income and appreciation, and — for Q4/Q5 investors — the ability to deduct proportionate interest, property taxes, and triple-net expenses against other income. LPs have no management obligations; the GP manages on their behalf.</p>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:1.2rem;">
+          <h3 style="margin:0 0 0.4rem;font-size:1rem;">The Vendor</h3>
+          <p style="margin:0;font-size:0.9rem;">The selling owner carries the unpaid balance as a Vendor Take-Back (VTB) mortgage at a fixed rate — typically 4.5%. The vendor receives aggregated down payments at closing, then collects scheduled interest payments over 25 years. The vendor exits to community, not to a speculative buyer — and their building continues to serve the neighbourhood that built its value.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ── Section 03 · Income-Geared Pricing ── -->
+  <div class="article-section section-forest">
+  <div class="section-inner">
+    <div class="section-label">03 · Income-Geared Pricing</div>
+    <h2>The Same Asset. <em>Five Different Prices.</em> One Vendor Rate.</h2>
+
+    <p>
+      The structural challenge of community real estate acquisition is not one of collective will — it is one of collective capacity. A community block is not made up of people with identical incomes. The nurse, the teacher, the student, the tech worker, and the retired landlord all live on the same street. A flat unit price benefits only those who can already afford it.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0 1.75rem;">
+      <div style="background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);border-top:3px solid var(--gold);border-radius:6px;padding:1.4rem 1.4rem;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.65rem;">How It Scales Down</div>
+        <div style="font-family:var(--serif);font-size:1.05rem;color:#fff;margin-bottom:0.55rem;line-height:1.3;">Q1 &amp; Q2 — Subsidised entry</div>
+        <p style="font-size:0.85rem;color:#D4ECD4;line-height:1.65;margin:0;">2.75% rate · Scaled deposit · Bi-weekly payments. Lower cash-flow pressure — made possible by the premium carried by higher-income cohorts. Q3 pays the standard rate and anchors the average.</p>
+      </div>
+      <div style="background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);border-top:3px solid #C1502E;border-radius:6px;padding:1.4rem 1.4rem;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:#E8A090;margin-bottom:0.65rem;">How It Scales Up</div>
+        <div style="font-family:var(--serif);font-size:1.05rem;color:#fff;margin-bottom:0.55rem;line-height:1.3;">Q4 &amp; Q5 — Premium with offsets</div>
+        <p style="font-size:0.85rem;color:#D4ECD4;line-height:1.65;margin:0;">Rate above 4.5% · Larger deposit — offset by LP tax deductions on interest, property tax, and triple-net costs. RSP contributions further reduce effective cash outlay at closing.</p>
+      </div>
+    </div>
+
+    <p>
+      The cross-subsidy is the engine. The mathematical weighted average across all five quintiles — in an equal-mix cohort — returns exactly what the vendor needs to receive. <strong>No external subsidy. No government grant. The community finances itself.</strong>
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Quintile</th>
+          <th>Approx. Income</th>
+          <th>Rate</th>
+          <th>Deposit</th>
+          <th>Payment</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Q1</strong> — Lowest</td>
+          <td>~$32,000</td>
+          <td>2.75% <span class="badge badge-sub">Subsidised</span></td>
+          <td>Scaled down</td>
+          <td>Bi-weekly</td>
+          <td>Subsidised by Q4/Q5</td>
+        </tr>
+        <tr>
+          <td><strong>Q2</strong></td>
+          <td>~$52,000</td>
+          <td>2.75% <span class="badge badge-sub">Subsidised</span></td>
+          <td>Below standard</td>
+          <td>Bi-weekly</td>
+          <td>Subsidised by Q4/Q5</td>
+        </tr>
+        <tr>
+          <td><strong>Q3</strong> — Median</td>
+          <td>~$72,000</td>
+          <td>4.50% <span class="badge badge-base">Baseline</span></td>
+          <td>Standard 20%</td>
+          <td>Monthly</td>
+          <td>Anchors the rate</td>
+        </tr>
+        <tr>
+          <td><strong>Q4</strong></td>
+          <td>~$105,000</td>
+          <td>&gt;4.50% <span class="badge badge-prem">Premium</span></td>
+          <td>Above standard</td>
+          <td>Monthly</td>
+          <td>Cross-subsidises Q1/Q2</td>
+        </tr>
+        <tr>
+          <td><strong>Q5</strong> — Highest</td>
+          <td>~$165,000</td>
+          <td>&gt;4.50% <span class="badge badge-prem">Premium</span></td>
+          <td>Well above</td>
+          <td>Monthly</td>
+          <td>Cross-subsidises Q1/Q2 · RSP-eligible</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <blockquote>
+      The cross-subsidy is not charity. It is a precision instrument that makes the weighted average vendor rate work — while putting community ownership within reach of every income on the block.
+    </blockquote>
+
+    <h3>Why Q4 and Q5 Buyers Participate Willingly</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.25rem 0 0;">
+      <div style="background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);border-radius:6px;padding:1.4rem 1.4rem;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.65rem;">Mechanism 01</div>
+        <div style="font-family:var(--serif);font-size:1.05rem;color:#fff;margin-bottom:0.55rem;">LP Tax Deductions</div>
+        <p style="font-size:0.85rem;color:#D4ECD4;line-height:1.65;margin:0;">As limited partners, Q4/Q5 holders deduct their proportionate share of annual interest, property tax (~1.2% of unit), and triple-net operating expenses (~0.5% of unit) against other income. At a 43% marginal rate this creates a material annual tax saving — partially or fully offsetting the premium rate they carry.</p>
+      </div>
+      <div style="background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.14);border-radius:6px;padding:1.4rem 1.4rem;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.65rem;">Mechanism 02</div>
+        <div style="font-family:var(--serif);font-size:1.05rem;color:#fff;margin-bottom:0.55rem;">RSP Down Payment Strategy</div>
+        <p style="font-size:0.85rem;color:#D4ECD4;line-height:1.65;margin:0;">Under arm's-length mortgage rules, RSP funds can flow into qualifying VTB mortgages held by the GP/LP. The RSP contribution generates a tax refund that reduces the effective cash outlay at closing — a pre-tax purchasing mechanism unavailable in conventional real estate.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ── Section 04 · The Deal Flow ── -->
+  <div class="article-section section-navy">
+  <div class="section-inner">
+    <div class="section-label">04 · The Deal</div>
+    <h2>How a Community Buys a Building — <em>Step by Step</em></h2>
+
+    <p>
+      The Buy-Back uses legal instruments that already exist — applied in a new sequence and at a new scale. Here is how a deal comes together.
+    </p>
+
+  </div>
+
+  <!-- Deal cards — full-width grid -->
+  <div style="max-width:960px;margin:0 auto;padding:0 2rem;">
+    <div class="flow-cards-4" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;">
+
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-top:3px solid var(--gold);border-radius:6px;padding:1.6rem 1.4rem;position:relative;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;">Step 01</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;color:#fff;line-height:1.25;margin-bottom:0.7rem;">Property comes<br>to market</div>
+        <p style="font-size:0.85rem;color:#c8d8e8;line-height:1.65;margin:0;">A vendor — a retiring owner, an estate, a pivoting business — lists a commercial property. The Buy Back programme identifies it as a candidate based on location, existing use, and vendor openness to a VTB structure.</p>
+        <div style="position:absolute;bottom:1.1rem;right:1.1rem;font-family:var(--mono);font-size:2.5rem;color:rgba(255,255,255,0.05);font-weight:700;line-height:1;">1</div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-top:3px solid var(--gold);border-radius:6px;padding:1.6rem 1.4rem;position:relative;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;">Step 02</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;color:#fff;line-height:1.25;margin-bottom:0.7rem;">Building divided into<br>25 sq ft micro-units</div>
+        <p style="font-size:0.85rem;color:#c8d8e8;line-height:1.65;margin:0;">Total sq ft ÷ 25 = unit count. A 5,000 sq ft property at $850/sq ft yields 200 units at $21,250 each. Unit count and price are transparent to all prospective buyers before the deal opens.</p>
+        <div style="position:absolute;bottom:1.1rem;right:1.1rem;font-family:var(--mono);font-size:2.5rem;color:rgba(255,255,255,0.05);font-weight:700;line-height:1;">2</div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-top:3px solid var(--gold);border-radius:6px;padding:1.6rem 1.4rem;position:relative;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;">Step 03</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;color:#fff;line-height:1.25;margin-bottom:0.7rem;">Income quintile<br>pricing is set</div>
+        <p style="font-size:0.85rem;color:#c8d8e8;line-height:1.65;margin:0;">Using the Vancouver median income ($72,000) as the Q3 anchor, each income bracket receives a tailored deposit and interest rate. The cross-subsidy maths ensures the weighted average equals the agreed VTB rate.</p>
+        <div style="position:absolute;bottom:1.1rem;right:1.1rem;font-family:var(--mono);font-size:2.5rem;color:rgba(255,255,255,0.05);font-weight:700;line-height:1;">3</div>
+      </div>
+
+    </div>
+    <div class="flow-cards-4" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;">
+
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-top:3px solid #C1502E;border-radius:6px;padding:1.6rem 1.4rem;position:relative;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:#E8A090;margin-bottom:0.75rem;">Step 04</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;color:#fff;line-height:1.25;margin-bottom:0.7rem;">Community cohort<br>forms and buys in</div>
+        <p style="font-size:0.85rem;color:#c8d8e8;line-height:1.65;margin:0;">Community members across all five income quintiles purchase units at their income-geared terms. Q4/Q5 buyers may coordinate RSP contributions before closing. All receive LP documentation confirming their fractional stake.</p>
+        <div style="position:absolute;bottom:1.1rem;right:1.1rem;font-family:var(--mono);font-size:2.5rem;color:rgba(255,255,255,0.05);font-weight:700;line-height:1;">4</div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-top:3px solid #C1502E;border-radius:6px;padding:1.6rem 1.4rem;position:relative;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:#E8A090;margin-bottom:0.75rem;">Step 05</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;color:#fff;line-height:1.25;margin-bottom:0.7rem;">GP closes<br>the deal</div>
+        <p style="font-size:0.85rem;color:#c8d8e8;line-height:1.65;margin:0;">Down payments pool and transfer to the vendor at closing. The unpaid balance converts to a VTB mortgage note held by the GP on behalf of the LP community. The GP registers the property and manages tenant relations.</p>
+        <div style="position:absolute;bottom:1.1rem;right:1.1rem;font-family:var(--mono);font-size:2.5rem;color:rgba(255,255,255,0.05);font-weight:700;line-height:1;">5</div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);border-top:3px solid #4ade80;border-radius:6px;padding:1.6rem 1.4rem;position:relative;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:#4ade80;margin-bottom:0.75rem;">Step 06</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;color:#fff;line-height:1.25;margin-bottom:0.7rem;">The block<br>comes home</div>
+        <p style="font-size:0.85rem;color:#c8d8e8;line-height:1.65;margin:0;">LP unit holders collectively own the asset. Rental income flows to pro-rata distributions. The vendor receives scheduled VTB payments. Capital appreciation benefits every unit holder proportionally. The building stays the building — permanently.</p>
+        <div style="position:absolute;bottom:1.1rem;right:1.1rem;font-family:var(--mono);font-size:2.5rem;color:rgba(255,255,255,0.06);font-weight:700;line-height:1;">6</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-inner" style="padding-top:0;">
+    <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-left:3px solid var(--gold);border-radius:4px;padding:1.5rem 1.75rem;">
+      <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;">At the close — example deal</div>
+      <p style="color:#E8F4E8;margin:0;font-size:0.95rem;line-height:1.7;">A 5,000 sq ft property at $850/sq ft with 200 units across five income quintiles typically pools <strong style="color:#fff;">~$850,000 in down payments at closing</strong>, with the remaining ~$3.4 million carried as a VTB note. The vendor is made whole over 25 years. The community owns the asset from day one.</p>
+    </div>
+  </div>
+  </div>
+
+  <!-- ── Section 05 · For the Vendor ── -->
+  <div class="article-section section-light">
+  <div class="section-inner">
+    <div class="section-label">05 · For the Vendor</div>
+    <h2>Why a Vendor Would Choose <em>Community Over Capital</em></h2>
+
+    <p>
+      The Vendor Take-Back structure is not a concession — it is often a superior outcome. A conventional sale returns a lump sum subject to capital gains tax in a single year. A VTB note spreads income over 25 years, smoothing the tax profile and providing predictable, secured returns. The vendor's VTB is registered against the property — they hold a legal claim — and the GP is obligated to make scheduled payments exactly as a bank-financed buyer would be.
+    </p>
+
+    <div class="panel">
+      <div class="panel-title">Vendor Outcome Comparison</div>
+      <div class="compare-grid">
+        <div class="compare-col old">
+          <h4>Conventional Sale to Market Buyer</h4>
+          <ul>
+            <li>Lump sum — full capital gains in one year</li>
+            <li>Buyer's intent: extraction and appreciation</li>
+            <li>Building likely to be repositioned or redeveloped</li>
+            <li>Legacy: sold to whoever had the money</li>
+            <li>No ongoing income stream</li>
+          </ul>
+        </div>
+        <div class="compare-col new">
+          <h4>Buy-Back — Sale to Community</h4>
+          <ul>
+            <li>Down payments at close + 25-yr income stream</li>
+            <li>VTB income spread for favourable tax treatment</li>
+            <li>Building continues serving the neighbourhood</li>
+            <li>Legacy: returned the block to the people on it</li>
+            <li>GP manages — vendor is simply the note-holder</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      There is also a dimension that does not appear on a balance sheet. Vendors who built a business in a neighbourhood have a relationship to that place. Selling to a REIT or an out-of-province investment syndicate ends that relationship cleanly but coldly. Selling to the community means the café stays the café, the studio stays the studio, and the building continues to carry the vendor's name in the neighbourhood's memory — rather than someone else's rebrand.
+    </p>
+    <p>
+      This is not purely sentimental. Vendors who care about their legacy, their tenants, and the communities they built have concrete, financially sound reasons to choose the Buy-Back — and the model is designed to make that choice easy.
+    </p>
+  </div>
+  </div>
+
+  <!-- ── Section 06 · The Calculator ── -->
+  <div class="article-section section-warm">
+  <div class="section-inner">
+    <div class="section-label">06 · Run the Numbers</div>
+    <h2>Adjust the Model for <em>Any Property</em></h2>
+
+    <p>
+      The calculator below lets you explore how income-geared pricing works for properties of different sizes and valuations. Adjust the total square footage, price per foot, VTB rate, and income spread sensitivity. Watch how the cross-subsidy balances — and how the weighted average vendor rate tracks against your target.
+    </p>
+    <p style="font-size:0.88rem;color:var(--muted);">Default settings: 5,000 sq ft commercial property at $850/sq ft · 25 sq ft micro-units · 4.5% VTB rate · Vancouver median income anchor ($72,000).</p>
+
+    <div class="calc-wrap">
+      <div class="calc-header">
+        <div class="calc-header-label">GP/LP VTB Deal Model</div>
+        <h3>Income-Geared Micro-Asset Pricing</h3>
+        <p>Adjust the sliders — the cross-subsidy mathematics update live</p>
+      </div>
+
+      <div class="cw">
+        <p class="csec">Property &amp; unit parameters</p>
+        <div class="cg3">
+          <div class="cctrl"><label>Total sq ft (vendor ask)</label><div class="cv" id="v-tsf">5,000 sq ft</div><input type="range" id="tsf" min="500" max="20000" step="500" value="5000"></div>
+          <div class="cctrl"><label>Price per sq ft (CAD)</label><div class="cv" id="v-ppsf">$850 / sq ft</div><input type="range" id="ppsf" min="300" max="1800" step="25" value="850"></div>
+          <div class="cctrl"><label>Micro-asset unit size (sq ft)</label><div class="cv" id="v-usf">25 sq ft</div><input type="range" id="usf" min="1" max="100" step="1" value="25"></div>
+        </div>
+        <p class="csec">Deal structure</p>
+        <div class="cg3">
+          <div class="cctrl"><label>VTB target rate — vendor receives (%)</label><div class="cv" id="v-rate">4.50%</div><input type="range" id="rate" min="2" max="9" step="0.25" value="4.5"></div>
+          <div class="cctrl"><label>Down payment — standard (%)</label><div class="cv" id="v-dpct">20%</div><input type="range" id="dpct" min="5" max="30" step="1" value="20"></div>
+          <div class="cctrl"><label>Income spread sensitivity</label><div class="cv" id="v-sens">Medium</div><input type="range" id="sens" min="1" max="3" step="1" value="2"></div>
+        </div>
+        <div class="cg2">
+          <div class="cctrl"><label>Q1/Q2 subsidised rate (%)</label><div class="cv" id="v-lowrate">2.75%</div><input type="range" id="lowrate" min="1" max="5" step="0.25" value="2.75"></div>
+          <div class="cctrl"><label>Marginal tax rate — Q4/Q5 (%)</label><div class="cv" id="v-taxrate">43%</div><input type="range" id="taxrate" min="30" max="53" step="1" value="43"></div>
+        </div>
+        <div class="cg4" id="g-summary"></div>
+        <div class="crate-balance" id="rate-balance"></div>
+        <p class="csec">Per-quintile terms — GP/LP units</p>
+        <div class="cg5" id="g-quintiles"></div>
+        <hr class="cdivider">
+        <p class="csec">RSP contribution frame — Q4 &amp; Q5</p>
+        <div class="crsp-grid" id="g-rsp"></div>
+        <hr class="cdivider">
+        <p class="csec">Cohort needed to fund vendor (equal-mix)</p>
+        <div class="cg5" id="g-cohort"></div>
+        <div class="ctotal-strip" id="g-total"></div>
+        <div class="cprog-row" style="margin-top:.25rem;">
+          <div class="cprog-label">Q1/Q2 subsidy</div>
+          <div class="cprog-track"><div class="cprog-fill" id="pf-deficit" style="background:#D85A30;"></div></div>
+          <div class="cprog-val" id="pv-deficit" style="color:#D85A30;"></div>
+        </div>
+        <div class="cprog-row">
+          <div class="cprog-label">Q4/Q5 premium</div>
+          <div class="cprog-track"><div class="cprog-fill" id="pf-surplus" style="background:#534AB7;"></div></div>
+          <div class="cprog-val" id="pv-surplus" style="color:#534AB7;"></div>
+        </div>
+        <hr class="cdivider">
+        <p class="csec">Monthly payment comparison by quintile</p>
+        <div class="clegend" id="g-legend"></div>
+        <div class="cchart-wrap"><canvas id="ch1" role="img" aria-label="Bar chart of monthly or bi-weekly equivalent payment per quintile"></canvas></div>
+        <div class="cnote cnote-purple" id="note-gplp"></div>
+        <div class="cnote cnote-amber"  id="note-rsp"></div>
+        <div class="cnote"              id="note-vtb"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ── Section 07 · The Commons ── -->
+  <div class="article-section section-forest">
+  <div class="section-inner">
+    <div class="section-label">07 · The Commons</div>
+    <h2>One Block at a Time: <em>Reclaiming What Was Already Ours</em></h2>
+
+    <p>
+      The Buy-Back is not a standalone transaction model. It is the acquisition arm of a broader framework — the mechanism by which community savings, redirected through the 5% Pledge, are converted into permanent, democratically-held commercial real estate.
+    </p>
+    <p>
+      Once a building is acquired through the Buy-Back, it does not return to the speculative market. The GP/LP structure connects to the Permanent Land Trust — the legal vehicle that holds land and infrastructure outside the market, permanently. What the community buys back through the Buy-Back, the PLT ensures the community keeps. The Block Fund provides the capital engine. The VTB provides the financing bridge. The PLT provides the legal anchor. Together, they ensure that what the block builds, the block owns.
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;font-size:0.82rem;margin:2.5rem 0;">
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:1.25rem;border-radius:6px;border-top:3px solid #999;">
+        <strong style="display:block;margin-bottom:0.75rem;color:rgba(255,255,255,0.9);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--mono);">Market / Private</strong>
+        <ul style="list-style:none;color:rgba(255,255,255,0.65);line-height:1.8;font-size:0.85rem;">
+          <li>— Remote shareholders</li>
+          <li>— Primary goal: extraction</li>
+          <li>— High leakage rate</li>
+          <li>— Short-termism built in</li>
+        </ul>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);padding:1.25rem;border-radius:6px;border-top:3px solid var(--gold);box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+        <strong style="display:block;margin-bottom:0.75rem;color:var(--gold);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--mono);">Community Stewarded ✦</strong>
+        <ul style="list-style:none;color:rgba(255,255,255,0.9);line-height:1.8;font-size:0.85rem;">
+          <li>+ Block-level governance</li>
+          <li>+ Pre-purchased by residents</li>
+          <li>+ Permanently held in trust</li>
+          <li>+ Immune to speculation</li>
+        </ul>
+      </div>
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:1.25rem;border-radius:6px;border-top:3px solid #999;">
+        <strong style="display:block;margin-bottom:0.75rem;color:rgba(255,255,255,0.9);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--mono);">Public / Government</strong>
+        <ul style="list-style:none;color:rgba(255,255,255,0.65);line-height:1.8;font-size:0.85rem;">
+          <li>— Top-down administration</li>
+          <li>— Deferred maintenance</li>
+          <li>— Slow bureaucratic response</li>
+          <li>— Subject to political defunding</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      The Buy-Back is the 3rd Way made concrete. Not a manifesto, not a policy proposal — a mechanism. A vendor, a GP, a community of LP unit holders, a VTB note, and a Permanent Land Trust. Those five components, assembled in the right sequence, move a commercial block from extraction to stewardship permanently and legally. Block by block. 25 square feet at a time.
+    </p>
+
+    <blockquote>
+      What the community buys back, the community keeps. The vendor exits to legacy, not to whoever happened to have the most capital at the right moment.
+    </blockquote>
+  </div>
+  </div>
+
+  <!-- ── Section 08 · CTA ── -->
+  <div class="article-section section-cta">
+  <div class="section-inner">
+    <div class="section-label" style="color:rgba(255,255,255,0.7);">08 · Get Involved</div>
+    <h2>Your Block Is Already Worth Buying Back.</h2>
+
+    <p style="font-size:1.1rem;max-width:680px;margin:0 auto 3rem;color:rgba(255,255,255,0.9);text-align:center;line-height:1.7;">
+      The Buy-Back does not wait for a government programme or a developer's investment. It begins the moment a vendor is open to a conversation, and a community decides it wants to stay.
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:0 0 3rem;" class="flow-cards-4">
+      <div style="text-align:center;padding:2rem 1.5rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;">
+        <div style="width:48px;height:48px;background:rgba(255,255,255,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:var(--mono);font-size:1rem;color:#fff;font-weight:700;">1</div>
+        <div style="font-family:var(--serif);font-size:1.25rem;color:#fff;margin-bottom:0.75rem;">Identify a Candidate Property</div>
+        <p style="font-size:0.875rem;color:rgba(255,255,255,0.75);line-height:1.6;margin:0;">A commercial property on your block that is coming to market — or a vendor who might be open to a community offer. Get in touch and we will run the numbers together.</p>
+      </div>
+      <div style="text-align:center;padding:2rem 1.5rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;">
+        <div style="width:48px;height:48px;background:rgba(255,255,255,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:var(--mono);font-size:1rem;color:#fff;font-weight:700;">2</div>
+        <div style="font-family:var(--serif);font-size:1.25rem;color:#fff;margin-bottom:0.75rem;">Build a Community Cohort</div>
+        <p style="font-size:0.875rem;color:rgba(255,255,255,0.75);line-height:1.6;margin:0;">Identify 25 sq ft buyers across income quintiles. The calculator above shows exactly how many investors at each income level are needed to fund the full acquisition.</p>
+      </div>
+      <div style="text-align:center;padding:2rem 1.5rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;">
+        <div style="width:48px;height:48px;background:rgba(255,255,255,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:var(--mono);font-size:1rem;color:#fff;font-weight:700;">3</div>
+        <div style="font-family:var(--serif);font-size:1.25rem;color:#fff;margin-bottom:0.75rem;">Close the Deal</div>
+        <p style="font-size:0.875rem;color:rgba(255,255,255,0.75);line-height:1.6;margin:0;">The GP closes with the vendor. Down payments pool at closing. The VTB note is registered. LP unit holders receive their documentation. The block comes home.</p>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,0.2);padding-top:2.5rem;text-align:center;">
+      <p style="font-family:var(--serif);font-size:clamp(1.2rem,2.5vw,1.6rem);font-style:italic;color:#fff;line-height:1.5;margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto;">
+        Your block is already worth buying back.<br>The only question is whether you do it before someone else does.
+      </p>
+      <a href="https://app.blockshare.ca/contact/" style="display:inline-block;background:#fff;color:var(--terracotta);font-family:var(--sans);font-weight:700;font-size:1rem;padding:0.9rem 2.5rem;border-radius:6px;text-decoration:none;letter-spacing:0.02em;margin-right:1rem;">Talk to Us About Your Block &rarr;</a>
+      <a href="https://app.blockshare.ca/buy-back-your-block/" style="display:inline-block;background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.5);font-family:var(--sans);font-weight:600;font-size:0.9rem;padding:0.9rem 2rem;border-radius:6px;text-decoration:none;letter-spacing:0.02em;">Read the Full Series &rarr;</a>
+    </div>
+  </div>
+  </div>
+
+</main>
+
+<!-- ══ Media Bar JS ══ -->
+<script>
+var _mbCurrent = null;
+function loadYT() {
+  var thumb = document.getElementById('ytThumb');
+  var player = document.getElementById('ytPlayer');
+  if (!thumb || !player) return;
+  thumb.style.display = 'none';
+  player.style.display = 'block';
+  player.innerHTML = '<iframe src="https://www.youtube.com/embed/YOUTUBE_ID?autoplay=1&rel=0&modestbranding=1" title="The Buy-Back — 25 Square Feet at a Time" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>';
+}
+function mbToggle(panel) {
+  var bar = document.getElementById('mediaBar');
+  var btn = document.getElementById('mbToggleBtn');
+  if (panel && panel === _mbCurrent) {
+    bar.classList.remove('expanded');
+    document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+    document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+    _mbCurrent = null; btn.textContent = '▾ expand';
+  } else if (panel) {
+    bar.classList.add('expanded');
+    document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+    document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+    var tp = panel === 'yt' ? document.getElementById('mbPanelYT') : document.getElementById('mbPanelPod');
+    var tb = panel === 'yt' ? document.getElementById('mbBtnYT')   : document.getElementById('mbBtnPod');
+    if (tp) tp.classList.add('active-panel');
+    if (tb) tb.classList.add('active');
+    _mbCurrent = panel; btn.textContent = '▴ close';
+  } else {
+    if (bar.classList.contains('expanded')) {
+      bar.classList.remove('expanded');
+      document.querySelectorAll('.mb-panel').forEach(function(p){ p.classList.remove('active-panel'); });
+      document.querySelectorAll('.mb-btn').forEach(function(b){ b.classList.remove('active'); });
+      _mbCurrent = null; btn.textContent = '▾ expand';
+    }
+  }
+}
+</script>
+
+<!-- ══ Calculator ══ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const Q_INC=[32000,52000,72000,105000,165000];
+const Q_NAMES=['Q1','Q2','Q3','Q4','Q5'];
+const Q_FULL=['Q1 — lowest','Q2','Q3 — median','Q4','Q5 — highest'];
+const COLORS=['#D85A30','#EF9F27','#1D9E75','#378ADD','#534AB7'];
+const BG50=['#FAECE7','#FAEEDA','#E1F5EE','#E6F1FB','#EEEDFE'];
+const T800=['#712B13','#633806','#085041','#0C447C','#3C3489'];
+const T600=['#993C1D','#854F0B','#0F6E56','#185FA5','#534AB7'];
+const SENS_EXP={1:0.45,2:0.65,3:0.85};
+const SENS_LABEL={1:'Gentle',2:'Medium',3:'Bold'};
+const VAN_MED=72000;
+const RSP_LIMIT=31560;
+
+function dpFactors(exp){
+  const raw=Q_INC.map(i=>Math.pow(i/VAN_MED,exp));
+  const med=raw[2];
+  return raw.map(r=>r/med);
+}
+function pmt(principal,annualPct,years){
+  if(principal<=0||years<=0) return 0;
+  const r=annualPct/100/12,n=years*12;
+  if(r===0) return principal/n;
+  return principal*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+}
+function biweeklyEquiv(monthly){ return monthly*12/26; }
+function fmt(n){return n.toLocaleString('en-CA',{style:'currency',currency:'CAD',maximumFractionDigits:0});}
+function solveHighRate(targetRate,lowRate,cohortMix){
+  const wLow=(cohortMix[0]+cohortMix[1]);
+  const wMed=cohortMix[2];
+  const wHigh=cohortMix[3]+cohortMix[4];
+  const needed=targetRate - wLow*lowRate - wMed*targetRate;
+  return wHigh>0 ? needed/wHigh : targetRate;
+}
+let chart1;
+function render(){
+  const tsf=+document.getElementById('tsf').value;
+  const ppsf=+document.getElementById('ppsf').value;
+  const usf=+document.getElementById('usf').value;
+  const vtbRate=+document.getElementById('rate').value;
+  const dpPct=+document.getElementById('dpct').value/100;
+  const sensLevel=+document.getElementById('sens').value;
+  const lowRate=+document.getElementById('lowrate').value;
+  const taxRate=+document.getElementById('taxrate').value/100;
+  const exp=SENS_EXP[sensLevel];
+
+  document.getElementById('v-tsf').textContent=tsf.toLocaleString()+' sq ft';
+  document.getElementById('v-ppsf').textContent='$'+ppsf.toLocaleString()+' / sq ft';
+  document.getElementById('v-usf').textContent=usf+' sq ft';
+  document.getElementById('v-rate').textContent=vtbRate.toFixed(2)+'%';
+  document.getElementById('v-dpct').textContent=Math.round(dpPct*100)+'%';
+  document.getElementById('v-sens').textContent=SENS_LABEL[sensLevel];
+  document.getElementById('v-lowrate').textContent=lowRate.toFixed(2)+'%';
+  document.getElementById('v-taxrate').textContent=Math.round(taxRate*100)+'%';
+
+  const totalPrice=tsf*ppsf;
+  const unitPrice=usf*ppsf;
+  const totalUnits=Math.ceil(tsf/usf);
+  const stdDP=unitPrice*dpPct;
+  const factors=dpFactors(exp);
+  const equalMix=[0.2,0.2,0.2,0.2,0.2];
+  const highRate=solveHighRate(vtbRate,lowRate,equalMix);
+  const clampedHigh=Math.min(Math.max(highRate,vtbRate),vtbRate+4);
+  const rates=[lowRate,lowRate,vtbRate,clampedHigh,clampedHigh];
+  const biweeklyQ=[true,true,false,false,false];
+
+  const quintiles=Q_INC.map((inc,i)=>{
+    const dp=stdDP*factors[i];
+    const mortgage=unitPrice-dp;
+    const r=rates[i];
+    const monthly=pmt(mortgage,r,25);
+    const bw=biweeklyQ[i]?biweeklyEquiv(monthly):null;
+    const totalInterest=monthly*12*25-mortgage;
+    const gapVsVTB=(r-vtbRate)*mortgage/100;
+    const annualInterest=mortgage*r/100;
+    const gplpDeduction=annualInterest+(unitPrice*0.012)+(unitPrice*0.005);
+    const taxSaving=gplpDeduction*taxRate;
+    const rspContrib=Math.min(dp,RSP_LIMIT);
+    const rspTaxBack=rspContrib*taxRate;
+    return {inc,dp,mortgage,r,monthly,bw,totalInterest,gapVsVTB,annualInterest,gplpDeduction,taxSaving,rspContrib,rspTaxBack,factor:factors[i]};
+  });
+
+  const wAvgRate=equalMix.reduce((a,w,i)=>a+w*rates[i],0);
+  const balanced=Math.abs(wAvgRate-vtbRate)<0.15;
+  const surplusPerUnit=quintiles.filter((q,i)=>i>=3).reduce((a,q)=>a+Math.max(0,q.gapVsVTB),0);
+  const deficitPerUnit=Math.abs(quintiles.filter((q,i)=>i<=1).reduce((a,q)=>a+Math.min(0,q.gapVsVTB),0));
+  const maxGap=Math.max(surplusPerUnit,deficitPerUnit,1);
+
+  document.getElementById('g-summary').innerHTML=`
+    <div class="cmc"><div class="cml">Total property value</div><div class="cmv">${fmt(totalPrice)}</div></div>
+    <div class="cmc"><div class="cml">Total micro-units</div><div class="cmv">${totalUnits.toLocaleString()}</div><div class="cms">${usf} sq ft each</div></div>
+    <div class="cmc"><div class="cml">Unit price</div><div class="cmv">${fmt(unitPrice)}</div></div>
+    <div class="cmc"><div class="cml">Weighted avg rate</div><div class="cmv" style="color:${balanced?'#0F6E56':'#D85A30'}">${wAvgRate.toFixed(2)}%</div><div class="cms">${balanced?'vendor-neutral':'rebalance needed'}</div></div>
+  `;
+
+  document.getElementById('rate-balance').innerHTML=`
+    <div class="crb-label">Rate cross-subsidy: Q1/Q2 at <strong style="color:#D85A30">${lowRate.toFixed(2)}%</strong> · Q3 at <strong style="color:#1D9E75">${vtbRate.toFixed(2)}%</strong> · Q4/Q5 at <strong style="color:#534AB7">${clampedHigh.toFixed(2)}%</strong></div>
+    <div class="crb-val" style="color:${balanced?'#0F6E56':'#D85A30'}">${balanced?'Vendor made whole':'Adjust low rate'}</div>
+  `;
+
+  document.getElementById('g-quintiles').innerHTML=quintiles.map((q,i)=>{
+    const isLow=i<=1,isMed=i===2,isHigh=i>=3;
+    const bdgBg=isLow?'#F5C4B3':isMed?'#9FE1CB':'#CECBF6';
+    const bdgTxt=isLow?'#712B13':isMed?'#085041':'#3C3489';
+    const taxBg=isHigh?'#EEEDFE':isMed?'#E1F5EE':'#FAECE7';
+    const taxTxt=isHigh?'#3C3489':isMed?'#085041':'#993C1D';
+    const payLabel=q.bw?`${fmt(q.bw)}/bi-wk`:`${fmt(q.monthly)}/mo`;
+    const freqBadge=isLow?'bi-weekly':'monthly';
+    return `<div class="cqc" style="background:${BG50[i]};">
+      <div class="cql" style="color:${T800[i]}">${Q_FULL[i]}</div>
+      <div class="cqrate" style="color:${COLORS[i]}">${q.r.toFixed(2)}%</div>
+      <div class="cqfreq" style="color:${T600[i]}">${freqBadge}</div>
+      <div class="cqdp" style="color:${T600[i]}">DP ${fmt(q.dp)}</div>
+      <div class="cqpay" style="color:${T800[i]}">${payLabel}</div>
+      <div class="cqtotal" style="color:${T600[i]}">25-yr total int: ${fmt(q.totalInterest)}</div>
+      <span class="cqbadge" style="background:${bdgBg};color:${bdgTxt}">${isLow?'subsidised':isMed?'baseline':'premium'}</span>
+      <div class="cqtax" style="background:${taxBg};color:${taxTxt}">GP/LP deduct: ${fmt(q.gplpDeduction)}/yr</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('g-rsp').innerHTML=quintiles.map((q,i)=>{
+    const highlight=i>=3;
+    return `<div class="crc" style="background:${BG50[i]};border-color:${highlight?T600[i]:'transparent'};">
+      <div style="font-size:10px;font-weight:500;color:${T800[i]};margin-bottom:3px;">${Q_NAMES[i]}</div>
+      <div style="font-size:11px;color:${T600[i]};margin-bottom:2px;">RSP-eligible DP</div>
+      <div style="font-size:14px;font-weight:500;color:${T800[i]};margin-bottom:2px;">${fmt(q.rspContrib)}</div>
+      <div style="font-size:10px;color:${T600[i]};margin-bottom:3px;">tax back ~${fmt(q.rspTaxBack)}</div>
+      <div style="font-size:10px;color:${T600[i]}">eff. cost ${fmt(q.dp-q.rspTaxBack)}</div>
+      ${highlight?`<div style="font-size:9px;margin-top:4px;padding:2px 5px;border-radius:3px;background:#EEEDFE;color:#3C3489;">RSP strategy</div>`:''}
+    </div>`;
+  }).join('');
+
+  const cohortN=equalMix.map(s=>Math.ceil(totalUnits*s));
+  const totalDP=quintiles.reduce((a,q,i)=>a+q.dp*cohortN[i],0);
+  const vtbCarry=totalPrice-totalDP;
+
+  document.getElementById('g-cohort').innerHTML=quintiles.map((q,i)=>{
+    const n=cohortN[i];
+    return `<div class="cqc" style="background:${BG50[i]};">
+      <div class="cql" style="color:${T800[i]}">${Q_NAMES[i]}</div>
+      <div style="font-size:26px;font-weight:500;color:${T800[i]};line-height:1.1;margin-bottom:3px;">${n}</div>
+      <div style="font-size:10px;color:${T600[i]};margin-bottom:2px;">investors</div>
+      <div style="font-size:11px;font-weight:500;color:${T600[i]}">${(n*usf).toLocaleString()} sq ft</div>
+      <div style="font-size:10px;color:${T600[i]};margin-top:2px;">${fmt(q.dp*n)} DPs</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('g-total').innerHTML=`
+    <div><div class="ctl">Total (equal-mix · ${totalUnits} units)</div></div>
+    <div style="text-align:right;">
+      <div class="ctv">${fmt(totalPrice)} raised</div>
+      <div style="font-size:11px;color:#6B6B6B;">Down payments at close: ${fmt(totalDP)} · VTB carry: ${fmt(vtbCarry)}</div>
+    </div>
+  `;
+
+  const defPct=Math.min(100,deficitPerUnit/maxGap*100).toFixed(1);
+  const surPct=Math.min(100,surplusPerUnit/maxGap*100).toFixed(1);
+  document.getElementById('pf-deficit').style.width=defPct+'%';
+  document.getElementById('pf-surplus').style.width=surPct+'%';
+  document.getElementById('pv-deficit').textContent='-'+fmt(deficitPerUnit)+'/unit';
+  document.getElementById('pv-surplus').textContent='+'+fmt(surplusPerUnit)+'/unit';
+
+  const payDisplay=quintiles.map(q=>Math.round(q.bw?q.bw*2:q.monthly));
+  const monthlyForComparison=quintiles.map(q=>Math.round(q.monthly));
+
+  document.getElementById('g-legend').innerHTML=`
+    <span><span class="cldot" style="background:#1D9E75;"></span>Effective periodic payment (bi-wk for Q1/Q2, monthly for Q3–Q5)</span>
+    <span><span class="cldot" style="background:#B4B2A9;border:1px dashed #888780;"></span>Standard monthly (for comparison)</span>
+  `;
+
+  if(chart1) chart1.destroy();
+  chart1=new Chart(document.getElementById('ch1'),{
+    type:'bar',
+    data:{
+      labels:Q_NAMES,
+      datasets:[
+        {label:'Effective periodic payment',data:payDisplay,backgroundColor:COLORS,borderRadius:4,yAxisID:'y1'},
+        {label:'Standard monthly equiv',data:monthlyForComparison,type:'line',borderColor:'#888780',borderWidth:1.5,borderDash:[4,3],pointStyle:'rectRot',pointRadius:4,pointBackgroundColor:'#888780',fill:false,yAxisID:'y1'}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{
+        return ' '+fmt(ctx.parsed.y)+(ctx.datasetIndex===0&&(ctx.dataIndex<=1)?' (bi-weekly)':' (monthly)');
+      }}}},
+      scales:{
+        y1:{beginAtZero:false,ticks:{callback:v=>'$'+Math.round(v/100)*100>=1000?'$'+Math.round(v/1000)+'k':'$'+v,font:{size:11}},grid:{color:'rgba(217,211,199,0.4)'}},
+        x:{ticks:{font:{size:12}},grid:{display:false}}
+      }
+    }
+  });
+
+  const q4TaxSave=quintiles[3].taxSaving;
+  const q5TaxSave=quintiles[4].taxSaving;
+  document.getElementById('note-gplp').innerHTML=`<strong>GP/LP tax deductions (Q4 &amp; Q5):</strong> as limited partners, Q4/Q5 unit holders can deduct their proportionate share of interest (${fmt(quintiles[3].annualInterest)}/yr and ${fmt(quintiles[4].annualInterest)}/yr), property taxes (~1.2% of unit), and triple-net expenses (~0.5% of unit) against other income. At a ${Math.round(taxRate*100)}% marginal rate, this yields an effective tax saving of ~${fmt(q4TaxSave)}/yr for Q4 and ~${fmt(q5TaxSave)}/yr for Q5 — partially or fully offsetting the premium rate they carry.`;
+
+  document.getElementById('note-rsp').innerHTML=`<strong>RSP down payment strategy (Q4 &amp; Q5):</strong> under arm's-length mortgage rules, RSP funds can be directed into qualifying VTB mortgages held by the GP/LP. Q4 can contribute up to ${fmt(quintiles[3].rspContrib)} of their down payment from RSP, receiving ~${fmt(quintiles[3].rspTaxBack)} in tax refund — reducing effective cash outlay to ${fmt(quintiles[3].dp-quintiles[3].rspTaxBack)}. Q5: up to ${fmt(quintiles[4].rspContrib)} RSP → ~${fmt(quintiles[4].rspTaxBack)} back → effective cost ${fmt(quintiles[4].dp-quintiles[4].rspTaxBack)}.`;
+
+  document.getElementById('note-vtb').innerHTML=`<strong>VTB structure (GP/LP collective):</strong> the vendor receives ${fmt(totalDP)} in aggregated down payments at closing, then carries ${fmt(vtbCarry)} as a VTB note held by the GP. The LP units represent fractional beneficial interest in the underlying property. All five quintiles participate in any capital appreciation pro-rata to their sq ft holding. The vendor exits to community — retaining a ${vtbRate.toFixed(2)}% income stream from the VTB note — rather than selling at distressed values to a speculative buyer.`;
+}
+
+['tsf','ppsf','usf','rate','dpct','sens','lowrate','taxrate'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+render();
+</script>
+
+<!-- ══ Block Share Nav & Footer — v2.0 ══ -->
+<nav id="bs-nav" class="site-nav"></nav>
+<footer id="bs-footer" class="site-footer"></footer>
+
+<script>
+(function(){
+  /* ── NAV ── */
+  var n = document.getElementById("bs-nav");
+  document.body.insertBefore(n, document.body.firstChild);
+  n.innerHTML =
+    '<div class="site-nav__inner">' +
+      '<a href="https://app.blockshare.ca/bs-home/" class="site-nav__brand">Block<span>Share</span></a>' +
+      '<div class="site-nav__links">' +
+        '<div class="site-nav__dropdown">' +
+          '<span class="site-nav__dropdown-trigger">Blockonomics &#9662;</span>' +
+          '<div class="site-nav__dropdown-menu">' +
+            '<a href="https://app.blockshare.ca/blockonomics/">The Framework</a>' +
+            '<a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a>' +
+            '<a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a>' +
+            '<a href="https://app.blockshare.ca/lei-calculator/">Life Efficiency Index</a>' +
+            '<a href="https://app.blockshare.ca/onboarding/">Take the Block Survey &rarr;</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="site-nav__dropdown">' +
+          '<span class="site-nav__dropdown-trigger">Programs &#9662;</span>' +
+          '<div class="site-nav__dropdown-menu">' +
+            '<a href="https://app.blockshare.ca/share/">Share Pools</a>' +
+            '<a href="https://app.blockshare.ca/food/">Beef Collective</a>' +
+            '<a href="https://app.blockshare.ca/credits/">Community Credits</a>' +
+            '<a href="https://app.blockshare.ca/cc-system-diagram/">CC System Diagram</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="site-nav__dropdown">' +
+          '<span class="site-nav__dropdown-trigger">Publications &#9662;</span>' +
+          '<div class="site-nav__dropdown-menu">' +
+            '<a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a>' +
+            '<a href="https://app.blockshare.ca/buy-back-your-block/">Buy Back Your Block</a>' +
+            '<a href="https://app.blockshare.ca/restore-to-own/">Restore-to-Own</a>' +
+            '<a href="https://app.blockshare.ca/third-way/">The 3rd Way</a>' +
+            '<a href="https://app.blockshare.ca/land-trusts/">The Land Is Already Here</a>' +
+            '<a href="https://app.blockshare.ca/private-taxes/">Private Taxes</a>' +
+            '<a href="https://app.blockshare.ca/unrepresented/">Unrepresented</a>' +
+            '<a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a>' +
+            '<a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a>' +
+            '<a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debts That Can\'t Be Paid</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="site-nav__dropdown">' +
+          '<span class="site-nav__dropdown-trigger">Get Involved &#9662;</span>' +
+          '<div class="site-nav__dropdown-menu">' +
+            '<a href="https://app.blockshare.ca/about/">Our Story</a>' +
+            '<a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a>' +
+            '<a href="https://app.blockshare.ca/contact/">Contact &amp; Speaking</a>' +
+            '<a href="https://thedecentralist.net" target="_blank" rel="noopener">The Decentralist &#8599;</a>' +
+            '<a href="https://app.blockshare.ca/become-host/">Become a Host</a>' +
+            '<a href="https://app.blockshare.ca/join-block/">Join Your Block</a>' +
+            '<a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a>' +
+          '</div>' +
+        '</div>' +
+        '<a href="https://app.blockshare.ca/onboarding/" class="site-nav__cta">Get Started &rarr;</a>' +
+      '</div>' +
+      '<button class="site-nav__hamburger" aria-label="Open menu">&#9776;</button>' +
+    '</div>';
+
+  /* ── FOOTER ── */
+  var f = document.getElementById("bs-footer");
+  f.innerHTML =
+    '<div class="site-footer__inner">' +
+      '<div class="footer-grid">' +
+        '<div>' +
+          '<div class="footer-brand">Block<span>Share</span></div>' +
+          '<p class="footer-tagline">Building neighbourhood economies across Vancouver, BC.<br>A 3rd Way initiative &mdash; neither government programme nor corporate platform.</p>' +
+        '</div>' +
+        '<div class="footer-col"><h4>Blockonomics</h4><ul>' +
+          '<li><a href="https://app.blockshare.ca/blockonomics/">The Framework</a></li>' +
+          '<li><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a></li>' +
+          '<li><a href="https://app.blockshare.ca/block-budget/">Data Explorer</a></li>' +
+          '<li><a href="https://app.blockshare.ca/lei-calculator/">LEI Calculator</a></li>' +
+          '<li><a href="https://app.blockshare.ca/citizen-dashboard-article/">Citizens Dashboard</a></li>' +
+        '</ul></div>' +
+        '<div class="footer-col"><h4>Programs</h4><ul>' +
+          '<li><a href="https://app.blockshare.ca/share/">Share Pools</a></li>' +
+          '<li><a href="https://app.blockshare.ca/food/">Beef Collective</a></li>' +
+          '<li><a href="https://app.blockshare.ca/credits/">Community Credits</a></li>' +
+          '<li><a href="https://app.blockshare.ca/cc-system-diagram/">CC System Diagram</a></li>' +
+        '</ul></div>' +
+        '<div class="footer-col"><h4>Publications</h4><ul>' +
+          '<li><a href="https://app.blockshare.ca/buy-back-your-block/">Buy Back Your Block</a></li>' +
+          '<li><a href="https://app.blockshare.ca/third-way/">The 3rd Way</a></li>' +
+          '<li><a href="https://app.blockshare.ca/land-trusts/">The Land Is Already Here</a></li>' +
+          '<li><a href="https://app.blockshare.ca/private-taxes/">Private Taxes</a></li>' +
+          '<li><a href="https://app.blockshare.ca/restore-to-own/">Restore-to-Own</a></li>' +
+          '<li><a href="https://app.blockshare.ca/unrepresented/">Unrepresented</a></li>' +
+          '<li><a href="https://app.blockshare.ca/tale-of-two-cycles/">Tale of Two Cycles</a></li>' +
+          '<li><a href="https://app.blockshare.ca/the-fine-print/">The Fine Print</a></li>' +
+          '<li><a href="https://app.blockshare.ca/mobility-for-life/">Mobility for Life</a></li>' +
+          '<li><a href="https://app.blockshare.ca/food-for-generations/">Food for Generations</a></li>' +
+          '<li><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></li>' +
+        '</ul></div>' +
+        '<div class="footer-col"><h4>Connect</h4><ul>' +
+          '<li><a href="https://app.blockshare.ca/about/">Our Story</a></li>' +
+          '<li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat</a></li>' +
+          '<li><a href="https://app.blockshare.ca/contact/">Contact &amp; Speaking</a></li>' +
+          '<li><a href="https://thedecentralist.net" target="_blank" rel="noopener">The Decentralist &#8599;</a></li>' +
+          '<li><a href="https://app.blockshare.ca/join-block/">Join Your Block</a></li>' +
+          '<li><a href="https://app.blockshare.ca/become-host/">Become a Host</a></li>' +
+        '</ul></div>' +
+      '</div>' +
+      '<div class="footer-copy">&copy; 2026 Block Share &middot; Vancouver, BC &middot; A community initiative inspired by E.F. Schumacher\'s <em>Small is Beautiful</em></div>' +
+    '</div>';
+
+  /* ── MOBILE OVERLAY ── */
+  var hb  = document.querySelector(".site-nav__hamburger");
+  var ov  = document.createElement("div");
+  ov.className = "bs-mobile-overlay";
+  ov.id = "bs-mobile-menu";
+  ov.style.display = "none";
+  ov.innerHTML =
+    '<button class="bs-mobile-overlay__close" aria-label="Close menu">&times;</button>' +
+    '<div class="bs-mobile-overlay__section">' +
+      '<div class="bs-mobile-overlay__heading">Blockonomics</div>' +
+      '<a href="https://app.blockshare.ca/blockonomics/">The Framework</a>' +
+      '<a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a>' +
+      '<a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a>' +
+      '<a href="https://app.blockshare.ca/lei-calculator/">Life Efficiency Index</a>' +
+    '</div>' +
+    '<div class="bs-mobile-overlay__section">' +
+      '<div class="bs-mobile-overlay__heading">Programs</div>' +
+      '<a href="https://app.blockshare.ca/share/">Share Pools</a>' +
+      '<a href="https://app.blockshare.ca/food/">Beef Collective</a>' +
+      '<a href="https://app.blockshare.ca/credits/">Community Credits</a>' +
+    '</div>' +
+    '<div class="bs-mobile-overlay__section">' +
+      '<div class="bs-mobile-overlay__heading">Publications</div>' +
+      '<a href="https://app.blockshare.ca/buy-back-your-block/">Buy Back Your Block</a>' +
+      '<a href="https://app.blockshare.ca/restore-to-own/">Restore-to-Own</a>' +
+      '<a href="https://app.blockshare.ca/third-way/">The 3rd Way</a>' +
+      '<a href="https://app.blockshare.ca/land-trusts/">The Land Is Already Here</a>' +
+      '<a href="https://app.blockshare.ca/private-taxes/">Private Taxes</a>' +
+      '<a href="https://app.blockshare.ca/unrepresented/">Unrepresented</a>' +
+      '<a href="https://app.blockshare.ca/tale-of-two-cycles/">Tale of Two Cycles</a>' +
+      '<a href="https://app.blockshare.ca/the-fine-print/">The Fine Print</a>' +
+      '<a href="https://app.blockshare.ca/mobility-for-life/">Mobility for Life</a>' +
+      '<a href="https://app.blockshare.ca/food-for-generations/">Food for Generations</a>' +
+      '<a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a>' +
+    '</div>' +
+    '<div class="bs-mobile-overlay__section">' +
+      '<div class="bs-mobile-overlay__heading">Get Involved</div>' +
+      '<a href="https://app.blockshare.ca/about/">Our Story</a>' +
+      '<a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a>' +
+      '<a href="https://app.blockshare.ca/contact/">Contact &amp; Speaking</a>' +
+      '<a href="https://thedecentralist.net" target="_blank" rel="noopener">The Decentralist &#8599;</a>' +
+      '<a href="https://app.blockshare.ca/become-host/">Become a Host</a>' +
+      '<a href="https://app.blockshare.ca/join-block/">Join Your Block</a>' +
+    '</div>' +
+    '<a href="https://app.blockshare.ca/onboarding/" class="bs-mobile-overlay__cta">Get Started &rarr;</a>';
+
+  document.body.appendChild(ov);
+  function openMobile()  { ov.style.display = "flex"; ov.classList.add("active");    document.body.style.overflow = "hidden"; }
+  function closeMobile() { ov.classList.remove("active"); ov.style.display = "none"; document.body.style.overflow = ""; }
+  if (hb) hb.addEventListener("click", openMobile);
+  var cb = ov.querySelector(".bs-mobile-overlay__close");
+  if (cb) cb.addEventListener("click", closeMobile);
+  ov.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", closeMobile); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeMobile(); });
+
+  /* ── Active page highlight ── */
+  var currentPath = window.location.pathname.replace(/\/$/, "");
+  document.querySelectorAll(".site-nav__dropdown-menu a, .bs-mobile-overlay a").forEach(function(link) {
+    try {
+      var linkPath = new URL(link.href).pathname.replace(/\/$/, "");
+      if (linkPath && linkPath === currentPath) {
+        link.style.color = "#4ade80";
+        link.style.fontWeight = "600";
+      }
+    } catch(e) {}
+  });
+})();
+</script>
+
+<style>
+/* ══ BLOCK SHARE NAV & FOOTER STYLES v2.0 ══ */
+.site-nav,.site-footer,.bs-mobile-overlay{
+  --bg-dark:#0f1419;
+  --border-dark:#1e293b;
+  --border-dark-light:#334155;
+  --text-light:#e8ecf1;
+  --text-light-secondary:#94a3b8;
+  --text-light-muted:#64748b;
+  --green-400:#4ade80;
+  --green-500:#22c55e;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Source Sans 3','Segoe UI',sans-serif;
+}
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,20,25,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-dark);}
+.site-nav__inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;}
+.site-nav__brand{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-light);text-decoration:none;letter-spacing:-0.02em;}
+.site-nav__brand span{color:var(--green-400);}
+.site-nav__links{display:flex;gap:4px;align-items:center;}
+.site-nav__dropdown{position:relative;}
+.site-nav__dropdown-trigger{color:var(--text-light-secondary);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:8px 12px;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+.site-nav__dropdown:hover .site-nav__dropdown-trigger{color:var(--green-400);}
+.site-nav__dropdown-menu{display:none;position:absolute;top:100%;left:0;background:var(--bg-dark);border:1px solid var(--border-dark-light);border-radius:8px;padding:8px 0;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:1010;}
+.site-nav__dropdown:hover .site-nav__dropdown-menu{display:block;}
+.site-nav__dropdown-menu a{display:block;padding:8px 20px;font-size:14px;color:var(--text-light-secondary);text-decoration:none;white-space:nowrap;}
+.site-nav__dropdown-menu a:hover{color:var(--green-400);background:rgba(74,222,128,0.06);}
+.site-nav__dropdown-menu a:first-child{color:var(--green-400);font-weight:600;border-bottom:1px solid var(--border-dark);margin-bottom:4px;padding-bottom:12px;}
+.site-nav__cta{display:inline-block;background:var(--green-500);color:var(--bg-dark);padding:7px 16px;border-radius:6px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:0.06em;text-decoration:none;margin-left:6px;}
+.site-nav__cta:hover{opacity:0.9;}
+.site-nav__hamburger{display:none;background:none;border:none;color:var(--text-light);font-size:24px;cursor:pointer;padding:4px 8px;}
+@media(max-width:900px){.site-nav__links{display:none;}.site-nav__hamburger{display:block;}}
+.bs-mobile-overlay{position:fixed;inset:0;z-index:2000;background:rgba(15,20,25,0.98);padding:72px 24px 32px;overflow-y:auto;flex-direction:column;}
+.bs-mobile-overlay__close{position:absolute;top:16px;right:24px;background:none;border:none;color:var(--text-light);font-size:28px;cursor:pointer;line-height:1;}
+.bs-mobile-overlay__section{margin-bottom:24px;}
+.bs-mobile-overlay__heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:10px;font-family:var(--font-body);}
+.bs-mobile-overlay a{display:block;padding:8px 0;font-size:16px;color:var(--text-light-secondary);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.05);}
+.bs-mobile-overlay a:hover{color:var(--green-400);}
+.bs-mobile-overlay__cta{display:inline-block;margin-top:16px;background:var(--green-500);color:var(--bg-dark);padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center;border:none;}
+.site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 24px 32px;}
+.site-footer__inner{max-width:1200px;margin:0 auto;}
+.footer-grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:40px;margin-bottom:32px;}
+.footer-brand{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-light);margin-bottom:12px;}
+.footer-brand span{color:var(--green-400);}
+.footer-tagline{font-size:13px;color:var(--text-light-muted);line-height:1.65;}
+.footer-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-secondary);margin-bottom:14px;}
+.footer-col ul{list-style:none;margin:0;padding:0;}
+.footer-col li{margin-bottom:7px;}
+.footer-col a{font-size:13px;color:var(--text-light-muted);text-decoration:none;transition:color 0.2s;line-height:1.4;}
+.footer-col a:hover{color:var(--green-400);}
+.footer-col a[href*="publications"]:last-child{color:var(--green-400);font-weight:500;}
+.footer-copy{font-size:12px;color:var(--text-light-muted);border-top:1px solid var(--border-dark);padding-top:20px;text-align:center;}
+@media(max-width:1000px){.footer-grid{grid-template-columns:1fr 1fr 1fr;}}
+@media(max-width:640px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:400px){.footer-grid{grid-template-columns:1fr;}}
+body{padding-top:56px!important;}
+</style>
+
+</body>
+</html>

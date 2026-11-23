@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Community Credits System Dynamics — Block Share</title>
+
+<!-- Open Graph -->
+<meta property="og:title" content="Community Credits System Dynamics — Block Share"/>
+<meta property="og:description" content="An interactive map of the feedback loops governing cash liquidity, labour capacity, and asset commons growth in the Block Share Community Credits economy."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://app.blockshare.ca/cc-system-diagram/"/>
+<meta property="og:image" content="https://app.blockshare.ca/cc-system-diagram/?og=1"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:site_name" content="Block Share"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Community Credits System Dynamics — Block Share"/>
+<meta name="twitter:description" content="Interactive system dynamics diagram: how Community Credits circulate, grow, and redistribute wealth at the neighbourhood scale."/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Georgia','Garamond',serif;background:#f4f6f8}
+@keyframes fd{to{stroke-dashoffset:-24}}
+
+/* ── Header ── */
+#bs-header{background:#1E4D7B;color:#fff;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:58px;box-shadow:0 2px 8px rgba(0,0,0,0.25);position:sticky;top:0;z-index:100}
+#bs-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+#bs-logo svg{flex-shrink:0}
+#bs-logo-text{display:flex;flex-direction:column;line-height:1.1}
+#bs-logo-text span:first-child{font-size:17px;font-weight:bold;letter-spacing:0.5px}
+#bs-logo-text span:last-child{font-size:10px;color:#a8c8e8;letter-spacing:1px;text-transform:uppercase}
+#bs-nav{display:flex;gap:4px;align-items:center}
+.bs-navlink{color:#c8dff0;text-decoration:none;font-size:13px;padding:6px 10px;border-radius:4px;transition:background 0.15s,color 0.15s;font-family:'Georgia',serif}
+.bs-navlink:hover,.bs-navlink.active{background:rgba(255,255,255,0.15);color:#fff}
+#bs-hamburger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px}
+#bs-hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px}
+#bs-mobile-nav{display:none;flex-direction:column;background:#1a4470;padding:8px 0}
+#bs-mobile-nav a{color:#c8dff0;text-decoration:none;padding:10px 24px;font-size:14px;font-family:'Georgia',serif}
+#bs-mobile-nav a:hover{background:rgba(255,255,255,0.1);color:#fff}
+
+/* ── OG Placeholder (hidden in normal view, visible via ?og=1) ── */
+#og-placeholder{display:none;width:1200px;height:630px;background:linear-gradient(135deg,#1E4D7B 0%,#2E7D32 100%);align-items:center;justify-content:center;flex-direction:column;gap:20px}
+#og-placeholder h1{color:#fff;font-size:52px;font-weight:bold;text-align:center;max-width:800px;line-height:1.2}
+#og-placeholder p{color:rgba(255,255,255,0.8);font-size:24px;text-align:center;max-width:700px}
+#og-placeholder .tag{background:rgba(255,255,255,0.15);color:#fff;padding:8px 20px;border-radius:20px;font-size:18px;letter-spacing:1px}
+
+/* ── Intro ── */
+#bs-intro{max-width:850px;margin:32px auto 0;padding:0 20px}
+#bs-intro h2{font-size:22px;color:#1E4D7B;margin-bottom:10px;font-weight:bold}
+#bs-intro p{font-size:15px;color:#3d4f5c;line-height:1.75;margin-bottom:10px}
+#bs-intro .tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+#bs-intro .tag{background:#e8f0fb;color:#1E4D7B;border:1px solid #b8cde8;border-radius:20px;padding:4px 14px;font-size:12px}
+
+/* ── Diagram wrapper ── */
+#bs-diagram{padding:0 20px 40px}
+
+@media(max-width:700px){
+  #bs-nav{display:none}
+  #bs-hamburger{display:flex}
+  #bs-mobile-nav.open{display:flex}
+  #bs-intro h2{font-size:18px}
+  #bs-intro p{font-size:14px}
+}
+
+
+/* ── BLOCK SHARE SITE NAV (injected) ── */
+.bs-site-nav{background:#0f2b1d;border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:9999}
+.bs-site-nav .nav-inner{max-width:1200px;margin:0 auto;padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.bs-site-nav .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
+.bs-site-nav .nav-logo span{color:#f9a825}
+.bs-site-nav .nav-links{display:flex;gap:0;list-style:none;align-items:center}
+.bs-site-nav .nav-links>li{position:relative}
+.bs-site-nav .nav-links>li>a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;font-weight:500;padding:.45rem .75rem;border-radius:6px;transition:all .25s;display:flex;align-items:center;gap:.3rem;font-family:'DM Sans',sans-serif}
+.bs-site-nav .nav-links>li>a:hover,.bs-site-nav .nav-links>li:hover>a{color:#fff;background:rgba(255,255,255,.1)}
+.bs-site-nav .nav-links>li>a .dd-arrow{font-size:.6rem;transition:transform .2s;margin-top:1px}
+.bs-site-nav .nav-links>li:hover>a .dd-arrow{transform:rotate(180deg)}
+.bs-site-nav .nav-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#163d2a;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 0;min-width:240px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:bsDdFadeIn .15s ease-out;z-index:10001}
+.bs-site-nav .nav-links>li:hover .nav-dd{display:block}
+@keyframes bsDdFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.bs-site-nav .nav-dd a{display:block;padding:8px 18px;color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:400;transition:all .15s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.bs-site-nav .nav-dd a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.bs-site-nav .nav-dd .dd-divider{height:1px;background:rgba(255,255,255,.1);margin:6px 16px}
+.bs-site-nav .nav-dd .dd-highlight{color:#f9a825;font-weight:600}
+.bs-site-nav .nav-cta{background:#f9a825;color:#0f2b1d;padding:.45rem 1.1rem;border-radius:6px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:'DM Sans',sans-serif}
+.bs-site-nav .mobile-menu{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+.bs-mobile-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0f2b1d;z-index:20000;padding:1.5rem;overflow-y:auto;font-family:'DM Sans',sans-serif}
+.bs-mobile-panel.open{display:block}
+.bs-mobile-panel .mobile-nav-close{background:none;border:none;color:#fff;font-size:1.8rem;position:absolute;top:1rem;right:1.5rem;cursor:pointer}
+.bs-mobile-panel .m-section{margin-bottom:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)}
+.bs-mobile-panel .m-section:first-child{border-top:none;padding-top:0;margin-top:3rem}
+.bs-mobile-panel .m-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#f9a825;margin-bottom:.5rem}
+.bs-mobile-panel a{display:block;color:rgba(255,255,255,.8);text-decoration:none;font-size:.95rem;padding:.5rem 0}
+.bs-mobile-panel a:hover{color:#fff}
+.bs-mobile-panel .m-cta{display:block;background:#f9a825;color:#0f2b1d;text-align:center;padding:.85rem;border-radius:8px;font-weight:600;font-size:.95rem;margin-top:1.5rem;text-decoration:none}
+.bs-site-footer{background:#0a1a2a;color:#fff;padding:3.5rem 2rem 2rem;font-family:'DM Sans',sans-serif}
+.bs-site-footer .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem}
+.bs-site-footer .footer-brand .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
+.bs-site-footer .footer-brand .nav-logo span{color:#f9a825}
+.bs-site-footer .footer-brand p{color:rgba(255,255,255,.8);font-size:.85rem;margin-top:.75rem;line-height:1.6;max-width:280px}
+.bs-site-footer h4{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#c8891e;margin-bottom:1rem}
+.bs-site-footer ul{list-style:none;padding:0;margin:0}.bs-site-footer li{margin-bottom:.5rem}
+.bs-site-footer a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.85rem}.bs-site-footer a:hover{color:#fff}
+.bs-site-footer .footer-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.8)}
+@media(max-width:600px){.bs-site-nav .nav-links{display:none !important}.bs-site-nav .mobile-menu{display:block}.bs-site-footer .footer-inner{grid-template-columns:1fr}.bs-site-footer .footer-bottom{flex-direction:column;gap:.5rem}}
+@media(max-width:900px){.bs-site-footer .footer-inner{grid-template-columns:1fr 1fr}}
+
+</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="bs-site-nav"><div class="nav-inner"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><ul class="nav-links">
+                <li><a href="/blockonomics/">Blockonomics <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a><div class="dd-divider"></div><a href="/onboarding/" class="dd-highlight">Take the Block Survey →</a></div></li>
+                <li><a href="#">Programs <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a><div class="dd-divider"></div><a href="/cc-system-diagram/">CC System Diagram</a></div></li>
+                <li><a href="/publications/">Publications <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><div class="dd-divider"></div><a href="/publications/" class="dd-highlight">All Publications →</a></div></li>
+                <li><a href="#">Get Involved <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div></li>
+            </ul><a href="/onboarding/" class="nav-cta">Get Started →</a><button class="mobile-menu" id="mobileMenuBtn">☰</button></div></nav>
+
+    <div class="bs-mobile-panel" id="mobileNavPanel">
+        <button class="mobile-nav-close" id="mobileNavClose">✕</button>
+        <div class="m-section"><div class="m-label">Blockonomics</div><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a></div>
+        <div class="m-section"><div class="m-label">Programs</div><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a></div>
+        <div class="m-section"><div class="m-label">Publications</div><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><a href="/publications/">All Publications →</a></div>
+        <div class="m-section"><div class="m-label">Get Involved</div><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div>
+        <a href="/onboarding/" class="m-cta">Get Started →</a>
+    </div>
+
+
+<!-- OG Placeholder (shown when ?og=1 for screenshot tools) -->
+<div id="og-placeholder">
+  <div class="tag">Block Share · app.blockshare.ca</div>
+  <h1>Community Credits System Dynamics</h1>
+  <p>How cash, labour, and shared assets create a self-reinforcing neighbourhood economy</p>
+</div>
+
+<!-- Header -->
+<header id="bs-header">
+  <a id="bs-logo" href="https://app.blockshare.ca">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <rect width="32" height="32" rx="6" fill="#2E7D32"/>
+      <rect x="6" y="6" width="8" height="8" rx="1.5" fill="#fff" opacity="0.9"/>
+      <rect x="18" y="6" width="8" height="8" rx="1.5" fill="#fff" opacity="0.9"/>
+      <rect x="6" y="18" width="8" height="8" rx="1.5" fill="#fff" opacity="0.9"/>
+      <rect x="18" y="18" width="8" height="8" rx="1.5" fill="#a8e6b0" opacity="0.9"/>
+      <line x1="14" y1="10" x2="18" y2="10" stroke="#fff" strokeWidth="1.5" opacity="0.6"/>
+      <line x1="10" y1="14" x2="10" y2="18" stroke="#fff" strokeWidth="1.5" opacity="0.6"/>
+      <line x1="22" y1="14" x2="22" y2="18" stroke="#fff" strokeWidth="1.5" opacity="0.6"/>
+      <line x1="14" y1="22" x2="18" y2="22" stroke="#a8e6b0" strokeWidth="1.5" opacity="0.6"/>
+    </svg>
+    <div id="bs-logo-text">
+      <span>Block Share</span>
+      <span>Community Economy</span>
+    </div>
+  </a>
+  
+  <button id="bs-hamburger" onclick="document.getElementById('bs-mobile-nav').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<div id="bs-mobile-nav">
+  <a href="https://app.blockshare.ca">Home</a>
+  <a href="/about">About</a>
+  <a href="/community-credits">Community Credits</a>
+  <a href="/block-budget">Block Budget</a>
+  <a href="/quests">Quests</a>
+  <a href="https://blockonomics.ca">Blockonomics</a>
+  <a href="/contact">Contact</a>
+</div>
+
+<!-- Intro -->
+<section id="bs-intro">
+  <h2>How Do Community Credits Actually Work?</h2>
+  <p>
+    Community Credits (CC) are a neighbourhood-scale parallel currency issued by Block Share. Unlike cash, they are designed to <em>circulate locally</em>, decay when hoarded (demurrage), and grow in value as shared assets — storage stalls, fleet vehicles, tool libraries — are contributed to the commons. This diagram maps the key feedback loops that govern how credits enter the system, how they flow between members, businesses, and assets, and what systemic outcomes emerge over time.
+  </p>
+  <p>
+    <strong>Hover over any node</strong> to trace its connections. Hover over flows to read their labels. Use the toggle controls to adjust the view.
+  </p>
+  <div class="tag-row">
+    <span class="tag">System Dynamics</span>
+    <span class="tag">Community Currency</span>
+    <span class="tag">Asset Commons</span>
+    <span class="tag">Demurrage</span>
+    <span class="tag">Labour Exchange</span>
+    <span class="tag">Neighbourhood Economy</span>
+  </div>
+</section>
+
+<!-- Diagram (React) -->
+<div id="bs-diagram">
+  <div id="root"></div>
+</div>
+
+<script type="text/babel">
+const NODES=[
+  {id:"cash",label:"Cash Reserve",subtitle:"Fiat Liquidity Pool",x:400,y:120,ring:"core",color:"#2E7D32"},
+  {id:"labour",label:"Labour Pool",subtitle:"Quest & P2P Services",x:680,y:320,ring:"core",color:"#1565C0"},
+  {id:"assets",label:"Asset Commons",subtitle:"Shared Infrastructure",x:400,y:520,ring:"core",color:"#BF360C"},
+  {id:"cc_supply",label:"CC Supply",subtitle:"Circulating Credits",x:120,y:320,ring:"core",color:"#7B1FA2"},
+  {id:"new_members",label:"New Members",subtitle:"$33 Cash Entry",x:140,y:80,ring:"actor",color:"#546E7A"},
+  {id:"businesses",label:"Local Retailers",subtitle:"Multiplier Effect",x:720,y:80,ring:"actor",color:"#546E7A"},
+  {id:"labour_force",label:"Labour Force",subtitle:"Tutors, Drivers, Makers",x:780,y:520,ring:"actor",color:"#546E7A"},
+  {id:"asset_holders",label:"Asset Contributors",subtitle:"Stalls, Vehicles, Tools",x:140,y:540,ring:"actor",color:"#546E7A"},
+  {id:"demurrage",label:"Demurrage",subtitle:"Use-It Pressure",x:60,y:180,ring:"mechanism",color:"#E65100"},
+  {id:"seigniorage",label:"Seigniorage",subtitle:"Early Builder Reward",x:740,y:180,ring:"mechanism",color:"#E65100"},
+  {id:"quests",label:"Quests & Projects",subtitle:"Seedling → Canopy",x:780,y:400,ring:"mechanism",color:"#E65100"},
+  {id:"ownership_shift",label:"Ownership Shift",subtitle:"Wealth Redistribution",x:400,y:650,ring:"outcome",color:"#1E4D7B"},
+  {id:"time_freedom",label:"Time Freedom",subtitle:"Reduced Burden",x:160,y:650,ring:"outcome",color:"#1E4D7B"},
+  {id:"regenerative",label:"Regenerative Investment",subtitle:"Life Accounting",x:640,y:650,ring:"outcome",color:"#1E4D7B"},
+];
+const FLOWS=[
+  {from:"new_members",to:"cash",label:"$33 fiat in",type:"entry",curve:0},
+  {from:"new_members",to:"cc_supply",label:"$100 CC issued",type:"entry",curve:-20},
+  {from:"cc_supply",to:"businesses",label:"Local spending",type:"circulation",curve:-40},
+  {from:"businesses",to:"cash",label:"Fiat cashout (leakage)",type:"leakage",curve:0},
+  {from:"businesses",to:"labour_force",label:"Pay local suppliers in CC",type:"circulation",curve:20},
+  {from:"quests",to:"labour_force",label:"CC for completed work",type:"issuance",curve:0},
+  {from:"labour_force",to:"labour",label:"Hours contributed",type:"contribution",curve:0},
+  {from:"labour",to:"cc_supply",label:"P2P service exchange",type:"circulation",curve:20},
+  {from:"asset_holders",to:"assets",label:"Stalls, vehicles, tools",type:"contribution",curve:0},
+  {from:"assets",to:"cc_supply",label:"Usage fees in CC",type:"circulation",curve:0},
+  {from:"assets",to:"asset_holders",label:"Revenue: $400/mo storage",type:"revenue",curve:30},
+  {from:"demurrage",to:"cc_supply",label:"Spend or invest pressure",type:"mechanism",curve:0},
+  {from:"cc_supply",to:"assets",label:"Invest to avoid demurrage",type:"investment",curve:20},
+  {from:"seigniorage",to:"new_members",label:"Early builder bonus",type:"mechanism",curve:0},
+  {from:"assets",to:"ownership_shift",label:"Community wealth builds",type:"outcome",curve:0},
+  {from:"assets",to:"time_freedom",label:"Shared resources = less burden",type:"outcome",curve:10},
+  {from:"time_freedom",to:"labour",label:"More time to participate",type:"reinforcing",curve:-30},
+  {from:"ownership_shift",to:"regenerative",label:"Life-aligned capital",type:"outcome",curve:0},
+  {from:"regenerative",to:"assets",label:"Reinvest in productive assets",type:"reinforcing",curve:30},
+  {from:"assets",to:"labour_force",label:"Fleet cars → local drivers",type:"circulation",curve:-20},
+];
+const LOOPS=[
+  {x:260,y:300,label:"R1",desc:"Velocity Loop",detail:"More spending → more CC circulation → more local value",color:"#2E7D32"},
+  {x:540,y:440,label:"R2",desc:"Asset Freedom Loop",detail:"Shared assets → time savings → more participation → more assets",color:"#BF360C"},
+  {x:580,y:240,label:"R3",desc:"Labour Capacity Loop",detail:"Quests build skills → more services → more CC utility",color:"#1565C0"},
+  {x:400,y:380,label:"B1",desc:"Cash Drain Balancer",detail:"Business cashout depletes reserve → limits new issuance",color:"#E65100"},
+];
+const FC={circulation:"#2E7D32",entry:"#7B1FA2",leakage:"#c62828",contribution:"#1565C0",mechanism:"#E65100",investment:"#BF360C",outcome:"#1E4D7B",reinforcing:"#00897B",issuance:"#1565C0",revenue:"#2E7D32"};
+const t={bg:"linear-gradient(145deg,#f8f9fa 0%,#e9ecef 50%,#f1f3f5 100%)",nodeBg:"rgba(255,255,255,0.92)",sub:"#5a6370",panelBg:"rgba(0,0,0,0.025)",panelBd:"rgba(0,0,0,0.08)",card:"#495057",title:"#1E4D7B",grid:"rgba(0,0,0,0.04)",foot:"#868e96",tipBg:"rgba(255,255,255,0.97)",actBg:"rgba(46,125,50,0.12)",actTx:"#2E7D32",actBd:"#2E7D32",offBg:"rgba(0,0,0,0.04)",offTx:"#868e96",offBd:"#ced4da",togBg:"rgba(0,0,0,0.06)",togTx:"#495057",togBd:"#ced4da",loopBg:"rgba(255,255,255,0.9)",shadow:0.08};
+
+function getNode(id){return NODES.find(n=>n.id===id);}
+function cv(x1,y1,x2,y2,c){
+  const mx=(x1+x2)/2,my=(y1+y2)/2,dx=x2-x1,dy=y2-y1,l=Math.sqrt(dx*dx+dy*dy)||1;
+  const cx=mx+(-dy/l)*c,cy=my+(dx/l)*c;
+  return {d:`M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`,cx,cy};
+}
+
+function App(){
+  const [hovN,setHovN]=React.useState(null);
+  const [hovF,setHovF]=React.useState(null);
+  const [hovL,setHovL]=React.useState(null);
+  const [labels,setLabels]=React.useState(true);
+  const [loops,setLoops]=React.useState(true);
+  const [anim,setAnim]=React.useState(true);
+  const cF=hovN?FLOWS.filter(f=>f.from===hovN||f.to===hovN):[];
+  const cI=hovN?new Set([hovN,...cF.map(f=>f.from),...cF.map(f=>f.to)]):null;
+  return (
+    <div style={{background:t.bg,fontFamily:"'Georgia','Garamond',serif",color:"#212529",padding:"20px 0 0"}}>
+      <div style={{display:"flex",justifyContent:"center",gap:"12px",marginBottom:"10px"}}>
+        {[{l:"Flow Labels",s:labels,f:setLabels},{l:"Loop Markers",s:loops,f:setLoops},{l:"Animate",s:anim,f:setAnim}].map(c=>(
+          <button key={c.l} onClick={()=>c.f(!c.s)} style={{background:c.s?t.actBg:t.offBg,border:`1px solid ${c.s?t.actBd:t.offBd}`,color:c.s?t.actTx:t.offTx,padding:"5px 12px",borderRadius:"4px",cursor:"pointer",fontSize:"12px",fontFamily:"inherit"}}>
+            {c.l}: {c.s?"ON":"OFF"}
+          </button>
+        ))}
+      </div>
+      <div style={{display:"flex",justifyContent:"center"}}>
+        <svg viewBox="0 0 850 720" style={{width:"100%",maxWidth:"850px"}}>
+          <defs>
+            {Object.keys(FC).map(k=>(
+              <marker key={k} id={`a-${k}`} viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+                <polygon points="0 0,10 3.5,0 7" fill={FC[k]}/>
+              </marker>
+            ))}
+            <filter id="gl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <filter id="sh"><feDropShadow dx="1" dy="2" stdDeviation="3" floodOpacity={t.shadow}/></filter>
+          </defs>
+          <pattern id="gr" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke={t.grid} strokeWidth="0.5"/></pattern>
+          <rect width="850" height="720" fill="url(#gr)"/>
+          {FLOWS.map((fl,i)=>{
+            const fn=getNode(fl.from),tn=getNode(fl.to);
+            if(!fn||!tn) return null;
+            const {d,cx,cy}=cv(fn.x,fn.y,tn.x,tn.y,fl.curve);
+            const col=FC[fl.type]||"#556";
+            const hl=hovF===i||cF.includes(fl);
+            const dim=(hovN&&!cF.includes(fl))||(hovF!==null&&hovF!==i);
+            const op=hl?1:dim?0.08:0.5;
+            return (
+              <g key={i} onMouseEnter={()=>setHovF(i)} onMouseLeave={()=>setHovF(null)} style={{cursor:"pointer"}}>
+                <path d={d} fill="none" stroke={col} strokeWidth={hl?2.5:1.5} opacity={op} markerEnd={`url(#a-${fl.type})`}
+                  strokeDasharray={anim?"8 4":(fl.type==="leakage"?"6 4":fl.type==="reinforcing"?"3 3":"none")}
+                  style={anim?{animation:`fd 2s linear infinite${fl.type==="leakage"?" reverse":""}`}:{}}/>
+                <path d={d} fill="none" stroke="transparent" strokeWidth="14"/>
+                {labels&&hl&&(
+                  <g>
+                    <rect x={cx-80} y={cy-12} width="160" height="24" rx="3" fill={t.tipBg} stroke={col} strokeWidth="0.5"/>
+                    <text x={cx} y={cy+4} textAnchor="middle" fontSize="11" fill={col} fontFamily="Georgia,serif" fontWeight="bold">{fl.label}</text>
+                  </g>
+                )}
+              </g>
+            );
+          })}
+          {loops&&LOOPS.map((lp,i)=>{
+            const h=hovL===i;
+            return (
+              <g key={i} onMouseEnter={()=>setHovL(i)} onMouseLeave={()=>setHovL(null)} style={{cursor:"pointer"}}>
+                <circle cx={lp.x} cy={lp.y} r={h?22:17} fill={h?lp.color:t.loopBg} stroke={lp.color} strokeWidth="1.5" opacity={h?0.9:0.7}/>
+                <text x={lp.x} y={lp.y+1} textAnchor="middle" dominantBaseline="middle" fontSize="12" fontWeight="bold" fill={h?"#fff":lp.color} fontFamily="Georgia,serif">{lp.label}</text>
+                {h&&(<g>
+                  <rect x={lp.x-120} y={lp.y+26} width="240" height="48" rx="4" fill={t.tipBg} stroke={lp.color} strokeWidth="1"/>
+                  <text x={lp.x} y={lp.y+43} textAnchor="middle" fontSize="13" fontWeight="bold" fill={lp.color} fontFamily="Georgia,serif">{lp.desc}</text>
+                  <text x={lp.x} y={lp.y+60} textAnchor="middle" fontSize="10.5" fill={t.sub} fontFamily="Georgia,serif">{lp.detail}</text>
+                </g>)}
+              </g>
+            );
+          })}
+          {NODES.map(nd=>{
+            const h=hovN===nd.id;
+            const dim=cI&&!cI.has(nd.id);
+            const core=nd.ring==="core";
+            const w=core?138:120,ht=core?56:46;
+            return (
+              <g key={nd.id} onMouseEnter={()=>setHovN(nd.id)} onMouseLeave={()=>setHovN(null)} style={{cursor:"pointer"}} opacity={dim?0.1:1}>
+                {h&&<rect x={nd.x-w/2-3} y={nd.y-ht/2-3} width={w+6} height={ht+6} rx="8" fill="none" stroke={nd.color} strokeWidth="2" filter="url(#gl)" opacity="0.6"/>}
+                <rect x={nd.x-w/2} y={nd.y-ht/2} width={w} height={ht} rx="6" fill={h?nd.color:t.nodeBg} stroke={nd.color} strokeWidth={core?2:1.2} filter="url(#sh)"/>
+                <text x={nd.x} y={nd.y-(core?5:2)} textAnchor="middle" fontSize={core?"14":"13"} fontWeight="bold" fill={h?"#fff":nd.color} fontFamily="Georgia,serif">{nd.label}</text>
+                <text x={nd.x} y={nd.y+(core?13:14)} textAnchor="middle" fontSize="10" fill={h?"rgba(255,255,255,0.85)":t.sub} fontFamily="Georgia,serif" fontStyle="italic">{nd.subtitle}</text>
+              </g>
+            );
+          })}
+          <style>{`@keyframes fd{to{stroke-dashoffset:-24}}`}</style>
+        </svg>
+      </div>
+      <div style={{display:"flex",justifyContent:"center",gap:"18px",flexWrap:"wrap",marginTop:"14px",padding:"10px 20px",background:t.panelBg,borderRadius:"6px",border:`1px solid ${t.panelBd}`,maxWidth:"850px",margin:"14px auto 0"}}>
+        {[{c:"#2E7D32",l:"CC Circulation",d:false},{c:"#7B1FA2",l:"Entry / Issuance",d:false},{c:"#c62828",l:"Fiat Leakage",d:true},{c:"#1565C0",l:"Labour / Contribution",d:false},{c:"#E65100",l:"Mechanism",d:false},{c:"#1E4D7B",l:"Outcome",d:false},{c:"#00897B",l:"Reinforcing Loop",d:true}].map(x=>(
+          <div key={x.l} style={{display:"flex",alignItems:"center",gap:"6px"}}>
+            <svg width="24" height="8"><line x1="0" y1="4" x2="24" y2="4" stroke={x.c} strokeWidth="2" strokeDasharray={x.d?"4 3":"none"}/></svg>
+            <span style={{fontSize:"12px",color:t.card}}>{x.l}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{maxWidth:"850px",margin:"18px auto 0",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px",paddingBottom:"40px"}}>
+        {[
+          {title:"The $100-for-$33 Hook",color:"#7B1FA2",text:"$33 cash + labour commitment + asset contribution = $100 CC. Feels like a deal. Actually a full-value exchange that seeds all three system components simultaneously."},
+          {title:"Business Cashout: Primary Leakage",color:"#c62828",text:"Local retailers legitimize CC through the multiplier effect but need fiat for supply chains. System health depends on keeping their CC→fiat conversion rate low."},
+          {title:"Demurrage → Investment Flywheel",color:"#E65100",text:"Time-decay on idle CC creates pressure to invest in regenerative community assets — food forests, shared EVs, solar, tool libraries. Steers capital toward life-sustaining infrastructure."},
+          {title:"Asset Utilization as Multiplier",color:"#BF360C",text:"Parking stalls → 3D storage ($400/mo), shared fleet vehicles → local ride service, freed stalls → pantries/workshops. Each conversion unlocks cascading value from dormant capital."},
+        ].map(c=>(
+          <div key={c.title} style={{padding:"14px 16px",background:t.panelBg,border:`1px solid ${c.color}33`,borderLeft:`3px solid ${c.color}`,borderRadius:"4px"}}>
+            <div style={{fontSize:"14px",fontWeight:"bold",color:c.color,marginBottom:"6px"}}>{c.title}</div>
+            <div style={{fontSize:"13px",color:t.card,lineHeight:"1.55"}}>{c.text}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{textAlign:"center",paddingBottom:"24px",fontSize:"12px",color:t.foot,fontStyle:"italic"}}>
+        Hover over nodes to trace connections · Hover flows to see labels · Toggle controls above
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+
+<script>
+// Show OG placeholder if ?og=1
+if(new URLSearchParams(window.location.search).get("og")==="1"){
+  document.getElementById("og-placeholder").style.display="flex";
+  document.getElementById("bs-header").style.display="none";
+  document.getElementById("bs-intro").style.display="none";
+  document.getElementById("bs-diagram").style.display="none";
+}
+</script>
+
+    <footer class="bs-site-footer"><div class="footer-inner"><div class="footer-brand"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><p>Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative — neither government programme nor corporate platform.</p></div><div><h4>Blockonomics</h4><ul><li><a href="/blockonomics/">The Framework</a></li><li><a href="/blockbudget/">Block Budget Map</a></li><li><a href="/lei-calculator/">LEI Calculator</a></li></ul><h4 style="margin-top:1.5rem;">Programs</h4><ul><li><a href="/share/">Share Pools</a></li><li><a href="/food/">Beef Collective</a></li><li><a href="/credits/">Community Credits</a></li></ul></div><div><h4>Publications</h4><ul><li><a href="/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="/land-for-whom/">Land For Whom?</a></li><li><a href="/publications/">All Publications</a></li></ul><h4 style="margin-top:1.5rem;">Tools</h4><ul><li><a href="/lei-calculator/">LEI Calculator</a></li><li><a href="/cc-system-diagram/">CC System Diagram</a></li></ul></div><div><h4>Get Involved</h4><ul><li><a href="/onboarding/">Join Your Block</a></li><li><a href="/become-host/">Become a Host</a></li><li><a href="/about/">Our Story</a></li><li><a href="/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Block Share · Vancouver, BC</span><span>A community initiative inspired by E.F. Schumacher's <em>Small is Beautiful</em></span></div></footer>
+
+    <script>
+    (function(){
+        var btn=document.getElementById('mobileMenuBtn'),panel=document.querySelector('.bs-mobile-panel'),close=panel?panel.querySelector('.mobile-nav-close'):null;
+        if(btn&&panel&&close){btn.addEventListener('click',function(){panel.classList.add('open')});close.addEventListener('click',function(){panel.classList.remove('open')});panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){panel.classList.remove('open')})});}
+    })();
+    </script>
+</body>
+</html>

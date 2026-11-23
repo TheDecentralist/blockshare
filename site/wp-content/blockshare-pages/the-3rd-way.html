@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The 3rd Way | Block Share</title>
+  <meta name="description" content="A framework for life beyond markets and government. Eight programmes, one Neighbourhood House, and a plan to rebuild the economy from your block outward." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --forest:       #0f2b1d;
+      --forest-light: #163d2a;
+      --forest-mid:   #1a4a33;
+      --navy:         #1E4D7B;
+      --navy-dark:    #153a5e;
+      --slate:        #2c3e50;
+      --gold:         #f9a825;
+      --gold-dim:     #c8891e;
+      --gold-light:   #fdd835;
+      --cream:        #faf6f0;
+      --cream-dark:   #f0ebe3;
+      --text:         #1a1a1a;
+      --text-light:   #555;
+      --text-muted:   #888;
+      --green-accent: #2a7a47;
+      --white-a10:    rgba(255,255,255,.10);
+      --white-a15:    rgba(255,255,255,.15);
+      --white-a60:    rgba(255,255,255,.60);
+      --white-a80:    rgba(255,255,255,.80);
+      --white-a85:    rgba(255,255,255,.85);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; line-height: 1.6; color: var(--text); background: var(--cream); padding-top: 56px; }
+    h1, h2, h3, h4 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--forest);
+      color: #fff;
+      padding: 7rem 2rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 55%; height: 100%;
+      background: radial-gradient(ellipse at 80% 20%, var(--forest-mid) 0%, transparent 65%);
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -1px; left: 0; right: 0; height: 60px;
+      background: linear-gradient(to bottom right, transparent 49%, var(--cream) 50%);
+    }
+    .hero-inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow {
+      font-size: .78rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .14em; color: var(--gold);
+      margin-bottom: 1.4rem;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 2px; background: var(--gold); flex-shrink: 0; }
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.06;
+      max-width: 700px;
+      margin-bottom: 1.6rem;
+      letter-spacing: -.025em;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 1.15rem;
+      max-width: 600px;
+      color: var(--white-a80);
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+    .hero-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+    .hero-meta-item {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: .1em;
+      color: var(--white-a60);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .hero-meta-item span { color: var(--white-a85); }
+
+    /* ── SECTION BASE ── */
+    .section { padding: 5rem 2rem; }
+    .section-inner { max-width: 780px; margin: 0 auto; }
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .15em;
+      color: var(--gold-dim); margin-bottom: .8rem;
+    }
+    .section-light  { background: var(--cream); }
+    .section-warm   { background: var(--cream-dark); }
+    .section-forest { background: var(--forest); color: #fff; }
+    .section-forest .eyebrow { color: var(--gold); }
+    .section-navy   { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); color: #fff; }
+    .section-navy .eyebrow { color: var(--gold); }
+
+    .section-inner h2 {
+      font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+      line-height: 1.2; margin-bottom: 1.5rem;
+    }
+    .section-light h2, .section-warm h2 { color: var(--text); }
+    .section-forest h2, .section-navy h2 { color: #fff; }
+    .section-inner h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem; margin: 2rem 0 .75rem;
+    }
+    .section-light h3, .section-warm h3 { color: var(--forest); }
+    .section-forest h3, .section-navy h3 { color: var(--gold-light); }
+
+    .section-inner p { margin-bottom: 1.3rem; line-height: 1.82; }
+    .section-light p, .section-warm p { color: var(--text-light); font-size: 1.05rem; }
+    .section-forest p, .section-navy p { color: var(--white-a85); font-size: 1.05rem; }
+    .section-inner p:last-child { margin-bottom: 0; }
+
+    /* ── PULLQUOTE ── */
+    .pullquote-section { padding: 4.5rem 2rem; }
+    .pullquote-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+    .pullquote-bar { width: 48px; height: 3px; background: var(--gold); margin: 0 auto 2.2rem; }
+    .pullquote-inner blockquote {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.45rem, 3.2vw, 1.95rem);
+      line-height: 1.42; color: var(--forest);
+      margin-bottom: 1rem; font-style: italic;
+    }
+    .pullquote-inner cite { font-family: 'DM Sans', sans-serif; font-style: normal; font-size: .85rem; color: var(--text-muted); }
+
+    /* ── INLINE QUOTE ── */
+    .inline-quote { margin: 2rem 0; padding: 0 0 0 1.6rem; border-left: 2px solid var(--gold); }
+    .section-light .inline-quote p,
+    .section-warm .inline-quote p  { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--forest); font-style: italic; margin: 0; }
+    .section-forest .inline-quote p,
+    .section-navy .inline-quote p  { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.5; color: var(--gold-light); font-style: italic; margin: 0; }
+
+    /* ── PROGRAMME CARDS ── */
+    .prog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.6rem; margin: 2.5rem 0; }
+    .prog-card {
+      background: #fff; border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.08);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .prog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,.12); }
+    .prog-card-header {
+      padding: 1.5rem 1.5rem .8rem;
+      position: relative;
+    }
+    .prog-card-header::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .prog-a .prog-card-header::before { background: linear-gradient(90deg, #2a7a47, #52a870); }
+    .prog-b .prog-card-header::before { background: linear-gradient(90deg, #f9a825, #fdd835); }
+    .prog-c .prog-card-header::before { background: linear-gradient(90deg, #1E4D7B, #3a78b5); }
+    .prog-d .prog-card-header::before { background: linear-gradient(90deg, #8b4513, #c0722e); }
+    .prog-e .prog-card-header::before { background: linear-gradient(90deg, #0f2b1d, #1a5c38); }
+    .prog-f .prog-card-header::before { background: linear-gradient(90deg, #6b3900, #b85c00); }
+    .prog-g .prog-card-header::before { background: linear-gradient(90deg, #3a0a6e, #7a2fbf); }
+    .prog-h .prog-card-header::before { background: linear-gradient(90deg, #8b6914, #c8941e); }
+
+    .prog-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .66rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .14em;
+      margin-bottom: .35rem;
+    }
+    .prog-a .prog-tag { color: #2a7a47; }
+    .prog-b .prog-tag { color: #c8891e; }
+    .prog-c .prog-tag { color: #1E4D7B; }
+    .prog-d .prog-tag { color: #8b4513; }
+    .prog-e .prog-tag { color: #0f2b1d; }
+    .prog-f .prog-tag { color: #6b3900; }
+    .prog-g .prog-tag { color: #3a0a6e; }
+    .prog-h .prog-tag { color: #8b6914; }
+
+    .prog-card-header h3 { font-size: 1.2rem; color: var(--text); margin: 0 0 .2rem; }
+    .prog-card-body { padding: 0 1.5rem 1.5rem; }
+    .prog-card-body p { font-size: .92rem; color: var(--text-light); line-height: 1.72; margin: 0; }
+    .prog-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+
+    /* ── STAT CARDS ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin: 2.5rem 0; }
+    .stat-card { text-align: center; padding: 2rem 1rem; background: var(--white-a10); border-radius: 10px; }
+    .stat-card .val { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 600; color: var(--gold); }
+    .stat-card .unit { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--gold); }
+    .stat-card .label { font-size: .8rem; color: var(--white-a85); margin-top: .3rem; line-height: 1.4; }
+
+    /* ── PIPELINE ── */
+    .pipeline { margin: 2.5rem 0; }
+    .pipeline-step { display: flex; gap: 1.4rem; margin-bottom: 1.5rem; position: relative; }
+    .pipeline-step:not(:last-child)::after {
+      content: ''; position: absolute;
+      left: 19px; top: 42px; bottom: -12px; width: 2px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .pipeline-num {
+      flex-shrink: 0; width: 40px; height: 40px;
+      background: var(--gold); color: var(--forest);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; font-weight: 600;
+    }
+    .pipeline-content h4 { color: #fff; margin-bottom: .35rem; font-size: 1rem; font-family: 'DM Serif Display', serif; }
+    .pipeline-content p { font-size: .88rem; color: var(--white-a80); margin: 0; }
+
+    /* ── FURTHER READING ── */
+    .reading-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin: 2rem 0; }
+    .reading-card {
+      background: var(--white-a10);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px; padding: 1.6rem 1.4rem;
+      position: relative; overflow: hidden;
+      text-decoration: none;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .reading-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+    .reading-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gold);
+    }
+    .reading-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .66rem; letter-spacing: .13em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: .5rem;
+    }
+    .reading-card h4 { color: #fff; font-size: 1rem; margin-bottom: .5rem; }
+    .reading-card p { font-size: .82rem; color: var(--white-a80); line-height: 1.6; margin: 0; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%);
+      padding: 5.5rem 2rem; text-align: center;
+      position: relative;
+    }
+    .cta-section::before {
+      content: ''; position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 3px; background: var(--gold);
+    }
+    .cta-inner { max-width: 620px; margin: 0 auto; }
+    .cta-inner h2 { color: #fff; font-size: 2.3rem; margin-bottom: 1.1rem; line-height: 1.2; }
+    .cta-inner h2 em { color: var(--gold); font-style: italic; }
+    .cta-inner p { color: var(--white-a85); margin-bottom: 2.5rem; font-size: 1.05rem; line-height: 1.7; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold {
+      background: var(--gold); color: var(--forest);
+      padding: .9rem 2.2rem; border-radius: 8px;
+      font-weight: 700; text-decoration: none; font-size: .95rem;
+      transition: all .25s;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-ghost {
+      border: 1.5px solid var(--white-a60); color: #fff;
+      padding: .9rem 2.2rem; border-radius: 8px;
+      font-weight: 500; text-decoration: none; font-size: .95rem;
+      transition: all .25s;
+    }
+    .btn-ghost:hover { border-color: #fff; background: var(--white-a10); }
+
+    /* ── VIDEO EMBED ── */
+    .video-embed {
+      margin: 2.5rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 24px rgba(0,0,0,.25);
+    }
+    .video-embed video {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+    .video-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-align: center;
+      margin-top: .8rem;
+    }
+    .section-navy .video-caption { color: var(--white-a60); }
+    .section-warm .video-caption { color: var(--text-muted); }
+    .video-or {
+      text-align: center;
+      margin-top: 1.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .section-navy .video-or { color: var(--white-a60); }
+
+    /* ── SUPPORT SECTION ── */
+    .support-section {
+      background: var(--cream-dark);
+      padding: 5.5rem 2rem 4rem;
+      position: relative;
+    }
+    .support-section::before {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 3px; background: var(--gold);
+    }
+    .support-inner { max-width: 820px; margin: 0 auto; }
+    .support-header { text-align: center; margin-bottom: 3.5rem; }
+    .support-header .eyebrow { color: var(--gold-dim); }
+    .support-header h2 { font-size: clamp(1.9rem, 3.5vw, 2.7rem); color: var(--forest); line-height: 1.18; margin-bottom: 1rem; }
+    .support-header p { color: var(--text-light); max-width: 580px; margin: 0 auto; font-size: 1.05rem; line-height: 1.75; }
+
+    .support-tiers { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .support-tier {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 1.4rem;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.07);
+      padding: 1.4rem 1.6rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .support-tier:hover { box-shadow: 0 6px 24px rgba(0,0,0,.1); transform: translateY(-2px); }
+    .support-tier.tier-land {
+      background: var(--forest);
+      border-color: transparent;
+    }
+    .support-tier.tier-land:hover { box-shadow: 0 8px 32px rgba(15,43,29,.35); }
+
+    .tier-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+    }
+    .tier-cash   .tier-icon { background: #e8f5ec; }
+    .tier-monthly .tier-icon { background: #e8eef8; }
+    .tier-talk   .tier-icon { background: #fdf5e4; }
+    .tier-land   .tier-icon { background: rgba(249,168,37,.18); }
+
+    .tier-text { min-width: 0; }
+    .tier-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .13em; margin-bottom: .25rem;
+    }
+    .tier-cash    .tier-label  { color: #2a7a47; }
+    .tier-monthly .tier-label  { color: #1E4D7B; }
+    .tier-talk    .tier-label  { color: #8b6914; }
+    .tier-land    .tier-label  { color: var(--gold); }
+
+    .tier-title { font-family: 'DM Serif Display', serif; font-size: 1.15rem; margin-bottom: .2rem; }
+    .tier-cash    .tier-title,
+    .tier-monthly .tier-title,
+    .tier-talk    .tier-title  { color: var(--text); }
+    .tier-land    .tier-title  { color: #fff; }
+
+    .tier-desc { font-size: .85rem; line-height: 1.55; }
+    .tier-cash    .tier-desc,
+    .tier-monthly .tier-desc,
+    .tier-talk    .tier-desc   { color: var(--text-light); }
+    .tier-land    .tier-desc   { color: rgba(255,255,255,.75); }
+
+    .tier-action { flex-shrink: 0; }
+    .tier-btn {
+      display: inline-block;
+      padding: .65rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 700; font-size: .85rem;
+      text-decoration: none; white-space: nowrap;
+      transition: all .22s;
+    }
+    .tier-cash    .tier-btn { background: #2a7a47; color: #fff; }
+    .tier-cash    .tier-btn:hover { background: #1f5c36; }
+    .tier-monthly .tier-btn { background: #1E4D7B; color: #fff; }
+    .tier-monthly .tier-btn:hover { background: #153a5e; }
+    .tier-talk    .tier-btn { background: var(--gold); color: var(--forest); }
+    .tier-talk    .tier-btn:hover { background: var(--gold-light); }
+    .tier-land    .tier-btn { background: var(--gold); color: var(--forest); }
+    .tier-land    .tier-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .support-closing {
+      text-align: center; margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    .support-closing p {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+      color: var(--forest); font-style: italic; line-height: 1.5;
+      max-width: 560px; margin: 0 auto;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .hero { padding: 5rem 1.5rem 4rem; }
+      .section { padding: 3.5rem 1.5rem; }
+      .pullquote-section { padding: 3rem 1.5rem; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .prog-grid { grid-template-columns: 1fr; }
+      .reading-grid { grid-template-columns: 1fr; }
+      .support-tier { grid-template-columns: 44px 1fr; }
+      .tier-action { grid-column: 2; }
+      .tier-icon { width: 44px; height: 44px; font-size: 1.2rem; }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-inner > * { animation: fadeUp .65s ease-out both; }
+    .hero-eyebrow { animation-delay: .1s; }
+    .hero h1      { animation-delay: .2s; }
+    .hero-sub     { animation-delay: .32s; }
+    .hero-meta    { animation-delay: .44s; }
+  </style>
+</head>
+<body>
+
+  <!-- ══ Block Share Nav injected by script below ══ -->
+  <nav id="bs-nav" class="site-nav"></nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Block Share · The 3rd Way · Community Framework</div>
+      <h1>The <em>3rd Way</em></h1>
+      <p class="hero-sub">A framework for life beyond markets and government. Eight programmes, one Neighbourhood House, and a plan to rebuild the economy from your block outward — starting with your neighbours.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">DATE &nbsp;<span>March 23, 2026</span></div>
+        <div class="hero-meta-item">AUTHOR &nbsp;<span>Ward Stirrat</span></div>
+        <div class="hero-meta-item">SERIES &nbsp;<span>WE3 Foundation</span></div>
+        <div class="hero-meta-item">READ &nbsp;<span>~14 min</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 01 · THE PROBLEM ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">01 · The Problem</div>
+      <h2>The System We Live In Is Consuming Our Lives.</h2>
+      <p>Here is the uncomfortable reality. The economic system that organises modern life was not built for you. It was built for the concentration of money through the principle of leverage — the more you have, the more institutions and people are willing to advance you credit on. The Matthew Principle made structural: to those who have, much is given.</p>
+      <p>This agglomeration of reinforcing loops creates a force similar to gravity. As wealth concentrates around a single node — human or corporate — more and more monetisable assets are drawn into its orbit. Think of it as a financial black hole. And like the astronomical kind, it is the result of a collapsed star — a system that once held itself in balance but has now become so concentrated that nothing can escape its pull.</p>
+      <p>The invisible force of financial gravity only affects "monetisable assets" — finance-speak for anything that can be owned and from which a rent or income can be derived. None of this system could exist if it had to pay for the life systems it consumes. But, of course, it doesn't. The core purpose of unlimited accumulation never accounts for the damages inflicted on the underlying systems of life that are destroyed in its pursuit. The players in this tragedy have great PR people, promoting the convenient narrative that what makes money is essential to the existence of humanity — and that otherwise, no one would be motivated to do anything at all.</p>
+      <p>Meanwhile, the two institutions we are told will save us — markets and government — have both failed to deliver the basics. Markets speculate on housing until teachers and nurses cannot afford to live in the cities they serve. Governments, captured by short election cycles and lobbying pressure, cannot think in generations. Neither measures what matters: the care work that holds families together, the ecological regeneration that sustains life, the community bonds that make neighbourhoods resilient.</p>
+
+      <div class="inline-quote">
+        <p>We have accounts for money, but we are missing an account for life.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>WE are the money. Why not reclaim that ownership?</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 02 · THE VISION ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">02 · The Vision</div>
+      <h2>A Framework for Life — Beyond Just Markets and Government.</h2>
+      <p>The 3rd Way is not a protest. It is not a political party. It is a parallel economic and governance system that relocates power from centralised oligarchic control back to local communities. Neither pure capitalism nor state socialism — but a democratically-controlled, community-based alternative designed for multi-generational stability and ecological regeneration.</p>
+
+      <div class="video-embed">
+        <video controls preload="metadata" poster="">
+          <source src="https://app.blockshare.ca/wp-content/uploads/2026/03/Two-Economic-Blueprints-Explainer-Video.mp4" type="video/mp4" />
+          Your browser does not support the video element.
+        </video>
+        <div class="video-caption">▶ Prefer to watch? This 7-minute explainer walks through the two competing economic blueprints — the extractive system we have, and the 3rd Way alternative.</div>
+      </div>
+      <div class="video-or">— or keep reading —</div>
+
+      <p>It begins with a deceptively simple observation: every component of this system already exists in working form somewhere in the world today. Community Land Trusts in dozens of cities. Complementary currency systems operating globally. Democratic governance innovations in Taiwan and Iceland. Regenerative agriculture initiatives on six continents. What makes the 3rd Way revolutionary is not any single piece, but the integration — weaving proven solutions into a comprehensive alternative capable of growing alongside, and eventually replacing, the extractive economy and the vulnerable state programmes that try to mitigate its damage.</p>
+      <p>And it starts not with a grand national programme or a venture capital pitch, but with something far more radical: ten neighbours having a conversation about what they actually need.</p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="val">15<span class="unit">+</span></div>
+          <div class="label">Years of research, design<br/>and community testing</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">8</div>
+          <div class="label">Interlocking programmes<br/>forming a complete system</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">10</div>
+          <div class="label">Houses of ecological<br/>stewardship for all citizens</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 03 · THE PLACE ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">03 · The Place</div>
+      <h2>The Neighbourhood House: A 3rd Space for a 3rd Way.</h2>
+      <p>Every system needs a place where it becomes real. For the 3rd Way, that place is the Neighbourhood House — a physical commons on every block, in every city, town, and village, where the abstract framework becomes tangible, lived experience.</p>
+      <p>This is not a government community centre with operating hours and programme fees. It is not a corporate co-working space with membership tiers. It is a third kind of space — community-stewarded, permanently held outside the speculative market, and open to everyone on the block. It is where you pick up your Block Share items. Where your Life Account takes form. Where Life Projects are proposed, debated, and launched. Where the Community Credyts system has a counter you can walk up to.</p>
+      <p>The Neighbourhood House is tangible evidence that the 3rd Way is possible. Not a pamphlet. Not a manifesto. A place you can visit on a Tuesday afternoon and see it working.</p>
+      <p>These are the first showcase of how WE3 projects support local communities. And from here, the eight programmes that constitute the 3rd Way radiate outward.</p>
+
+      <div class="inline-quote">
+        <p>Reorganising the systems and institutions of society looks more like a neighbourhood potluck dinner than a placard-waving protest on the high street.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>The door is open. This is a project of, by, and for the 99% — a letting go of 1% rule as we organise our escape from the gravity well of the Death Star Dollar.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · THE PROGRAMMES ═══ -->
+  <section class="section section-warm">
+    <div class="section-inner">
+      <div class="eyebrow">04 · The Eight Programmes</div>
+      <h2>Eight Programmes. One Ecosystem. Your Neighbourhood.</h2>
+      <p>The 3rd Way is not a single initiative. It is an integrated ecosystem of eight programmes, each reinforcing the others. Block Share creates the social fabric upon which Community Credyts can circulate. The Life Account tracks value created through Life Projects in life-time units, not dollars. Micro-Assets are the mechanism that makes the savings real — you become co-owner of the infrastructure that serves you, rather than just a consumer of someone else's product.</p>
+      <p>Together, they form a complete parallel economy that can be adopted incrementally, starting from a single block.</p>
+
+      <div class="video-embed" style="margin-top: 2rem; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.1);">
+        <video controls preload="metadata" poster="">
+          <source src="https://app.blockshare.ca/wp-content/uploads/2026/03/Two-Economic-Blueprints-Explainer-Video.mp4" type="video/mp4" />
+          Your browser does not support the video element.
+        </video>
+        <div class="video-caption" style="color: var(--text-muted);">▶ Watch the 7-minute overview: Two Economic Blueprints — how ownership, value, and power work in the current system vs. the 3rd Way.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="prog-grid">
+
+        <!-- A. Block Share -->
+        <div class="prog-card prog-a">
+          <div class="prog-card-header">
+            <div class="prog-icon">🤝</div>
+            <div class="prog-tag">Programme A</div>
+            <h3>Block Share</h3>
+          </div>
+          <div class="prog-card-body">
+            <p>The sharing of space and stuff, in every building and block — across every neighbourhood, village, town, and city. We all have too much stuff, and not enough community. It is a physical and societal waste that Block Share aims to eliminate. The simple act of sharing resources, together, brings us together in a new (old) way of interdependence and resilience. This is the entry point — meet people where they are.</p>
+          </div>
+        </div>
+
+        <!-- B. Community Credyts -->
+        <div class="prog-card prog-b">
+          <div class="prog-card-header">
+            <div class="prog-icon">💰</div>
+            <div class="prog-tag">Programme B</div>
+            <h3>Community Credyts</h3>
+          </div>
+          <div class="prog-card-body">
+            <p>New local money for and by the people — everywhere. Self-issued and backed by the tripartite 33/33/33 formula: one third cash reserve, one third community labour, one third community assets. The currency is always grounded in real productive capacity, not speculation. Community Credyts can be the tipping point for rewiring the economy towards life.</p>
+          </div>
+        </div>
+
+        <!-- C. Life Account -->
+        <div class="prog-card prog-c">
+          <div class="prog-card-header">
+            <div class="prog-icon">📊</div>
+            <div class="prog-tag">Programme C</div>
+            <h3>Life Account &amp; Life Credits</h3>
+          </div>
+          <div class="prog-card-body">
+            <p>The Account of Life, beyond money. A Chart of Accounts for Life built for generations, not fiscal quarters and election cycles. Housing Day Credits, Food Day Credits, Energy Credits, Mobility Credits — recalibrating what you spend in life-time, not dollars. Not "you spend $2,200 per month on housing" but "you are giving 13 years of your working life to housing." Same reality, reframed.</p>
+          </div>
+        </div>
+
+        <!-- D. Community Apps -->
+        <div class="prog-card prog-d">
+          <div class="prog-card-header">
+            <div class="prog-icon">📱</div>
+            <div class="prog-tag">Programme D</div>
+            <h3>Community Apps</h3>
+          </div>
+          <div class="prog-card-body">
+            <p>Taking back the economy — and taking down the mega-corps. The relocalisation of value from extractive monopolies. Take away their money, and take away their monopoly power and influence in the hollowing out of society. Local platforms that replace extractive intermediaries, keeping value circulating where it is created.</p>
+          </div>
+        </div>
+
+        <!-- E. Houses of Life -->
+        <div class="prog-card prog-e">
+          <div class="prog-card-header">
+            <div class="prog-icon">🏛️</div>
+            <div class="prog-tag">Programme E</div>
+            <h3>Houses of Life</h3>
+          </div>
+          <div class="prog-card-body">
+            <p>Ten Great Houses that every citizen belongs to, each with a specific ecological stewardship role — the House of Oceans, the House of Farmland, the House of Forests, and the unifying 10th House of Life. Scaleable from 100 local neighbours to 100 million across the globe. Citizens picking what needs to happen — not investors, not banks. A new ontology for belonging and collective power.</p>
+          </div>
+        </div>
+
+        <!-- F. Life Micro-Assets -->
+        <div class="prog-card prog-f">
+          <div class="prog-card-header">
+            <div class="prog-icon">🌱</div>
+            <div class="prog-tag">Programme F</div>
+            <h3>Life Micro-Assets</h3>
+          </div>
+          <div class="prog-card-body">
+            <p>Distributed ownership at human scale. Fractional ownership of real-world productive assets — farms, solar panels, trees, buildings — from as little as one cent. Each micro-asset generates returns in the form of reduced life-cost, not financial yield: carbon, water, soil, biodiversity, food, health. You become co-owner of the infrastructure that serves you. Mass finance, not Wall Street.</p>
+          </div>
+        </div>
+
+        <!-- G. Life Projects -->
+        <div class="prog-card prog-g">
+          <div class="prog-card-header">
+            <div class="prog-icon">🔧</div>
+            <div class="prog-tag">Programme G</div>
+            <h3>Life Projects</h3>
+          </div>
+          <div class="prog-card-body">
+            <p>Micro-innovation projects that service local needs — and that locals can participate in directly. Start from a template or propose your own to a particular House. When community quorum approves, projects draw from the Community Pool of Credyts instead of relying on investors or commercial banks. Society gets the local projects accomplished which government or the market cannot or will not fund.</p>
+          </div>
+        </div>
+
+        <!-- H. Life Stories -->
+        <div class="prog-card prog-h">
+          <div class="prog-card-header">
+            <div class="prog-icon">📖</div>
+            <div class="prog-tag">Programme H</div>
+            <h3>Life Stories</h3>
+          </div>
+          <div class="prog-card-body">
+            <p>We understand best through stories. We need new narratives to relearn the stories of community and interdependence — and unlearn the false narratives of individual helplessness that keep us from experiencing and acting on our collective power and interests. New stories for a new system, told from the neighbourhood up.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 05 · HOW IT CONNECTS ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">05 · The Integration</div>
+      <h2>Not Eight Silos. One Living System.</h2>
+      <p>The programmes are not a menu to pick from. They are a reinforcing ecosystem, each one making the others more effective. Understanding how they connect is essential to seeing why the 3rd Way works where isolated interventions have failed.</p>
+      <p>Block Share is the social entry point. When you lend your neighbour a power drill, you create a relationship. That relationship becomes the social fabric upon which Community Credyts can circulate — because you will accept local currency from someone you already trust through the act of sharing.</p>
+      <p>Community Credyts, in turn, are what fund Life Projects without needing banks or investors. When the neighbourhood decides it wants a community solar array or a food forest on a vacant lot, the Credyts system makes the financing possible — backed by real community labour and real community assets, not speculative leverage.</p>
+      <p>Life Micro-Assets are the mechanism that makes the Lifetime Efficiency Index savings real. The standard reform argument is "switch to a cheaper option" — buy local, use transit, join a co-op. That is still a consumer relationship. The 3rd Way says something categorically different: become co-owner of the productive asset itself. A fruit tree you tend. A solar panel on your building. A share in a community vehicle. These are small units of productive infrastructure that generate returns in the form of reduced life-cost, not financial yield.</p>
+      <p>The Life Account tracks all of this in life-time units — Housing Days, Food Days, Energy Credits, Mobility Credits — so you can see precisely what the current system costs you in the only currency that actually matters: the finite hours of your life. And the Houses of Life give the whole structure a governance framework that scales from your block to the planet, organised around ecological stewardship rather than extraction.</p>
+      <p>Life Stories propagate the culture that sustains all of it — because a system this different needs new narratives to replace the old ones.</p>
+
+      <div class="inline-quote">
+        <p>The missing middle of economic theory: neither "buy better" nor "seize the means of production" — but distributed asset ownership at human scale, generating life-efficiency rather than profit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-light">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>If everyone is invested in everything we need and value for life, then we all stand to win — because we are all making decisions aligned with the collective interest of the 99%.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 06 · THE TOOLS ═══ -->
+  <section class="section section-warm">
+    <div class="section-inner">
+      <div class="eyebrow">06 · The Tools</div>
+      <h2>What's Already Built. What's Being Built Now.</h2>
+      <p>The 3rd Way is not theoretical. Several core tools are already operational or in advanced development, each one designed to be adopted incrementally — you do not need to buy into the entire vision to start using the pieces that serve you today.</p>
+
+      <h3>The Permanent Land Trust</h3>
+      <p>The legal vehicle that holds land outside the speculative market — forever. No administration can defund it. No developer can acquire it. No individual can speculate on it. Residents own their structures on 99-year renewable leases and pay income-based rents — typically 10 to 30 percent of income, compared with the market's 30 to 80 percent. Singapore's Housing and Development Board is the state-scale proof that this model works. Block Share is the non-state proof.</p>
+
+      <h3>The Lifetime Efficiency Index</h3>
+      <p>The entry point to the entire framework. The LEI takes the numbers you already know — your rent, your car payment, your grocery bill — and shows them in a unit that lands differently. Not "you spend $2,200 a month on housing" but "you are giving 13 years of your working life to housing." It doesn't ask anyone to believe anything new. It reframes your existing reality in life-time. And once you see it, you cannot unsee it.</p>
+
+      <h3>The Mobility Multi-Pass</h3>
+      <p>A universal transit pass that ties any NFC card to your local transit authority's system — buses, trains, ferries — as well as ride-hailing, taxis, shared cars, and bike-share networks, with Community Credyts and Local Credyts as settlement tokens. Flexibility on a fixed budget. An alternative to the car-dependent, high-energy transport model — and a practical, daily-use demonstration that the 3rd Way economy works in the real world, on the bus, today.</p>
+
+      <h3>Food for Generations</h3>
+      <p>A K–12 programme to give every British Columbia school child 12 square metres of farmland, a working knowledge of how to grow food, and a guaranteed stake in the community food commons — for life. The school-facing expression of the Permanent Land Trust, Community Credyts, and Micro-Assets programmes, combined.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 07 · THE PATH ═══ -->
+  <section class="section section-navy">
+    <div class="section-inner">
+      <div class="eyebrow">07 · The Path</div>
+      <h2>How You Get From Here to There.</h2>
+      <p>The 3rd Way does not require changing the whole system overnight. It simply is starting a conversation with your neighbours — about what they want to share, do, and influence on your block. That conversation, compounding through network effects, gradually becomes an alternative so useful and so stable that the political equation shifts on its own.</p>
+
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="pipeline-num">01</div>
+          <div class="pipeline-content">
+            <h4>Talk to ten neighbours about what things actually cost — in life-time.</h4>
+            <p>Use the Lifetime Efficiency Index. Share your numbers. Ask: what if we could cut those life-years in half? That is the opening conversation. Everything else flows from it.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">02</div>
+          <div class="pipeline-content">
+            <h4>Start sharing. Anything. With anyone on your block.</h4>
+            <p>A tool library. A bulk food order. A shared vehicle. Block Share is the social infrastructure — the potluck dinner, not the manifesto. Once you have shared something with a neighbour, you have created the trust upon which everything else is built.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">03</div>
+          <div class="pipeline-content">
+            <h4>Open a Life Account. Start tracking value in life-time.</h4>
+            <p>Housing Days, Food Days, Energy Credits, Mobility Credits. See what the current system is costing you — and what the 3rd Way alternatives could save you. The gap between the two is your motivation.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">04</div>
+          <div class="pipeline-content">
+            <h4>Propose a Life Project. Fund it with Community Credyts.</h4>
+            <p>When enough neighbours signal interest, the project draws from the Community Pool — no bank, no investor, no venture capitalist. Society gets the local project accomplished that government or the market will not fund.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">05</div>
+          <div class="pipeline-content">
+            <h4>Invest in Micro-Assets. Own the infrastructure that serves you.</h4>
+            <p>Even ten dollars in a community solar panel, a fruit tree, or a Permanent Land Trust unit shifts you from consumer to co-owner. Every bit of capital pulled from speculation and redirected to community ownership shifts the balance.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">06</div>
+          <div class="pipeline-content">
+            <h4>Document everything. Share your learnings with the network.</h4>
+            <p>Every success makes the next one easier. The Neighbourhood House network grows by replication — block by block, city by city, until the alternative is so obviously better that it becomes the norm.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>It doesn't require permission. It doesn't require a revolution. It requires ten neighbours, a conversation, and the willingness to share a power drill.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 08 · THE INVITATION ═══ -->
+  <section class="section section-light">
+    <div class="section-inner">
+      <div class="eyebrow">08 · The Invitation</div>
+      <h2>This Is a Kinder, Gentler Way to Disrupt the Rule of the 1%.</h2>
+      <p>Don't stop protesting. It's still necessary to signal that we aren't happy with the current system. But the 3rd Way is something different — a parallel track where regular people can start building the world they want to live in, right now, on their own block, without waiting for permission from anyone.</p>
+      <p>I have a plan. And I'm joyful to have you join in. The plan, perhaps not surprisingly, all begins with sharing — and building community around that simple premise and act.</p>
+
+      <div class="inline-quote">
+        <p>"I have a Plan" — You have a neighbourhood...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PULLQUOTE — THE RADICAL ORDINARY ═══ -->
+  <section class="pullquote-section section-warm">
+    <div class="pullquote-inner">
+      <div class="pullquote-bar"></div>
+      <blockquote>It turns out that the most radical thing you can do is also the most ordinary: know your neighbours, share what you have, and start measuring your life in time rather than money.</blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ 09 · FURTHER READING ═══ -->
+  <section class="section section-forest">
+    <div class="section-inner">
+      <div class="eyebrow">09 · Further Reading</div>
+      <h2>Go Deeper.</h2>
+      <p>This article is the overview. Each programme, tool, and concept has its own detailed treatment — for community organisers, policy makers, researchers, and anyone who wants to understand the mechanics behind the vision.</p>
+
+      <div class="reading-grid">
+        <a href="https://app.blockshare.ca/blockonomics/" class="reading-card">
+          <div class="reading-label">Framework</div>
+          <h4>Blockonomics</h4>
+          <p>The economic framework behind Block Share — block-level budgeting, the Lifetime Efficiency Index, and community resource mapping.</p>
+        </a>
+        <a href="https://app.blockshare.ca/credits/" class="reading-card">
+          <div class="reading-label">Currency</div>
+          <h4>Community Credyts</h4>
+          <p>How self-issued local currency works — the 33/33/33 backing formula, demurrage mechanics, and the Quest-based labour exchange.</p>
+        </a>
+        <a href="https://app.blockshare.ca/land-for-whom/" class="reading-card">
+          <div class="reading-label">Housing</div>
+          <h4>Land For Whom?</h4>
+          <p>The Permanent Land Trust model — income-based rent, generational security, and the Singapore comparison.</p>
+        </a>
+        <a href="https://app.blockshare.ca/food-for-generations/" class="reading-card">
+          <div class="reading-label">Food Sovereignty</div>
+          <h4>Food for Generations</h4>
+          <p>The K–12 programme connecting schools, farmland, and community food commons through the PLT and Credyts system.</p>
+        </a>
+        <a href="https://app.blockshare.ca/lei-calculator/" class="reading-card">
+          <div class="reading-label">Calculator</div>
+          <h4>LEI Calculator</h4>
+          <p>See what the current system costs you in life-time. The interactive tool that makes the invisible visible.</p>
+        </a>
+        <a href="https://app.blockshare.ca/debt-interest-death-of-gdp/" class="reading-card">
+          <div class="reading-label">Analysis</div>
+          <h4>Debt &amp; the Death of GDP</h4>
+          <p>Why GDP measures extraction, not flourishing — and what the alternative looks like.</p>
+        </a>
+      </div>
+
+      <p style="margin-top: 2rem; font-size: .92rem; color: var(--white-a60);">Coming soon: The Community Organiser's Guide · The Policy Brief · The 3rd Way Research Binder · Default (the book)</p>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>Ready to Start on <em>Your Block?</em></h2>
+      <p>Register on the waitlist or get in touch to be selected as an early beta tester for tools and programmes you can start in your neighbourhood, with your neighbours.</p>
+      <div class="cta-buttons">
+        <a href="https://app.blockshare.ca/onboarding/" class="btn-gold">Join Your Block →</a>
+        <a href="https://app.blockshare.ca/about/" class="btn-ghost">Our Story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SUPPORT THESE PROJECTS ═══ -->
+  <section class="support-section" id="support">
+    <div class="support-inner">
+
+      <div class="support-header">
+        <div class="eyebrow">Support the 3rd Way</div>
+        <h2>Every contribution builds something that outlasts us.</h2>
+        <p>The 3rd Way, the Block Share platform, and the Permanent Land Trust are community-built and community-funded. There is no corporate backer. There is no government grant. There is only the growing number of people who believe another system is worth building. Find your level.</p>
+      </div>
+
+      <div class="support-tiers">
+
+        <!-- Tier 1: One-time -->
+        <div class="support-tier tier-cash">
+          <div class="tier-icon">🌱</div>
+          <div class="tier-text">
+            <div class="tier-label">One-Time Gift</div>
+            <div class="tier-title">Plant a Seed — Contribute What You Can</div>
+            <div class="tier-desc">A one-time donation directly funds platform development, community workshops, Neighbourhood House activation, and the tools that make the 3rd Way real on your block. Every dollar goes into building the infrastructure, not into overhead.</div>
+          </div>
+          <div class="tier-action">
+            <a href="https://app.blockshare.ca/support/" class="tier-btn">Donate →</a>
+          </div>
+        </div>
+
+        <!-- Tier 2: Monthly pledge -->
+        <div class="support-tier tier-monthly">
+          <div class="tier-icon">📅</div>
+          <div class="tier-text">
+            <div class="tier-label">Monthly Pledge</div>
+            <div class="tier-title">Become a Sustaining Supporter — From $5 / Month</div>
+            <div class="tier-desc">A monthly pledge is the most powerful form of support — it gives the movement the predictability to plan, hire community coordinators, and expand block by block. Start at $5/month and scale as the network grows.</div>
+          </div>
+          <div class="tier-action">
+            <a href="https://app.blockshare.ca/support/" class="tier-btn">Pledge Monthly →</a>
+          </div>
+        </div>
+
+        <!-- Tier 3: Book a talk -->
+        <div class="support-tier tier-talk">
+          <div class="tier-icon">🎙️</div>
+          <div class="tier-text">
+            <div class="tier-label">Book a Talk, Workshop, or Pop-Up</div>
+            <div class="tier-title">Bring the 3rd Way to Your Block, School, or Organisation</div>
+            <div class="tier-desc">Ward Stirrat and the Block Share team are available for talks, lectures, workshops, and "The Price is NOT Right" pop-up shoppe activations — for neighbourhood groups, schools, community centres, university classes, and professional associations. We bring the framework. You bring the neighbours.</div>
+          </div>
+          <div class="tier-action">
+            <a href="mailto:ward@blockshare.ca?subject=3rd%20Way%20Talk%20%2F%20Workshop%20Inquiry" class="tier-btn">Book Now →</a>
+          </div>
+        </div>
+
+        <!-- Tier 4: Pledge land or assets -->
+        <div class="support-tier tier-land">
+          <div class="tier-icon">🌳</div>
+          <div class="tier-text">
+            <div class="tier-label">The Ultimate Contribution</div>
+            <div class="tier-title">Pledge Your Land or Assets — For Generations.</div>
+            <div class="tier-desc">If you own farmland, a corner lot, a riverside strip, or acreage — and you want it protected from speculation forever — the Permanent Land Trust is ready to receive it. Vest your land (retain income during your lifetime) or bequest it (gift it on your terms). Either way, it becomes part of a community commons that cannot be bought, sold, or developed — stewarded for seven generations and beyond.</div>
+          </div>
+          <div class="tier-action">
+            <a href="mailto:ward@blockshare.ca?subject=Land%20Pledge%20%2F%20PLT%20Inquiry" class="tier-btn">Start the Conversation →</a>
+          </div>
+        </div>
+
+      </div><!-- /support-tiers -->
+
+      <div class="support-closing">
+        <p>The neighbourhood organised today becomes the commons that shelters families who haven't been born yet.<br><em>That is the investment horizon we are working on.</em></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ Block Share Footer ══ -->
+  <footer id="bs-footer" class="site-footer"></footer>
+
+  <script>
+    // Nav & Footer injection (matches blockshare-nav-footer.php v1.1.0)
+    (function(){
+      var n = document.getElementById("bs-nav");
+      document.body.insertBefore(n, document.body.firstChild);
+      n.innerHTML = '<div class="site-nav__inner"><a href="https://app.blockshare.ca/bs-home/" class="site-nav__brand">Block<span>Share</span></a><div class="site-nav__links"><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Blockonomics &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a><a href="https://app.blockshare.ca/block-budget/">Block Budget Data Explorer</a><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a><a href="https://app.blockshare.ca/onboarding/">Take the Block Survey &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Programs &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a><a href="https://app.blockshare.ca/cc-system-diagram/">CC System Diagram</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Publications &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt, Interest &amp; the Death of GDP</a><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div></div><div class="site-nav__dropdown"><span class="site-nav__dropdown-trigger">Get Involved &#9662;</span><div class="site-nav__dropdown-menu"><a href="https://app.blockshare.ca/about/">Our Story</a><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a><a href="https://app.blockshare.ca/become-host/">Become a Host</a><a href="https://app.blockshare.ca/join-block/">Join Your Block</a><a href="https://app.blockshare.ca/host-dashboard/">Host Dashboard</a></div></div><a href="https://app.blockshare.ca/onboarding/" class="site-nav__cta">Join Your Block &rarr;</a></div><button class="site-nav__hamburger" aria-label="Open menu">&#9776;</button></div>';
+
+      var f = document.getElementById("bs-footer");
+      f.innerHTML = '<div class="site-footer__inner"><div class="footer-grid"><div><div class="footer-brand">Block<span>Share</span></div><p class="footer-tagline">Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative &mdash; neither government programme nor corporate platform.</p></div><div class="footer-col"><h4>Blockonomics</h4><ul><li><a href="https://app.blockshare.ca/blockonomics/">The Framework</a></li><li><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a></li><li><a href="https://app.blockshare.ca/lei-calculator/">LTE Index Calculator</a></li></ul></div><div class="footer-col"><h4>Programs</h4><ul><li><a href="https://app.blockshare.ca/share/">Share Pools</a></li><li><a href="https://app.blockshare.ca/food/">Beef Collective</a></li><li><a href="https://app.blockshare.ca/credits/">Community Credits</a></li></ul></div><div class="footer-col"><h4>Publications</h4><ul><li><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="https://app.blockshare.ca/land-for-whom/">Land For Whom?</a></li><li><a href="https://app.blockshare.ca/debt-interest-death-of-gdp/">Debt &amp; the Death of GDP</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Ward Stirrat &mdash; Biography</a></li><li><a href="https://app.blockshare.ca/publications/">All Publications</a></li></ul></div><div class="footer-col"><h4>Get Involved</h4><ul><li><a href="https://app.blockshare.ca/onboarding/">Join Your Block</a></li><li><a href="https://app.blockshare.ca/become-host/">Become a Host</a></li><li><a href="https://app.blockshare.ca/about/">Our Story</a></li><li><a href="https://app.blockshare.ca/ward-stirrat-biography/">Meet Ward Stirrat</a></li></ul></div></div><div class="footer-copy">&copy; 2026 Block Share &middot; Vancouver, BC &middot; A community initiative inspired by E.F. Schumacher\'s <em>Small is Beautiful</em></div></div>';
+
+      var hb = document.querySelector(".site-nav__hamburger");
+      var ov = document.createElement("div");
+      ov.className = "bs-mobile-overlay"; ov.id = "bs-mobile-menu"; ov.style.display = "none";
+      ov.innerHTML = '<button class="bs-mobile-overlay__close" aria-label="Close menu">&times;</button><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">The 3rd Way</div><a href="#top">Read the Article</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Blockonomics</div><a href="https://app.blockshare.ca/blockonomics/">The Framework</a><a href="https://app.blockshare.ca/blockbudget/">Block Budget Map</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Programs</div><a href="https://app.blockshare.ca/share/">Share Pools</a><a href="https://app.blockshare.ca/food/">Beef Collective</a><a href="https://app.blockshare.ca/credits/">Community Credits</a></div><div class="bs-mobile-overlay__section"><div class="bs-mobile-overlay__heading">Publications</div><a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="https://app.blockshare.ca/bill-m216-article/">Bill M216 Analysis</a><a href="https://app.blockshare.ca/publications/">All Publications &rarr;</a></div><a href="https://app.blockshare.ca/onboarding/" class="bs-mobile-overlay__cta">Join Your Block &rarr;</a>';
+      document.body.appendChild(ov);
+      function openMobile(){ ov.style.display="flex"; ov.classList.add("active"); document.body.style.overflow="hidden"; }
+      function closeMobile(){ ov.classList.remove("active"); ov.style.display="none"; document.body.style.overflow=""; }
+      if(hb) hb.addEventListener("click", openMobile);
+      var cb = ov.querySelector(".bs-mobile-overlay__close");
+      if(cb) cb.addEventListener("click", closeMobile);
+      ov.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", closeMobile); });
+      document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeMobile(); });
+    })();
+  </script>
+
+  <!-- Nav/Footer styles (matches existing site) -->
+  <style>
+    .site-nav,.site-footer,.bs-mobile-overlay{--bg-dark:#0f1419;--border-dark:#1e293b;--border-dark-light:#334155;--text-light:#e8ecf1;--text-light-secondary:#94a3b8;--text-light-muted:#64748b;--green-400:#4ade80;--green-500:#22c55e;--font-display:'Playfair Display',Georgia,serif;--font-body:'Source Sans 3','Segoe UI',sans-serif;}
+    .site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,20,25,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-dark);}
+    .site-nav__inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 24px;}
+    .site-nav__brand{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-light);text-decoration:none;letter-spacing:-0.02em;}
+    .site-nav__brand span{color:var(--green-400);}
+    .site-nav__links{display:flex;gap:6px;align-items:center;}
+    .site-nav__dropdown{position:relative;}
+    .site-nav__dropdown-trigger{color:var(--text-light-secondary);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;padding:8px 12px;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:var(--font-body);}
+    .site-nav__dropdown:hover .site-nav__dropdown-trigger{color:var(--green-400);}
+    .site-nav__dropdown-menu{display:none;position:absolute;top:100%;left:0;background:var(--bg-dark);border:1px solid var(--border-dark-light);border-radius:8px;padding:8px 0;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:1010;}
+    .site-nav__dropdown:hover .site-nav__dropdown-menu{display:block;}
+    .site-nav__dropdown-menu a{display:block;padding:8px 20px;font-size:14px;color:var(--text-light-secondary);text-decoration:none;}
+    .site-nav__dropdown-menu a:hover{color:var(--green-400);background:rgba(74,222,128,0.06);}
+    .site-nav__cta{display:inline-block;background:var(--green-500);color:var(--bg-dark);padding:7px 16px;border-radius:6px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:0.06em;text-decoration:none;}
+    .site-nav__cta:hover{opacity:0.9;}
+    .site-nav__hamburger{display:none;background:none;border:none;color:var(--text-light);font-size:24px;cursor:pointer;padding:4px 8px;}
+    @media(max-width:900px){.site-nav__links{display:none;}.site-nav__hamburger{display:block;}}
+    .bs-mobile-overlay{position:fixed;inset:0;z-index:2000;background:rgba(15,20,25,0.98);padding:72px 24px 24px;overflow-y:auto;flex-direction:column;}
+    .bs-mobile-overlay__close{position:absolute;top:16px;right:24px;background:none;border:none;color:var(--text-light);font-size:28px;cursor:pointer;}
+    .bs-mobile-overlay__section{margin-bottom:24px;}
+    .bs-mobile-overlay__heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:10px;font-family:var(--font-body);}
+    .bs-mobile-overlay a{display:block;padding:8px 0;font-size:16px;color:var(--text-light-secondary);text-decoration:none;}
+    .bs-mobile-overlay a:hover{color:var(--green-400);}
+    .bs-mobile-overlay__cta{display:inline-block;margin-top:16px;background:var(--green-500);color:var(--bg-dark);padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center;}
+    .site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 24px 32px;}
+    .site-footer__inner{max-width:1200px;margin:0 auto;}
+    .footer-grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:40px;margin-bottom:32px;}
+    .footer-brand{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-light);margin-bottom:12px;}
+    .footer-brand span{color:var(--green-400);}
+    .footer-tagline{font-size:14px;color:var(--text-light-secondary);line-height:1.7;max-width:280px;}
+    .footer-col h4{font-family:var(--font-body);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light-muted);margin-bottom:14px;}
+    .footer-col ul{list-style:none;}
+    .footer-col li{margin-bottom:8px;}
+    .footer-col a{font-size:14px;color:var(--text-light-secondary);text-decoration:none;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--green-400);}
+    .footer-copy{border-top:1px solid var(--border-dark);padding-top:24px;font-size:13px;color:var(--text-light-muted);text-align:center;}
+    .footer-copy em{font-style:italic;}
+    @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}.footer-tagline{max-width:100%;}}
+    @media(max-width:520px){.footer-grid{grid-template-columns:1fr;}}
+  </style>
+
+</body>
+</html>

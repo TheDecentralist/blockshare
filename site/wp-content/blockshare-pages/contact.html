@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact &amp; Speaking — Ward Stirrat · Block Share</title>
+  <meta name="description" content="Ward Stirrat speaks, writes, and builds at the intersection of housing policy, community economics, and cooperative systems design. Book a speaking engagement or get in touch.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/wp-content/uploads/bs-shared/bs-nav-footer.css">
+
+  <style>
+    :root {
+      --forest:   #1C3A2B;
+      --navy:     #1A2744;
+      --cream:    #F5F0E8;
+      --gold:     #C4933F;
+      --gold-lt:  #E8C97A;
+      --sand:     #EDE8DC;
+      --text:     #1A1A1A;
+      --muted:    #5A5A5A;
+      --border:   rgba(28, 58, 43, 0.15);
+
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans:  'DM Sans', system-ui, sans-serif;
+      --mono:  'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--text); line-height: 1.6; }
+
+    /* ── Hero ──────────────────────────────────────────────────── */
+    .contact-hero {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 5rem 2rem 4rem;
+    }
+    .contact-hero__inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .contact-hero__eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-bottom: 1rem;
+    }
+    .contact-hero__title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      color: var(--cream);
+    }
+    .contact-hero__sub {
+      font-size: 1.05rem;
+      color: rgba(245,240,232,0.72);
+      line-height: 1.65;
+      max-width: 580px;
+    }
+
+    /* ── Main layout ───────────────────────────────────────────── */
+    .contact-main {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* ── Speaking panel ────────────────────────────────────────── */
+    .speaking-panel {}
+
+    .panel-heading {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .panel-title {
+      font-family: var(--serif);
+      font-size: 1.75rem;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+    .panel-body {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+
+    .topic-list {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    .topic-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .topic-list li:last-child { border-bottom: none; }
+    .topic-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--sand);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--forest);
+      font-weight: 500;
+    }
+    .topic-text strong {
+      display: block;
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 0.2rem;
+    }
+    .topic-text span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* Book a call CTA */
+    .book-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--forest);
+      color: var(--cream);
+      text-decoration: none;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+      margin-bottom: 2.5rem;
+    }
+    .book-cta:hover {
+      background: #12271D;
+      transform: translateY(-1px);
+    }
+    .book-cta::after { content: '→'; }
+
+    /* ── Decentralist section ──────────────────────────────────── */
+    .decentralist-block {
+      margin-top: 2.5rem;
+      padding: 1.75rem;
+      background: var(--sand);
+      border-radius: 8px;
+      border-left: 3px solid var(--gold);
+    }
+    .decentralist-block .panel-heading { margin-bottom: 0.4rem; }
+    .decentralist-block .panel-title { font-size: 1.2rem; margin-bottom: 0.6rem; }
+    .decentralist-block p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .dec-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .dec-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--forest);
+      text-decoration: none;
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: #fff;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .dec-link:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Contact form panel ────────────────────────────────────── */
+    .contact-form-panel {
+      position: sticky;
+      top: 2rem;
+    }
+    .form-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+    }
+    .form-card__title {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--navy);
+      margin-bottom: 0.3rem;
+    }
+    .form-card__sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.02em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 0.6rem 0.85rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A5A5A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.85rem center;
+      padding-right: 2.25rem;
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--forest);
+      box-shadow: 0 0 0 3px rgba(28,58,43,0.1);
+    }
+
+    .form-submit {
+      width: 100%;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--cream);
+      background: var(--forest);
+      border: none;
+      border-radius: 6px;
+      padding: 0.85rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+    }
+    .form-submit:hover { background: #12271D; transform: translateY(-1px); }
+    .form-submit:active { transform: translateY(0); }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .form-success__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--sand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.4rem;
+    }
+    .form-success__title {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .form-success__body {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* Ward bio link block */
+    .bio-link-block {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--sand);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s;
+    }
+    .bio-link-block:hover { background: #DDD8CC; }
+    .bio-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 1rem;
+      color: var(--cream);
+      flex-shrink: 0;
+    }
+    .bio-link-text strong {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--navy);
+    }
+    .bio-link-text span {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 780px) {
+      .contact-main {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.25rem 4rem;
+        gap: 2rem;
+      }
+      .contact-form-panel { position: static; }
+      .contact-hero { padding: 3.5rem 1.25rem 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div data-bs-nav></div>
+
+<!-- ── Hero ──────────────────────────────────────────────────────── -->
+<header class="contact-hero">
+  <div class="contact-hero__inner">
+    <p class="contact-hero__eyebrow">Block Share · Ward Stirrat</p>
+    <h1 class="contact-hero__title">Contact &amp; Speaking</h1>
+    <p class="contact-hero__sub">Ward speaks, writes, and builds at the intersection of housing policy, community economics, and cooperative systems design. To book a speaking engagement or get in touch, use the form — or reach out directly.</p>
+  </div>
+</header>
+
+<!-- ── Main ──────────────────────────────────────────────────────── -->
+<main class="contact-main">
+
+  <!-- Left: Speaking + Decentralist -->
+  <div class="speaking-panel">
+
+    <p class="panel-heading">Speaking &amp; Events</p>
+    <h2 class="panel-title">Topics &amp; Engagements</h2>
+    <p class="panel-body">Ward has been developing and presenting the Blockonomics framework, community economics research, and the 3rd Way model for over 15 years. He speaks to community groups, city planning panels, academic audiences, and cooperative networks across BC and beyond.</p>
+
+    <ul class="topic-list">
+      <li>
+        <div class="topic-icon">01</div>
+        <div class="topic-text">
+          <strong>Community Economics &amp; Blockonomics</strong>
+          <span>The $2.4M block budget, cooperative models, and the case for neighbourhood-scale economies.</span>
+        </div>
+      </li>
+      <li>
+        <div class="topic-icon">02</div>
+        <div class="topic-text">
+          <strong>Housing, Land &amp; Permanent Land Trusts</strong>
+          <span>The False Creek South proof of concept, CLT mechanics, and why land tenure determines everything.</span>
+        </div>
+      </li>
+      <li>
+        <div class="topic-icon">03</div>
+        <div class="topic-text">
+          <strong>The 3rd Way: Beyond Market or Government</strong>
+          <span>Cooperative stewardship models, community ownership, and the structures that make them durable.</span>
+        </div>
+      </li>
+      <li>
+        <div class="topic-icon">04</div>
+        <div class="topic-text">
+          <strong>Policy Accountability &amp; Citizens Dashboards</strong>
+          <span>Making the gap between official communications and peer-reviewed evidence visible — and actionable.</span>
+        </div>
+      </li>
+      <li>
+        <div class="topic-icon">05</div>
+        <div class="topic-text">
+          <strong>Mobility, Food Systems &amp; Lifecycle Design</strong>
+          <span>The Mobility for Life cost model, the Food for Generations program, and community infrastructure thinking.</span>
+        </div>
+      </li>
+    </ul>
+
+    <a href="mailto:ward@blockshare.ca?subject=Speaking%20Enquiry" class="book-cta">Book Ward for an event</a>
+
+    <!-- The Decentralist -->
+    <div class="decentralist-block">
+      <p class="panel-heading">The Decentralist</p>
+      <h3 class="panel-title">Newsletter &amp; Podcast</h3>
+      <p>Ward writes and podcasts under The Decentralist — exploring neighbourhood economies, cooperative governance, and the systems that shape daily life. New essays and episodes published regularly on Substack.</p>
+      <div class="dec-links">
+        <a href="https://thedecentralist.net" target="_blank" rel="noopener" class="dec-link">Read the newsletter ↗</a>
+        <a href="https://open.substack.com/pub/thedecentralistnet" target="_blank" rel="noopener" class="dec-link">Listen on Substack ↗</a>
+      </div>
+    </div>
+
+  </div><!-- /speaking-panel -->
+
+  <!-- Right: Contact form -->
+  <div class="contact-form-panel">
+    <div class="form-card">
+      <h2 class="form-card__title">Get in touch</h2>
+      <p class="form-card__sub">For speaking enquiries, media, collaboration, or general questions.</p>
+
+      <!--
+        NOTE FOR DEVELOPER:
+        Replace this <form> action with your WordPress contact form shortcode, or
+        wire to WPForms / Contact Form 7 via AJAX. The field names below match
+        standard CF7 conventions: your-name, your-email, your-subject, your-message.
+        For WPForms: replace the entire <form> block with [wpforms id="YOUR_FORM_ID"]
+        and load the form via wp_enqueue_scripts in the plugin.
+      -->
+      <form id="contact-form" action="/wp-json/contact-form-7/v1/contact-forms/YOUR_FORM_ID/feedback" method="POST" novalidate>
+
+        <div class="form-group">
+          <label for="your-name">Your name</label>
+          <input type="text" id="your-name" name="your-name" autocomplete="name" required placeholder="Jane Smith">
+        </div>
+
+        <div class="form-group">
+          <label for="your-email">Email address</label>
+          <input type="email" id="your-email" name="your-email" autocomplete="email" required placeholder="jane@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="your-subject">Subject</label>
+          <select id="your-subject" name="your-subject" required>
+            <option value="" disabled selected>Select a topic…</option>
+            <option value="speaking">Speaking enquiry</option>
+            <option value="media">Media &amp; press</option>
+            <option value="collaboration">Collaboration</option>
+            <option value="blockshare">Block Share / platform</option>
+            <option value="general">General</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="your-message">Message</label>
+          <textarea id="your-message" name="your-message" required placeholder="Tell Ward what you have in mind…" rows="5"></textarea>
+        </div>
+
+        <button type="submit" class="form-submit">Send message →</button>
+      </form>
+
+      <!-- Success state (shown via JS after submit) -->
+      <div class="form-success" id="form-success">
+        <div class="form-success__icon">✓</div>
+        <h3 class="form-success__title">Message sent</h3>
+        <p class="form-success__body">Thanks for getting in touch. Ward typically responds within 2–3 business days.</p>
+      </div>
+
+    </div><!-- /form-card -->
+
+    <!-- Ward bio link -->
+    <a href="https://app.blockshare.ca/ward-stirrat-biography/" class="bio-link-block">
+      <div class="bio-avatar">W</div>
+      <div class="bio-link-text">
+        <strong>Ward Stirrat</strong>
+        <span>Read the full biography →</span>
+      </div>
+    </a>
+
+  </div><!-- /contact-form-panel -->
+
+</main>
+
+<div data-bs-footer></div>
+<script src="/bs-nav-footer.js"></script>
+
+<script>
+  /*
+   * Basic form handling.
+   * Replace with WPForms / CF7 AJAX handling as needed.
+   * The submit handler below demonstrates the UX pattern only —
+   * wire the fetch() call to your actual WordPress endpoint.
+   */
+  const form    = document.getElementById('contact-form');
+  const success = document.getElementById('form-success');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      const data = new FormData(form);
+
+      try {
+        // ── Replace URL with your CF7 or WPForms endpoint ──
+        const res = await fetch(form.action, { method: 'POST', body: data });
+        if (res.ok) {
+          form.hidden = true;
+          success.style.display = 'block';
+        } else {
+          throw new Error('Server error');
+        }
+      } catch {
+        btn.textContent = 'Error — please try again';
+        btn.disabled = false;
+        btn.style.background = '#8B2020';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

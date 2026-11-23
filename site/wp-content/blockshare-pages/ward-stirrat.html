@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ward Stirrat — Builder of Alternative Economies · Block Share</title>
+
+<!-- Block Beats standard fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Shared nav/footer styles -->
+<link rel="stylesheet" href="/wp-content/uploads/bs-shared/bs-nav-footer.css">
+
+<style>
+/* ============================================================
+   Block Beats design tokens — Ward Stirrat biography page
+   ============================================================ */
+:root {
+  --forest:       #0f2b1d;
+  --forest-light: #163d2a;
+  --forest-mid:   #1a4a33;
+  --navy:         #1E4D7B;
+  --navy-dark:    #153a5e;
+  --slate:        #2c3e50;
+  --gold:         #f9a825;
+  --gold-dim:     #c8891e;
+  --gold-light:   #fdd835;
+  --cream:        #faf6f0;
+  --cream-dark:   #f0ebe3;
+  --text:         #1a1a1a;
+  --text-light:   #555;
+  --text-muted:   #888;
+  --white-a10:    rgba(255,255,255,.1);
+  --white-a15:    rgba(255,255,255,.15);
+  --white-a60:    rgba(255,255,255,.6);
+  --white-a80:    rgba(255,255,255,.8);
+  --white-a85:    rgba(255,255,255,.85);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  background: var(--cream);
+}
+
+h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+
+/* ── Section rhythm — the Block Beats alternating backgrounds ── */
+.section       { padding: 4.5rem 2rem; }
+.section-inner { max-width: 860px; margin: 0 auto; }
+.section-light  { background: var(--cream); }
+.section-warm   { background: var(--cream-dark); }
+.section-forest { background: var(--forest); color: #fff; }
+.section-navy   { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); color: #fff; }
+
+/* ── Eyebrow labels ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--gold-dim);
+  margin-bottom: .75rem;
+}
+.section-forest .eyebrow,
+.section-navy   .eyebrow { color: var(--gold); }
+
+/* ── Section headings ── */
+.section-inner h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.22;
+  margin-bottom: 1.5rem;
+}
+.section-light h2,
+.section-warm  h2 { color: var(--text); }
+.section-forest h2,
+.section-navy   h2 { color: #fff; }
+
+/* ── Body copy ── */
+.section-inner p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+.section-light p,
+.section-warm  p { color: var(--text-light); }
+.section-forest p,
+.section-navy   p { color: var(--white-a85); }
+.section-inner p:last-child { margin-bottom: 0; }
+.section-inner p strong { color: inherit; font-weight: 600; }
+.section-light  p strong,
+.section-warm   p strong { color: var(--forest-mid); }
+.section-forest p strong,
+.section-navy   p strong { color: #fff; }
+
+/* ── Hero ── */
+.hero {
+  background: var(--forest);
+  color: #fff;
+  padding: 6rem 2rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  border: 1px solid rgba(249,168,37,0.15);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; left: 200px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  border: 1px solid rgba(249,168,37,0.08);
+  pointer-events: none;
+}
+.hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--gold);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.hero-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--gold); }
+.hero h1 {
+  font-size: clamp(2.8rem, 6vw, 4.4rem);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-bottom: .4rem;
+}
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero-tagline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .14em;
+  color: var(--white-a60);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+.hero-intro {
+  font-size: 1.1rem;
+  color: var(--white-a85);
+  max-width: 680px;
+  line-height: 1.8;
+  border-left: 2px solid var(--gold);
+  padding-left: 1.5rem;
+}
+
+/* ── Pull quote ── */
+.pull-quote {
+  margin: 2.5rem 0;
+  padding: 0 0 0 1.5rem;
+  border-left: 2px solid var(--gold);
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+.section-light .pull-quote,
+.section-warm  .pull-quote { color: var(--forest-mid); }
+.section-forest .pull-quote,
+.section-navy   .pull-quote { color: var(--gold-light); border-left-color: var(--gold); }
+
+/* ── Pullquote break section ── */
+.pullquote-section { padding: 4rem 2rem; background: var(--cream-dark); }
+.pullquote-inner { max-width: 780px; margin: 0 auto; text-align: center; }
+.pullquote-bar { width: 48px; height: 3px; background: var(--gold); margin: 0 auto 2rem; }
+.pullquote-inner blockquote {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.3rem, 3vw, 1.75rem);
+  line-height: 1.45;
+  color: var(--forest);
+  font-style: italic;
+}
+
+/* ── Item grid / cards ── */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.item-card {
+  background: var(--white-a10);
+  border: 1px solid var(--white-a10);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.item-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--white-a15);
+}
+.item-card.gold::before  { background: var(--gold); }
+.item-card.navy::before  { background: #5b9bd5; }
+.item-card.green::before { background: #4ade80; }
+
+/* Cards on light sections */
+.section-light .item-card,
+.section-warm  .item-card {
+  background: #fff;
+  border-color: #e0dbd3;
+}
+.section-light .item-card::before,
+.section-warm  .item-card::before { background: var(--forest-mid); }
+.section-light .item-card.gold::before,
+.section-warm  .item-card.gold::before { background: var(--gold-dim); }
+.section-light .item-card.navy::before,
+.section-warm  .item-card.navy::before { background: var(--navy); }
+
+.item-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  margin-bottom: .4rem;
+}
+.section-forest .item-name,
+.section-navy   .item-name { color: #fff; }
+.section-light  .item-name,
+.section-warm   .item-name { color: var(--forest-mid); }
+.item-card.gold .item-name { color: var(--gold); }
+
+.item-desc {
+  font-size: .88rem;
+  line-height: 1.6;
+}
+.section-forest .item-desc,
+.section-navy   .item-desc { color: var(--white-a80); }
+.section-light  .item-desc,
+.section-warm   .item-desc { color: var(--text-light); }
+
+/* ── Article link cards ── */
+.article-card {
+  background: var(--white-a10);
+  border: 1px solid var(--white-a15);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: .75rem;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transition: background .2s;
+}
+.article-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+}
+.article-card:hover { background: rgba(255,255,255,.15); }
+.section-light .article-card,
+.section-warm  .article-card {
+  background: #fff;
+  border-color: #e0dbd3;
+}
+.section-light .article-card:hover,
+.section-warm  .article-card:hover { background: var(--cream); }
+.article-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  font-weight: 600;
+  margin-bottom: .35rem;
+}
+.section-forest .article-title,
+.section-navy   .article-title { color: #fff; }
+.section-light  .article-title,
+.section-warm   .article-title { color: var(--forest-mid); }
+.article-desc {
+  font-size: .85rem;
+  line-height: 1.6;
+}
+.section-forest .article-desc,
+.section-navy   .article-desc { color: var(--white-a80); }
+.section-light  .article-desc,
+.section-warm   .article-desc { color: var(--text-light); }
+.article-arrow {
+  font-size: .8rem;
+  margin-top: .5rem;
+  display: inline-block;
+}
+.section-forest .article-arrow,
+.section-navy   .article-arrow { color: var(--gold); }
+.section-light  .article-arrow,
+.section-warm   .article-arrow { color: var(--gold-dim); }
+
+/* ── Group headings ── */
+.group-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin: 2.5rem 0 1rem;
+}
+.group-heading:first-of-type { margin-top: 0; }
+.section-light  .group-heading,
+.section-warm   .group-heading { color: var(--text-muted); }
+.section-forest .group-heading,
+.section-navy   .group-heading { color: var(--gold); }
+
+/* ── Clean list (working papers) ── */
+.clean-list { list-style: none; margin-top: 1rem; }
+.clean-list li {
+  padding: .85rem 0;
+  border-bottom: 1px solid var(--white-a10);
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  font-size: .9rem;
+}
+.section-light .clean-list li,
+.section-warm  .clean-list li { border-bottom-color: #e0dbd3; }
+.clean-list li:last-child { border-bottom: none; }
+.li-title {
+  font-weight: 600;
+}
+.section-light  .li-title,
+.section-warm   .li-title { color: var(--forest-mid); }
+.section-forest .li-title,
+.section-navy   .li-title { color: #fff; }
+.li-sub {
+  font-style: italic;
+}
+.section-light  .li-sub,
+.section-warm   .li-sub { color: var(--text-muted); }
+.section-forest .li-sub,
+.section-navy   .li-sub { color: var(--white-a60); }
+
+/* ── Pitch / CTA box ── */
+.cta-section {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%);
+  padding: 5rem 2rem;
+  text-align: center;
+  position: relative;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100px; height: 3px;
+  background: var(--gold);
+}
+.cta-inner { max-width: 680px; margin: 0 auto; }
+.cta-inner h2 { color: #fff; font-size: 2rem; margin-bottom: 1rem; }
+.cta-inner p {
+  color: var(--white-a85);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+.cta-inner p strong { color: #fff; font-weight: 600; }
+.cta-inner p:last-of-type { margin-bottom: 2rem; }
+.btn-gold {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--forest);
+  padding: .85rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: .95rem;
+  transition: all .25s;
+}
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+/* ── Stat grid (hero metrics) ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2.5rem 0 0;
+}
+.stat-card { text-align: center; }
+.stat-card .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-card .lbl {
+  font-size: .78rem;
+  color: var(--white-a60);
+  margin-top: .25rem;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .hero { padding: 4rem 1.5rem 3rem; }
+  .section { padding: 3.5rem 1.5rem; }
+  .item-grid { grid-template-columns: 1fr; }
+  .clean-list li { grid-template-columns: 1fr; gap: .25rem; }
+  .stat-grid { grid-template-columns: 1fr; }
+  .pullquote-section { padding: 3rem 1.5rem; }
+}
+
+/* ── Animation ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.hero-inner > * { animation: fadeUp .6s ease-out both; }
+.hero-eyebrow { animation-delay: .1s; }
+.hero h1      { animation-delay: .2s; }
+.hero-tagline { animation-delay: .3s; }
+.hero-intro   { animation-delay: .4s; }
+</style>
+</head>
+<body>
+
+<!-- NAV — injected by bs-nav-footer.js -->
+<nav id="bs-nav"></nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Block Share · Speaker · Author · Systems Designer</div>
+    <h1>Ward <em>Stirrat</em></h1>
+    <div class="hero-tagline">Vancouver, BC &nbsp;·&nbsp; Building the Economy We Actually Need</div>
+    <p class="hero-intro">
+      For over fifteen years, Ward Stirrat has been quietly dismantling the invisible systems that extract wealth from society — and building the replacements. His work spans currency design, neighbourhood infrastructure, housing policy, ecological accounting, and narrative: a complete alternative economic architecture for the twenty-first century.
+    </p>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="val">15+</div><div class="lbl">Years Building</div></div>
+      <div class="stat-card"><div class="val">12</div><div class="lbl">Original Frameworks</div></div>
+      <div class="stat-card"><div class="val">10</div><div class="lbl">Publications</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ 01 · ABOUT — cream ═══ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="eyebrow">01 · About</div>
+    <h2>The Body of Work in Brief</h2>
+    <p>Ward operates at the intersection of <strong>community organizing, platform design, and alternative economics</strong>. Where most critics stop at diagnosis, Ward builds tools. His frameworks have been applied to Vancouver neighbourhood budgeting, housing policy reform, complementary currency systems, and ecological stewardship — producing a cohesive body of work that is simultaneously theoretical and immediately deployable.</p>
+    <p>His foundational thinking was first published in 2020 under the byline <em>The Decentralist</em> on Medium — three essays establishing the core argument: that the power to create money has been surrendered to private corporations, that a community-controlled alternative is both historically precedented and practically achievable, and that the hierarchical extraction systems underpinning modern capitalism are a continuation of empire by other means.</p>
+    <p>His flagship platform, <strong>Block Share</strong> (app.blockshare.ca), is a live proof-of-concept for what a community-owned micro-economy looks like in practice. His policy publications apply the LEI/FEI framework to Vancouver housing with forensic precision. His forthcoming book <em>Default</em> provides the narrative and intellectual scaffolding for the entire project.</p>
+    <div class="pull-quote">"The economy isn't failing — it's working exactly as designed, but for the wrong people. Ward is resequencing the Economic DNA to work for All of Us, and for Life."</div>
+  </div>
+</section>
+
+
+<!-- ═══ PULLQUOTE BREAK ═══ -->
+<section class="pullquote-section">
+  <div class="pullquote-inner">
+    <div class="pullquote-bar"></div>
+    <blockquote>Every city block already has a multi-million dollar economy flowing through it. Nobody accounts for it. Blockonomics makes that invisible power visible.</blockquote>
+  </div>
+</section>
+
+
+<!-- ═══ 02 · FRAMEWORKS — forest ═══ -->
+<section class="section section-forest">
+  <div class="section-inner">
+    <div class="eyebrow">02 · Original Frameworks &amp; Systems</div>
+    <h2>Creator Of</h2>
+    <div class="item-grid">
+      <div class="item-card gold">
+        <div class="item-name">LEI — Lifetime Efficiency Index</div>
+        <div class="item-desc">A replacement for GDP that measures how much of a person's life is spent working to meet basic needs. Paired with the Financial Extraction Index (FEI), it exposes the true cost of rentier capitalism in lived hours.</div>
+      </div>
+      <div class="item-card gold">
+        <div class="item-name">Community Credyts</div>
+        <div class="item-desc">A complementary currency with demurrage, seigniorage, and tripartite backing (Cash / Labour / Assets). Designed to reduce fiat dependency and keep value circulating locally.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">Block Share Platform</div>
+        <div class="item-desc">A neighbourhood resource-sharing and micro-asset platform. The civic infrastructure layer that transforms a city block into a cooperative economy. Live at app.blockshare.ca.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">10 Houses Architecture</div>
+        <div class="item-desc">A stewardship framework organising bioregional community life into ten relational houses — the ecological and social infrastructure for a post-extractive neighbourhood.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">Mobility Multi-Pass</div>
+        <div class="item-desc">A universal mobility access framework linking any NFC card to a TransLink account, settled via MYCC/LOCC blockchain tokens — making transit access community-owned.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">Mobility for Life Programme</div>
+        <div class="item-desc">A policy framework for ending car dependency at household and municipal scale — combining lifetime cost analysis, transit-first infrastructure, and the Mobility Multi-Pass universal access system.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">Art of Money</div>
+        <div class="item-desc">A participatory currency literacy initiative exploring what money is, who makes it, and what it could be — grounded in community storytelling and experiential learning.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">Life Hours — Universal Currency</div>
+        <div class="item-desc">Time-backed currency equivalent that denominates economic exchange in units of human life — a radical reframing of value that makes exploitation visible.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">City Cards — Universal Pass &amp; Agent</div>
+        <div class="item-desc">Locally-owned alternatives to Amazon and Uber: community-governed platforms that keep platform economics inside the neighbourhood rather than extracting them to shareholders.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">Personal Biosphere Dashboard &amp; Wallet</div>
+        <div class="item-desc">An integrated Global Human Passport and ecological accounting tool — tracking individual stewardship, carbon, and multi-capital wealth in a single personal dashboard.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">Micro-Assets System</div>
+        <div class="item-desc">A framework for community members to own fractional shares in the productive assets of their neighbourhood — the infrastructure layer beneath Community Credyts.</div>
+      </div>
+      <div class="item-card gold">
+        <div class="item-name">The 3rd Way</div>
+        <div class="item-desc">A political-economic framework charting a new path between Markets and Commons — the theoretical spine connecting all of Ward's platform work.</div>
+      </div>
+      <div class="item-card gold">
+        <div class="item-name">Food for Generations — K–12 Programme</div>
+        <div class="item-desc">A school-based food sovereignty programme connecting every student to 12 m² of farmland. Class Farms, polyculture food forests, and a full K–12 curriculum designed to embed ecological literacy and community food systems from age five.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ 03 · BOOKS — warm ═══ -->
+<section class="section section-warm">
+  <div class="section-inner">
+    <div class="eyebrow">03 · Books &amp; Long-Form Writing</div>
+    <h2>Author Of</h2>
+    <div class="item-grid">
+      <div class="item-card gold">
+        <div class="item-name">Default: How Invisible Systems Steal Your Life — And How to Take It Back</div>
+        <div class="item-desc"><em>Forthcoming.</em> The primary intellectual and narrative vehicle for Ward's full body of work. A popular economics book framing rentier capitalism's extraction mechanisms and presenting the Block Share ecosystem as a live alternative. Tonal models: Peter Barnes, Grace Blakeley, Ann E. Davis.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">The Keepers — Keira's Story</div>
+        <div class="item-desc">A manga-style youth / young adult graphic novel. A narrative entry point for younger audiences into the themes of stewardship, belonging, and community economy.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ 04 · PUBLICATIONS — navy ═══ -->
+<section class="section section-navy">
+  <div class="section-inner">
+    <div class="eyebrow">04 · Research, Policy &amp; Public Writing</div>
+    <h2>Published Articles &amp; Papers</h2>
+
+    <p class="group-heading">Foundational Essays — Medium / The Decentralist · 2020</p>
+    <a href="https://medium.com/@ward.stirrat/people-the-new-de-central-bank-repatriating-and-re-localizing-the-issuance-function-of-money-e864050ec90" target="_blank" class="article-card">
+      <div class="article-title">People, The New De-Central Bank ↗</div>
+      <div class="article-desc">The foundational insight: the issuance of money — the power to define what society values — has been quietly surrendered to private transnational banking corporations. The theoretical root of the entire Block Share ecosystem.</div>
+      <div class="article-arrow">Read on Medium →</div>
+    </a>
+    <a href="https://medium.com/@ward.stirrat/we-are-missing-something-6549ad1c3c22" target="_blank" class="article-card">
+      <div class="article-title">We Are Missing Something ↗</div>
+      <div class="article-desc">The foundational tool essay: we have bank accounts for money, but no account for everything else we value. Community Credyts is that missing account — grounded in Silvio Gesell and E.F. Schumacher.</div>
+      <div class="article-arrow">Read on Medium →</div>
+    </a>
+    <a href="https://medium.com/@ward.stirrat/corporate-socialism-of-the-1800s-vs-the-democratic-socialism-of-2020-429407411c8a" target="_blank" class="article-card">
+      <div class="article-title">Corporate Socialism of the 1800s vs. Democratic Socialism of 2020 ↗</div>
+      <div class="article-desc">The foundational problem essay: tracing the same extraction mechanism — from the East India Company to transnational banking hegemony — and the case for why the democratic system cannot reform itself from within.</div>
+      <div class="article-arrow">Read on Medium →</div>
+    </a>
+
+    <p class="group-heading">Housing &amp; Policy Analysis — Block Share Publications</p>
+    <a href="https://app.blockshare.ca/vancouver-housing-policy-analysis/" target="_blank" class="article-card">
+      <div class="article-title">Vancouver Housing Policy: Winners, Losers &amp; the Missing Model</div>
+      <div class="article-desc">A full LEI/FEI analysis of the Broadway Plan, Vancouver Plan, and BC ODP directives — compared against Copenhagen, Singapore, and False Creek South. Vancouver scores 99.9% LEI.</div>
+      <div class="article-arrow">Read the analysis →</div>
+    </a>
+    <a href="https://app.blockshare.ca/bill-m216-article/" target="_blank" class="article-card">
+      <div class="article-title">Bill M216: Who Wins and Who Loses</div>
+      <div class="article-desc">A population-weighted analysis of 485 formal legislative submissions on BC's Professional Reliance Act. 1.6% of BC's population benefit; approximately 98% bear the costs.</div>
+      <div class="article-arrow">Read the article →</div>
+    </a>
+    <a href="https://app.blockshare.ca/land-for-whom/" target="_blank" class="article-card">
+      <div class="article-title">Land for Whom? A Cross-Country Housing Model Analysis</div>
+      <div class="article-desc">A four-model comparison of Singapore, Copenhagen, Vancouver, and the Permanent Land Trust — evaluated using LEI "Lifetime Spent" methodology.</div>
+      <div class="article-arrow">Read the comparison →</div>
+    </a>
+
+    <p class="group-heading">Economics &amp; Extraction — Block Share Publications</p>
+    <a href="https://app.blockshare.ca/debt-interest-death-of-gdp/" target="_blank" class="article-card">
+      <div class="article-title">Debt, Interest &amp; the Death of GDP</div>
+      <div class="article-desc">Mexico's debt forgiveness, Michael Hudson's economics of extraction, and the Block Share / Community Credits model for change from below. Connecting Sheinbaum's jubilee moment to the broader case for debt cancellation.</div>
+      <div class="article-arrow">Read the article →</div>
+    </a>
+    <a href="https://app.blockshare.ca/private-taxes/" target="_blank" class="article-card">
+      <div class="article-title">Private Taxes: The Invisible Hand Exposed</div>
+      <div class="article-desc">Every household pays a shadow tax system that never appears on a government ledger — rent extraction, interest overhead, and platform fees that transfer wealth upward invisibly. This analysis names the mechanisms and quantifies the flows.</div>
+      <div class="article-arrow">Read the analysis →</div>
+    </a>
+    <a href="https://app.blockshare.ca/private-taxes-short/" target="_blank" class="article-card">
+      <div class="article-title">Private Taxes: The Invisible Hand</div>
+      <div class="article-desc">A concise introduction to the private tax thesis — rent, interest, and platform extraction as a parallel taxation system with no democratic accountability.</div>
+      <div class="article-arrow">Read the overview →</div>
+    </a>
+    <a href="https://app.blockshare.ca/tale-of-two-cycles/" target="_blank" class="article-card">
+      <div class="article-title">A Tale of Two Cycles</div>
+      <div class="article-desc">A structural comparison of the extractive economic cycle versus the community reinvestment cycle. How the Small Water Cycle and the Small Money Cycle share a common purpose — and a common enemy.</div>
+      <div class="article-arrow">Read the comparison →</div>
+    </a>
+    <a href="https://app.blockshare.ca/unrepresented/" target="_blank" class="article-card">
+      <div class="article-title">Unrepresented</div>
+      <div class="article-desc">The crisis of non-representation in civic democracy and the path back to people power. How participatory budgeting and Citizen Circles can restore democratic agency at neighbourhood scale.</div>
+      <div class="article-arrow">Read the commentary →</div>
+    </a>
+
+    <p class="group-heading">Programs &amp; Policy — Block Share Publications</p>
+    <a href="https://app.blockshare.ca/food-for-generations/" target="_blank" class="article-card">
+      <div class="article-title">Food for Generations: A K–12 Food Sovereignty Programme</div>
+      <div class="article-desc">A comprehensive school-based programme connecting every student to 12 m² of farmland through Class Farms, polyculture food forests, and a full K–12 curriculum — embedding ecological literacy and community food systems from age five.</div>
+      <div class="article-arrow">Read the programme →</div>
+    </a>
+    <a href="https://app.blockshare.ca/mobility-for-life/" target="_blank" class="article-card">
+      <div class="article-title">Mobility for Life: The $2 Million Cost of Car Dependency</div>
+      <div class="article-desc">A lifetime cost analysis revealing that the average Canadian spends $2 million on car dependency. Includes the Mobility for Life policy framework, the House of Cars 54-card street game, and a companion podcast episode.</div>
+      <div class="article-arrow">Read the analysis →</div>
+    </a>
+  </div>
+</section>
+
+
+<!-- ═══ PULLQUOTE BREAK ═══ -->
+<section class="pullquote-section">
+  <div class="pullquote-inner">
+    <div class="pullquote-bar"></div>
+    <blockquote>Ward Stirrat is not another commentator on the housing crisis or the inequality gap. He is building the replacement.</blockquote>
+  </div>
+</section>
+
+
+<!-- ═══ 05 · WORKING PAPERS — light ═══ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="eyebrow">05 · Additional Papers &amp; Working Documents</div>
+    <h2>Working Papers</h2>
+    <ul class="clean-list">
+      <li><span class="li-title">The Community Economy</span><span class="li-sub">Structural analysis of cooperative governance and community economic decision-making.</span></li>
+      <li><span class="li-title">Living Roots</span><span class="li-sub">On civic power, community belonging, and the roots of place-based economic identity.</span></li>
+      <li><span class="li-title">Block Budget — Civic Power System</span><span class="li-sub">A participatory neighbourhood budgeting framework. Companion to the Vancouver Block Budget Data Explorer covering 5,806 city blocks.</span></li>
+      <li><span class="li-title">Blockonomics — Civic Power Tool</span><span class="li-sub">Overview of the Blockonomics platform as community-owned micro-economy infrastructure.</span></li>
+      <li><span class="li-title">Life Passport &amp; ID</span><span class="li-sub">Framework for a cumulative Global Human Passport tracking stewardship, contribution, and community standing across a lifetime.</span></li>
+      <li><span class="li-title">The Price Isn't Right</span><span class="li-sub">A teacher workshop and public education resource exploring how prices are set, who benefits, and the hidden extraction embedded in everyday economic transactions.</span></li>
+      <li><span class="li-title">Life Time Efficiency Calculator</span><span class="li-sub">Applied LEI methodology: an interactive tool allowing individuals to calculate their own financial extraction rate in life hours.</span></li>
+      <li><span class="li-title">Living Capital Program</span><span class="li-sub">A proposal for community investment vehicles that treat local ecological and social assets as productive capital.</span></li>
+      <li><span class="li-title">Life Credits Accounting System</span><span class="li-sub">Multi-capital accounting framework integrating financial, social, ecological, and time-based ledgers into a single community balance sheet.</span></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ═══ 06 · GAMES — navy ═══ -->
+<section class="section section-navy">
+  <div class="section-inner">
+    <div class="eyebrow">06 · Games &amp; Educational Tools</div>
+    <h2>Learn by Playing</h2>
+    <p>Ward designs interactive games and workshop formats that make complex systems viscerally understandable. Each game encodes real economic data — players don't just learn about extraction, they <strong>feel it happening</strong>.</p>
+    <div class="item-grid">
+      <div class="item-card gold">
+        <div class="item-name">House of Cars — 54-Card Street Game</div>
+        <div class="item-desc">A pocket-sized card game that makes the $2 million lifetime cost of car dependency personal. Five suits — Car, Transit, Bike, Walk, and Joker (wildcards) — built from real Canadian cost data. Designed for students, policy makers, community evangelists, and the general public. Companion to the <em>Mobility for Life</em> policy paper and podcast.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">Game of Towers</div>
+        <div class="item-desc">An educational simulation of the power dynamics inside economic and governance systems — designed for civic engagement and community literacy. Players build, trade, and discover how rules shape outcomes.</div>
+      </div>
+      <div class="item-card">
+        <div class="item-name">The Price Isn't Right — Pop-Up Shoppe</div>
+        <div class="item-desc">A street-level community economics workshop disguised as a market stall. Participants discover the hidden extraction embedded in everyday prices — rent, interest, platform fees, and profit margins that never appear on a receipt.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ 07 · VENTURES — forest ═══ -->
+<section class="section section-forest">
+  <div class="section-inner">
+    <div class="eyebrow">07 · Ventures &amp; Organizations</div>
+    <h2>Founder Of</h2>
+    <div class="item-grid">
+      <div class="item-card navy">
+        <div class="item-name">Vancouver Car Club</div>
+        <div class="item-desc">A shared exotic vehicle network — operated for 16 years. The practical origin of Ward's deep expertise in shared-asset economics and community ownership models.</div>
+      </div>
+      <div class="item-card navy">
+        <div class="item-name">The Art of Business</div>
+        <div class="item-desc">A creative studio for business communication and marketing — supporting mission-aligned enterprises with narrative, design, and go-to-market strategy.</div>
+      </div>
+      <div class="item-card navy">
+        <div class="item-name">Block Share Platform</div>
+        <div class="item-desc">The live community economy platform integrating Community Credyts, micro-asset management, quest labour, and neighbourhood governance. app.blockshare.ca</div>
+      </div>
+      <div class="item-card navy">
+        <div class="item-name">Greenfield — Think Tank &amp; Venture Studio</div>
+        <div class="item-desc">A 2009–2016 strategic foresight venture exploring the next evolution of business and blue ocean opportunity. Ward developed <em>Human</em> — a toolset for mapping human-centred market opportunities.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ 07 · SPEAKING — navy / CTA ═══ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="eyebrow" style="color:var(--gold);margin-bottom:1rem;">08 · For Event Organisers &amp; Producers</div>
+    <h2>Why Ward, Why Now</h2>
+    <p>Ward Stirrat is not another commentator on the housing crisis, the inequality gap, or the failures of growth economics. <strong>He is building the replacement.</strong></p>
+    <p>His talks draw on fifteen years of hands-on platform design, policy research, and community organizing to show audiences not just what's wrong — but <strong>what a working alternative actually looks like, at neighbourhood scale, right now.</strong></p>
+    <p>Ward speaks fluently across audiences: community organizers and municipal planners, cooperative economists and social entrepreneurs, students and seasoned civic leaders. His ability to translate complex systemic critique into <strong>practical, locally actionable frameworks</strong> makes him an unusually versatile voice for panels, keynotes, podcasts, and facilitated salon discussions.</p>
+    <p>He is available for <strong>keynote presentations, panel discussions, podcast interviews, facilitated community workshops, and hosted salon events</strong> — and is actively building a speaker series around the launch of <em>Default</em>.</p>
+    <a href="https://app.blockshare.ca/about/" class="btn-gold">Get in Touch →</a>
+  </div>
+</section>
+
+
+<!-- FOOTER — injected by bs-nav-footer.js -->
+<footer id="bs-footer"></footer>
+
+<!-- Shared nav/footer injector -->
+<script src="/wp-content/uploads/bs-shared/bs-nav-footer.js?v=4"></script>
+
+</body>
+</html>

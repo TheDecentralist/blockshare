@@ -1,0 +1,2398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f2b1d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="Discover your block's economic power. Every Vancouver block has a budget — the average is $2.4 million. Take the survey, earn Community Credits, shape your block's future.">
+
+<!-- Open Graph for link sharing -->
+<meta property="og:title" content="Block Share — Know Your Block's Power">
+<meta property="og:description" content="Your block's budget is $2.4 million. Take the 5-minute survey, earn Community Credits, and help build your neighbourhood's community economy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blockshare.ca/onboarding">
+<meta property="og:image" content="https://blockshare.great-site.net/blockbudget/og-image.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Block Share — Know Your Block's Power">
+<meta name="twitter:description" content="Your block's budget is $2.4 million. Earn Community Credits by taking the survey.">
+
+<title>Block Share — Know Your Block's Power</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --forest: #0f2b1d;
+  --forest-mid: #1a3d2b;
+  --forest-light: #2a5c40;
+  --leaf: #4caf50;
+  --leaf-bright: #66bb6a;
+  --gold: #f9a825;
+  --gold-light: #fdd835;
+  --gold-pale: #fff8e1;
+  --copper: #bf6c2a;
+  --sky: #4fc3f7;
+  --sky-dark: #0288d1;
+  --cream: #faf7f2;
+  --cream-dark: #f0ebe3;
+  --charcoal: #2c2c2c;
+  --slate: #5a6672;
+  --red: #e53935;
+  --white: #ffffff;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.18);
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ===== APP SHELL ===== */
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  position: relative;
+  background: var(--white);
+  box-shadow: 0 0 60px rgba(0,0,0,0.06);
+}
+
+/* ===== SCREENS ===== */
+.screen {
+  display: none;
+  min-height: 100dvh;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== HEADER BAR ===== */
+.header-bar {
+  background: var(--forest);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-logo {
+  font-family: 'DM Serif Display', serif;
+  color: var(--white);
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+}
+.header-logo span { color: var(--gold); }
+.header-cc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--gold);
+}
+.header-cc .cc-icon {
+  width: 18px; height: 18px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--forest); font-weight: 700;
+}
+
+/* ===== WELCOME SCREEN ===== */
+.welcome-hero {
+  background: linear-gradient(165deg, var(--forest) 0%, var(--forest-mid) 50%, var(--forest-light) 100%);
+  padding: 60px 28px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.welcome-hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(249,168,37,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.welcome-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(76,175,80,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  color: var(--gold-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.welcome-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.1rem;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+.welcome-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.welcome-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.55;
+  max-width: 340px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-body { padding: 32px 24px; flex: 1; }
+
+.welcome-stat {
+  background: var(--gold-pale);
+  border: 1px solid rgba(249,168,37,0.2);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.welcome-stat .stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--copper);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.welcome-stat .stat-value {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.4rem;
+  color: var(--forest);
+  line-height: 1.1;
+}
+.welcome-stat .stat-note {
+  font-size: 0.85rem;
+  color: var(--slate);
+  margin-top: 6px;
+}
+
+.feature-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+.feature-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 16px;
+  background: #f0ebe3;
+  border-radius: var(--radius-sm);
+  border: 1px solid #e0d8cc;
+}
+.feature-icon {
+  width: 36px; height: 36px; min-width: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.feature-icon.green { background: #e8f5e9; }
+.feature-icon.gold { background: #fff8e1; }
+.feature-icon.blue { background: #e3f2fd; }
+.feature-item > div:last-child { flex: 1; min-width: 0; }
+.feature-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; color: #1a1a1a !important; }
+.feature-item p { font-size: 0.8rem; color: #5a6672 !important; line-height: 1.4; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary {
+  background: var(--forest);
+  color: var(--white);
+}
+.btn-primary:hover { background: var(--forest-mid); transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn-primary:active { transform: translateY(0); }
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #f57f17 100%);
+  color: var(--forest);
+}
+.btn-gold:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--forest);
+  color: var(--forest);
+}
+.btn-outline:hover { background: var(--forest); color: var(--white); }
+.btn-sm { padding: 10px 18px; font-size: 0.85rem; }
+.btn + .btn { margin-top: 10px; }
+
+/* ===== REGISTRATION SCREEN ===== */
+.reg-screen { background: var(--white); }
+.reg-header {
+  background: var(--forest);
+  padding: 24px;
+  text-align: center;
+}
+.reg-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.reg-header p { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+.reg-body { padding: 28px 24px; flex: 1; }
+
+.cc-reward-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #fff8e1, #fff3c4);
+  border: 1px solid rgba(249,168,37,0.3);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--copper);
+}
+.cc-reward-banner .cc-amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--forest);
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-group { margin-bottom: 20px; }
+.form-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--slate);
+  margin-bottom: 8px;
+}
+.form-input, .form-select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  color: var(--charcoal);
+  background: var(--white);
+  transition: border-color var(--transition);
+  -webkit-appearance: none;
+}
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--forest-light);
+  box-shadow: 0 0 0 3px rgba(42,92,64,0.1);
+}
+.form-input::placeholder { color: #bbb; }
+.form-input.phone-input {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.form-hint { font-size: 0.75rem; color: var(--slate); margin-top: 6px; }
+
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+}
+.consent-row input[type="checkbox"] {
+  width: 20px; height: 20px; min-width: 20px;
+  margin-top: 2px;
+  accent-color: var(--forest);
+}
+.consent-row label {
+  font-size: 0.82rem;
+  color: var(--slate);
+  line-height: 1.4;
+}
+.consent-row label a { color: var(--forest-light); text-decoration: underline; }
+
+/* ===== STEP INDICATOR ===== */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 0;
+}
+.step-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #ddd;
+  transition: all var(--transition);
+}
+.step-dot.active { background: var(--forest); width: 28px; border-radius: 5px; }
+.step-dot.done { background: var(--leaf); }
+.step-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--slate);
+  font-weight: 600;
+}
+
+/* ===== BLOCK BUDGET REVEAL ===== */
+.reveal-screen { background: var(--forest); }
+.reveal-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 28px;
+  text-align: center;
+}
+.reveal-eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.3s ease forwards;
+}
+.reveal-block-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.5s ease forwards;
+}
+.reveal-amount {
+  font-family: 'DM Serif Display', serif;
+  font-size: 3.8rem;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: scaleReveal 0.8s 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.reveal-amount-label {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 0.6s 1.2s ease forwards;
+}
+.reveal-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+}
+.reveal-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: left;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+.reveal-card:nth-child(1) { animation-delay: 1.5s; }
+.reveal-card:nth-child(2) { animation-delay: 1.7s; }
+.reveal-card:nth-child(3) { animation-delay: 1.9s; }
+.reveal-card-icon {
+  width: 40px; height: 40px; min-width: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+.reveal-card-icon.gold-bg { background: rgba(249,168,37,0.2); }
+.reveal-card-icon.green-bg { background: rgba(76,175,80,0.2); }
+.reveal-card-icon.blue-bg { background: rgba(79,195,247,0.2); }
+.reveal-card h4 { font-size: 0.85rem; color: var(--white); font-weight: 600; margin-bottom: 2px; }
+.reveal-card p { font-size: 0.75rem; color: rgba(255,255,255,0.55); line-height: 1.3; }
+
+.reveal-cta {
+  margin-top: 36px;
+  opacity: 0;
+  animation: fadeUp 0.6s 2.3s ease forwards;
+  width: 100%;
+  max-width: 360px;
+}
+.reveal-cc-earned {
+  text-align: center;
+  margin-top: 16px;
+  opacity: 0;
+  animation: fadeUp 0.5s 2.6s ease forwards;
+}
+.reveal-cc-earned span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ===== SURVEY SCREEN ===== */
+.survey-screen { background: var(--white); }
+.survey-progress-bar {
+  height: 4px;
+  background: #e8e8e8;
+  position: relative;
+}
+.survey-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--leaf), var(--gold));
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+.survey-header {
+  padding: 20px 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.survey-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.survey-section-badge.section-a { background: #e8f5e9; color: #2e7d32; }
+.survey-section-badge.section-b { background: #e3f2fd; color: #0288d1; }
+.survey-section-badge.section-c { background: #fff8e1; color: #f57f17; }
+.survey-section-badge.section-d { background: #fce4ec; color: #c62828; }
+.survey-q-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+.survey-body { padding: 20px 24px; flex: 1; }
+.survey-question {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.35rem;
+  color: var(--forest);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.survey-context {
+  font-size: 0.85rem;
+  color: var(--slate);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* Answer options */
+.answer-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.answer-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--white);
+}
+.answer-option:hover { border-color: var(--forest-light); background: #f8fdf9; }
+.answer-option.selected {
+  border-color: var(--forest);
+  background: #f0f8f2;
+}
+.answer-option.selected .answer-radio {
+  background: var(--forest);
+  border-color: var(--forest);
+}
+.answer-option.selected .answer-radio::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+.answer-radio {
+  width: 24px; height: 24px; min-width: 24px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+}
+.answer-text { font-size: 0.92rem; line-height: 1.35; }
+
+/* Slider input */
+.slider-container { margin-bottom: 24px; }
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--slate);
+  margin-bottom: 8px;
+}
+.slider-value {
+  text-align: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  color: var(--forest);
+  margin-bottom: 12px;
+}
+input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--forest-light), var(--gold));
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 3px solid var(--forest);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+/* CC earned toast */
+.cc-toast {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: var(--forest);
+  color: var(--gold);
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 1000;
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+}
+.cc-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Survey feedback panel */
+.survey-feedback {
+  background: linear-gradient(135deg, #f0f8f2, #e8f5e9);
+  border: 1px solid rgba(76,175,80,0.2);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 20px;
+  display: none;
+}
+.survey-feedback.show { display: block; animation: fadeUp 0.4s ease; }
+.survey-feedback h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--forest-light);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.survey-feedback p { font-size: 0.85rem; color: var(--forest); line-height: 1.45; }
+
+/* CC explainer callout in survey */
+.cc-explainer {
+  background: linear-gradient(135deg, var(--gold-pale), #fff3c4);
+  border: 1px solid rgba(249,168,37,0.3);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+.cc-explainer h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--copper);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.cc-explainer p { font-size: 0.82rem; color: var(--charcoal); line-height: 1.5; margin-bottom: 6px; }
+.cc-explainer p:last-child { margin-bottom: 0; }
+.cc-explainer .cc-backing {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.cc-backing-item {
+  flex: 1;
+  text-align: center;
+  background: rgba(255,255,255,0.7);
+  border-radius: 6px;
+  padding: 8px 4px;
+}
+.cc-backing-item .icon { font-size: 1.1rem; margin-bottom: 2px; }
+.cc-backing-item .label { font-size: 0.65rem; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 0.04em; }
+.cc-backing-item .pct { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; color: var(--copper); }
+
+.survey-footer {
+  padding: 16px 24px 32px;
+  display: flex;
+  gap: 10px;
+}
+.survey-footer .btn { flex: 1; }
+
+/* ===== WALLET SCREEN ===== */
+.wallet-screen { background: var(--cream); }
+.wallet-hero {
+  background: linear-gradient(165deg, var(--forest) 0%, var(--forest-mid) 100%);
+  padding: 28px 24px 36px;
+  text-align: center;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+.wallet-greeting {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+}
+.wallet-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.3rem;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.wallet-rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(249,168,37,0.15);
+  border: 1px solid rgba(249,168,37,0.3);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  color: var(--gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 20px;
+}
+.wallet-total-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 4px;
+}
+.wallet-total {
+  font-family: 'DM Serif Display', serif;
+  font-size: 3rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.wallet-total-unit { font-size: 1rem; color: var(--gold-light); margin-left: 4px; }
+
+.wallet-body { padding: 24px; }
+
+/* Balance cards */
+.balance-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.balance-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.balance-card .bal-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--slate);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.balance-card .bal-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.balance-card .bal-value.green { color: var(--leaf); }
+.balance-card .bal-value.amber { color: var(--copper); }
+.balance-card .bal-value.blue { color: var(--sky-dark); }
+.balance-card .bal-value.slate { color: var(--slate); }
+
+/* Transaction list */
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: var(--forest);
+  margin-bottom: 14px;
+}
+.tx-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.tx-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+.tx-icon {
+  width: 36px; height: 36px; min-width: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.tx-icon.earn { background: #e8f5e9; }
+.tx-icon.spend { background: #fce4ec; }
+.tx-icon.system { background: #e3f2fd; }
+.tx-details { flex: 1; }
+.tx-details h4 { font-size: 0.85rem; font-weight: 600; }
+.tx-details p { font-size: 0.72rem; color: var(--slate); }
+.tx-amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.tx-amount.positive { color: var(--leaf); }
+.tx-amount.negative { color: var(--red); }
+
+/* Block stats */
+.block-stats-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+}
+.block-stats-card h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  color: var(--forest);
+  margin-bottom: 14px;
+}
+.block-stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.85rem;
+}
+.block-stat-row:last-child { border-bottom: none; }
+.block-stat-row .label { color: var(--slate); }
+.block-stat-row .value { font-weight: 600; color: var(--charcoal); }
+
+/* Quest cards */
+.quest-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+.quest-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 2px solid transparent;
+}
+.quest-card:hover { border-color: var(--forest-light); transform: translateY(-1px); }
+.quest-card .quest-icon {
+  width: 44px; height: 44px; min-width: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.quest-card .quest-info { flex: 1; }
+.quest-card .quest-info h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
+.quest-card .quest-info p { font-size: 0.75rem; color: var(--slate); }
+.quest-card .quest-cc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-pale);
+  padding: 4px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+/* Rank progress */
+.rank-progress {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.rank-progress h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  color: var(--forest);
+  margin-bottom: 14px;
+}
+.rank-bar-bg {
+  height: 12px;
+  background: #e8e8e8;
+  border-radius: 6px;
+  position: relative;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.rank-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--leaf), var(--gold));
+  border-radius: 6px;
+  transition: width 1s ease;
+}
+.rank-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--slate);
+}
+.rank-labels .current { font-weight: 700; color: var(--forest); }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleReveal {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.pulse { animation: pulse 0.6s ease; }
+
+/* ===== LOADING SPINNER ===== */
+.spinner {
+  width: 24px; height: 24px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== VERIFICATION CODE INPUT ===== */
+.code-inputs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.code-input {
+  width: 50px; height: 60px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  border: 2px solid #e0e0e0;
+  border-radius: var(--radius-sm);
+  color: var(--forest);
+  transition: border-color var(--transition);
+}
+.code-input:focus {
+  outline: none;
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(42,92,64,0.1);
+}
+
+/* ===== COMPLETION CELEBRATION ===== */
+.celebration-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15,43,29,0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 24px;
+}
+.celebration-overlay.show { display: flex; }
+.celebration-content {
+  text-align: center;
+  max-width: 340px;
+}
+.celebration-emoji { font-size: 4rem; margin-bottom: 16px; animation: pulse 1s ease infinite; }
+.celebration-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.celebration-sub {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.celebration-cc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.celebration-cc-label {
+  font-size: 0.75rem;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 28px;
+}
+
+
+/* ── BLOCK SHARE SITE NAV (injected) ── */
+.bs-site-nav{background:#0f2b1d;border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:9999}
+.bs-site-nav .nav-inner{max-width:1200px;margin:0 auto;padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.bs-site-nav .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
+.bs-site-nav .nav-logo span{color:#f9a825}
+.bs-site-nav .nav-links{display:flex;gap:0;list-style:none;align-items:center}
+.bs-site-nav .nav-links>li{position:relative}
+.bs-site-nav .nav-links>li>a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;font-weight:500;padding:.45rem .75rem;border-radius:6px;transition:all .25s;display:flex;align-items:center;gap:.3rem;font-family:'DM Sans',sans-serif}
+.bs-site-nav .nav-links>li>a:hover,.bs-site-nav .nav-links>li:hover>a{color:#fff;background:rgba(255,255,255,.1)}
+.bs-site-nav .nav-links>li>a .dd-arrow{font-size:.6rem;transition:transform .2s;margin-top:1px}
+.bs-site-nav .nav-links>li:hover>a .dd-arrow{transform:rotate(180deg)}
+.bs-site-nav .nav-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#163d2a;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 0;min-width:240px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:bsDdFadeIn .15s ease-out;z-index:10001}
+.bs-site-nav .nav-links>li:hover .nav-dd{display:block}
+@keyframes bsDdFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.bs-site-nav .nav-dd a{display:block;padding:8px 18px;color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:400;transition:all .15s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.bs-site-nav .nav-dd a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.bs-site-nav .nav-dd .dd-divider{height:1px;background:rgba(255,255,255,.1);margin:6px 16px}
+.bs-site-nav .nav-dd .dd-highlight{color:#f9a825;font-weight:600}
+.bs-site-nav .nav-cta{background:#f9a825;color:#0f2b1d;padding:.45rem 1.1rem;border-radius:6px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:'DM Sans',sans-serif}
+.bs-site-nav .mobile-menu{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+.bs-mobile-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0f2b1d;z-index:20000;padding:1.5rem;overflow-y:auto;font-family:'DM Sans',sans-serif}
+.bs-mobile-panel.open{display:block}
+.bs-mobile-panel .mobile-nav-close{background:none;border:none;color:#fff;font-size:1.8rem;position:absolute;top:1rem;right:1.5rem;cursor:pointer}
+.bs-mobile-panel .m-section{margin-bottom:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)}
+.bs-mobile-panel .m-section:first-child{border-top:none;padding-top:0;margin-top:3rem}
+.bs-mobile-panel .m-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#f9a825;margin-bottom:.5rem}
+.bs-mobile-panel a{display:block;color:rgba(255,255,255,.8);text-decoration:none;font-size:.95rem;padding:.5rem 0}
+.bs-mobile-panel a:hover{color:#fff}
+.bs-mobile-panel .m-cta{display:block;background:#f9a825;color:#0f2b1d;text-align:center;padding:.85rem;border-radius:8px;font-weight:600;font-size:.95rem;margin-top:1.5rem;text-decoration:none}
+.bs-site-footer{background:#0a1a2a;color:#fff;padding:3.5rem 2rem 2rem;font-family:'DM Sans',sans-serif}
+.bs-site-footer .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem}
+.bs-site-footer .footer-brand .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
+.bs-site-footer .footer-brand .nav-logo span{color:#f9a825}
+.bs-site-footer .footer-brand p{color:rgba(255,255,255,.8);font-size:.85rem;margin-top:.75rem;line-height:1.6;max-width:280px}
+.bs-site-footer h4{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#c8891e;margin-bottom:1rem}
+.bs-site-footer ul{list-style:none;padding:0;margin:0}.bs-site-footer li{margin-bottom:.5rem}
+.bs-site-footer a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.85rem}.bs-site-footer a:hover{color:#fff}
+.bs-site-footer .footer-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.8)}
+@media(max-width:600px){.bs-site-nav .nav-links{display:none !important}.bs-site-nav .mobile-menu{display:block}.bs-site-footer .footer-inner{grid-template-columns:1fr}.bs-site-footer .footer-bottom{flex-direction:column;gap:.5rem}}
+@media(max-width:900px){.bs-site-footer .footer-inner{grid-template-columns:1fr 1fr}}
+
+</style>
+</head>
+<body>
+    <nav class="bs-site-nav"><div class="nav-inner"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><ul class="nav-links">
+                <li><a href="/blockonomics/">Blockonomics <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a><div class="dd-divider"></div><a href="/onboarding/" class="dd-highlight">Take the Block Survey →</a></div></li>
+                <li><a href="#">Programs <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a><div class="dd-divider"></div><a href="/cc-system-diagram/">CC System Diagram</a></div></li>
+                <li><a href="/publications/">Publications <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><div class="dd-divider"></div><a href="/publications/" class="dd-highlight">All Publications →</a></div></li>
+                <li><a href="#">Get Involved <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div></li>
+            </ul><a href="/onboarding/" class="nav-cta">Get Started →</a><button class="mobile-menu" id="mobileMenuBtn">☰</button></div></nav>
+
+    <div class="bs-mobile-panel" id="mobileNavPanel">
+        <button class="mobile-nav-close" id="mobileNavClose">✕</button>
+        <div class="m-section"><div class="m-label">Blockonomics</div><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a></div>
+        <div class="m-section"><div class="m-label">Programs</div><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a></div>
+        <div class="m-section"><div class="m-label">Publications</div><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><a href="/publications/">All Publications →</a></div>
+        <div class="m-section"><div class="m-label">Get Involved</div><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div>
+        <a href="/onboarding/" class="m-cta">Get Started →</a>
+    </div>
+
+
+<div class="app" id="app">
+
+  <!-- CC TOAST -->
+  <div class="cc-toast" id="ccToast">+0 CC earned!</div>
+
+  <!-- ===== SCREEN 1: WELCOME ===== -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-hero">
+      <div class="welcome-badge">◆ Block Share Community</div>
+      <h1 class="welcome-title">Know Your<br>Block's <em>Power</em></h1>
+      <p class="welcome-sub">Discover how much economic power flows through your block — and what happens when neighbours work together.</p>
+    </div>
+    <div class="welcome-body">
+      <div class="welcome-stat">
+        <div class="stat-label">Average Vancouver Block Budget</div>
+        <div class="stat-value">$2.4 Million</div>
+        <div class="stat-note">5,806 blocks · 22 neighbourhoods · your block has a budget too</div>
+      </div>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon green">🏘️</div>
+          <div style="flex:1;">
+            <h4 style="color:#1a1a1a; font-size:0.9rem; font-weight:600; margin:0 0 2px 0;">See Your Block's Budget</h4>
+            <p style="color:#5a6672; font-size:0.8rem; line-height:1.4; margin:0;">Real Census data shows the economic power of your block.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon gold">◆</div>
+          <div style="flex:1;">
+            <h4 style="color:#1a1a1a; font-size:0.9rem; font-weight:600; margin:0 0 2px 0;">Earn Community Credits</h4>
+            <p style="color:#5a6672; font-size:0.8rem; line-height:1.4; margin:0;">Every answer earns CC — a new community currency you help create.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon blue">📊</div>
+          <div style="flex:1;">
+            <h4 style="color:#1a1a1a; font-size:0.9rem; font-weight:600; margin:0 0 2px 0;">Shape Your Block's Future</h4>
+            <p style="color:#5a6672; font-size:0.8rem; line-height:1.4; margin:0;">Your input helps decide where your block's 5% community fund goes.</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="goToScreen('screen-register')">
+        Get Started — It's Free
+      </button>
+      <button class="btn btn-outline" onclick="goToScreen('screen-register')" style="margin-top: 10px;">
+        I received an SMS invite
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 2: REGISTRATION ===== -->
+  <div class="screen" id="screen-register">
+    <div class="reg-header">
+      <h2>Join Your Block</h2>
+      <p>2 minutes · earn your first Community Credits</p>
+    </div>
+    <div class="step-indicator">
+      <div class="step-dot active" id="reg-step-1"></div>
+      <div class="step-dot" id="reg-step-2"></div>
+      <div class="step-dot" id="reg-step-3"></div>
+    </div>
+    <div class="reg-body">
+      <div class="cc-reward-banner">
+        ◆ Complete registration to earn <span class="cc-amount">+15 CC</span>
+      </div>
+
+      <!-- Step 1: Phone -->
+      <div id="reg-phase-1">
+        <div class="form-group">
+          <label class="form-label">Your Mobile Number</label>
+          <input type="tel" class="form-input phone-input" id="reg-phone" placeholder="(604) 555-1234" maxlength="14">
+          <div class="form-hint">We'll send a verification code. Standard text rates apply.</div>
+        </div>
+        <button class="btn btn-primary" onclick="submitPhone()">Send Verification Code</button>
+      </div>
+
+      <!-- Step 2: Verify -->
+      <div id="reg-phase-2" style="display:none;">
+        <p style="text-align:center; margin-bottom:20px; color: var(--slate); font-size: 0.9rem;">
+          Enter the 6-digit code sent to<br>
+          <strong id="verify-phone-display" style="color: var(--forest);"></strong>
+        </p>
+        <div class="code-inputs">
+          <input type="text" class="code-input" maxlength="1" inputmode="numeric" data-index="0">
+          <input type="text" class="code-input" maxlength="1" inputmode="numeric" data-index="1">
+          <input type="text" class="code-input" maxlength="1" inputmode="numeric" data-index="2">
+          <input type="text" class="code-input" maxlength="1" inputmode="numeric" data-index="3">
+          <input type="text" class="code-input" maxlength="1" inputmode="numeric" data-index="4">
+          <input type="text" class="code-input" maxlength="1" inputmode="numeric" data-index="5">
+        </div>
+        <button class="btn btn-primary" onclick="verifyCode()">Verify</button>
+        <button class="btn btn-outline btn-sm" onclick="resendCode()" style="margin-top: 12px;">Resend Code</button>
+      </div>
+
+      <!-- Step 3: Profile -->
+      <div id="reg-phase-3" style="display:none;">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" id="reg-name" placeholder="First name is fine">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Postal Code</label>
+          <input type="text" class="form-input" id="reg-postal" placeholder="V6B 1A1" maxlength="7" style="text-transform: uppercase;">
+          <div class="form-hint">Used to find your block — not shared publicly.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Age Range</label>
+          <select class="form-select" id="reg-age">
+            <option value="">Select...</option>
+            <option value="under18">Under 18 (guardian consent required)</option>
+            <option value="18-24">18–24</option>
+            <option value="25-34">25–34</option>
+            <option value="35-44">35–44</option>
+            <option value="45-54">45–54</option>
+            <option value="55-64">55–64</option>
+            <option value="65+">65+</option>
+          </select>
+        </div>
+        <div class="consent-row">
+          <input type="checkbox" id="reg-consent">
+          <label for="reg-consent">I agree to participate in the Block Budget Survey and receive Community Credits. I understand my data is used to build a community economic profile for my block and is <a href="#">never sold or shared</a> beyond the Block Share community.</label>
+        </div>
+        <button class="btn btn-gold" onclick="completeRegistration()">
+          ◆ Complete Registration & Earn 15 CC
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 3: BLOCK BUDGET REVEAL ===== -->
+  <div class="screen reveal-screen" id="screen-reveal" style="background:#0f2b1d;">
+    <div class="reveal-content">
+      <div class="reveal-eyebrow">Your Block's Annual Budget</div>
+      <div class="reveal-block-id" id="reveal-block-num">Block #2847 · Grandview-Woodland</div>
+      <div class="reveal-amount" id="reveal-amount">$2.4M</div>
+      <div class="reveal-amount-label">combined household income on your block</div>
+      <div class="reveal-cards">
+        <div class="reveal-card">
+          <div class="reveal-card-icon gold-bg">💰</div>
+          <div>
+            <h4 id="reveal-5pct">$120,000 / year</h4>
+            <p>If your block redirected just 5% to community projects</p>
+          </div>
+        </div>
+        <div class="reveal-card">
+          <div class="reveal-card-icon green-bg">👥</div>
+          <div>
+            <h4 id="reveal-households">~48 households</h4>
+            <p>Estimated homes on your block</p>
+          </div>
+        </div>
+        <div class="reveal-card">
+          <div class="reveal-card-icon blue-bg">🔄</div>
+          <div>
+            <h4 id="reveal-multiplier">$312,000 impact</h4>
+            <p>With the 2.6× local purchasing multiplier</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-cta">
+        <button class="btn btn-gold" onclick="goToScreen('screen-survey')">
+          Take the Block Budget Survey → Earn 50+ CC
+        </button>
+      </div>
+      <div class="reveal-cc-earned">
+        <span>◆ +5 CC earned for viewing your Block Budget</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 4: SURVEY ===== -->
+  <div class="screen" id="screen-survey">
+    <div class="header-bar">
+      <div class="header-logo">Block<span>Share</span></div>
+      <div class="header-cc">
+        <div class="cc-icon">◆</div>
+        <span id="header-cc-count">20</span> CC
+      </div>
+    </div>
+    <div class="survey-progress-bar">
+      <div class="survey-progress-fill" id="survey-progress" style="width: 0%"></div>
+    </div>
+    <div class="survey-header">
+      <div class="survey-section-badge section-a" id="survey-badge">Section A</div>
+      <div class="survey-q-count" id="survey-q-count">Q1 of 18</div>
+    </div>
+    <div class="survey-body" id="survey-body">
+      <!-- Dynamically populated -->
+    </div>
+    <div class="survey-footer">
+      <button class="btn btn-outline btn-sm" id="survey-back-btn" onclick="prevQuestion()" style="display:none;">← Back</button>
+      <button class="btn btn-primary btn-sm" id="survey-next-btn" onclick="nextQuestion()">Next →</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 5: WALLET DASHBOARD ===== -->
+  <div class="screen wallet-screen" id="screen-wallet">
+    <div class="header-bar">
+      <div class="header-logo">Block<span>Share</span></div>
+      <div class="header-cc">
+        <div class="cc-icon">◆</div>
+        <span id="wallet-header-cc">0</span> CC
+      </div>
+    </div>
+    <div class="wallet-hero">
+      <div class="wallet-greeting">Welcome back,</div>
+      <div class="wallet-name" id="wallet-name">Community Member</div>
+      <div class="wallet-rank-badge" id="wallet-rank">★ Newcomer</div>
+      <div class="wallet-total-label">Total Community Credits</div>
+      <div class="wallet-total"><span id="wallet-total-amount">0</span><span class="wallet-total-unit"> CC</span></div>
+    </div>
+    <div class="wallet-body">
+
+      <div class="balance-grid">
+        <div class="balance-card">
+          <div class="bal-label">Spendable</div>
+          <div class="bal-value green" id="bal-spendable">0</div>
+        </div>
+        <div class="balance-card">
+          <div class="bal-label">Locked</div>
+          <div class="bal-value amber" id="bal-locked">0</div>
+        </div>
+        <div class="balance-card">
+          <div class="bal-label">Invested</div>
+          <div class="bal-value blue" id="bal-invested">0</div>
+        </div>
+        <div class="balance-card">
+          <div class="bal-label">Pledged</div>
+          <div class="bal-value slate" id="bal-pledged">0</div>
+        </div>
+      </div>
+
+      <div class="section-title">Recent Activity</div>
+      <div class="tx-list" id="tx-list">
+        <!-- Dynamically populated -->
+      </div>
+
+      <div class="block-stats-card">
+        <h3 id="block-stats-title">Block #2847 Stats</h3>
+        <div class="block-stat-row">
+          <span class="label">Block Budget</span>
+          <span class="value" id="bs-budget">$2,400,000</span>
+        </div>
+        <div class="block-stat-row">
+          <span class="label">5% Community Fund</span>
+          <span class="value" id="bs-fund">$120,000</span>
+        </div>
+        <div class="block-stat-row">
+          <span class="label">Members Registered</span>
+          <span class="value" id="bs-members">1</span>
+        </div>
+        <div class="block-stat-row">
+          <span class="label">Participation Rate</span>
+          <span class="value" id="bs-participation">2%</span>
+        </div>
+        <div class="block-stat-row">
+          <span class="label">CC in Circulation</span>
+          <span class="value" id="bs-cc-circ">0 CC</span>
+        </div>
+      </div>
+
+      <div class="section-title">Available Quests</div>
+      <div class="quest-list">
+        <div class="quest-card">
+          <div class="quest-icon" style="background: #e8f5e9;">🚶</div>
+          <div class="quest-info">
+            <h4>Block Walk</h4>
+            <p>Walk every street on your block. Photograph 5 things you've never noticed.</p>
+          </div>
+          <div class="quest-cc">+10 CC</div>
+        </div>
+        <div class="quest-card">
+          <div class="quest-icon" style="background: #fff8e1;">📖</div>
+          <div class="quest-info">
+            <h4>Story Dig</h4>
+            <p>Research one piece of local history specific to your block.</p>
+          </div>
+          <div class="quest-cc">+15 CC</div>
+        </div>
+        <div class="quest-card">
+          <div class="quest-icon" style="background: #e3f2fd;">💧</div>
+          <div class="quest-info">
+            <h4>Watershed Trace</h4>
+            <p>Trace rainwater from your roof to the ocean. Map the path.</p>
+          </div>
+          <div class="quest-cc">+10 CC</div>
+        </div>
+        <div class="quest-card">
+          <div class="quest-icon" style="background: #fce4ec;">🧠</div>
+          <div class="quest-info">
+            <h4>Fallacy Spotter</h4>
+            <p>Find 3 logical fallacies in local news or social media.</p>
+          </div>
+          <div class="quest-cc">+10 CC</div>
+        </div>
+      </div>
+
+      <div class="rank-progress">
+        <h3>Rank Progress</h3>
+        <div class="rank-bar-bg">
+          <div class="rank-bar-fill" id="rank-bar" style="width: 0%"></div>
+        </div>
+        <div class="rank-labels">
+          <span class="current" id="rank-current">Newcomer</span>
+          <span id="rank-next">→ Block Member (50 CC)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CELEBRATION OVERLAY -->
+  <div class="celebration-overlay" id="celebration">
+    <div class="celebration-content">
+      <div class="celebration-emoji" id="celeb-emoji">🎉</div>
+      <div class="celebration-title" id="celeb-title">Survey Complete!</div>
+      <div class="celebration-sub" id="celeb-sub">You've helped your block understand its economic power.</div>
+      <div class="celebration-cc" id="celeb-cc">+50 CC</div>
+      <div class="celebration-cc-label">Community Credits Earned</div>
+      <button class="btn btn-gold" id="celeb-btn" onclick="closeCelebration()">View My Wallet →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== APPLICATION STATE =====
+// ===== API CONFIGURATION =====
+// Change this to your production URL:
+const API_BASE = 'https://app.blockshare.ca/wp-json/blockshare/v1/';
+// Once SSL + domain are live, switch to:
+// const API_BASE = 'https://app.blockshare.ca/wp-json/blockshare/v1/';
+
+const state = {
+  userId: null,
+  phone: '',
+  name: '',
+  postalCode: '',
+  ageRange: '',
+  blockNumber: null,
+  neighbourhood: '',
+  blockBudget: 0,
+  households: 0,
+  ccTotal: 0,
+  ccSpendable: 0,
+  ccLocked: 0,
+  ccInvested: 0,
+  ccPledged: 0,
+  rank: 'Newcomer',
+  currentQuestion: 0,
+  surveyAnswers: {},
+  transactions: [],
+  registered: false,
+  surveyComplete: false,
+};
+
+// ===== RANK DEFINITIONS =====
+const RANKS = [
+  { name: 'Newcomer', threshold: 0, icon: '🌱' },
+  { name: 'Resident', threshold: 15, icon: '🏠' },
+  { name: 'Block Member', threshold: 50, icon: '🏘️' },
+  { name: 'Block Builder', threshold: 150, icon: '🔨' },
+  { name: 'Block Champion', threshold: 500, icon: '⭐' },
+  { name: 'Neighbourhood Lead', threshold: 1500, icon: '🌟' },
+  { name: 'Community Steward', threshold: 5000, icon: '👑' },
+];
+
+// ===== BLOCK DATA (simulated — in production, fetched from Block Budget API) =====
+const BLOCK_DATABASE = {
+  'V5K': { block: 2847, neighbourhood: 'Grandview-Woodland', medianIncome: 52000, households: 48 },
+  'V5L': { block: 2901, neighbourhood: 'Hastings-Sunrise', medianIncome: 58000, households: 52 },
+  'V5M': { block: 3102, neighbourhood: 'Renfrew-Collingwood', medianIncome: 49000, households: 55 },
+  'V5N': { block: 3245, neighbourhood: 'Kensington-Cedar Cottage', medianIncome: 54000, households: 50 },
+  'V5P': { block: 3401, neighbourhood: 'Victoria-Fraserview', medianIncome: 56000, households: 46 },
+  'V5R': { block: 3512, neighbourhood: 'Killarney', medianIncome: 51000, households: 44 },
+  'V5S': { block: 3620, neighbourhood: 'Sunset', medianIncome: 47000, households: 58 },
+  'V5T': { block: 1845, neighbourhood: 'Mount Pleasant', medianIncome: 62000, households: 40 },
+  'V5V': { block: 1920, neighbourhood: 'Kensington-Cedar Cottage', medianIncome: 50000, households: 53 },
+  'V5W': { block: 3780, neighbourhood: 'Killarney', medianIncome: 55000, households: 42 },
+  'V5X': { block: 3890, neighbourhood: 'Sunset', medianIncome: 48000, households: 60 },
+  'V5Y': { block: 1650, neighbourhood: 'Mount Pleasant', medianIncome: 65000, households: 38 },
+  'V5Z': { block: 1520, neighbourhood: 'Riley Park', medianIncome: 72000, households: 35 },
+  'V6A': { block: 1210, neighbourhood: 'Strathcona', medianIncome: 42000, households: 62 },
+  'V6B': { block: 510, neighbourhood: 'Downtown', medianIncome: 58000, households: 120 },
+  'V6C': { block: 320, neighbourhood: 'Coal Harbour', medianIncome: 95000, households: 85 },
+  'V6E': { block: 680, neighbourhood: 'West End', medianIncome: 52000, households: 95 },
+  'V6G': { block: 720, neighbourhood: 'West End', medianIncome: 55000, households: 88 },
+  'V6H': { block: 1380, neighbourhood: 'Fairview', medianIncome: 68000, households: 42 },
+  'V6J': { block: 1450, neighbourhood: 'Kitsilano', medianIncome: 74000, households: 36 },
+  'V6K': { block: 1560, neighbourhood: 'Kitsilano', medianIncome: 70000, households: 40 },
+  'V6N': { block: 2100, neighbourhood: 'Kerrisdale', medianIncome: 82000, households: 32 },
+  'V6P': { block: 2250, neighbourhood: 'Marpole', medianIncome: 54000, households: 48 },
+  'V6R': { block: 1700, neighbourhood: 'Point Grey', medianIncome: 88000, households: 30 },
+  'V6S': { block: 1780, neighbourhood: 'Dunbar-Southlands', medianIncome: 92000, households: 28 },
+  'V6T': { block: 1850, neighbourhood: 'UBC', medianIncome: 45000, households: 70 },
+  'V6Z': { block: 420, neighbourhood: 'Downtown', medianIncome: 62000, households: 110 },
+};
+
+// ===== SURVEY QUESTIONS =====
+const SURVEY = [
+  // Section A: Block Budget Verification
+  {
+    section: 'A', sectionName: 'Block Budget Verification', sectionColor: 'section-a',
+    question: 'Does {households} households feel about right for your block?',
+    context: 'Census data estimates this many homes on your block. Your local knowledge helps us get it right.',
+    type: 'choice', cc: 3,
+    options: ['Sounds about right', 'It\'s probably more', 'It\'s probably fewer', 'I\'m not sure']
+  },
+  {
+    section: 'A', sectionName: 'Block Budget Verification', sectionColor: 'section-a',
+    question: 'Does a median income of {medianIncome} seem accurate for your block?',
+    context: 'This is the midpoint — half of households earn more, half less.',
+    type: 'choice', cc: 3,
+    options: ['Yes, that feels right', 'Our block probably earns more', 'Our block probably earns less', 'Way off — my block is very different']
+  },
+  {
+    section: 'A', sectionName: 'Block Budget Verification', sectionColor: 'section-a',
+    question: 'Are there economic activities on your block not captured by income data?',
+    context: 'Home businesses, informal economy, cash work, sharing between neighbours...',
+    type: 'multi', cc: 3,
+    options: ['Home-based businesses', 'Informal services (childcare, repairs, tutoring)', 'Cash/barter economy', 'Significant sharing between neighbours', 'None that I know of']
+  },
+  {
+    section: 'A', sectionName: 'Block Budget Verification', sectionColor: 'section-a',
+    question: 'What percentage of your spending stays within walking distance?',
+    context: 'Think about groceries, restaurants, services, shopping...',
+    type: 'slider', cc: 3, min: 0, max: 100, step: 5, unit: '%', default: 25
+  },
+  {
+    section: 'A', sectionName: 'Block Budget Verification', sectionColor: 'section-a',
+    question: 'If your block could redirect 5% collectively ({fivePct}/year), what should it fund?',
+    context: 'This is the community economy in action — neighbours deciding together.',
+    type: 'choice', cc: 3,
+    options: ['Shared tools & equipment library', 'Community food program', 'Green infrastructure (gardens, trees)', 'After-school programs', 'Community gathering space', 'Something else entirely']
+  },
+  // Section B: Spending Patterns
+  {
+    section: 'B', sectionName: 'Spending Patterns', sectionColor: 'section-b',
+    question: 'What are your household\'s top 3 spending categories?',
+    context: 'Understanding where money flows helps identify where community alternatives could work.',
+    type: 'multi', cc: 3, maxSelect: 3,
+    options: ['Housing/Rent', 'Groceries & Food', 'Transportation', 'Childcare/Education', 'Healthcare', 'Entertainment', 'Utilities', 'Clothing', 'Savings/Investments']
+  },
+  {
+    section: 'B', sectionName: 'Spending Patterns', sectionColor: 'section-b',
+    question: 'How much of your grocery spending goes to locally-owned stores vs chains/online?',
+    context: 'Local spending creates the multiplier effect that keeps money circulating.',
+    type: 'slider', cc: 3, min: 0, max: 100, step: 5, unit: '% local', default: 30
+  },
+  {
+    section: 'B', sectionName: 'Spending Patterns', sectionColor: 'section-b',
+    question: 'What\'s the biggest financial stressor for your household?',
+    context: 'This helps identify where community solutions could have the most impact.',
+    type: 'choice', cc: 3,
+    options: ['Housing costs', 'Food prices', 'Transportation costs', 'Childcare costs', 'Healthcare expenses', 'Debt payments', 'Saving for the future', 'It\'s manageable right now']
+  },
+  {
+    section: 'B', sectionName: 'Spending Patterns', sectionColor: 'section-b',
+    question: 'What services would you use if they existed on your block?',
+    context: 'These are the seeds of your block\'s community economy.',
+    type: 'multi', cc: 3,
+    options: ['Tool/equipment lending', 'Shared vehicle/bike', 'Community kitchen', 'Repair café', 'Skill-sharing workshops', 'Neighbourhood food co-op', 'Shared childcare', 'Community garden plots']
+  },
+  {
+    section: 'B', sectionName: 'Spending Patterns', sectionColor: 'section-b',
+    question: 'If your building or block had a self-serve sharing system, what would you check out?',
+    context: 'Imagine an automated system managed by an onsite Host — you check out a vehicle, e-bike, or tool from your building garage or storage locker as easily as scanning your phone.',
+    type: 'multi', cc: 3,
+    options: ['Vehicle or e-bike', 'Power tools & equipment', 'Kitchen appliances (stand mixer, pressure cooker, etc.)', 'Camping & outdoor gear', 'Garden tools & supplies', 'Sports & recreation equipment', 'Party/event supplies', 'I\'d prefer to own everything myself']
+  },
+  // Section C: Skills & Assets Inventory
+  {
+    section: 'C', sectionName: 'Skills & Assets', sectionColor: 'section-c',
+    question: 'What skills could you offer your neighbours?',
+    context: 'Skills are one-third of what backs Community Credits — your knowledge and abilities have value.',
+    type: 'multi', cc: 3,
+    options: ['Teaching/Tutoring', 'Cooking/Baking', 'Repairs/Handyperson', 'Gardening', 'Technology help', 'Accounting/Finance', 'Creative/Design', 'Healthcare/Wellness', 'Childcare', 'Other professional skills']
+  },
+  {
+    section: 'C', sectionName: 'Skills & Assets', sectionColor: 'section-c',
+    question: 'What tools, equipment, or space could you share?',
+    context: 'Assets are another third of CC backing. Sharing reduces waste and builds community.',
+    type: 'multi', cc: 3,
+    options: ['Power tools', 'Kitchen equipment', 'Vehicle', 'Parking space', 'Garden/yard space', 'Guest room/space', 'Camping/outdoor gear', 'Musical instruments', 'Sports equipment', 'None right now']
+  },
+  {
+    section: 'C', sectionName: 'Skills & Assets', sectionColor: 'section-c',
+    question: 'How many hours per month could you contribute to community activities?',
+    context: 'Labour is the final third of CC backing — your time is valuable currency.',
+    type: 'slider', cc: 3, min: 0, max: 40, step: 2, unit: ' hrs/month', default: 4
+  },
+  {
+    section: 'C', sectionName: 'Skills & Assets', sectionColor: 'section-c',
+    question: 'Things you regularly pay for that a neighbour might offer?',
+    context: 'These represent immediate opportunities for Community Credit exchanges.',
+    type: 'multi', cc: 2,
+    options: ['Dog walking', 'House/plant sitting', 'Minor repairs', 'Tutoring/lessons', 'Meal prep/cooking', 'Lawn/garden care', 'Snow removal', 'Errand running', 'Companionship/check-ins']
+  },
+  {
+    section: 'C', sectionName: 'Skills & Assets', sectionColor: 'section-c',
+    question: 'How much CC would you see yourself using every month?',
+    context: 'The average household saves ~$2,000/year using Community Credits — that\'s about 500 CC/month. Because CC are only 33% cash-backed, every $1 cash creates $3 in CC (a 3× multiplier). Combined with the 2.6× local economy multiplier, each block generates enough activity to support ~3 full-time community jobs.',
+    type: 'choice', cc: 3,
+    options: ['100 CC/month — just getting started', '250 CC/month — regular local exchanges', '500 CC/month — the average household target', '1,000 CC/month — all-in on community economy']
+  },
+  // Section D: Community Priorities
+  {
+    section: 'D', sectionName: 'Community Priorities', sectionColor: 'section-d',
+    question: 'Select your top 3 Block Project priorities:',
+    context: 'When your block reaches quorum, these become real votes. Pick up to 3 that matter most to you.',
+    type: 'multi', cc: 4, maxSelect: 3,
+    options: ['Food security (community garden, co-op)', 'Tool & equipment library', 'Green infrastructure (trees, rain gardens)', 'Youth programs & spaces', 'Senior support & connection', 'Shared transportation']
+  },
+  {
+    section: 'D', sectionName: 'Community Priorities', sectionColor: 'section-d',
+    question: 'What\'s the single biggest thing that would improve daily life on your block?',
+    context: 'This is your voice. Your answer shapes what your community builds first.',
+    type: 'text', cc: 5, placeholder: 'Tell us in your own words...'
+  },
+  {
+    section: 'D', sectionName: 'Community Priorities', sectionColor: 'section-d',
+    question: 'Which project would you pledge your Community Credits toward?',
+    context: 'Community Credits are self-issued by your community. They represent pledges of labour (your time & skills) and shared assets (tools, space, expertise) — not cash. Pledging CC means you\'re committing to contribute to a project through participation, not money. Minimal or no cash is required.',
+    type: 'multi', cc: 4,
+    options: ['Community food program', 'Shared tool & equipment library', 'Block green spaces & gardens', 'Youth tutoring & mentorship', 'Neighbourhood repair café', 'Community gathering events', 'I\'d like to learn more before pledging']
+  },
+  {
+    section: 'D', sectionName: 'Community Priorities', sectionColor: 'section-d',
+    question: 'Welcome gift! Choose how to receive your bonus 10 CC:',
+    context: 'As a thank-you for completing the survey, you\'ve earned a bonus. You can hold it as spendable Community Credits in your wallet, or invest it in a Micro-Asset — a community project share (like a solar panel or fruit tree) that earns returns and avoids the 2% monthly holding fee.',
+    type: 'choice', cc: 10,
+    options: ['Add 10 CC to my wallet (spendable immediately)', 'Invest in a Solar Panel Micro-Asset (earns ~8% CC returns)', 'Invest in a Fruit Tree Share (earns seasonal CC returns)', 'Split: 5 CC to wallet + 5 CC to a Micro-Asset']
+  },
+];
+
+// ===== NAVIGATION =====
+function goToScreen(screenId) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+  });
+  const target = document.getElementById(screenId);
+  // Force reflow
+  target.offsetHeight;
+  target.classList.add('active');
+  window.scrollTo(0, 0);
+
+  if (screenId === 'screen-survey') {
+    renderQuestion();
+  }
+  if (screenId === 'screen-wallet') {
+    renderWallet();
+  }
+}
+
+// ===== REGISTRATION FLOW =====
+function formatPhone(input) {
+  let digits = input.replace(/\D/g, '');
+  if (digits.length > 10) digits = digits.slice(0, 10);
+  if (digits.length >= 7) return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+  if (digits.length >= 4) return `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+  if (digits.length >= 1) return `(${digits}`;
+  return '';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const phoneInput = document.getElementById('reg-phone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function() {
+      const cursor = this.selectionStart;
+      const before = this.value.length;
+      this.value = formatPhone(this.value);
+      const after = this.value.length;
+      this.setSelectionRange(cursor + (after - before), cursor + (after - before));
+    });
+  }
+
+  // Code input auto-advance
+  document.querySelectorAll('.code-input').forEach((input, i, inputs) => {
+    input.addEventListener('input', function() {
+      if (this.value && i < inputs.length - 1) {
+        inputs[i + 1].focus();
+      }
+    });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && !this.value && i > 0) {
+        inputs[i - 1].focus();
+      }
+    });
+  });
+});
+
+async function submitPhone() {
+  const phone = document.getElementById('reg-phone').value;
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length < 10) {
+    document.getElementById('reg-phone').style.borderColor = 'var(--red)';
+    return;
+  }
+  state.phone = phone;
+  document.getElementById('verify-phone-display').textContent = phone;
+
+  // Disable button during request
+  const btn = event.target;
+  const origText = btn.textContent;
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch(API_BASE + 'send-code', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ phone: digits })
+    });
+    const data = await resp.json();
+    if (data.success) {
+      document.getElementById('reg-phase-1').style.display = 'none';
+      document.getElementById('reg-phase-2').style.display = 'block';
+      document.getElementById('reg-step-1').classList.remove('active');
+      document.getElementById('reg-step-1').classList.add('done');
+      document.getElementById('reg-step-2').classList.add('active');
+    } else {
+      alert('Could not send code: ' + (data.message || 'Please try again.'));
+      btn.textContent = origText;
+      btn.disabled = false;
+    }
+  } catch(e) {
+    alert('Connection error. Please check your internet and try again.');
+    btn.textContent = origText;
+    btn.disabled = false;
+  }
+}
+
+async function verifyCode() {
+  const inputs = document.querySelectorAll('.code-input');
+  const code = Array.from(inputs).map(i => i.value).join('');
+  if (code.length < 6) return;
+
+  try {
+    const resp = await fetch(API_BASE + 'verify', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ phone: state.phone, code: code })
+    });
+    const data = await resp.json();
+    if (data.verified) {
+      addCC(5, 'Phone verified');
+      document.getElementById('reg-phase-2').style.display = 'none';
+      document.getElementById('reg-phase-3').style.display = 'block';
+      document.getElementById('reg-step-2').classList.remove('active');
+      document.getElementById('reg-step-2').classList.add('done');
+      document.getElementById('reg-step-3').classList.add('active');
+    } else {
+      alert('Invalid or expired code. Please try again.');
+      inputs.forEach(i => { i.value = ''; });
+      inputs[0].focus();
+    }
+  } catch(e) {
+    alert('Verification error. Please try again.');
+  }
+}
+
+async function resendCode() {
+  const btn = event.target;
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const digits = state.phone.replace(/\D/g, '');
+    await fetch(API_BASE + 'send-code', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ phone: digits })
+    });
+    btn.textContent = 'Code resent!';
+    setTimeout(() => { btn.textContent = 'Resend Code'; btn.disabled = false; }, 3000);
+  } catch(e) {
+    btn.textContent = 'Failed — try again';
+    btn.disabled = false;
+  }
+}
+
+async function completeRegistration() {
+  const name = document.getElementById('reg-name').value.trim();
+  const postal = document.getElementById('reg-postal').value.trim().toUpperCase();
+  const age = document.getElementById('reg-age').value;
+  const consent = document.getElementById('reg-consent').checked;
+
+  if (!name || !postal || !age || !consent) {
+    if (!name) document.getElementById('reg-name').style.borderColor = 'var(--red)';
+    if (!postal) document.getElementById('reg-postal').style.borderColor = 'var(--red)';
+    if (!age) document.getElementById('reg-age').style.borderColor = 'var(--red)';
+    return;
+  }
+
+  state.name = name;
+  state.postalCode = postal;
+  state.ageRange = age;
+
+  try {
+    // Register via API
+    const resp = await fetch(API_BASE + 'register', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        phone: state.phone, name: name,
+        postal_code: postal, age_range: age
+      })
+    });
+    const data = await resp.json();
+
+    if (data.success) {
+      state.userId = data.user_id;
+      state.registered = true;
+
+      if (data.block_number) {
+        state.blockNumber = data.block_number;
+        state.neighbourhood = data.neighbourhood || 'Vancouver';
+      }
+
+      // Fetch full block data from API
+      await resolveBlock(postal);
+
+      // Go to Block Budget reveal
+      goToScreen('screen-reveal');
+    } else {
+      alert('Registration error: ' + (data.message || 'Please try again.'));
+    }
+  } catch(e) {
+    alert('Connection error. Please try again.');
+  }
+}
+
+async function resolveBlock(postal) {
+  const prefix = postal.replace(/\s/g, '').slice(0, 3).toUpperCase();
+
+  try {
+    const resp = await fetch(API_BASE + 'block/' + prefix);
+    const data = await resp.json();
+
+    if (data.block_number) {
+      state.blockNumber = data.block_number;
+      state.neighbourhood = data.neighbourhood;
+      state.households = data.households;
+      state.blockBudget = data.total_budget;
+    } else {
+      // Fallback to local data
+      const blockData = BLOCK_DATABASE[prefix];
+      if (blockData) {
+        state.blockNumber = blockData.block;
+        state.neighbourhood = blockData.neighbourhood;
+        state.households = blockData.households;
+        state.blockBudget = blockData.medianIncome * blockData.households;
+      } else {
+        state.blockNumber = Math.floor(1000 + Math.random() * 4000);
+        state.neighbourhood = 'Vancouver';
+        state.households = 48;
+        state.blockBudget = 52000 * 48;
+      }
+    }
+  } catch(e) {
+    // Fallback to local data on network error
+    const blockData = BLOCK_DATABASE[prefix];
+    if (blockData) {
+      state.blockNumber = blockData.block;
+      state.neighbourhood = blockData.neighbourhood;
+      state.households = blockData.households;
+      state.blockBudget = blockData.medianIncome * blockData.households;
+    } else {
+      state.blockNumber = Math.floor(1000 + Math.random() * 4000);
+      state.neighbourhood = 'Vancouver';
+      state.households = 48;
+      state.blockBudget = 52000 * 48;
+    }
+  }
+
+  // Update reveal screen
+  const budget = state.blockBudget;
+  const fivePct = budget * 0.05;
+  const multiplier = fivePct * 2.6;
+
+  document.getElementById('reveal-block-num').textContent =
+    `Block #${state.blockNumber} · ${state.neighbourhood}`;
+  document.getElementById('reveal-amount').textContent =
+    '$' + (budget >= 1000000 ? (budget / 1000000).toFixed(1) + 'M' : (budget / 1000).toFixed(0) + 'K');
+  document.getElementById('reveal-5pct').textContent =
+    '$' + fivePct.toLocaleString('en-CA', { maximumFractionDigits: 0 }) + ' / year';
+  document.getElementById('reveal-households').textContent =
+    '~' + state.households + ' households';
+  document.getElementById('reveal-multiplier').textContent =
+    '$' + multiplier.toLocaleString('en-CA', { maximumFractionDigits: 0 }) + ' impact';
+
+  // Award reveal CC
+  setTimeout(() => addCC(5, 'Block Budget viewed'), 2500);
+}
+
+// ===== CC ENGINE =====
+function addCC(amount, reason) {
+  state.ccSpendable += amount;
+  state.ccTotal = state.ccSpendable + state.ccLocked + state.ccInvested + state.ccPledged;
+
+  state.transactions.unshift({
+    type: 'earn',
+    amount: amount,
+    reason: reason,
+    timestamp: new Date(),
+    icon: '◆',
+  });
+
+  // Update header
+  const headerCC = document.getElementById('header-cc-count');
+  if (headerCC) headerCC.textContent = state.ccTotal;
+
+  // Show toast
+  showCCToast(amount, reason);
+
+  // Check rank progression
+  checkRank();
+
+  // Sync to server (fire-and-forget)
+  if (state.userId) {
+    fetch(API_BASE + 'cc/add', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        user_id: state.userId, amount: amount, reason: reason
+      })
+    }).catch(() => {}); // Silent fail — local state is source of truth during session
+  }
+}
+
+function showCCToast(amount, reason) {
+  const toast = document.getElementById('ccToast');
+  toast.textContent = `+${amount} CC · ${reason}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function checkRank() {
+  let newRank = RANKS[0];
+  for (const rank of RANKS) {
+    if (state.ccTotal >= rank.threshold) newRank = rank;
+  }
+  if (newRank.name !== state.rank) {
+    state.rank = newRank.name;
+    // Could trigger a rank-up celebration here
+  }
+}
+
+// ===== SURVEY ENGINE =====
+function renderQuestion() {
+  const qi = state.currentQuestion;
+  if (qi >= SURVEY.length) {
+    completeSurvey();
+    return;
+  }
+
+  const q = SURVEY[qi];
+  const progress = ((qi) / SURVEY.length) * 100;
+  document.getElementById('survey-progress').style.width = progress + '%';
+  document.getElementById('survey-q-count').textContent = `Q${qi + 1} of ${SURVEY.length}`;
+
+  const badge = document.getElementById('survey-badge');
+  badge.textContent = `Section ${q.section}: ${q.sectionName}`;
+  badge.className = `survey-section-badge ${q.sectionColor}`;
+
+  // Template replacements
+  let questionText = q.question
+    .replace('{households}', state.households)
+    .replace('{medianIncome}', '$' + (state.blockBudget / state.households).toLocaleString('en-CA', { maximumFractionDigits: 0 }))
+    .replace('{fivePct}', '$' + (state.blockBudget * 0.05).toLocaleString('en-CA', { maximumFractionDigits: 0 }));
+
+  let html = `<div class="survey-question">${questionText}</div>`;
+
+  // Special CC explainer for the pledge question (Q18) and gift question (Q19)
+  if (q.context && (q.question.includes('pledge your Community Credits') || q.question.includes('Welcome gift'))) {
+    html += `<div class="cc-explainer">
+      <h4>◆ What are Community Credits?</h4>
+      <p>${q.context}</p>
+      <div class="cc-backing">
+        <div class="cc-backing-item"><div class="icon">🤝</div><div class="label">Labour</div><div class="pct">33%</div></div>
+        <div class="cc-backing-item"><div class="icon">🔧</div><div class="label">Assets</div><div class="pct">33%</div></div>
+        <div class="cc-backing-item"><div class="icon">💵</div><div class="label">Cash</div><div class="pct">33%</div></div>
+      </div>
+    </div>`;
+  } else {
+    html += `<div class="survey-context">${q.context}</div>`;
+  }
+
+  const prevAnswer = state.surveyAnswers[qi];
+
+  if (q.type === 'choice') {
+    html += '<div class="answer-options">';
+    q.options.forEach((opt, i) => {
+      const selected = prevAnswer === i ? 'selected' : '';
+      html += `<div class="answer-option ${selected}" onclick="selectAnswer(${qi}, ${i}, this)">
+        <div class="answer-radio"></div>
+        <div class="answer-text">${opt}</div>
+      </div>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'multi') {
+    const selections = prevAnswer || [];
+    html += '<div class="answer-options">';
+    q.options.forEach((opt, i) => {
+      const selected = selections.includes(i) ? 'selected' : '';
+      html += `<div class="answer-option ${selected}" onclick="toggleMultiAnswer(${qi}, ${i}, this)">
+        <div class="answer-radio"></div>
+        <div class="answer-text">${opt}</div>
+      </div>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'slider') {
+    const val = prevAnswer !== undefined ? prevAnswer : q.default;
+    html += `<div class="slider-container">
+      <div class="slider-value" id="slider-val">${val}${q.unit}</div>
+      <input type="range" min="${q.min}" max="${q.max}" step="${q.step}" value="${val}"
+             oninput="updateSlider(${qi}, this.value, '${q.unit}')">
+      <div class="slider-labels">
+        <span>${q.min}${q.unit}</span>
+        <span>${q.max}${q.unit}</span>
+      </div>
+    </div>`;
+    if (!prevAnswer) state.surveyAnswers[qi] = q.default;
+  } else if (q.type === 'text') {
+    const val = prevAnswer || '';
+    html += `<textarea class="form-input" id="text-answer" rows="4" placeholder="${q.placeholder}"
+              oninput="state.surveyAnswers[${qi}] = this.value"
+              style="resize:vertical; min-height:100px;">${val}</textarea>`;
+  }
+
+  // Feedback panel
+  html += '<div class="survey-feedback" id="survey-feedback"></div>';
+
+  document.getElementById('survey-body').innerHTML = html;
+
+  // Back button visibility
+  document.getElementById('survey-back-btn').style.display = qi > 0 ? 'flex' : 'none';
+
+  // Next button text
+  const nextBtn = document.getElementById('survey-next-btn');
+  nextBtn.textContent = qi === SURVEY.length - 1 ? 'Claim Gift & Complete ◆' : 'Next →';
+}
+
+function selectAnswer(qi, optIndex, el) {
+  state.surveyAnswers[qi] = optIndex;
+  document.querySelectorAll('.answer-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+
+  // Award CC if first time answering this question
+  const q = SURVEY[qi];
+  showFeedback(qi);
+}
+
+function toggleMultiAnswer(qi, optIndex, el) {
+  if (!state.surveyAnswers[qi]) state.surveyAnswers[qi] = [];
+  const arr = state.surveyAnswers[qi];
+  const idx = arr.indexOf(optIndex);
+  if (idx > -1) {
+    arr.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    arr.push(optIndex);
+    el.classList.add('selected');
+  }
+}
+
+function updateSlider(qi, value, unit) {
+  state.surveyAnswers[qi] = parseInt(value);
+  document.getElementById('slider-val').textContent = value + unit;
+}
+
+function showFeedback(qi) {
+  const feedbacks = [
+    '73% of your block\'s registered members say the household count feels about right.',
+    'Income estimates are tricky — your input helps calibrate the model.',
+    'You\'re mapping the hidden economy. Informal services are real value.',
+    'The average Vancouver block keeps only 22% of spending local. How does yours compare?',
+    'Community food programs are the #1 choice across Vancouver blocks so far.',
+    'Housing and food dominate spending across most Vancouver blocks.',
+    'Local grocery spending creates a 2.6× multiplier in your neighbourhood.',
+    'Housing costs are the top stressor for 64% of Vancouver households.',
+    'Tool libraries are the most-requested service across pilot blocks.',
+    'The things you\'d share reveal the community economy waiting to emerge.',
+    'Teaching and repair skills are the most common neighbourhood offerings.',
+    'Power tools are the #1 shared asset — most sit idle 95% of the time.',
+    'Even 4 hours/month per household adds up to significant community capacity.',
+    'Dog walking and minor repairs are the most common paid neighbour services.',
+    'Early adopters who accept CC help establish the currency\'s circulation velocity.',
+    'Your top 3 priorities will shape your block\'s first participatory budget vote.',
+    'Open-ended responses reveal needs that surveys can\'t anticipate.',
+    'Remember: pledging CC means contributing time and skills, not cash. That\'s the whole point — your labour and assets are the real currency.',
+    'Great choice! Your welcome gift is the first transaction in your CC wallet. This is how the community economy starts — one person at a time.',
+  ];
+
+  const fb = document.getElementById('survey-feedback');
+  if (fb && feedbacks[qi]) {
+    fb.innerHTML = `<h4>◆ Block Insight</h4><p>${feedbacks[qi]}</p>`;
+    fb.classList.add('show');
+  }
+}
+
+function nextQuestion() {
+  const qi = state.currentQuestion;
+  const q = SURVEY[qi];
+
+  // Validate answer exists
+  if (q.type === 'choice' && state.surveyAnswers[qi] === undefined) {
+    return;
+  }
+  if (q.type === 'text' && (!state.surveyAnswers[qi] || state.surveyAnswers[qi].trim() === '')) {
+    return;
+  }
+
+  // Award CC
+  addCC(q.cc, `Survey Q${qi + 1}`);
+
+  // Save survey answer to API (fire-and-forget)
+  if (state.userId) {
+    let answer = state.surveyAnswers[qi];
+    if (q.type === 'choice' && typeof answer === 'number') answer = q.options[answer];
+    if (q.type === 'multi' && Array.isArray(answer)) answer = answer.map(i => q.options[i]);
+
+    fetch(API_BASE + 'survey', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        user_id: state.userId,
+        question_id: qi + 1,
+        section: q.section,
+        answer: answer,
+        cc: q.cc
+      })
+    }).catch(() => {});
+  }
+
+  state.currentQuestion++;
+  if (state.currentQuestion >= SURVEY.length) {
+    completeSurvey();
+  } else {
+    renderQuestion();
+    window.scrollTo(0, 0);
+  }
+}
+
+function prevQuestion() {
+  if (state.currentQuestion > 0) {
+    state.currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function completeSurvey() {
+  state.surveyComplete = true;
+
+  // Calculate total survey CC
+  let surveyCC = 0;
+  SURVEY.forEach(q => surveyCC += q.cc);
+
+  // Show celebration
+  const celeb = document.getElementById('celebration');
+  document.getElementById('celeb-emoji').textContent = '🎉';
+  document.getElementById('celeb-title').textContent = 'Survey Complete!';
+  document.getElementById('celeb-sub').textContent =
+    `You've helped Block #${state.blockNumber} in ${state.neighbourhood} understand its economic power. Your answers join ${Math.floor(Math.random() * 30 + 5)} other neighbours building this picture.`;
+  document.getElementById('celeb-cc').textContent = `${state.ccTotal} CC Total`;
+  celeb.classList.add('show');
+}
+
+function closeCelebration() {
+  document.getElementById('celebration').classList.remove('show');
+  goToScreen('screen-wallet');
+}
+
+// ===== WALLET RENDERER =====
+function renderWallet() {
+  document.getElementById('wallet-name').textContent = state.name || 'Community Member';
+  document.getElementById('wallet-total-amount').textContent = state.ccTotal;
+  document.getElementById('wallet-header-cc').textContent = state.ccTotal;
+
+  // Rank
+  let rankObj = RANKS[0];
+  for (const r of RANKS) {
+    if (state.ccTotal >= r.threshold) rankObj = r;
+  }
+  document.getElementById('wallet-rank').textContent = `${rankObj.icon} ${rankObj.name}`;
+
+  // Balances
+  document.getElementById('bal-spendable').textContent = state.ccSpendable;
+  document.getElementById('bal-locked').textContent = state.ccLocked;
+  document.getElementById('bal-invested').textContent = state.ccInvested;
+  document.getElementById('bal-pledged').textContent = state.ccPledged;
+
+  // Transactions
+  const txList = document.getElementById('tx-list');
+  txList.innerHTML = '';
+  state.transactions.slice(0, 8).forEach(tx => {
+    const time = tx.timestamp.toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit' });
+    txList.innerHTML += `
+      <div class="tx-item">
+        <div class="tx-icon earn">◆</div>
+        <div class="tx-details">
+          <h4>${tx.reason}</h4>
+          <p>${time}</p>
+        </div>
+        <div class="tx-amount positive">+${tx.amount} CC</div>
+      </div>`;
+  });
+
+  // Block stats
+  document.getElementById('block-stats-title').textContent = `Block #${state.blockNumber} Stats`;
+  document.getElementById('bs-budget').textContent = '$' + state.blockBudget.toLocaleString('en-CA');
+  document.getElementById('bs-fund').textContent = '$' + (state.blockBudget * 0.05).toLocaleString('en-CA', { maximumFractionDigits: 0 });
+  document.getElementById('bs-members').textContent = Math.floor(Math.random() * 12 + 1);
+  document.getElementById('bs-participation').textContent = Math.floor(Math.random() * 8 + 2) + '%';
+  document.getElementById('bs-cc-circ').textContent = (state.ccTotal + Math.floor(Math.random() * 200)) + ' CC';
+
+  // Rank progress bar
+  let nextRank = RANKS.find(r => r.threshold > state.ccTotal) || RANKS[RANKS.length - 1];
+  let prevThreshold = rankObj.threshold;
+  let nextThreshold = nextRank.threshold;
+  let progress = nextThreshold > prevThreshold ?
+    ((state.ccTotal - prevThreshold) / (nextThreshold - prevThreshold)) * 100 : 100;
+  document.getElementById('rank-bar').style.width = Math.min(progress, 100) + '%';
+  document.getElementById('rank-current').textContent = rankObj.name;
+  document.getElementById('rank-next').textContent = `→ ${nextRank.name} (${nextRank.threshold} CC)`;
+}
+
+// ===== TEST MODE =====
+const TEST_MODE = false; // Set to true for testing with colleagues
+
+function initTestMode() {
+  if (!TEST_MODE) return;
+
+  // Add test banner
+  const banner = document.createElement('div');
+  banner.id = 'test-banner';
+  banner.innerHTML = `
+    <div style="background:linear-gradient(90deg,#f57f17,#ff8f00);color:#fff;padding:8px 16px;font-size:0.75rem;font-weight:600;text-align:center;position:fixed;top:0;left:0;right:0;z-index:9999;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+      <span>⚡ TEST MODE — BlockShare Community Onboarding v1.0</span>
+      <span style="opacity:0.7">|</span>
+      <button onclick="skipToScreen('screen-register')" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:3px 10px;border-radius:4px;font-size:0.7rem;cursor:pointer;font-family:inherit;">→ Register</button>
+      <button onclick="skipToScreen('screen-reveal')" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:3px 10px;border-radius:4px;font-size:0.7rem;cursor:pointer;font-family:inherit;">→ Reveal</button>
+      <button onclick="skipToScreen('screen-survey')" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:3px 10px;border-radius:4px;font-size:0.7rem;cursor:pointer;font-family:inherit;">→ Survey</button>
+      <button onclick="skipToScreen('screen-wallet')" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:3px 10px;border-radius:4px;font-size:0.7rem;cursor:pointer;font-family:inherit;">→ Wallet</button>
+      <button onclick="exportTestData()" style="background:#fff;color:#f57f17;border:none;padding:3px 10px;border-radius:4px;font-size:0.7rem;cursor:pointer;font-weight:700;font-family:inherit;">📋 Export Data</button>
+    </div>
+  `;
+  document.body.prepend(banner);
+
+  // Offset app for banner
+  document.querySelector('.app').style.paddingTop = '36px';
+
+  // Add feedback button to wallet screen
+  const walletBody = document.querySelector('.wallet-body');
+  if (walletBody) {
+    const feedbackSection = document.createElement('div');
+    feedbackSection.innerHTML = `
+      <div style="margin-top:24px;background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:1rem;color:#0f2b1d;margin-bottom:14px;">🧪 Tester Feedback</h3>
+        <textarea id="test-feedback" rows="4" placeholder="What worked? What felt confusing? What would you change?" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;resize:vertical;margin-bottom:12px;"></textarea>
+        <div style="display:flex;gap:8px;">
+          <button onclick="submitFeedback()" style="flex:1;padding:12px;background:#0f2b1d;color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;">Submit Feedback</button>
+          <button onclick="exportTestData()" style="flex:1;padding:12px;background:#fff;color:#0f2b1d;border:2px solid #0f2b1d;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;">Export All Data</button>
+        </div>
+      </div>
+    `;
+    walletBody.appendChild(feedbackSection);
+  }
+}
+
+function skipToScreen(screenId) {
+  // Pre-fill test data if skipping ahead
+  if (!state.registered) {
+    state.name = 'Test User';
+    state.phone = '(604) 555-0123';
+    state.postalCode = 'V5K 1A1';
+    state.ageRange = '25-34';
+    state.registered = true;
+    resolveBlock('V5K 1A1');
+    addCC(15, 'Registration (test skip)');
+  }
+  goToScreen(screenId);
+}
+
+function exportTestData() {
+  const exportData = {
+    _export: 'BlockShare Onboarding Test Data',
+    _timestamp: new Date().toISOString(),
+    _version: '1.0',
+    member: {
+      name: state.name,
+      phone: state.phone,
+      postalCode: state.postalCode,
+      ageRange: state.ageRange,
+      blockNumber: state.blockNumber,
+      neighbourhood: state.neighbourhood,
+    },
+    blockBudget: {
+      totalBudget: state.blockBudget,
+      fivePercentRedirect: state.blockBudget * 0.05,
+      households: state.households,
+      multiplierImpact: state.blockBudget * 0.05 * 2.6,
+    },
+    communityCredits: {
+      total: state.ccTotal,
+      spendable: state.ccSpendable,
+      locked: state.ccLocked,
+      invested: state.ccInvested,
+      pledged: state.ccPledged,
+      rank: state.rank,
+    },
+    surveyResponses: {},
+    transactions: state.transactions.map(t => ({
+      amount: t.amount,
+      reason: t.reason,
+      time: t.timestamp.toISOString(),
+    })),
+    feedback: document.getElementById('test-feedback')?.value || '',
+  };
+
+  // Map survey answers to question text
+  SURVEY.forEach((q, i) => {
+    if (state.surveyAnswers[i] !== undefined) {
+      let answer = state.surveyAnswers[i];
+      if (q.type === 'choice' && typeof answer === 'number') {
+        answer = q.options[answer];
+      } else if (q.type === 'multi' && Array.isArray(answer)) {
+        answer = answer.map(idx => q.options[idx]);
+      }
+      exportData.surveyResponses[`Q${i+1}_${q.section}`] = {
+        question: q.question,
+        answer: answer,
+        ccAwarded: q.cc,
+      };
+    }
+  });
+
+  // Copy to clipboard
+  const json = JSON.stringify(exportData, null, 2);
+  navigator.clipboard.writeText(json).then(() => {
+    showCCToast(0, 'Data copied to clipboard!');
+  }).catch(() => {
+    // Fallback: download as file
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `blockshare-test-${state.name || 'anon'}-${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showCCToast(0, 'Data downloaded as JSON');
+  });
+}
+
+function submitFeedback() {
+  const feedback = document.getElementById('test-feedback')?.value;
+  if (!feedback) return;
+
+  // In production: POST to API
+  console.log('[Feedback]', {
+    tester: state.name,
+    block: state.blockNumber,
+    feedback: feedback,
+    timestamp: new Date().toISOString(),
+  });
+
+  // Store in state for export
+  state.testerFeedback = feedback;
+
+  // Visual confirmation
+  const btn = event.target;
+  btn.textContent = '✓ Feedback saved (will be in export)';
+  btn.style.background = '#2e7d32';
+  setTimeout(() => {
+    btn.textContent = 'Submit Feedback';
+    btn.style.background = '#0f2b1d';
+  }, 3000);
+}
+
+// Initialize test mode on load
+document.addEventListener('DOMContentLoaded', initTestMode);
+</script>
+
+<!-- Back-nav for survey page -->
+<style>
+.bs-survey-backnav {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 9990;
+  display: flex;
+  gap: 6px;
+}
+.bs-survey-backnav a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.5);
+  background: rgba(15,43,29,0.7);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 100px;
+  transition: all 0.2s;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.bs-survey-backnav a:hover { color: #f9a825; background: rgba(15,43,29,0.9); }
+</style>
+<div class="bs-survey-backnav">
+  <a href="/blockonomics/?i=1">← Blockonomics</a>
+  <a href="/blockbudget/">Block Explorer</a>
+</div>
+
+    <footer class="bs-site-footer"><div class="footer-inner"><div class="footer-brand"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><p>Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative — neither government programme nor corporate platform.</p></div><div><h4>Blockonomics</h4><ul><li><a href="/blockonomics/">The Framework</a></li><li><a href="/blockbudget/">Block Budget Map</a></li><li><a href="/lei-calculator/">LEI Calculator</a></li></ul><h4 style="margin-top:1.5rem;">Programs</h4><ul><li><a href="/share/">Share Pools</a></li><li><a href="/food/">Beef Collective</a></li><li><a href="/credits/">Community Credits</a></li></ul></div><div><h4>Publications</h4><ul><li><a href="/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="/land-for-whom/">Land For Whom?</a></li><li><a href="/publications/">All Publications</a></li></ul><h4 style="margin-top:1.5rem;">Tools</h4><ul><li><a href="/lei-calculator/">LEI Calculator</a></li><li><a href="/cc-system-diagram/">CC System Diagram</a></li></ul></div><div><h4>Get Involved</h4><ul><li><a href="/onboarding/">Join Your Block</a></li><li><a href="/become-host/">Become a Host</a></li><li><a href="/about/">Our Story</a></li><li><a href="/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Block Share · Vancouver, BC</span><span>A community initiative inspired by E.F. Schumacher's <em>Small is Beautiful</em></span></div></footer>
+
+    <script>
+    (function(){
+        var btn=document.getElementById('mobileMenuBtn'),panel=document.querySelector('.bs-mobile-panel'),close=panel?panel.querySelector('.mobile-nav-close'):null;
+        if(btn&&panel&&close){btn.addEventListener('click',function(){panel.classList.add('open')});close.addEventListener('click',function(){panel.classList.remove('open')});panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){panel.classList.remove('open')})});}
+    })();
+    </script>
+</body>
+</html>

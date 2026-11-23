@@ -1,0 +1,177 @@
+/* ============================================================
+   Block Share — Shared Nav & Footer Styles
+   Version: 1.0.0 · March 2026
+   
+   Usage: <link rel="stylesheet" href="/wp-content/uploads/bs-shared/bs-nav-footer.css">
+   
+   REQUIRES these CSS variables on :root (or define your own):
+   --bg-dark, --border-dark, --border-dark-light,
+   --text-light, --text-light-secondary, --text-light-muted,
+   --green-400, --green-500, --font-display, --font-body
+   
+   If your page doesn't define them, the fallbacks below apply.
+   ============================================================ */
+
+/* Fallback variables — only take effect if page doesn't define them */
+.site-nav, .site-footer, .bs-mobile-overlay {
+  --bg-dark: #0f1419;
+  --border-dark: #1e293b;
+  --border-dark-light: #334155;
+  --text-light: #e8ecf1;
+  --text-light-secondary: #94a3b8;
+  --text-light-muted: #64748b;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --teal-500: #14b8a6;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+}
+
+/* ===== NAVIGATION ===== */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(15,20,25,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-dark);
+}
+.site-nav__inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px; padding: 0 24px;
+}
+.site-nav__brand {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 18px;
+  color: var(--text-light);
+  text-decoration: none; letter-spacing: -0.02em;
+}
+.site-nav__brand span { color: var(--green-400); }
+
+.site-nav__links { display: flex; gap: 6px; align-items: center; }
+
+.site-nav__dropdown { position: relative; }
+.site-nav__dropdown-trigger {
+  color: var(--text-light-secondary); text-decoration: none;
+  font-size: 13px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.05em; padding: 8px 12px;
+  transition: color 0.2s; cursor: pointer;
+  background: none; border: none; font-family: var(--font-body);
+}
+.site-nav__dropdown:hover .site-nav__dropdown-trigger { color: var(--green-400); }
+
+.site-nav__dropdown-menu {
+  display: none; position: absolute; top: 100%; left: 0;
+  background: var(--bg-dark); border: 1px solid var(--border-dark-light);
+  border-radius: 8px; padding: 8px 0; min-width: 220px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  z-index: 110;
+}
+.site-nav__dropdown:hover .site-nav__dropdown-menu { display: block; }
+
+.site-nav__dropdown-menu a {
+  display: block; padding: 8px 20px;
+  font-size: 14px; color: var(--text-light-secondary);
+  text-decoration: none; transition: all 0.15s;
+  text-transform: none; letter-spacing: 0;
+}
+.site-nav__dropdown-menu a:hover {
+  color: var(--green-400); background: rgba(74,222,128,0.06);
+}
+
+.site-nav__cta {
+  display: inline-block;
+  background: var(--green-500); color: var(--bg-dark);
+  padding: 7px 16px; border-radius: 6px; font-weight: 700;
+  text-transform: uppercase; font-size: 12px;
+  letter-spacing: 0.06em; text-decoration: none;
+}
+.site-nav__cta:hover { opacity: 0.9; }
+
+/* Hamburger */
+.site-nav__hamburger {
+  display: none; background: none; border: none;
+  color: var(--text-light); font-size: 24px; cursor: pointer;
+  padding: 4px 8px; line-height: 1;
+}
+
+@media (max-width: 900px) {
+  .site-nav__links { display: none; }
+  .site-nav__hamburger { display: block; }
+}
+
+/* ===== MOBILE OVERLAY ===== */
+.bs-mobile-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(15,20,25,0.98);
+  padding: 72px 24px 24px;
+  overflow-y: auto;
+  flex-direction: column;
+}
+.bs-mobile-overlay.active { display: flex; }
+.bs-mobile-overlay__close {
+  position: absolute; top: 16px; right: 24px;
+  background: none; border: none; color: var(--text-light);
+  font-size: 28px; cursor: pointer; line-height: 1;
+}
+.bs-mobile-overlay__section {
+  margin-bottom: 24px;
+}
+.bs-mobile-overlay__heading {
+  font-family: var(--font-body);
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-light-muted);
+  margin-bottom: 10px;
+}
+.bs-mobile-overlay a {
+  display: block; padding: 8px 0;
+  font-size: 16px; color: var(--text-light-secondary);
+  text-decoration: none; transition: color 0.15s;
+}
+.bs-mobile-overlay a:hover { color: var(--green-400); }
+.bs-mobile-overlay__cta {
+  display: inline-block; margin-top: 16px;
+  background: var(--green-500); color: var(--bg-dark);
+  padding: 12px 24px; border-radius: 8px;
+  font-weight: 700; font-size: 14px;
+  text-decoration: none; text-align: center;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-dark);
+  padding: 56px 24px 32px;
+}
+.site-footer__inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 40px; margin-bottom: 32px;
+}
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700;
+  color: var(--text-light); margin-bottom: 12px;
+}
+.footer-brand span { color: var(--green-400); }
+.footer-tagline { font-size: 14px; color: var(--text-light-muted); line-height: 1.6; }
+.footer-col h4 {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-light-secondary); margin-bottom: 14px;
+}
+.footer-col ul { list-style: none; margin: 0; padding: 0; }
+.footer-col li { margin-bottom: 8px; }
+.footer-col a {
+  font-size: 14px; color: var(--text-light-muted);
+  text-decoration: none; transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--green-400); }
+.footer-copy {
+  font-size: 13px; color: var(--text-light-muted);
+  border-top: 1px solid var(--border-dark);
+  padding-top: 20px; text-align: center;
+}
+
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }

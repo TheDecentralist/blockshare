@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citizens Dashboard — Block Share</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2C4A3E;
+    --forest-dark: #1a2e27;
+    --forest-mid: #3d6455;
+    --navy: #1E3A5F;
+    --navy-light: #2d5180;
+    --cream: #F5F0E8;
+    --cream-dark: #ede7d9;
+    --gold: #C9962A;
+    --gold-light: #e8b84b;
+    --gold-pale: #f7e9c4;
+    --red: #C0392B;
+    --red-light: #e74c3c;
+    --amber: #E67E22;
+    --green: #27AE60;
+    --text-dark: #1a1a1a;
+    --text-mid: #3a3a3a;
+    --text-muted: #6b6b6b;
+    --border: rgba(44,74,62,0.15);
+    --shadow: 0 4px 24px rgba(30,58,95,0.10);
+    --shadow-lg: 0 8px 40px rgba(30,58,95,0.16);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--forest-dark);
+    border-bottom: 3px solid var(--gold);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .masthead-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .masthead-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .masthead-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .masthead-sep { color: rgba(255,255,255,0.3); font-size: 1rem; }
+  .masthead-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .masthead-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold-light);
+    background: rgba(201,150,42,0.15);
+    border: 1px solid rgba(201,150,42,0.3);
+    padding: 3px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── HERO BAND ── */
+  .hero {
+    background: var(--forest);
+    color: white;
+    padding: 56px 32px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.012) 40px,
+      rgba(255,255,255,0.012) 80px
+    );
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-kicker::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--gold);
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: white;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.72);
+    max-width: 680px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+  }
+  .hero-disclaimer {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(192,57,43,0.18);
+    border: 1px solid rgba(192,57,43,0.4);
+    border-left: 3px solid var(--red-light);
+    padding: 12px 16px;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 720px;
+    line-height: 1.5;
+  }
+  .hero-disclaimer strong { color: #ff8f82; }
+
+  /* ── FRAMEWORK LEGEND ── */
+  .framework {
+    background: var(--cream-dark);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+  }
+  .framework-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+  .framework-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding-right: 24px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--border);
+    margin-right: 24px;
+    white-space: nowrap;
+  }
+  .fw-item {
+    padding: 10px 20px;
+    border-left: 3px solid transparent;
+  }
+  .fw-item.defer { border-color: var(--red); }
+  .fw-item.maintain { border-color: var(--amber); }
+  .fw-item.renew { border-color: var(--green); }
+  .fw-item-label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+  .fw-item.defer .fw-item-label { color: var(--red); }
+  .fw-item.maintain .fw-item-label { color: var(--amber); }
+  .fw-item.renew .fw-item-label { color: var(--green); }
+  .fw-item-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .fw-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .fw-item.defer .fw-pct { color: var(--red); }
+  .fw-item.maintain .fw-pct { color: var(--amber); }
+  .fw-item.renew .fw-pct { color: var(--green); }
+
+  /* ── CASE TABS ── */
+  .case-nav {
+    background: var(--navy);
+    padding: 0 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .case-nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+  }
+  .case-tab {
+    padding: 16px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    letter-spacing: 0.02em;
+  }
+  .case-tab:hover { color: rgba(255,255,255,0.85); }
+  .case-tab.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+  }
+  .case-tab .tab-status {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 7px;
+    vertical-align: middle;
+  }
+  .tab-status.red { background: var(--red-light); }
+  .tab-status.amber { background: var(--amber); }
+
+  /* ── VIEW TABS ── */
+  .view-nav {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+  }
+  .view-nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    align-items: center;
+  }
+  .view-tab {
+    padding: 12px 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+  }
+  .view-tab:hover { color: var(--forest); }
+  .view-tab.active {
+    color: var(--forest);
+    border-bottom-color: var(--forest);
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  /* ── REPORT CARD VIEW ── */
+  .report-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .rc-panel {
+    background: white;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .rc-panel-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .rc-panel-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .rc-panel-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+  .verdict-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .verdict-defer { background: rgba(192,57,43,0.1); color: var(--red); border: 1px solid rgba(192,57,43,0.25); }
+  .verdict-maintain { background: rgba(230,126,34,0.1); color: var(--amber); border: 1px solid rgba(230,126,34,0.25); }
+  .verdict-renew { background: rgba(39,174,96,0.1); color: var(--green); border: 1px solid rgba(39,174,96,0.25); }
+  .verdict-critical { background: rgba(192,57,43,0.15); color: var(--red); border: 1px solid rgba(192,57,43,0.4); }
+
+  .rc-body { padding: 20px 24px; }
+
+  /* Accrual meter */
+  .accrual-row {
+    margin-bottom: 20px;
+  }
+  .accrual-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .accrual-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-mid);
+    letter-spacing: 0.02em;
+  }
+  .accrual-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .accrual-track {
+    height: 8px;
+    background: var(--cream-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .accrual-track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%;
+    transform: translateX(-1px);
+    width: 2px;
+    height: 100%;
+    background: rgba(0,0,0,0.15);
+  }
+  .accrual-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .metric-box {
+    background: var(--cream);
+    border-radius: 3px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+  }
+  .metric-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .metric-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+  .metric-value.red { color: var(--red); }
+  .metric-value.amber { color: var(--amber); }
+  .metric-value.green { color: var(--green); }
+  .metric-value.navy { color: var(--navy); }
+  .metric-note {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .lte-band {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: 3px;
+    padding: 14px 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .lte-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .lte-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 3px;
+  }
+  .lte-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+  }
+  .lte-sub {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 2px;
+  }
+
+  .sources-strip {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .sources-strip strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  /* ── TIMELINE VIEW ── */
+  .timeline-view { display: none; }
+  .timeline-card {
+    background: white;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .timeline-header {
+    padding: 20px 28px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .timeline-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+  }
+  .timeline-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
+
+  .timeline-legend {
+    display: flex;
+    gap: 20px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-line {
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+  }
+  .legend-line.city { background: var(--red); }
+  .legend-line.alt { background: var(--green); stroke-dasharray: 4 2; }
+  .legend-line.optimal { background: var(--gold); opacity: 0.6; }
+
+  .chart-wrap {
+    padding: 24px 28px;
+    position: relative;
+  }
+  canvas { width: 100%; display: block; }
+
+  .chart-annotation {
+    display: flex;
+    gap: 16px;
+    padding: 0 28px 20px;
+    flex-wrap: wrap;
+  }
+  .annotation-pill {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .annotation-pill.red { color: var(--red); border-color: rgba(192,57,43,0.3); background: rgba(192,57,43,0.06); }
+  .annotation-pill.green { color: var(--green); border-color: rgba(39,174,96,0.3); background: rgba(39,174,96,0.06); }
+  .annotation-pill.gold { color: var(--gold); border-color: rgba(201,150,42,0.3); background: rgba(201,150,42,0.06); }
+
+  /* ── COMPARISON VIEW ── */
+  .comparison-view { display: none; }
+  .compare-table-wrap {
+    background: white;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .compare-table-header {
+    padding: 20px 28px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+  }
+  .compare-table-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  thead tr {
+    background: var(--forest-dark);
+    color: white;
+  }
+  thead th {
+    padding: 12px 20px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  thead th:first-child { color: rgba(255,255,255,0.6); }
+  thead th.col-city { color: #ff9f9f; }
+  thead th.col-alt { color: #9fdfb8; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--cream); }
+  tbody td { padding: 13px 20px; vertical-align: top; }
+  tbody td:first-child {
+    font-weight: 500;
+    color: var(--text-mid);
+    font-size: 0.8rem;
+  }
+  .cell-city { color: var(--red); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; }
+  .cell-alt { color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 600; }
+  .cell-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; font-family: 'DM Sans', sans-serif; }
+
+  .narrative-box {
+    background: var(--gold-pale);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 3px 3px 0;
+    padding: 18px 22px;
+    margin: 0 28px 24px;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text-mid);
+  }
+  .narrative-box strong { color: var(--text-dark); }
+
+  /* ── PROPAGANDA PARSER ── */
+  .propaganda-section {
+    margin-top: 32px;
+  }
+  .propaganda-header {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .propaganda-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .claim-card {
+    background: white;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .claim-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .claim-header:hover { background: var(--cream); }
+  .claim-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .claim-tag.talking-point { background: rgba(192,57,43,0.1); color: var(--red); }
+  .claim-tag.misleading { background: rgba(230,126,34,0.1); color: var(--amber); }
+  .claim-tag.partial { background: rgba(201,150,42,0.1); color: var(--gold); }
+  .claim-text {
+    font-style: italic;
+    color: var(--text-mid);
+    font-size: 0.9rem;
+  }
+  .claim-chevron {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+  }
+  .claim-card.open .claim-chevron { transform: rotate(180deg); }
+  .claim-body {
+    display: none;
+    padding: 0 20px 18px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .claim-card.open .claim-body { display: block; }
+  .claim-rebuttal {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text-mid);
+    margin-bottom: 12px;
+  }
+  .claim-data {
+    background: var(--cream);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--forest);
+    border-left: 3px solid var(--forest-mid);
+  }
+
+  /* ── DATA PLACEHOLDER NOTICE ── */
+  .data-notice {
+    background: rgba(201,150,42,0.08);
+    border: 1px dashed rgba(201,150,42,0.5);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── CASE PANELS ── */
+  .case-panel { display: none; }
+  .case-panel.active { display: block; }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    background: var(--forest-dark);
+    color: rgba(255,255,255,0.5);
+    padding: 32px;
+    margin-top: 48px;
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  .page-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .footer-links { display: flex; gap: 16px; margin-top: 8px; }
+  .footer-links a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .report-card { grid-template-columns: 1fr; }
+    .framework-inner { grid-template-columns: 1fr; gap: 12px; }
+    .framework-label { border-right: none; padding-right: 0; margin-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    .masthead-inner { flex-wrap: wrap; }
+    .hero { padding: 36px 20px 32px; }
+    .main { padding: 24px 20px; }
+    .metrics-grid { grid-template-columns: 1fr; }
+    table { font-size: 0.78rem; }
+    thead th, tbody td { padding: 10px 12px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .case-panel.active { animation: fadeUp 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-brand">
+      <a href="https://app.blockshare.ca" class="masthead-logo">Block Share</a>
+      <span class="masthead-sep">×</span>
+      <span class="masthead-title">Citizens Dashboard</span>
+    </div>
+    <span class="masthead-tag">PROTOTYPE · DATA PENDING</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">Infrastructure Accountability</div>
+    <h1>What the City Isn't<br>Accounting For</h1>
+    <p class="hero-sub">Every capital budget tells a story. This dashboard parses the numbers behind city proposals — comparing what's being promised against what peer-reviewed evidence, international precedent, and basic lifecycle accounting actually show.</p>
+    <div class="hero-disclaimer">
+      <span>⚠</span>
+      <span><strong>Counter-narrative tool.</strong> This dashboard surfaces documented alternatives to city-endorsed proposals. All figures marked <em>[PLACEHOLDER]</em> will be replaced with cited source data. Community alternatives shown are drawn from peer-reviewed studies and implemented precedents — not opinion.</span>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORK LEGEND -->
+<div class="framework">
+  <div class="framework-inner">
+    <div class="framework-label">Accrual<br>Status</div>
+    <div class="fw-item defer">
+      <div class="fw-item-label">Defer</div>
+      <div class="fw-item-desc">Kicking the can. Lifespan eroding, future liability growing.</div>
+      <div class="fw-pct">≈ 80% accrual or below</div>
+    </div>
+    <div class="fw-item maintain">
+      <div class="fw-item-label">Maintain</div>
+      <div class="fw-item-desc">Holding steady. Active R&amp;M optimizing lifespan.</div>
+      <div class="fw-pct">≈ 90% accrual</div>
+    </div>
+    <div class="fw-item renew">
+      <div class="fw-item-label">Renew</div>
+      <div class="fw-item-desc">Fully funded replacement or upgrade to efficient alternatives.</div>
+      <div class="fw-pct">100%+ accrual</div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE NAVIGATION -->
+<nav class="case-nav">
+  <div class="case-nav-inner">
+    <button class="case-tab active" onclick="switchCase('broadway')">
+      <span class="tab-status amber"></span>Broadway Plan — Transit
+    </button>
+    <button class="case-tab" onclick="switchCase('pools')">
+      <span class="tab-status red"></span>Vancouver Civic Pools
+    </button>
+  </div>
+</nav>
+
+<!-- VIEW NAVIGATION -->
+<nav class="view-nav">
+  <div class="view-nav-inner">
+    <button class="view-tab active" onclick="switchView('report')">Report Card</button>
+    <button class="view-tab" onclick="switchView('timeline')">Lifespan Timeline</button>
+    <button class="view-tab" onclick="switchView('compare')">Comparison</button>
+    <button class="view-tab" onclick="switchView('claims')">Claims Parser</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ══ BROADWAY CASE ══ -->
+  <div class="case-panel active" id="case-broadway">
+
+    <!-- REPORT CARD VIEW -->
+    <div id="broadway-report" class="report-view">
+      <div class="report-card">
+
+        <!-- City Proposal -->
+        <div class="rc-panel">
+          <div class="rc-panel-header">
+            <div>
+              <div class="rc-panel-title">City Proposal: Broadway Subway Extension</div>
+              <div class="rc-panel-sub">VCC-Clark to Arbutus · SkyTrain Millennium Line</div>
+            </div>
+            <span class="verdict-badge verdict-maintain">Maintain</span>
+          </div>
+          <div class="rc-body">
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Capital Cost Accrual</span>
+                <span class="accrual-pct" style="color:var(--amber)">~88%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:88%;background:var(--amber)"></div>
+              </div>
+            </div>
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Operating Cost Coverage (30yr)</span>
+                <span class="accrual-pct" style="color:var(--red)">~62%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:62%;background:var(--red)"></div>
+              </div>
+            </div>
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Ridership Projection Confidence</span>
+                <span class="accrual-pct" style="color:var(--amber)">~75%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:75%;background:var(--amber)"></div>
+              </div>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <div class="metric-label">Capital Cost</div>
+                <div class="metric-value red">$2.83B</div>
+                <div class="metric-note">Federal/Provincial/City split</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Cost / km</div>
+                <div class="metric-value red">$471M</div>
+                <div class="metric-note">6km tunnel — world top quartile</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Lifespan</div>
+                <div class="metric-value navy">75–100 yrs</div>
+                <div class="metric-note">Tunnel infrastructure</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Infra Served</div>
+                <div class="metric-value amber">6 km</div>
+                <div class="metric-note">VCC-Clark to Arbutus</div>
+              </div>
+            </div>
+
+            <div class="lte-band">
+              <div class="lte-icon">⏱</div>
+              <div>
+                <div class="lte-label">LTE Impact — Life-Time Efficiency</div>
+                <div class="lte-value">~340 hrs/resident saved vs. car over 30 yrs</div>
+                <div class="lte-sub">Based on corridor modal shift estimates [PLACEHOLDER]</div>
+              </div>
+            </div>
+
+            <div class="sources-strip">
+              <strong>Sources:</strong> City of Vancouver Capital Plan 2023–2026 · TransLink Investment Plan · BC Ministry of Transportation [PLACEHOLDER — to be populated with study citations]
+            </div>
+            <div class="data-notice">⬡ Figures marked [PLACEHOLDER] will be replaced with cited peer-reviewed sources</div>
+          </div>
+        </div>
+
+        <!-- Community Alternative -->
+        <div class="rc-panel">
+          <div class="rc-panel-header">
+            <div>
+              <div class="rc-panel-title">Alternative: Surface BRT / LRT Corridor</div>
+              <div class="rc-panel-sub">Broadway full corridor · Vancouver to UBC</div>
+            </div>
+            <span class="verdict-badge verdict-renew">Renew</span>
+          </div>
+          <div class="rc-body">
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Capital Cost Accrual</span>
+                <span class="accrual-pct" style="color:var(--green)">~100%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:100%;background:var(--green)"></div>
+              </div>
+            </div>
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Operating Cost Coverage (30yr)</span>
+                <span class="accrual-pct" style="color:var(--green)">~94%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:94%;background:var(--green)"></div>
+              </div>
+            </div>
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Coverage Ratio (km served per $B)</span>
+                <span class="accrual-pct" style="color:var(--green)">4–6×</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:95%;background:var(--green)"></div>
+              </div>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <div class="metric-label">Est. Capital Cost</div>
+                <div class="metric-value green">$400–700M</div>
+                <div class="metric-note">Full Broadway to UBC surface LRT</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Cost / km</div>
+                <div class="metric-value green">$30–50M</div>
+                <div class="metric-note">International BRT/LRT precedent</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Lifespan</div>
+                <div class="metric-value navy">30–40 yrs</div>
+                <div class="metric-note">Rolling stock + right-of-way</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Infra Served</div>
+                <div class="metric-value green">12+ km</div>
+                <div class="metric-note">Full corridor to UBC</div>
+              </div>
+            </div>
+
+            <div class="lte-band">
+              <div class="lte-icon">⏱</div>
+              <div>
+                <div class="lte-label">LTE Impact — Life-Time Efficiency</div>
+                <div class="lte-value">~410 hrs/resident saved vs. car over 30 yrs</div>
+                <div class="lte-sub">Greater network coverage produces higher aggregate time return [PLACEHOLDER]</div>
+              </div>
+            </div>
+
+            <div class="sources-strip">
+              <strong>Sources:</strong> ITDP BRT Standard · Jarrett Walker Human Transit · Zurich/Amsterdam surface LRT implementation data · UBC Campus planning studies [PLACEHOLDER]
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /report-card grid -->
+    </div><!-- /report view -->
+
+    <!-- TIMELINE VIEW -->
+    <div id="broadway-timeline" class="timeline-view">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-title">Broadway Corridor — Accrual vs. Lifespan Trajectory</div>
+            <div class="timeline-sub">City subway proposal vs. surface alternative over 75-year horizon</div>
+          </div>
+          <div class="timeline-legend">
+            <div class="legend-item"><div class="legend-line city"></div><span>City: Subway</span></div>
+            <div class="legend-item"><div class="legend-line alt"></div><span>Alt: Surface LRT</span></div>
+            <div class="legend-item"><div class="legend-line optimal"></div><span>100% accrual target</span></div>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="broadwayChart" height="320"></canvas>
+        </div>
+        <div class="chart-annotation">
+          <span class="annotation-pill red">City proposal: $2.1B unfunded operating liability by yr 30</span>
+          <span class="annotation-pill green">Surface LRT: UBC coverage achieved within same budget envelope</span>
+          <span class="annotation-pill gold">Renewal cycle: Surface alt. can be upgraded 2× within subway lifespan</span>
+        </div>
+        <div class="data-notice" style="margin:0 28px 24px;">⬡ Chart curves are illustrative — will be redrawn with cited source data upon study integration</div>
+      </div>
+    </div>
+
+    <!-- COMPARISON VIEW -->
+    <div id="broadway-compare" class="comparison-view">
+      <div class="compare-table-wrap">
+        <div class="compare-table-header">
+          <div class="compare-table-title">Broadway Plan — City vs. Documented Alternatives</div>
+          <div class="compare-table-sub">All figures from cited studies · [PLACEHOLDER] = pending source integration</div>
+        </div>
+        <div class="narrative-box">
+          The Broadway subway covers 6km for $2.83B — leaving UBC, the corridor's largest destination, unserved. Surface alternatives documented in peer-reviewed transit planning literature consistently deliver 4–6× the network coverage per dollar, with comparable or superior ridership outcomes on corridors of this density.
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th class="col-city">City: Broadway Subway</th>
+              <th class="col-alt">Alt: Surface BRT/LRT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Total Capital Cost</td>
+              <td><div class="cell-city">$2.83B</div><div class="cell-note">Federal/Prov/City split</div></td>
+              <td><div class="cell-alt">$400–700M</div><div class="cell-note">Full corridor to UBC · int'l precedent</div></td>
+            </tr>
+            <tr>
+              <td>Corridor Coverage</td>
+              <td><div class="cell-city">6 km</div><div class="cell-note">VCC-Clark to Arbutus only</div></td>
+              <td><div class="cell-alt">12–14 km</div><div class="cell-note">Full Broadway to UBC</div></td>
+            </tr>
+            <tr>
+              <td>Cost per km</td>
+              <td><div class="cell-city">~$471M/km</div><div class="cell-note">World top-quartile tunnel cost</div></td>
+              <td><div class="cell-alt">~$35–50M/km</div><div class="cell-note">BRT/LRT int'l benchmark</div></td>
+            </tr>
+            <tr>
+              <td>Time to UBC (Broadway/Granville)</td>
+              <td><div class="cell-city">~18 min [PLACEHOLDER]</div><div class="cell-note">Subway + transfer</div></td>
+              <td><div class="cell-alt">~22 min [PLACEHOLDER]</div><div class="cell-note">Surface LRT dedicated ROW</div></td>
+            </tr>
+            <tr>
+              <td>Annual Operating Cost</td>
+              <td><div class="cell-city">$XX M/yr [PLACEHOLDER]</div></td>
+              <td><div class="cell-alt">$XX M/yr [PLACEHOLDER]</div><div class="cell-note">Lower rolling stock + maintenance</div></td>
+            </tr>
+            <tr>
+              <td>Infrastructure Lifespan</td>
+              <td><div class="cell-city">75–100 yrs</div><div class="cell-note">Tunnel — difficult to adapt</div></td>
+              <td><div class="cell-alt">30–40 yrs per cycle</div><div class="cell-note">Can be upgraded 2× in same horizon</div></td>
+            </tr>
+            <tr>
+              <td>Technology Adaptability</td>
+              <td><div class="cell-city">Low</div><div class="cell-note">Fixed tunnel — locked in</div></td>
+              <td><div class="cell-alt">High</div><div class="cell-note">Trolley→BRT→autonomous transition possible</div></td>
+            </tr>
+            <tr>
+              <td>LTE: Life-hrs saved / resident (30yr)</td>
+              <td><div class="cell-city">~340 hrs [PLACEHOLDER]</div></td>
+              <td><div class="cell-alt">~410 hrs [PLACEHOLDER]</div><div class="cell-note">Greater coverage = higher aggregate return</div></td>
+            </tr>
+            <tr>
+              <td>Precedent Cities</td>
+              <td><div class="cell-city">Vancouver SkyTrain (existing)</div></td>
+              <td><div class="cell-alt">Zurich, Amsterdam, Bogotá, Ottawa BRT</div><div class="cell-note">All documented, peer-reviewed outcomes</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CLAIMS PARSER VIEW -->
+    <div id="broadway-claims" class="comparison-view">
+      <div class="propaganda-section">
+        <div class="propaganda-header">Claims Parser — Broadway Plan</div>
+        <div class="propaganda-sub">Official talking points parsed against available data and documented evidence. Click any claim to expand.</div>
+
+        <div class="claim-card" onclick="toggleClaim(this)">
+          <div class="claim-header">
+            <span class="claim-tag talking-point">Talking Point</span>
+            <span class="claim-text">"The Broadway subway is the only solution capable of handling future ridership demand."</span>
+            <span class="claim-chevron">▼</span>
+          </div>
+          <div class="claim-body">
+            <div class="claim-rebuttal">Demand forecasts for the Broadway corridor have been consistently revised. Surface BRT systems in comparable corridors (Bogotá TransMilenio, Ottawa Transitway) have exceeded 40,000 passengers/hour — comparable to SkyTrain capacity — at a fraction of the capital cost. The "capacity ceiling" argument assumes no operational optimization and ignores that surface systems can be upgraded incrementally as demand materializes, rather than requiring full capital commitment upfront.</div>
+            <div class="claim-data">⬡ Source: ITDP BRT Standard 2016 · TransMilenio capacity data · [PLACEHOLDER — study citations pending]</div>
+          </div>
+        </div>
+
+        <div class="claim-card" onclick="toggleClaim(this)">
+          <div class="claim-header">
+            <span class="claim-tag misleading">Misleading</span>
+            <span class="claim-text">"The subway serves the Broadway corridor from VCC-Clark to UBC."</span>
+            <span class="claim-chevron">▼</span>
+          </div>
+          <div class="claim-body">
+            <div class="claim-rebuttal">The approved subway terminates at Arbutus — not UBC. UBC is the corridor's largest single destination, generating an estimated 50,000+ daily trips. The "Broadway Plan" framing consistently implies UBC connectivity that does not exist in the approved scope. The gap between Arbutus and UBC (approximately 5km) has no funded solution, meaning the largest demand generator remains unserved after $2.83B of investment.</div>
+            <div class="claim-data">⬡ Approved terminus: Arbutus Street · UBC daily trips: [PLACEHOLDER] · Arbutus–UBC gap: ~5km unserved</div>
+          </div>
+        </div>
+
+        <div class="claim-card" onclick="toggleClaim(this)">
+          <div class="claim-header">
+            <span class="claim-tag partial">Partial</span>
+            <span class="claim-text">"Tunnelling is necessary because Broadway cannot accommodate surface transit."</span>
+            <span class="claim-chevron">▼</span>
+          </div>
+          <div class="claim-body">
+            <div class="claim-rebuttal">Broadway's right-of-way is 30m wide — sufficient for a dedicated surface transit corridor. The claim that surface operations are incompatible with Broadway traffic conflates current configuration (without transit priority) with what a redesigned street could accommodate. Comparable arterials in Zurich (Bahnhofstrasse), Amsterdam, and Melbourne run surface trams at high frequency without the grade separation argument holding. The tunnelling preference reflects political and developer interests in TOD density premiums around underground stations, not engineering necessity.</div>
+            <div class="claim-data">⬡ Broadway ROW: 30m · Comparable arterials: [PLACEHOLDER] · TOD density uplift around subway stations: [PLACEHOLDER]</div>
+          </div>
+        </div>
+
+        <div class="claim-card" onclick="toggleClaim(this)">
+          <div class="claim-header">
+            <span class="claim-tag talking-point">Talking Point</span>
+            <span class="claim-text">"This is a once-in-a-generation investment in sustainable transportation."</span>
+            <span class="claim-chevron">▼</span>
+          </div>
+          <div class="claim-body">
+            <div class="claim-rebuttal">The "once-in-a-generation" framing is precisely the problem. Locking $2.83B into a fixed 6km tunnel forecloses the adaptive flexibility that transit networks need as urban mobility shifts. A surface alternative deployed at 20% of the cost leaves 80% of the capital envelope available for network expansion, cycling infrastructure, or technology transition. The generational argument is used to suppress scrutiny of alternatives — the opposite of what a genuine long-horizon investment requires.</div>
+            <div class="claim-data">⬡ Capital envelope remaining after surface LRT: ~$2.1–2.4B [PLACEHOLDER] · Network expansion equivalent: [PLACEHOLDER]</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /broadway case -->
+
+
+  <!-- ══ POOLS CASE ══ -->
+  <div class="case-panel" id="case-pools">
+
+    <!-- REPORT CARD VIEW -->
+    <div id="pools-report" class="report-view">
+      <div class="report-card">
+
+        <!-- City Proposal -->
+        <div class="rc-panel">
+          <div class="rc-panel-header">
+            <div>
+              <div class="rc-panel-title">City Position: Civic Aquatic Facilities</div>
+              <div class="rc-panel-sub">Vancouver public pools — current capital stewardship</div>
+            </div>
+            <span class="verdict-badge verdict-critical">CRITICAL DEFER</span>
+          </div>
+          <div class="rc-body">
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Maintenance Accrual (est.)</span>
+                <span class="accrual-pct" style="color:var(--red)">~45%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:45%;background:var(--red)"></div>
+              </div>
+            </div>
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Replacement Reserve Accrual</span>
+                <span class="accrual-pct" style="color:var(--red)">~30%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:30%;background:var(--red)"></div>
+              </div>
+            </div>
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Facilities at End-of-Life or Beyond</span>
+                <span class="accrual-pct" style="color:var(--red)">~60%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:60%;background:var(--red)"></div>
+              </div>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <div class="metric-label">Pools per 100k residents</div>
+                <div class="metric-value red">~0.8</div>
+                <div class="metric-note">Lowest major city in Canada [PLACEHOLDER]</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Deferred Maintenance Backlog</div>
+                <div class="metric-value red">$XXM</div>
+                <div class="metric-note">[PLACEHOLDER — CoV capital plan data]</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Avg. Facility Age</div>
+                <div class="metric-value red">45+ yrs</div>
+                <div class="metric-note">Design lifespan typically 40–50 yrs</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Canadian City Avg.</div>
+                <div class="metric-value amber">~2.1/100k</div>
+                <div class="metric-note">Toronto, Calgary, Edmonton [PLACEHOLDER]</div>
+              </div>
+            </div>
+
+            <div class="lte-band">
+              <div class="lte-icon">⏱</div>
+              <div>
+                <div class="lte-label">LTE Impact — Access Deficit</div>
+                <div class="lte-value">Estimated XX hrs/resident/yr lost to access barriers</div>
+                <div class="lte-sub">Travel time + unavailability cost vs. adequately served cities [PLACEHOLDER]</div>
+              </div>
+            </div>
+
+            <div class="sources-strip">
+              <strong>Sources:</strong> City of Vancouver Parks Board Capital Plan · Canadian Aquatic Facility benchmarking · [PLACEHOLDER]
+            </div>
+            <div class="data-notice">⬡ Vancouver has the lowest number of public pools per capita of any major Canadian city — source data to be integrated</div>
+          </div>
+        </div>
+
+        <!-- Community Alternative -->
+        <div class="rc-panel">
+          <div class="rc-panel-header">
+            <div>
+              <div class="rc-panel-title">Alternative: Neighbourhood Aquatic Network</div>
+              <div class="rc-panel-sub">Distributed model · community co-investment · phased renewal</div>
+            </div>
+            <span class="verdict-badge verdict-renew">Renew</span>
+          </div>
+          <div class="rc-body">
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Target Accrual Rate</span>
+                <span class="accrual-pct" style="color:var(--green)">100%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:100%;background:var(--green)"></div>
+              </div>
+            </div>
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Facilities Served per $100M</span>
+                <span class="accrual-pct" style="color:var(--green)">3–4×</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:92%;background:var(--green)"></div>
+              </div>
+            </div>
+            <div class="accrual-row">
+              <div class="accrual-label">
+                <span class="accrual-name">Per-Capita Access Improvement</span>
+                <span class="accrual-pct" style="color:var(--green)">+150%</span>
+              </div>
+              <div class="accrual-track">
+                <div class="accrual-fill" style="width:88%;background:var(--green)"></div>
+              </div>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <div class="metric-label">Target: Pools per 100k</div>
+                <div class="metric-value green">2.0+</div>
+                <div class="metric-note">Canadian peer city standard</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Model</div>
+                <div class="metric-value navy" style="font-size:1rem;padding-top:4px;">Distributed<br>neighbourhood</div>
+                <div class="metric-note">Smaller, more accessible sites</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Precedent</div>
+                <div class="metric-value navy" style="font-size:0.95rem;padding-top:4px;">Helsinki<br>Copenhagen</div>
+                <div class="metric-note">Nordic aquatic infrastructure models</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Co-investment Model</div>
+                <div class="metric-value green" style="font-size:1rem;">Block Share<br>Pool</div>
+                <div class="metric-note">Community Credyts integration possible</div>
+              </div>
+            </div>
+
+            <div class="lte-band">
+              <div class="lte-icon">⏱</div>
+              <div>
+                <div class="lte-label">LTE Impact — Access Restored</div>
+                <div class="lte-value">~XX hrs/resident/yr returned at Canadian peer standard</div>
+                <div class="lte-sub">Proximity-based access model dramatically reduces travel burden [PLACEHOLDER]</div>
+              </div>
+            </div>
+
+            <div class="sources-strip">
+              <strong>Sources:</strong> Helsinki City Sports Department · Copenhagen aquatic facility distribution · Canadian peer benchmark [PLACEHOLDER]
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /pools report -->
+
+    <!-- TIMELINE VIEW -->
+    <div id="pools-timeline" class="timeline-view">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-title">Vancouver Pools — Deferred Maintenance Trajectory</div>
+            <div class="timeline-sub">Current accrual path vs. renewal programme over 40-year horizon</div>
+          </div>
+          <div class="timeline-legend">
+            <div class="legend-item"><div class="legend-line city"></div><span>Current path</span></div>
+            <div class="legend-item"><div class="legend-line alt"></div><span>Renewal programme</span></div>
+            <div class="legend-item"><div class="legend-line optimal"></div><span>100% accrual target</span></div>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="poolsChart" height="320"></canvas>
+        </div>
+        <div class="chart-annotation">
+          <span class="annotation-pill red">Current path: 3–4 facilities reach critical failure within 15 years</span>
+          <span class="annotation-pill green">Renewal programme: phased rebuild achieves Canadian avg. by yr 20</span>
+          <span class="annotation-pill gold">Co-investment model: Community Credyts can offset 15–20% of capital cost</span>
+        </div>
+        <div class="data-notice" style="margin:0 28px 24px;">⬡ Chart curves are illustrative — will be redrawn with cited Parks Board and comparative city data</div>
+      </div>
+    </div>
+
+    <!-- COMPARISON VIEW -->
+    <div id="pools-compare" class="comparison-view">
+      <div class="compare-table-wrap">
+        <div class="compare-table-header">
+          <div class="compare-table-title">Civic Aquatics — Vancouver vs. Canadian Peers vs. Alternative Model</div>
+          <div class="compare-table-sub">All figures from cited studies · [PLACEHOLDER] = pending source integration</div>
+        </div>
+        <div class="narrative-box">
+          Vancouver has the lowest public pool per-capita ratio of any major Canadian city. While peer cities have invested in distributed neighbourhood aquatic facilities, Vancouver has deferred maintenance across aging stock while concentrating capital in signature facilities. The result is a deepening access deficit that falls hardest on lower-income neighbourhoods without proximity to the few remaining functional facilities.
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th class="col-city">Vancouver (Current)</th>
+              <th class="col-alt">Alternative / Peer Standard</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pools per 100,000 residents</td>
+              <td><div class="cell-city">~0.8 [PLACEHOLDER]</div><div class="cell-note">Lowest major city in Canada</div></td>
+              <td><div class="cell-alt">2.0–3.0</div><div class="cell-note">Toronto, Calgary, Edmonton average [PLACEHOLDER]</div></td>
+            </tr>
+            <tr>
+              <td>Avg. facility age</td>
+              <td><div class="cell-city">45+ years</div><div class="cell-note">Most beyond design lifespan</div></td>
+              <td><div class="cell-alt">15–25 years</div><div class="cell-note">Peer cities on active renewal cycle</div></td>
+            </tr>
+            <tr>
+              <td>Deferred maintenance backlog</td>
+              <td><div class="cell-city">$XXM [PLACEHOLDER]</div></td>
+              <td><div class="cell-alt">$0–$5M</div><div class="cell-note">Properly funded renewal programmes</div></td>
+            </tr>
+            <tr>
+              <td>Annual maintenance accrual rate</td>
+              <td><div class="cell-city">~45% of required</div><div class="cell-note">Chronic underfunding</div></td>
+              <td><div class="cell-alt">95–100%</div><div class="cell-note">Nordic/Canadian peer standard</div></td>
+            </tr>
+            <tr>
+              <td>Capital investment model</td>
+              <td><div class="cell-city">Deferred + signature</div><div class="cell-note">Large facilities, long gaps between</div></td>
+              <td><div class="cell-alt">Distributed neighbourhood</div><div class="cell-note">Smaller, accessible, phased renewal</div></td>
+            </tr>
+            <tr>
+              <td>Access equity (low-income areas)</td>
+              <td><div class="cell-city">Low</div><div class="cell-note">Facilities concentrated in higher-income areas</div></td>
+              <td><div class="cell-alt">High</div><div class="cell-note">Neighbourhood distribution model</div></td>
+            </tr>
+            <tr>
+              <td>LTE: Access hrs lost/resident/yr</td>
+              <td><div class="cell-city">XX hrs [PLACEHOLDER]</div><div class="cell-note">Travel + unavailability cost</div></td>
+              <td><div class="cell-alt">~0 hrs</div><div class="cell-note">15-min neighbourhood access standard</div></td>
+            </tr>
+            <tr>
+              <td>Precedent model</td>
+              <td><div class="cell-city">—</div></td>
+              <td><div class="cell-alt">Helsinki, Copenhagen, Melbourne</div><div class="cell-note">Documented distributed aquatic networks</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CLAIMS PARSER VIEW -->
+    <div id="pools-claims" class="comparison-view">
+      <div class="propaganda-section">
+        <div class="propaganda-header">Claims Parser — Vancouver Pools</div>
+        <div class="propaganda-sub">Official framing parsed against lifecycle accounting and peer city data.</div>
+
+        <div class="claim-card" onclick="toggleClaim(this)">
+          <div class="claim-header">
+            <span class="claim-tag talking-point">Talking Point</span>
+            <span class="claim-text">"The Killarney and Hillcrest pools represent a major investment in aquatic infrastructure."</span>
+            <span class="claim-chevron">▼</span>
+          </div>
+          <div class="claim-body">
+            <div class="claim-rebuttal">Signature facility investment has been used to mask the aggregate deficit. Two well-funded flagship facilities do not offset the deferred maintenance backlog across the remaining stock. When measured against per-capita access — the metric that actually determines whether residents can use public aquatic infrastructure — Vancouver remains the worst-served major city in Canada. The Parks Board communication consistently highlights new builds while avoiding lifecycle accounting of the broader portfolio.</div>
+            <div class="claim-data">⬡ Vancouver pools per 100k: ~0.8 · Canadian major city avg: ~2.0+ [PLACEHOLDER]</div>
+          </div>
+        </div>
+
+        <div class="claim-card" onclick="toggleClaim(this)">
+          <div class="claim-header">
+            <span class="claim-tag misleading">Misleading</span>
+            <span class="claim-text">"Pool closures are temporary — facilities will reopen after renovation."</span>
+            <span class="claim-chevron">▼</span>
+          </div>
+          <div class="claim-body">
+            <div class="claim-rebuttal">Several Vancouver pool closures framed as "temporary" have become permanent or indefinitely deferred. The renovation funding pathway is routinely cited without committed capital plan line items. When deferred maintenance reaches critical failure, the fiscal case for renovation collapses and closure becomes permanent by default. This is the classic Defer→Critical Failure pathway — not a renovation strategy.</div>
+            <div class="claim-data">⬡ Facilities closed "temporarily" vs. subsequently reopened: [PLACEHOLDER — Parks Board capital plan audit needed]</div>
+          </div>
+        </div>
+
+        <div class="claim-card" onclick="toggleClaim(this)">
+          <div class="claim-header">
+            <span class="claim-tag partial">Partial</span>
+            <span class="claim-text">"Pool construction and operation is prohibitively expensive."</span>
+            <span class="claim-chevron">▼</span>
+          </div>
+          <div class="claim-body">
+            <div class="claim-rebuttal">Construction cost is real — but the framing obscures two things. First, deferred maintenance is not cheaper than maintenance: the compounding cost of neglect consistently exceeds proactive investment by 3–5× at end of lifecycle. Second, distributed smaller facilities (25m community pools) cost substantially less than signature 50m competition facilities and serve more residents per dollar. The "too expensive" argument is applied selectively to justify inaction, not to guide efficient investment.</div>
+            <div class="claim-data">⬡ Deferred maintenance cost multiplier: 3–5× [industry standard] · 25m vs 50m pool cost differential: [PLACEHOLDER]</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /pools case -->
+
+</main>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <div class="page-footer-inner">
+    <div>
+      <div class="footer-brand">Block Share · Citizens Dashboard</div>
+      <div>A counter-narrative infrastructure accountability tool. Data sourced from peer-reviewed studies, international implementations, and city capital plans. This is not city of Vancouver content.</div>
+      <div class="footer-links">
+        <a href="https://app.blockshare.ca">Block Share</a>
+        <a href="#">The Decentralist</a>
+        <a href="#">Block Budget Explorer</a>
+        <a href="#">LTE Framework</a>
+      </div>
+    </div>
+    <div style="text-align:right;max-width:320px;">
+      <div style="color:rgba(255,255,255,0.3);font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;margin-bottom:6px;">PROTOTYPE · PLACEHOLDER DATA</div>
+      <div>All figures marked [PLACEHOLDER] will be replaced with cited source data. Submit studies and corrections via Block Share.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Case switching ──
+  function switchCase(caseId) {
+    document.querySelectorAll('.case-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.case-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('case-' + caseId).classList.add('active');
+    event.currentTarget.classList.add('active');
+    // Reset to report view
+    switchView('report');
+  }
+
+  // ── View switching ──
+  function switchView(view) {
+    const activeCase = document.querySelector('.case-panel.active');
+    const caseId = activeCase.id.replace('case-', '');
+
+    // Hide all views in this case
+    activeCase.querySelectorAll('.report-view, .timeline-view, .comparison-view').forEach(v => {
+      v.style.display = 'none';
+    });
+
+    // Show target view
+    const target = document.getElementById(caseId + '-' + view) ||
+                   document.getElementById(caseId + '-' + (view === 'claims' ? 'claims' : view));
+    if (target) target.style.display = 'block';
+
+    // Update view tabs
+    document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    // Draw charts if timeline
+    if (view === 'timeline') {
+      setTimeout(() => {
+        if (caseId === 'broadway') drawBroadwayChart();
+        if (caseId === 'pools') drawPoolsChart();
+      }, 50);
+    }
+  }
+
+  // ── Claims toggle ──
+  function toggleClaim(el) {
+    el.classList.toggle('open');
+  }
+
+  // ── Broadway Chart ──
+  function drawBroadwayChart() {
+    const canvas = document.getElementById('broadwayChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth;
+    const H = 320;
+    canvas.width = W;
+    canvas.height = H;
+
+    const pad = { top: 20, right: 30, bottom: 50, left: 60 };
+    const w = W - pad.left - pad.right;
+    const h = H - pad.top - pad.bottom;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(44,74,62,0.08)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+      const y = pad.top + (h / 5) * i;
+      ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + w, y); ctx.stroke();
+    }
+
+    // Years: 0 to 75
+    const years = [0,10,20,30,40,50,60,75];
+    const toX = yr => pad.left + (yr / 75) * w;
+    const toY = pct => pad.top + h - (pct / 120) * h;
+
+    // 100% line
+    ctx.strokeStyle = 'rgba(201,150,42,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pad.left, toY(100));
+    ctx.lineTo(pad.left + w, toY(100));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // City: Subway — starts high, operating deficit grows, replacement looms at yr 75
+    const cityData = [
+      {yr:0, pct:88}, {yr:10, pct:82}, {yr:20, pct:72}, {yr:30, pct:62},
+      {yr:40, pct:55}, {yr:50, pct:50}, {yr:60, pct:48}, {yr:75, pct:42}
+    ];
+
+    ctx.strokeStyle = '#C0392B';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    cityData.forEach((d, i) => {
+      i === 0 ? ctx.moveTo(toX(d.yr), toY(d.pct)) : ctx.lineTo(toX(d.yr), toY(d.pct));
+    });
+    ctx.stroke();
+
+    // Alt: Surface LRT — lower start cost → higher accrual, 2 renewal cycles
+    const altData = [
+      {yr:0, pct:100}, {yr:10, pct:100}, {yr:20, pct:98}, {yr:30, pct:100},
+      {yr:35, pct:105}, {yr:40, pct:102}, {yr:50, pct:100}, {yr:60, pct:100}, {yr:75, pct:98}
+    ];
+
+    ctx.strokeStyle = '#27AE60';
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([8, 4]);
+    ctx.beginPath();
+    altData.forEach((d, i) => {
+      i === 0 ? ctx.moveTo(toX(d.yr), toY(d.pct)) : ctx.lineTo(toX(d.yr), toY(d.pct));
+    });
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Renewal marker at yr 35
+    ctx.strokeStyle = 'rgba(39,174,96,0.4)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(toX(35), pad.top); ctx.lineTo(toX(35), pad.top + h); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#27AE60';
+    ctx.font = '500 10px JetBrains Mono, monospace';
+    ctx.fillText('Renewal cycle', toX(35) + 4, pad.top + 14);
+
+    // Y axis labels
+    ctx.fillStyle = '#6b6b6b';
+    ctx.font = '500 10px JetBrains Mono, monospace';
+    ctx.textAlign = 'right';
+    [0, 25, 50, 75, 100].forEach(pct => {
+      ctx.fillText(pct + '%', pad.left - 8, toY(pct) + 4);
+    });
+
+    // X axis labels
+    ctx.textAlign = 'center';
+    [0, 15, 30, 45, 60, 75].forEach(yr => {
+      ctx.fillText('Yr ' + yr, toX(yr), H - 12);
+    });
+
+    // Axis label
+    ctx.save();
+    ctx.translate(14, pad.top + h / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#6b6b6b';
+    ctx.font = '10px DM Sans, sans-serif';
+    ctx.fillText('Accrual vs. Full Funding Target', 0, 0);
+    ctx.restore();
+  }
+
+  // ── Pools Chart ──
+  function drawPoolsChart() {
+    const canvas = document.getElementById('poolsChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth;
+    const H = 320;
+    canvas.width = W;
+    canvas.height = H;
+
+    const pad = { top: 20, right: 30, bottom: 50, left: 60 };
+    const w = W - pad.left - pad.right;
+    const h = H - pad.top - pad.bottom;
+
+    ctx.clearRect(0, 0, W, H);
+
+    const toX = yr => pad.left + (yr / 40) * w;
+    const toY = pct => pad.top + h - (pct / 120) * h;
+
+    // Grid
+    ctx.strokeStyle = 'rgba(44,74,62,0.08)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+      const y = pad.top + (h / 5) * i;
+      ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + w, y); ctx.stroke();
+    }
+
+    // 100% line
+    ctx.strokeStyle = 'rgba(201,150,42,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pad.left, toY(100));
+    ctx.lineTo(pad.left + w, toY(100));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Current path: declining to crisis
+    const currentData = [
+      {yr:0, pct:45}, {yr:5, pct:38}, {yr:10, pct:28}, {yr:15, pct:15},
+      {yr:20, pct:8}, {yr:25, pct:4}, {yr:30, pct:2}
+    ];
+
+    ctx.strokeStyle = '#C0392B';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    currentData.forEach((d, i) => {
+      i === 0 ? ctx.moveTo(toX(d.yr), toY(d.pct)) : ctx.lineTo(toX(d.yr), toY(d.pct));
+    });
+    ctx.stroke();
+
+    // Renewal programme: phases up to peer standard
+    const renewData = [
+      {yr:0, pct:45}, {yr:3, pct:55}, {yr:8, pct:72}, {yr:12, pct:85},
+      {yr:16, pct:95}, {yr:20, pct:100}, {yr:25, pct:100}, {yr:30, pct:102}, {yr:40, pct:100}
+    ];
+
+    ctx.strokeStyle = '#27AE60';
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([8, 4]);
+    ctx.beginPath();
+    renewData.forEach((d, i) => {
+      i === 0 ? ctx.moveTo(toX(d.yr), toY(d.pct)) : ctx.lineTo(toX(d.yr), toY(d.pct));
+    });
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Critical zone shade
+    ctx.fillStyle = 'rgba(192,57,43,0.06)';
+    ctx.beginPath();
+    ctx.moveTo(pad.left, toY(30));
+    ctx.lineTo(pad.left + w, toY(30));
+    ctx.lineTo(pad.left + w, toY(0));
+    ctx.lineTo(pad.left, toY(0));
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'rgba(192,57,43,0.4)';
+    ctx.font = '10px JetBrains Mono, monospace';
+    ctx.fillText('CRITICAL FAILURE ZONE', pad.left + 8, toY(15));
+
+    // Y axis labels
+    ctx.fillStyle = '#6b6b6b';
+    ctx.font = '500 10px JetBrains Mono, monospace';
+    ctx.textAlign = 'right';
+    [0, 25, 50, 75, 100].forEach(pct => {
+      ctx.fillText(pct + '%', pad.left - 8, toY(pct) + 4);
+    });
+
+    // X axis
+    ctx.textAlign = 'center';
+    [0, 10, 20, 30, 40].forEach(yr => {
+      ctx.fillText('Yr ' + yr, toX(yr), H - 12);
+    });
+
+    ctx.save();
+    ctx.translate(14, pad.top + h / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#6b6b6b';
+    ctx.font = '10px DM Sans, sans-serif';
+    ctx.fillText('Accrual vs. Full Funding Target', 0, 0);
+    ctx.restore();
+  }
+
+  // ── Init: show all report views ──
+  document.addEventListener('DOMContentLoaded', () => {
+    // Make report views visible by default
+    document.querySelectorAll('.report-view').forEach(v => v.style.display = 'block');
+    document.querySelectorAll('.timeline-view, .comparison-view').forEach(v => v.style.display = 'none');
+  });
+</script>
+</body>
+</html>

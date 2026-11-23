@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What If a Table at Your Next Event Could Change How People Think About Money? | Block Share</title>
+<meta name="description" content="Introducing the Block Share Pop-Up Community Shoppe — a portable, pay-what-you-can alternative economy experience for events, schools, organisations, and gatherings across Vancouver.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest: #1E3A2F;
+  --gold: #C8963E;
+  --cream: #F7F3EB;
+  --navy: #1A2744;
+  --sage: #4A7C59;
+  --teal: #1A5C6B;
+  --light-gold: #F2DFA8;
+  --white: #FFFFFF;
+  --text: #2a2a38;
+  --muted: #6a6a7a;
+  --border: rgba(200,150,62,0.2);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* ── ARTICLE WRAPPER ── */
+.article {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem 6rem;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  background: var(--forest);
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.masthead-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 3rem;
+}
+
+.pub-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.masthead h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.9rem, 5vw, 2.85rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: 1.1rem;
+}
+
+.masthead h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.masthead .deck {
+  font-size: 1.05rem;
+  color: rgba(245,240,232,0.72);
+  line-height: 1.65;
+  max-width: 600px;
+}
+
+.byline {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: rgba(245,240,232,0.45);
+  text-transform: uppercase;
+}
+
+.byline-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold); opacity: 0.5; }
+
+/* ── ARTICLE BODY ── */
+.article-body {
+  padding-top: 2.75rem;
+}
+
+.article-body p {
+  font-size: 1.02rem;
+  line-height: 1.82;
+  color: var(--text);
+  margin-bottom: 1.4rem;
+}
+
+.article-body p strong {
+  font-weight: 600;
+  color: var(--navy);
+}
+
+/* ── DROP CAP ── */
+.drop-cap::first-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.2rem;
+  font-weight: 900;
+  color: var(--forest);
+  float: left;
+  line-height: 0.75;
+  margin-right: 0.1em;
+  margin-top: 0.12em;
+}
+
+/* ── SUBHEADINGS ── */
+.article-body h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin: 2.75rem 0 0.9rem;
+  line-height: 1.2;
+}
+
+.article-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 1.75rem 0 0.6rem;
+}
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  border-left: 4px solid var(--gold);
+  padding: 1.1rem 1.5rem 1.1rem 1.75rem;
+  margin: 2.25rem 0;
+  background: rgba(200,150,62,0.06);
+  border-radius: 0 4px 4px 0;
+}
+
+.pull-quote p {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem !important;
+  font-style: italic;
+  color: var(--navy) !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+}
+
+/* ── CALLOUT BOX ── */
+.callout-box {
+  background: var(--forest);
+  color: var(--cream);
+  border-radius: 6px;
+  padding: 1.75rem 2rem;
+  margin: 2.25rem 0;
+}
+
+.callout-box h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 0 0 0.75rem;
+}
+
+.callout-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.callout-box ul li {
+  font-size: 0.92rem;
+  color: rgba(245,240,232,0.82);
+  padding: 0.25rem 0 0.25rem 1.1rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.callout-box ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 0.75rem;
+  top: 0.38rem;
+}
+
+/* ── AUDIENCE GRID ── */
+.audience-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 0.85rem;
+  margin: 1.25rem 0 2rem;
+}
+
+.audience-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 1rem 1.1rem;
+}
+
+.aud-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+
+.audience-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 0.25rem;
+}
+
+.audience-card p {
+  font-size: 0.78rem !important;
+  color: var(--muted) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+/* ── CTA ── */
+.cta-block {
+  background: var(--light-gold);
+  border: 1px solid rgba(200,150,62,0.35);
+  border-radius: 6px;
+  padding: 2rem 2.25rem;
+  margin: 2.75rem 0 1rem;
+  text-align: center;
+}
+
+.cta-block h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 0.6rem;
+}
+
+.cta-block p {
+  font-size: 0.95rem !important;
+  color: var(--navy) !important;
+  margin-bottom: 1.25rem !important;
+  line-height: 1.65 !important;
+}
+
+.cta-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.cta-btn {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 3px;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.cta-btn.primary {
+  background: var(--forest);
+  color: var(--cream);
+}
+
+.cta-btn.secondary {
+  background: transparent;
+  color: var(--forest);
+  border: 1.5px solid var(--forest);
+}
+
+/* ── ORNAMENT ── */
+.ornament {
+  text-align: center;
+  margin: 2.5rem 0;
+  color: var(--gold);
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+}
+
+/* ── ARTICLE TAG BAR ── */
+.tag-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(30,58,47,0.08);
+  color: var(--forest);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+}
+
+/* ── FOOTER ── */
+.art-footer {
+  background: var(--navy);
+  color: rgba(245,240,232,0.45);
+  text-align: center;
+  padding: 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+}
+
+.art-footer a { color: var(--gold); text-decoration: none; }
+
+@media (max-width: 580px) {
+  .audience-grid { grid-template-columns: 1fr 1fr; }
+  .cta-links { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="pub-eyebrow">Block Share · Vancouver · March 2026</div>
+    <h1>What If a Table at Your Next Event Could Change<br>How People Think About <em>Money?</em></h1>
+    <p class="deck">Introducing the Block Share Pop-Up Community Shoppe — a portable, pay-what-you-can experience that brings the alternative economy to wherever people already gather.</p>
+    <div class="byline">
+      <span>Ward Stirrat</span>
+      <span class="byline-dot"></span>
+      <span>Block Share</span>
+      <span class="byline-dot"></span>
+      <span>March 16, 2026</span>
+      <span class="byline-dot"></span>
+      <span>Community Economy</span>
+    </div>
+  </div>
+</div>
+
+<div class="article">
+<div class="article-body">
+
+<p class="drop-cap">There is a game show most of us grew up watching. Contestants compete to guess the correct price of things — a washing machine, a vacation, a car — and the one closest to the real number wins. It's entertaining. It is also, without meaning to be, one of the most honest descriptions of how we are taught to understand value in our economy: <strong>the price is always right, and your job is to guess it.</strong></p>
+
+<p>But what if the price has never been right? What if the sticker on every product in every store is missing most of the information you actually need to make a meaningful choice?</p>
+
+<p>This is the question at the heart of the <strong>Block Share Pop-Up Community Shoppe</strong> — a portable, pay-what-you-can alternative economy experience that can appear at your next event, in your school hallway, at your community market, or in a mall corridor, and spend an afternoon quietly reframing how the people who visit it think about what things cost and what they are worth.</p>
+
+<div class="ornament">◆  ◆  ◆</div>
+
+<h2>The Price Tag Problem</h2>
+
+<p>Every price tag in the conventional economy tells you one number: the dollar amount required to transfer ownership. What it does not tell you is the number of hours of your working life that purchase represents. It does not show you how much of that dollar leaves your neighbourhood forever, never to return as wages or services or community investment. It does not show the ecological debt embedded in the supply chain. It does not show you the difference between a transaction that keeps community wealth circulating and one that extracts it.</p>
+
+<p>We call this the <strong>Real Price Tag</strong> problem — and it is not a flaw in the system. It is a feature. An economy built on extraction depends on its participants not asking these questions.</p>
+
+<div class="pull-quote">
+  <p>"The Shoppe doesn't tell people what to think. It puts two price tags on the same thing and lets them decide what that means."</p>
+</div>
+
+<p>The Pop-Up Shoppe addresses this not with a lecture, but with a table. Every item on the table wears two price tags: the conventional dollar price, and the Community Credyts equivalent — the alternative currency issued by the Block Share community economy. Alongside them sit ecological units: a certificate for one square metre of farmland, an offset for one kilogram of carbon, a service voucher redeemable in labour rather than dollars.</p>
+
+<p>The table doesn't tell people what to think. It puts two price tags on the same thing and lets them decide what that means.</p>
+
+<div class="ornament">◆  ◆  ◆</div>
+
+<h2>How the Shoppe Works</h2>
+
+<p>The setup is deliberately simple. A table. A sandwich board. A wooden price tag on every item. A host who can answer questions and hand out a small card called a <strong>Quest Card</strong>.</p>
+
+<p>The Quest Card is a recipe-card-sized prompt — a single task matched to the interests and life stage of the person holding it. It might ask you to photograph five trees in your neighbourhood and map them. It might ask you to scan the UPC barcodes on five products in a grocery store and discover how many of them are actually made by the same three corporations. It might ask you to calculate how many hours of your working life your monthly rent represents.</p>
+
+<p>Completing the Quest and getting a neighbour to vouch for your completion earns you <strong>Community Credyts</strong> — the Block Share complementary currency — loaded onto your new <strong>Vancouver Community Card</strong>. Those Credyts can be spent at participating local businesses, traded for services, or used to purchase ecological units that represent a real stake in the community's shared resources.</p>
+
+<p>The Community Card itself is a table product. It comes in editions matched to different communities and interests — a Visitor+ edition for tourists, a Green+ edition for ecologically-minded residents, a Dine Out+ edition for food-focused participants, and more to come. Each card wears its own price tag, showing both the dollar cost and the Credyts cost of entry. Some functions are active on day one; others are marked "pending" in the digital interface, visible but not yet live — a deliberate signal that <strong>early card holders are not buying a finished product, they are joining something that is being built.</strong></p>
+
+<div class="ornament">◆  ◆  ◆</div>
+
+<h2>The Symbol That Means Everything</h2>
+
+<p>Every element of the Shoppe experience — the table, the Quest Cards, the Community Cards, the door stickers at participating merchants — carries the same small icon: a wooden price tag shape, the kind you might find on a vintage suitcase or a market stall. It is a deliberately familiar object repurposed as a signal.</p>
+
+<p>On a merchant's door, that symbol means: <em>Community Credyts accepted here.</em> On a Quest Card, it marks the connection between the action and the broader economy it builds. On the Shoppe's sandwich board, it simply asks a question that most people have never thought to ask: <em>Is the price you can see the real price of this thing?</em></p>
+
+<div class="callout-box">
+  <h3>What the Shoppe Offers Your Event or Organisation</h3>
+  <ul>
+    <li>A self-contained "alternative table" that can appear at any gathering without requiring the host to advocate for any particular position</li>
+    <li>A conversation starter that meets people where they are — curious, sceptical, or simply bored between sessions</li>
+    <li>Age and audience-appropriate Quest Cards matched to whoever shows up — from elementary students to seniors to sports clubs</li>
+    <li>A hands-on demonstration of a working complementary currency, not a theoretical one</li>
+    <li>The "Price is NOT Right" talk or workshop, available to book for your group as a standalone 45–60 minute presentation</li>
+    <li>An onboarding pathway for members who want to go deeper — without pressure on those who don't</li>
+  </ul>
+</div>
+
+<div class="ornament">◆  ◆  ◆</div>
+
+<h2>Who This Is For</h2>
+
+<p>The Shoppe is designed to work in any space where people already gather with at least passing curiosity about the world around them. It does not require its hosts to take a position. It does not ask an organisation to formally endorse an alternative economic model. It simply offers their members or attendees an interesting table with interesting things on it, and lets the conversations that follow take their own shape.</p>
+
+<p>The groups we are actively seeking to work with include:</p>
+
+<div class="audience-grid">
+  <div class="audience-card">
+    <div class="aud-label">Schools</div>
+    <h4>Elementary to University</h4>
+    <p>Quests calibrated by age. From UPC code investigations for younger students to LTE calculations for economics classes.</p>
+  </div>
+  <div class="audience-card">
+    <div class="aud-label">Community Organisations</div>
+    <h4>Clubs, Societies & Nonprofits</h4>
+    <p>The Shoppe as a fundraiser alternative, or as a member engagement tool at your AGM, fair, or open house.</p>
+  </div>
+  <div class="audience-card">
+    <div class="aud-label">Event Organisers</div>
+    <h4>Markets, Festivals & Fairs</h4>
+    <p>One vendor table that offers something genuinely different — and sends people home with something to think about.</p>
+  </div>
+  <div class="audience-card">
+    <div class="aud-label">Sports Clubs</div>
+    <h4>Teams & Athletic Groups</h4>
+    <p>Micro-asset and community resource Quests designed around the practical economics of shared equipment and facilities.</p>
+  </div>
+  <div class="audience-card">
+    <div class="aud-label">Faith & Cultural Groups</div>
+    <h4>Community Gatherings</h4>
+    <p>The Shoppe's Pay What You Can model and community-first values align naturally with stewardship and reciprocity traditions.</p>
+  </div>
+  <div class="audience-card">
+    <div class="aud-label">Civic &amp; Advocacy Groups</div>
+    <h4>Housing, Environment & Justice</h4>
+    <p>The Real Price Tag and LEI frameworks make abstract economic arguments concrete and personal in minutes.</p>
+  </div>
+</div>
+
+<p>You do not need to understand Community Credyts or Block Share to host a Shoppe. You need a table, a few hours, and curiosity about what happens when people are shown a different way to think about the things they buy every day.</p>
+
+<div class="ornament">◆  ◆  ◆</div>
+
+<h2>What "The Price is NOT Right" Talk Covers</h2>
+
+<p>For groups that want to go further than a table, the 45–60 minute talk or workshop of the same name walks participants through the core frameworks behind the Shoppe experience. No economics background required.</p>
+
+<p>The session introduces the <strong>Lifetime Efficiency Index (LEI)</strong> — a personal calculation of how many hours of life your cost of living actually consumes, expressed not in dollars but in time. It introduces the <strong>Financial Extraction Index (FEI)</strong>, which measures how much of the economic activity in a given city flows out of the community rather than staying and circulating. Vancouver's current FEI score — one of the highest of any city studied — is a reliable conversation-starter.</p>
+
+<p>Participants leave with a Quest Card, a Community Card, and a different question in their heads than the one they arrived with. The Shoppe table runs alongside the talk for those who want a hands-on experience rather than a presentation.</p>
+
+<div class="ornament">◆  ◆  ◆</div>
+
+<h2>The Bigger Picture</h2>
+
+<p>The Pop-Up Shoppe is not, ultimately, a market stall. It is the street-level entry point into a community economy infrastructure that has been fifteen years in development — a complementary currency backed by real assets, a neighbourhood resource-sharing platform, a permanent land trust model, and an ecological accounting system that puts a legible price on things the conventional economy has always treated as free.</p>
+
+<p>None of that requires explanation at the table. The table works because it is concrete, immediate, and slightly surprising. Someone picks up a Quest Card. Someone else asks why the farmland certificate costs twelve Community Credyts. A third person asks what Community Credyts are. The conversation begins.</p>
+
+<p>That is enough. The system — like all resilient systems — builds itself from the edges in. One table. One conversation. One person who leaves knowing that the price they saw was not the real price of the thing.</p>
+
+<div class="cta-block">
+  <h3>Bring the Shoppe to Your Event or Organisation</h3>
+  <p>We are actively booking Pop-Up Shoppe appearances and "The Price is NOT Right" talks for spring and summer 2026. If you are organising a school event, community gathering, market, conference, or club meeting and want to offer your members something genuinely different — get in touch.</p>
+  <div class="cta-links">
+    <a href="https://app.blockshare.ca" class="cta-btn primary">Book a Talk or Shoppe</a>
+    <a href="https://app.blockshare.ca" class="cta-btn secondary">Learn About Community Credyts</a>
+  </div>
+</div>
+
+<div class="tag-bar">
+  <span class="tag">Community Economy</span>
+  <span class="tag">Community Credyts</span>
+  <span class="tag">Alternative Currency</span>
+  <span class="tag">Block Share</span>
+  <span class="tag">Pop-Up Shoppe</span>
+  <span class="tag">Vancouver</span>
+  <span class="tag">Guerrilla Marketing</span>
+  <span class="tag">Education</span>
+  <span class="tag">Lifetime Efficiency Index</span>
+</div>
+
+</div><!-- end .article-body -->
+</div><!-- end .article -->
+
+<div class="art-footer">
+  Block Share · Community Credyts · <a href="https://app.blockshare.ca">app.blockshare.ca</a> · Vancouver, BC · March 2026
+</div>
+
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share — Block Share</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest:#0f2b1d; --forest-light:#163d2a; --navy:#1E4D7B; --slate:#2c3e50;
+            --gold:#f9a825; --gold-dim:#c8891e; --gold-light:#fdd835;
+            --terracotta:#C4593A; --terracotta-light:#EDD9D1;
+            --cream:#faf6f0; --cream-dark:#f0ebe3; --sand:#EDE6D6; --sand-dark:#D9CEBC;
+            --offwhite:#FAF8F4;
+            --text:#1a1a1a; --text-light:#555; --text-muted:#7A7068;
+            --green:#4caf50; --red:#d84315; --orange:#ef6c00;
+            --w10:rgba(255,255,255,.1); --w15:rgba(255,255,255,.15);
+            --w60:rgba(255,255,255,.6); --w80:rgba(255,255,255,.8); --w85:rgba(255,255,255,.85);
+        }
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        body{font-family:'DM Sans',sans-serif;line-height:1.6;color:var(--text);background:var(--cream)}
+        h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
+
+        /* NAV */
+        nav{background:var(--forest);border-bottom:1px solid var(--w10);position:sticky;top:0;z-index:1000}
+        .nav-inner{max-width:1200px;margin:0 auto;padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center}
+        .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none;letter-spacing:-.02em}
+        .nav-logo span{color:var(--gold)}
+        .nav-links{display:flex;gap:.15rem;list-style:none}
+        .nav-links a{color:var(--w60);text-decoration:none;font-size:.85rem;font-weight:500;padding:.45rem .85rem;border-radius:6px;transition:all .25s}
+        .nav-links a:hover,.nav-links a.active{color:#fff;background:var(--w10)}
+        .nav-cta{background:var(--gold);color:var(--forest);padding:.45rem 1.1rem;border-radius:6px;font-weight:600;font-size:.85rem;text-decoration:none;transition:all .25s}
+        .nav-cta:hover{background:var(--gold-light)}
+        .mobile-menu{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+
+        /* COMMON */
+        .section{padding:5rem 2rem}
+        .section-inner{max-width:1100px;margin:0 auto}
+        .eyebrow{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--gold-dim);margin-bottom:.75rem}
+        .section-light{background:var(--cream)}
+        .section-warm{background:var(--cream-dark)}
+        .section-forest{background:var(--forest);color:#fff}
+        .section-forest .eyebrow{color:var(--gold)}
+        .section-navy{background:linear-gradient(135deg,var(--navy) 0%,var(--slate) 100%);color:#fff}
+        .section-navy .eyebrow{color:var(--gold)}
+        .btn-gold{background:var(--gold);color:var(--forest);padding:.85rem 2rem;border-radius:8px;font-weight:600;text-decoration:none;font-size:.95rem;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem;border:none;cursor:pointer}
+        .btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+        .btn-ghost{border:1.5px solid var(--w60);color:#fff;padding:.85rem 2rem;border-radius:8px;font-weight:500;text-decoration:none;font-size:.95rem;transition:all .25s}
+        .btn-ghost:hover{border-color:#fff;background:var(--w10)}
+
+        /* HERO */
+        .hero{background:var(--forest);color:#fff;padding:5rem 2rem;text-align:center;position:relative;overflow:hidden}
+        .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--forest-light) 0%,transparent 60%)}
+        .hero-inner{position:relative;z-index:1;max-width:800px;margin:0 auto}
+        .hero .eyebrow{color:var(--gold);margin-bottom:1rem;justify-content:center;display:flex;align-items:center;gap:.5rem}
+        .hero .eyebrow::before{content:'';width:24px;height:2px;background:var(--gold)}
+        .hero h1{font-size:3.2rem;margin-bottom:1.25rem;letter-spacing:-.02em}
+        .hero h1 em{font-style:italic;color:var(--gold)}
+        .hero p{font-size:1.1rem;color:var(--w85);max-width:600px;margin:0 auto 2rem;line-height:1.7}
+        .hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:3rem}
+        .hero-stat{text-align:center}
+        .hero-stat .val{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:600;color:var(--gold)}
+        .hero-stat .label{font-size:.8rem;color:var(--w85);margin-top:.2rem}
+
+        /* HOW */
+        .how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2.5rem}
+        .how-step{padding:2rem 1.5rem;border-radius:12px;background:var(--w10);border:1px solid var(--w10)}
+        .how-num{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--gold);font-weight:600;margin-bottom:1rem;padding:4px 10px;background:rgba(249,168,37,.12);border-radius:4px;display:inline-block}
+        .how-step h3{font-size:1.15rem;margin-bottom:.5rem}
+        .how-step p{font-size:.85rem;color:var(--w85);line-height:1.6}
+
+        /* ── BROWSE SECTION — the new heart of the page ── */
+        .browse-section{background:var(--cream-dark);padding:4rem 2rem}
+        .browse-inner{max-width:1100px;margin:0 auto}
+        .browse-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.75rem;gap:1rem;flex-wrap:wrap}
+        .browse-header-left h2{font-size:2rem;color:var(--text);margin-top:.4rem}
+
+        /* Filter bar — always visible, horizontal */
+        .filter-bar{background:#fff;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.75rem;border:1px solid var(--sand-dark);display:flex;flex-direction:column;gap:1.25rem}
+        .filter-row{display:flex;flex-direction:column;gap:.6rem}
+        .filter-label{font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted)}
+        .pill-strip{display:flex;gap:.5rem;flex-wrap:wrap}
+        .pill{font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.45rem 1rem;border-radius:100px;border:1.5px solid var(--sand-dark);background:var(--offwhite);color:var(--text-muted);cursor:pointer;transition:all .18s ease;font-weight:500;white-space:nowrap}
+        .pill:hover{border-color:#aaa;color:var(--text)}
+        .pill.active-terra{border-color:var(--terracotta);background:var(--terracotta-light);color:var(--terracotta);font-weight:600}
+        .pill.active-navy{border-color:var(--navy);background:rgba(30,77,123,.1);color:var(--navy);font-weight:600}
+        .pill.active-gold{border-color:var(--gold-dim);background:rgba(249,168,37,.15);color:#a06800;font-weight:600}
+        .filter-divider{width:1px;background:var(--sand-dark);align-self:stretch;margin:0 .25rem}
+
+        /* Live count bar */
+        .count-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;min-height:28px}
+        .count-label{font-size:.82rem;color:var(--text-muted)}
+        .count-label strong{color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.9rem}
+        .clear-btn{font-size:.78rem;color:var(--terracotta);background:none;border:none;cursor:pointer;font-weight:600;padding:4px 8px;border-radius:6px;transition:background .15s;display:none;font-family:'DM Sans',sans-serif}
+        .clear-btn:hover{background:var(--terracotta-light)}
+        .clear-btn.visible{display:block}
+
+        /* Item grid */
+        .item-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+        .item-card{background:#fff;border-radius:14px;overflow:hidden;border:1.5px solid var(--sand-dark);transition:all .28s;cursor:pointer}
+        .item-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.08);border-color:#bbb}
+        .item-card-top{padding:1.25rem 1.25rem .75rem;display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+        .item-icon-wrap{width:48px;height:48px;border-radius:12px;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+        .item-cat-pill{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;padding:3px 8px;border-radius:4px;background:var(--cream-dark);color:var(--text-muted);white-space:nowrap}
+        .item-card-body{padding:0 1.25rem 1.25rem}
+        .item-name{font-size:1rem;color:var(--text);margin-bottom:.25rem;font-family:'DM Serif Display',serif;font-weight:400}
+        .item-meta{font-size:.78rem;color:var(--text-light);margin-bottom:.6rem;line-height:1.5}
+        .item-footer{display:flex;align-items:center;justify-content:space-between}
+        .item-dist{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text-muted);background:var(--cream-dark);padding:3px 8px;border-radius:4px}
+        .item-avail{font-size:.72rem;font-weight:600;display:flex;align-items:center;gap:.3rem}
+        .item-avail.now{color:var(--green)}
+        .item-avail.soon{color:var(--orange)}
+        .dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+
+        /* Empty state */
+        .empty-state{text-align:center;padding:4rem 2rem;display:none}
+        .empty-state.visible{display:block}
+        .empty-icon{font-size:2.5rem;margin-bottom:1rem}
+        .empty-state p{color:var(--text-muted);font-size:.9rem}
+
+        /* SAVINGS */
+        .savings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem}
+        .savings-card{text-align:center;padding:2rem 1rem}
+        .savings-card .val{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:600;color:var(--gold)}
+        .savings-card .label{font-size:.85rem;color:var(--w85);margin-top:.35rem}
+
+        /* PRINCIPLES */
+        .principles{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;margin-top:2.5rem}
+        .principle-list{display:flex;flex-direction:column;gap:1.25rem}
+        .principle{display:flex;gap:1rem;align-items:start}
+        .principle-icon{width:40px;height:40px;border-radius:10px;background:var(--w10);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+        .principle h4{font-family:'DM Sans',sans-serif;font-size:.95rem;color:#fff;margin-bottom:.15rem;font-weight:600}
+        .principle p{font-size:.85rem;color:var(--w85)}
+        .impact-card{background:var(--w10);border:1px solid var(--w15);border-radius:16px;padding:2.5rem}
+        .impact-card h3{font-size:1.3rem;margin-bottom:1.5rem;color:#fff}
+        .impact-stat{margin-bottom:1.5rem}
+        .impact-stat .big{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:600;color:var(--gold)}
+        .impact-stat .note{font-size:.85rem;color:var(--w85)}
+
+        /* CTA */
+        .cta-section{padding:5rem 2rem;text-align:center;position:relative}
+        .cta-section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:100px;height:3px;background:var(--gold)}
+        .cta-inner{max-width:600px;margin:0 auto}
+        .cta-inner h2{color:#fff;font-size:2.2rem;margin-bottom:1rem}
+        .cta-inner p{color:var(--w85);margin-bottom:2.5rem;font-size:1.05rem}
+        .cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+        /* FOOTER */
+        footer{background:#0a1a2a;color:#fff;padding:3.5rem 2rem 2rem}
+        .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem}
+        .footer-brand p{color:var(--w80);font-size:.85rem;margin-top:.75rem;line-height:1.6;max-width:280px}
+        footer h4{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:1rem}
+        footer ul{list-style:none}
+        footer li{margin-bottom:.5rem}
+        footer a{color:var(--w80);text-decoration:none;font-size:.85rem;transition:color .2s}
+        footer a:hover{color:#fff}
+        .footer-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid var(--w10);display:flex;justify-content:space-between;font-size:.75rem;color:var(--w80)}
+
+        /* RESPONSIVE */
+        @media(max-width:900px){
+            .hero h1{font-size:2.4rem}
+            .how-grid{grid-template-columns:repeat(2,1fr)}
+            .principles{grid-template-columns:1fr}
+            .savings-grid{grid-template-columns:1fr}
+            .footer-inner{grid-template-columns:1fr 1fr}
+            .item-grid{grid-template-columns:repeat(2,1fr)}
+        }
+        @media(max-width:600px){
+            .nav-links{display:none}.mobile-menu{display:block}
+            .hero h1{font-size:2rem}
+            .hero-stats{flex-direction:column;gap:1rem}
+            .how-grid{grid-template-columns:1fr}
+            .footer-inner{grid-template-columns:1fr}
+            .footer-bottom{flex-direction:column;gap:.5rem}
+            .item-grid{grid-template-columns:1fr}
+            .browse-header{flex-direction:column;align-items:flex-start}
+            .pill{font-size:.78rem;padding:.38rem .85rem}
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav><div class="nav-inner">
+    <a href="/bs-home/" class="nav-logo">Block<span>Share</span></a>
+    <ul class="nav-links">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/share/" class="active">Share</a></li>
+        <li><a href="/food/">Food</a></li>
+        <li><a href="/credits/">Credits</a></li>
+        <li><a href="/become-host/">Hosts</a></li>
+        <li><a href="/blockonomics/">Blockonomics</a></li>
+    </ul>
+    <a href="/onboarding/" class="nav-cta">Get Started →</a>
+    <button class="mobile-menu" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'">☰</button>
+</div></nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="eyebrow">Sharing Pools</div>
+        <h1>Share More. Own Less.<br>Save <em>Together.</em></h1>
+        <p>Every building has idle assets — tools, sports gear, kitchen equipment. Block Share pools let neighbours access what they need without every household buying their own.</p>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="val">95%</div><div class="label">of power tools sit idle</div></div>
+            <div class="hero-stat"><div class="val">$4,200</div><div class="label">avg. household savings/yr</div></div>
+            <div class="hero-stat"><div class="val">47</div><div class="label">items per typical pool</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section-navy">
+    <div class="section-inner">
+        <div class="eyebrow">How It Works</div>
+        <h2 style="font-size:2.2rem;">Four steps from signup to saving.</h2>
+        <div class="how-grid">
+            <div class="how-step"><div class="how-num">01</div><h3>Find Your Block</h3><p>Enter your postal code to discover your block and see what's already being shared nearby.</p></div>
+            <div class="how-step"><div class="how-num">02</div><h3>Browse &amp; Filter</h3><p>Search by category, distance, and availability. See exactly what's on your block right now.</p></div>
+            <div class="how-step"><div class="how-num">03</div><h3>Borrow &amp; Return</h3><p>Request items through your Host. Pick up, use, and return — all within your building or block.</p></div>
+            <div class="how-step"><div class="how-num">04</div><h3>Earn Credyts</h3><p>Every share earns Community Credyts. Use them for Food Boxes, services, or local purchases.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ── BROWSE — the live exchange board ── -->
+<section class="browse-section">
+    <div class="browse-inner">
+
+        <div class="browse-header">
+            <div class="browse-header-left">
+                <div class="eyebrow" style="color:var(--gold-dim)">What's Available Now</div>
+                <h2>Browse your block's sharing pool.</h2>
+            </div>
+            <a href="/onboarding/" class="btn-gold" style="flex-shrink:0">List an Item →</a>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="filter-bar">
+
+            <!-- Row 1: Category chips -->
+            <div class="filter-row">
+                <div class="filter-label">Type of offer</div>
+                <div class="pill-strip" id="cat-strip">
+                    <button class="pill active-terra" data-filter="cat" data-val="all" onclick="filterPill(this,'cat')">All</button>
+                    <button class="pill" data-filter="cat" data-val="tools" onclick="filterPill(this,'cat')">🔧 Tools</button>
+                    <button class="pill" data-filter="cat" data-val="recreation" onclick="filterPill(this,'cat')">⛺ Recreation</button>
+                    <button class="pill" data-filter="cat" data-val="kitchen" onclick="filterPill(this,'cat')">🍳 Kitchen</button>
+                    <button class="pill" data-filter="cat" data-val="electronics" onclick="filterPill(this,'cat')">💻 Electronics</button>
+                    <button class="pill" data-filter="cat" data-val="kids" onclick="filterPill(this,'cat')">👶 Kids</button>
+                    <button class="pill" data-filter="cat" data-val="garden" onclick="filterPill(this,'cat')">🌱 Garden</button>
+                    <button class="pill" data-filter="cat" data-val="skills" onclick="filterPill(this,'cat')">🤝 Skills</button>
+                    <button class="pill" data-filter="cat" data-val="food" onclick="filterPill(this,'cat')">🌾 Food</button>
+                </div>
+            </div>
+
+            <!-- Rows 2+3 side by side on desktop -->
+            <div style="display:flex;gap:2rem;flex-wrap:wrap">
+
+                <!-- Distance -->
+                <div class="filter-row" style="flex:1;min-width:200px">
+                    <div class="filter-label">Distance</div>
+                    <div class="pill-strip">
+                        <button class="pill active-navy" data-filter="dist" data-val="all" onclick="filterPill(this,'dist')">All</button>
+                        <button class="pill" data-filter="dist" data-val="block" onclick="filterPill(this,'dist')">My Block <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;opacity:.6">~100m</span></button>
+                        <button class="pill" data-filter="dist" data-val="near" onclick="filterPill(this,'dist')">Nearby <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;opacity:.6">~500m</span></button>
+                        <button class="pill" data-filter="dist" data-val="hood" onclick="filterPill(this,'dist')">Neighbourhood <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;opacity:.6">~2km</span></button>
+                    </div>
+                </div>
+
+                <!-- Availability -->
+                <div class="filter-row" style="flex:1;min-width:200px">
+                    <div class="filter-label">Availability</div>
+                    <div class="pill-strip">
+                        <button class="pill active-gold" data-filter="avail" data-val="all" onclick="filterPill(this,'avail')">All</button>
+                        <button class="pill" data-filter="avail" data-val="now" onclick="filterPill(this,'avail')">Now</button>
+                        <button class="pill" data-filter="avail" data-val="weekend" onclick="filterPill(this,'avail')">Weekend</button>
+                        <button class="pill" data-filter="avail" data-val="anytime" onclick="filterPill(this,'avail')">Flexible</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Count + clear -->
+        <div class="count-bar">
+            <div class="count-label">Showing <strong id="item-count">12</strong> items near Mount Pleasant</div>
+            <button class="clear-btn" id="clear-btn" onclick="clearFilters()">Clear filters ×</button>
+        </div>
+
+        <!-- Item grid -->
+        <div class="item-grid" id="item-grid">
+            <!-- cards injected by JS -->
+        </div>
+
+        <div class="empty-state" id="empty-state">
+            <div class="empty-icon">🔍</div>
+            <p>No items match this combination — try broadening your distance or category.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- SAVINGS -->
+<section class="section section-forest">
+    <div class="section-inner">
+        <div class="eyebrow">The Math of Sharing</div>
+        <h2 style="font-size:2.2rem;">When 100 households reduce duplication by 20%:</h2>
+        <div class="savings-grid">
+            <div class="savings-card"><div class="val">$20,000</div><div class="label">Avoided purchases per year across one SuperBlock</div></div>
+            <div class="savings-card"><div class="val">$4,200</div><div class="label">Average annual savings per participating household</div></div>
+            <div class="savings-card"><div class="val">2.6×</div><div class="label">Local multiplier — every dollar redirected generates $2.60 impact</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- DIFFERENCE -->
+<section class="section section-navy">
+    <div class="section-inner">
+        <div class="eyebrow">The Block Share Difference</div>
+        <h2 style="font-size:2.2rem;">Not a marketplace. A neighbourhood sharing system.</h2>
+        <div class="principles">
+            <div class="principle-list">
+                <div class="principle"><div class="principle-icon">📍</div><div><h4>Hyper-Local</h4><p>Everything happens within your building or block. Walk to borrow, walk to return.</p></div></div>
+                <div class="principle"><div class="principle-icon">🤝</div><div><h4>Host-Managed</h4><p>Your Block Host coordinates loans, manages pool inventory, and resolves any issues.</p></div></div>
+                <div class="principle"><div class="principle-icon">◆</div><div><h4>Credyt-Powered</h4><p>No cash between neighbours. Community Credyts track contributions and access.</p></div></div>
+                <div class="principle"><div class="principle-icon">🌱</div><div><h4>Ecologically Sound</h4><p>Less manufacturing, less shipping, less waste. Every shared item is one less produced.</p></div></div>
+            </div>
+            <div class="impact-card">
+                <h3>One Block's Impact</h3>
+                <div class="impact-stat"><div class="big">47</div><div class="note">items in the average sharing pool</div></div>
+                <div class="impact-stat"><div class="big">312</div><div class="note">borrows per year across the block</div></div>
+                <div class="impact-stat"><div class="big">8.4t</div><div class="note">CO₂ avoided annually</div></div>
+                <div class="impact-stat"><div class="big">$42K</div><div class="note">kept in the neighbourhood economy</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section section-forest">
+    <div class="cta-inner">
+        <h2>Ready to share?</h2>
+        <p>Find your block, see what's available, and start borrowing — or list your first item and earn Community Credyts.</p>
+        <div class="cta-buttons">
+            <a href="/onboarding/" class="btn-gold">Find Your Block →</a>
+            <a href="/become-host/" class="btn-ghost">Become a Host</a>
+        </div>
+    </div>
+</section>
+
+<footer><div class="footer-inner">
+    <div class="footer-brand"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><p>Building neighbourhood economies across Vancouver, BC.</p></div>
+    <div><h4>Programs</h4><ul><li><a href="/share/">Share Pools</a></li><li><a href="/food/">Beef Collective</a></li><li><a href="/credits/">Community Credyts</a></li><li><a href="/blockonomics/">Blockonomics</a></li></ul></div>
+    <div><h4>Get Involved</h4><ul><li><a href="/onboarding/">Join Your Block</a></li><li><a href="/become-host/">Become a Host</a></li><li><a href="/partners/">Business Partners</a></li></ul></div>
+    <div><h4>About</h4><ul><li><a href="/about/">Our Story</a></li><li><a href="/blockbudget/">Block Budget Map</a></li><li><a href="/host-dashboard/">Host Dashboard</a></li></ul></div>
+</div><div class="footer-bottom"><span>© 2026 Block Share · Vancouver, BC</span><span>Inspired by E.F. Schumacher's <em>Small is Beautiful</em></span></div></footer>
+
+<script>
+// ── Item data ──────────────────────────────────────────────────────────────────
+const ITEMS = [
+    { id:1,  name:"DeWalt 20V Drill Kit",     cat:"tools",       icon:"🔧", meta:"Includes 2 batteries + bits. In great shape.", dist:"block",  avail:"now",     distLabel:"My Block" },
+    { id:2,  name:"Pressure Washer",          cat:"tools",       icon:"🔧", meta:"Gas-powered, 2400 PSI. Available most weekends.", dist:"near",   avail:"weekend", distLabel:"~500m" },
+    { id:3,  name:"12-Person Camping Tent",   cat:"recreation",  icon:"⛺", meta:"Coleman, slept in twice. Comes with rainfly.", dist:"block",  avail:"anytime", distLabel:"My Block" },
+    { id:4,  name:"Kayak + Paddle",           cat:"recreation",  icon:"⛺", meta:"Sea kayak, 14ft. Roof rack attachment available.", dist:"hood",   avail:"weekend", distLabel:"~2km" },
+    { id:5,  name:"KitchenAid Stand Mixer",   cat:"kitchen",     icon:"🍳", meta:"5-qt, all attachments included. Perfect for baking.", dist:"block",  avail:"anytime", distLabel:"My Block" },
+    { id:6,  name:"Roasting Set (for 20)",    cat:"kitchen",     icon:"🍳", meta:"Includes 3 large pans + serving trays.", dist:"near",   avail:"anytime", distLabel:"~500m" },
+    { id:7,  name:"Epson 4K Projector",       cat:"electronics", icon:"💻", meta:"3000 lumens, HDMI + wireless. Includes screen.", dist:"near",   avail:"now",     distLabel:"~500m" },
+    { id:8,  name:"Nikon D7500 Camera",       cat:"electronics", icon:"💻", meta:"18-140mm kit lens. Manual available.", dist:"hood",   avail:"anytime", distLabel:"~2km" },
+    { id:9,  name:"Stroller — UppaBaby",      cat:"kids",        icon:"👶", meta:"Vista 2019. Full sun shade, cup holders, rain cover.", dist:"block",  avail:"now",     distLabel:"My Block" },
+    { id:10, name:"Wooden Play Structure",    cat:"kids",        icon:"👶", meta:"Climber + slide combo. Borrower transports.", dist:"hood",   avail:"weekend", distLabel:"~2km" },
+    { id:11, name:"Honda Mower (self-prop)",  cat:"garden",      icon:"🌱", meta:"Gas-powered. Sharpened last spring.", dist:"near",   avail:"anytime", distLabel:"~500m" },
+    { id:12, name:"Raised Bed Planter Box",   cat:"garden",      icon:"🌱", meta:"Cedar, 4×8ft. Seasonal loan Apr–Oct.", dist:"block",  avail:"anytime", distLabel:"My Block" },
+    { id:13, name:"Bike Repair: Full Tune",   cat:"skills",      icon:"🤝", meta:"Marcus — certified mechanic. 1hr slot, tools included.", dist:"block",  avail:"now",     distLabel:"My Block" },
+    { id:14, name:"French Tutoring (adult)",  cat:"skills",      icon:"🤝", meta:"Théo — native speaker. 1hr sessions, evenings.", dist:"near",   avail:"anytime", distLabel:"~500m" },
+    { id:15, name:"Surplus Kale Bundle",      cat:"food",        icon:"🌾", meta:"Priya's garden — available Saturdays. Pick up only.", dist:"block",  avail:"weekend", distLabel:"My Block" },
+    { id:16, name:"Sourdough Starter Kit",    cat:"food",        icon:"🌾", meta:"Active starter + recipe booklet. Ongoing supply.", dist:"near",   avail:"now",     distLabel:"~500m" },
+];
+
+// ── Filter state ───────────────────────────────────────────────────────────────
+let state = { cat:"all", dist:"all", avail:"all" };
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function render() {
+    const filtered = ITEMS.filter(item => {
+        if (state.cat !== "all" && item.cat !== state.cat) return false;
+        if (state.dist !== "all") {
+            const rank = {block:0, near:1, hood:2};
+            if (rank[item.dist] > rank[state.dist]) return false;
+        }
+        if (state.avail !== "all" && item.avail !== state.avail) return false;
+        return true;
+    });
+
+    const grid = document.getElementById("item-grid");
+    const empty = document.getElementById("empty-state");
+    const countEl = document.getElementById("item-count");
+    const clearBtn = document.getElementById("clear-btn");
+
+    countEl.textContent = filtered.length;
+
+    const hasFilter = state.cat !== "all" || state.dist !== "all" || state.avail !== "all";
+    clearBtn.classList.toggle("visible", hasFilter);
+
+    if (filtered.length === 0) {
+        grid.innerHTML = "";
+        empty.classList.add("visible");
+        return;
+    }
+    empty.classList.remove("visible");
+
+    grid.innerHTML = filtered.map(item => `
+        <div class="item-card">
+            <div class="item-card-top">
+                <div class="item-icon-wrap">${item.icon}</div>
+                <div class="item-cat-pill">${item.cat}</div>
+            </div>
+            <div class="item-card-body">
+                <div class="item-name">${item.name}</div>
+                <div class="item-meta">${item.meta}</div>
+                <div class="item-footer">
+                    <div class="item-dist">${item.distLabel}</div>
+                    <div class="item-avail ${item.avail === 'now' ? 'now' : 'soon'}">
+                        <span class="dot"></span>
+                        ${item.avail === 'now' ? 'Available now' : item.avail === 'weekend' ? 'This weekend' : 'Flexible'}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join("");
+}
+
+// ── Pill click ─────────────────────────────────────────────────────────────────
+function filterPill(btn, filterType) {
+    // Update active pill styles — each type has its own active class
+    const activeClass = filterType === 'cat' ? 'active-terra' : filterType === 'dist' ? 'active-navy' : 'active-gold';
+    document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(p => p.classList.remove(activeClass));
+    btn.classList.add(activeClass);
+    state[filterType] = btn.dataset.val;
+    animateCount();
+    render();
+}
+
+// ── Clear ──────────────────────────────────────────────────────────────────────
+function clearFilters() {
+    state = { cat:"all", dist:"all", avail:"all" };
+    document.querySelector('[data-filter="cat"][data-val="all"]').classList.add("active-terra");
+    document.querySelector('[data-filter="dist"][data-val="all"]').classList.add("active-navy");
+    document.querySelector('[data-filter="avail"][data-val="all"]').classList.add("active-gold");
+    document.querySelectorAll('[data-filter="cat"]:not([data-val="all"])').forEach(p => p.classList.remove("active-terra"));
+    document.querySelectorAll('[data-filter="dist"]:not([data-val="all"])').forEach(p => p.classList.remove("active-navy"));
+    document.querySelectorAll('[data-filter="avail"]:not([data-val="all"])').forEach(p => p.classList.remove("active-gold"));
+    render();
+}
+
+// ── Count animation ────────────────────────────────────────────────────────────
+function animateCount() {
+    const el = document.getElementById("item-count");
+    el.style.transition = "transform .12s ease, opacity .12s ease";
+    el.style.transform = "translateY(-4px)";
+    el.style.opacity = "0";
+    setTimeout(() => {
+        el.style.transform = "translateY(0)";
+        el.style.opacity = "1";
+    }, 120);
+}
+
+// Init
+render();
+</script>
+</body>
+</html>
