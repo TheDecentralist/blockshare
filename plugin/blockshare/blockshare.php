@@ -21,6 +21,7 @@ if (!defined('BS_SECTION_A_QUESTIONS'))define('BS_SECTION_A_QUESTIONS', 5);
 if (!defined('BS_DEFAULT_PROJECT'))    define('BS_DEFAULT_PROJECT', 'save-the-pond');
 
 require_once BS_DIR . 'includes/referral.php';
+require_once BS_DIR . 'includes/phone-verify.php';
 
 // ── Database ─────────────────────────────────────────────────────────────────
 register_activation_hook(__FILE__, 'bs_install');
@@ -235,8 +236,22 @@ function bs_api_register($req) {
 
     $first  = sanitize_text_field($req->get_param('first_name'));
     $last   = sanitize_text_field($req->get_param('last_name'));
+    if (!$first && $req->get_param('name')) {   // older join pages send one "name" field
+        $parts = preg_split('/\s+/', trim(sanitize_text_field($req->get_param('name'))), 2);
+        $first = $parts[0] ?? '';
+        if (!$last) $last = $parts[1] ?? '';
+    }
     $email  = sanitize_email($req->get_param('email'));
-    $phone  = preg_replace('/[^0-9+]/', '', (string) $req->get_param('phone'));
+    // Mobile numbers must be verified first (POST /send-code, then POST /verify); stored as E.164.
+    $phone_in = trim((string) $req->get_param('phone'));
+    $phone    = '';
+    if ($phone_in !== '') {
+        $phone = bs_normalize_phone($phone_in);
+        if (!$phone) return new WP_REST_Response(['error' => 'That mobile number does not look right.'], 400);
+        if (!bs_phone_is_verified($phone)) {
+            return new WP_REST_Response(['error' => 'Please verify your mobile number first.', 'needs_phone_verification' => true], 400);
+        }
+    }
     $postal = strtoupper(sanitize_text_field($req->get_param('postal_code')));
     $ref    = sanitize_text_field($req->get_param('ref'));
     $project= sanitize_key($req->get_param('project')) ?: BS_DEFAULT_PROJECT;
@@ -251,11 +266,13 @@ function bs_api_register($req) {
         return new WP_REST_Response(['error' => 'That email is already registered.'], 409);
     }
     if ($phone) {
-        $dupe = get_users(['meta_key' => 'bs_phone', 'meta_value' => $phone, 'number' => 1, 'fields' => 'ID']);
+        $variants = [$phone, ltrim($phone, '+')];                 // also match numbers stored in older formats
+        if (strpos($phone, '+1') === 0) $variants[] = substr($phone, 2);
+        $dupe = get_users(['meta_key' => 'bs_phone', 'meta_value' => $variants, 'meta_compare' => 'IN', 'number' => 1, 'fields' => 'ID']);
         if ($dupe) return new WP_REST_Response(['error' => 'That phone number is already registered.'], 409);
     }
 
-    $login = $email ?: ('bs_' . $phone);
+    $login = $email ?: ('bs_' . ltrim($phone, '+'));
     $uid = wp_insert_user([
         'user_login'   => $login,
         'user_pass'    => wp_generate_password(24),
@@ -273,6 +290,9 @@ function bs_api_register($req) {
     update_user_meta($uid, 'bs_postal_code', $postal);
     update_user_meta($uid, 'bs_block_number', intval($block->block_number));
     update_user_meta($uid, 'bs_phone', $phone);
+    if ($phone) { update_user_meta($uid, 'bs_phone_verified', gmdate('c')); bs_phone_consume($phone); }
+    $age = sanitize_text_field($req->get_param('age_range'));
+    if ($age) update_user_meta($uid, 'bs_age_range', $age);
     update_user_meta($uid, 'bs_project', $project);
     update_user_meta($uid, 'bs_registered_at', gmdate('c'));
     $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}bs_blocks SET member_count = member_count + 1 WHERE id = %d", $block->id));
@@ -286,6 +306,7 @@ function bs_api_register($req) {
     return new WP_REST_Response([
         'success'       => true,
         'uid'           => $uid,
+        'user_id'       => $uid,
         'token'         => bs_make_token($uid),
         'block_number'  => intval($block->block_number),
         'referral_code' => $code,

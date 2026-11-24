@@ -34,6 +34,8 @@ input:focus{outline:none;border-color:var(--green)}
 <label for="ph">Mobile <span style="text-transform:none;font-weight:400">(optional if you gave email)</span></label><input type="tel" id="ph" autocomplete="tel" placeholder="604 555 1234">
 <label for="pc">Postal code</label><input type="text" id="pc" autocomplete="postal-code" placeholder="V6H 1A1" maxlength="7">
 <p class="small">Your first three postal-code characters place you on a block. We never sell or share your data.</p>
+<div class="hide" id="codebox"><label for="cd">Code from your text message</label><input type="text" id="cd" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456">
+<p class="small"><a href="#" id="resend">Send a new code</a> &middot; <a href="#" id="chg">Change number</a></p></div>
 <div class="err" id="err"></div>
 <button class="btn" id="submit">Create my account</button></div></div></section>
 
@@ -54,19 +56,48 @@ input:focus{outline:none;border-color:var(--green)}
       document.getElementById('h1').textContent='You’re invited';}
   }).catch(function(){})}
   document.getElementById('go').onclick=function(){show(2)};
-  document.getElementById('submit').onclick=function(){
-    var b=this,e=document.getElementById('err');e.style.display='none';
+  var verified=false, codeSent=false;
+  function post(path,body){return fetch('/wp-json/blockshare/v1/'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})})}
+  function showErr(m){var e=document.getElementById('err');e.textContent=m;e.style.display='block'}
+  function resetPhone(){verified=false;codeSent=false;document.getElementById('codebox').classList.add('hide');document.getElementById('cd').value='';document.getElementById('submit').textContent='Create my account'}
+  ph.oninput=resetPhone;
+  document.getElementById('chg').onclick=function(ev){ev.preventDefault();resetPhone();ph.focus()};
+  document.getElementById('resend').onclick=function(ev){ev.preventDefault();post('send-code',{phone:ph.value.trim()}).then(function(x){document.getElementById('err').style.display='none';if(!x.d.success)showErr(x.d.message||'Could not send a code.');else showErr('A new code is on its way.')}).catch(function(){showErr('Connection error. Please try again.')})};
+  function register(b){
     var body={first_name:fn.value.trim(),last_name:ln.value.trim(),email:em.value.trim(),phone:ph.value.trim(),postal_code:pc.value.trim(),ref:ref,project:project};
-    if(!body.first_name||(!body.email&&!body.phone)||body.postal_code.replace(/\W/g,'').length<3){e.textContent='Please add your first name, an email or mobile, and your postal code.';e.style.display='block';return}
-    b.disabled=true;b.textContent='Creating…';
-    fetch('/wp-json/blockshare/v1/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
-    .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})}).then(function(x){
+    b.disabled=true;b.textContent='Creating\u2026';
+    post('register',body).then(function(x){
       if(!x.ok||!x.d.success){throw new Error(x.d.error||'Something went wrong')}
       sessionStorage.setItem('bs_token',x.d.token);sessionStorage.setItem('bs_uid',x.d.uid);
       document.getElementById('wh').textContent='Welcome, '+body.first_name+'!';
-      document.getElementById('wp').textContent='You’re on Block '+x.d.block_number+'. Your referral code is '+x.d.referral_code+'.';
+      document.getElementById('wp').textContent='You\u2019re on Block '+x.d.block_number+'. Your referral code is '+x.d.referral_code+'.';
       document.getElementById('wcc').textContent=x.d.cc_locked+' CC';show(3);
-    }).catch(function(err){e.textContent=err.message;e.style.display='block';b.disabled=false;b.textContent='Create my account'});
+    }).catch(function(err){showErr(err.message);b.disabled=false;b.textContent='Create my account'});
+  }
+  document.getElementById('submit').onclick=function(){
+    var b=this;document.getElementById('err').style.display='none';
+    var phone=ph.value.trim();
+    if(!fn.value.trim()||(!em.value.trim()&&!phone)||pc.value.replace(/\W/g,'').length<3){showErr('Please add your first name, an email or mobile, and your postal code.');return}
+    if(phone&&!verified){
+      if(!codeSent){
+        b.disabled=true;b.textContent='Sending code\u2026';
+        post('send-code',{phone:phone}).then(function(x){
+          b.disabled=false;
+          if(!x.d.success){b.textContent='Create my account';showErr(x.d.message||'Could not send a code. You can clear the mobile field and use your email instead.');return}
+          codeSent=true;document.getElementById('codebox').classList.remove('hide');b.textContent='Verify and create account';document.getElementById('cd').focus();
+        }).catch(function(){b.disabled=false;b.textContent='Create my account';showErr('Connection error. Please try again.')});
+        return;
+      }
+      var code=document.getElementById('cd').value.trim();
+      if(code.length<4){showErr('Enter the code from your text message.');return}
+      b.disabled=true;b.textContent='Checking\u2026';
+      post('verify',{phone:phone,code:code}).then(function(x){
+        if(!x.d.verified){b.disabled=false;b.textContent='Verify and create account';showErr(x.d.message||'Invalid or expired code.');return}
+        verified=true;register(b);
+      }).catch(function(){b.disabled=false;b.textContent='Verify and create account';showErr('Connection error. Please try again.')});
+      return;
+    }
+    register(b);
   };
   document.getElementById('toq').onclick=function(){location.href='/quest/?uid='+sessionStorage.getItem('bs_uid')+'&token='+encodeURIComponent(sessionStorage.getItem('bs_token'))+'&ref='+encodeURIComponent(ref)};
 })();
