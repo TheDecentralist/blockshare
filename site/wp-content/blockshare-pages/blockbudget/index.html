@@ -1673,12 +1673,13 @@ function sbPopup(s, i) {
 // === MAP ===
 var map = L.map('map', {zoomControl:true}).setView([49.2527,-123.1207],13);
 // Dark base without labels
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-  attribution:'&copy; OSM &copy; CARTO', maxZoom:19
+var ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/';
+L.tileLayer(ESRI + 'World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+  attribution:'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ', maxZoom:19, maxNativeZoom:16
 }).addTo(map);
 // Labels layer - added AFTER all data layers via labelsLayer variable
-var labelsLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
-  maxZoom:19, opacity:1, pane:'tooltipPane'
+var labelsLayer = L.tileLayer(ESRI + 'World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+  maxZoom:19, maxNativeZoom:16, opacity:1, pane:'tooltipPane'
 });
 
 var layers = {
