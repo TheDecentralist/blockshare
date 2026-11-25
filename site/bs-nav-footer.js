@@ -1,6 +1,6 @@
 /**
  * bs-nav-footer.js  ·  Block Share Global Navigation & Footer
- * Version 3.7  ·  Updated November 2026 (adds visitor-intent layout: Learn / Take Part / Tools; switch with LAYOUT)
+ * Version 3.7  ·  Updated November 2026 (visitor-intent layout: Learn / Take Part / Tools; logo is Home; About lives under Learn; switch with LAYOUT)
  *
  * TWO USAGE PATTERNS — both work automatically, no config needed:
  *
@@ -222,17 +222,6 @@
 
   /* LAYOUT B — organised by visitor intent: Learn / Take part / Tools (v3.7). */
   const NAV_INTENT = [
-    { label: 'Home', slug: 'bs-home', href: BASE + '/bs-home/', topLevel: true },
-    {
-      label: 'About', slug: 'about-menu', topLevel: true,
-      children: [
-        { groupLabel: 'About Block Share', items: [
-          { label: 'Our Story',    slug: 'about',                  href: BASE + '/about/' },
-          { label: 'Ward Stirrat', slug: 'ward-stirrat-biography', href: BASE + '/ward-stirrat-biography/' },
-          { label: 'Soft Launch',  slug: 'soft-launch',            href: BASE + '/soft-launch/' },
-        ] },
-      ],
-    },
     {
       label: 'Learn', slug: 'learn-menu', topLevel: true,
       children: [
@@ -240,6 +229,11 @@
           { label: '← All Publications', slug: 'publications', href: BASE + '/publications/', highlight: true },
           { label: 'Blockonomics',       slug: 'blockonomics', href: BASE + '/blockonomics/' },
           { label: 'The 3rd Way',        slug: 'third-way',    href: BASE + '/third-way/' },
+        ] },
+        { groupLabel: 'About Block Share', items: [
+          { label: 'Our Story',    slug: 'about',                  href: BASE + '/about/' },
+          { label: 'Ward Stirrat', slug: 'ward-stirrat-biography', href: BASE + '/ward-stirrat-biography/' },
+          { label: 'Soft Launch',  slug: 'soft-launch',            href: BASE + '/soft-launch/' },
         ] },
         { groupLabel: 'Land & Housing', items: [
           { label: 'Little Mountain / Holborn',  slug: 'little-mountain-holborn', href: BASE + '/little-mountain-holborn/', badge: 'New' },
@@ -460,6 +454,11 @@
     return `<a href="${it.href}"${ext}>${label}${it.external ? ' ↗' : ''}</a>`;
   }
   function navEntry(label) { return NAV.find(e => e.label === label); }
+  const HOME_LINK = { label: 'Home', href: BASE + '/bs-home/' };
+  function aboutItems() {
+    const g = NAV.flatMap(e => e.children || []).find(g => g.groupLabel === 'About Block Share');
+    return g ? g.items : [];
+  }
   function navItems(label) {
     const e = navEntry(label);
     return e && e.children ? e.children.flatMap(g => g.items) : [];
@@ -477,21 +476,21 @@
   function footerCols() {
     if (LAYOUT === 'topic') {
       return [
-        footerCol('Platform', [navEntry('Home'), ...navItems('Platform')]),
+        footerCol('Platform', [HOME_LINK, ...navItems('Platform')]),
         footerCol('Programs', navItems('Programs')),
         footerCol('Research', navItems('Research')),
         footerCol('Tools',    navItems('Tools')),
       ].join('\n\n    ');
     }
     return [
-      footerCol('Block Share', [navEntry('Home'), ...navItems('About'), navEntry('Contact')]),
+      footerCol('Block Share', [HOME_LINK, ...aboutItems(), navEntry('Contact')]),
       footerCol('Learn',       navItems('Learn')),
       footerCol('Take Part',   navItems('Take Part')),
       footerCol('Tools',       navItems('Tools')),
     ].join('\n\n    ');
   }
   function footerBottomLinks() {
-    return [...navItems('About'), navEntry('Contact')]
+    return [...aboutItems(), navEntry('Contact')]
       .map(footerLink).join('\n    <span class="bs-footer-sep">·</span>\n    ');
   }
 
