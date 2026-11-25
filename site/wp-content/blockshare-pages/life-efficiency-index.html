@@ -145,9 +145,7 @@ body::before {
 
 .inputs-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-}
-
-@media (max-width: 560px) { .inputs-grid { grid-template-columns: 1fr; } }
+}@media (max-width: 560px){ .inputs-grid { grid-template-columns: 1fr; } }
 
 .input-card {
   background: var(--paper2); border: 1.5px solid var(--border);
@@ -433,65 +431,13 @@ body::before {
 
 
 /* ── BLOCK SHARE SITE NAV (injected) ── */
-.bs-site-nav{background:#0f2b1d;border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:9999}
-.bs-site-nav .nav-inner{max-width:1200px;margin:0 auto;padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center}
-.bs-site-nav .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
-.bs-site-nav .nav-logo span{color:#f9a825}
-.bs-site-nav .nav-links{display:flex;gap:0;list-style:none;align-items:center}
-.bs-site-nav .nav-links>li{position:relative}
-.bs-site-nav .nav-links>li>a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;font-weight:500;padding:.45rem .75rem;border-radius:6px;transition:all .25s;display:flex;align-items:center;gap:.3rem;font-family:'DM Sans',sans-serif}
-.bs-site-nav .nav-links>li>a:hover,.bs-site-nav .nav-links>li:hover>a{color:#fff;background:rgba(255,255,255,.1)}
-.bs-site-nav .nav-links>li>a .dd-arrow{font-size:.6rem;transition:transform .2s;margin-top:1px}
-.bs-site-nav .nav-links>li:hover>a .dd-arrow{transform:rotate(180deg)}
-.bs-site-nav .nav-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#163d2a;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 0;min-width:240px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:bsDdFadeIn .15s ease-out;z-index:10001}
-.bs-site-nav .nav-links>li:hover .nav-dd{display:block}
 @keyframes bsDdFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-.bs-site-nav .nav-dd a{display:block;padding:8px 18px;color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:400;transition:all .15s;white-space:nowrap;font-family:'DM Sans',sans-serif}
-.bs-site-nav .nav-dd a:hover{color:#fff;background:rgba(255,255,255,.1)}
-.bs-site-nav .nav-dd .dd-divider{height:1px;background:rgba(255,255,255,.1);margin:6px 16px}
-.bs-site-nav .nav-dd .dd-highlight{color:#f9a825;font-weight:600}
-.bs-site-nav .nav-cta{background:#f9a825;color:#0f2b1d;padding:.45rem 1.1rem;border-radius:6px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:'DM Sans',sans-serif}
-.bs-site-nav .mobile-menu{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
-.bs-mobile-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0f2b1d;z-index:20000;padding:1.5rem;overflow-y:auto;font-family:'DM Sans',sans-serif}
-.bs-mobile-panel.open{display:block}
-.bs-mobile-panel .mobile-nav-close{background:none;border:none;color:#fff;font-size:1.8rem;position:absolute;top:1rem;right:1.5rem;cursor:pointer}
-.bs-mobile-panel .m-section{margin-bottom:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)}
-.bs-mobile-panel .m-section:first-child{border-top:none;padding-top:0;margin-top:3rem}
-.bs-mobile-panel .m-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#f9a825;margin-bottom:.5rem}
-.bs-mobile-panel a{display:block;color:rgba(255,255,255,.8);text-decoration:none;font-size:.95rem;padding:.5rem 0}
-.bs-mobile-panel a:hover{color:#fff}
-.bs-mobile-panel .m-cta{display:block;background:#f9a825;color:#0f2b1d;text-align:center;padding:.85rem;border-radius:8px;font-weight:600;font-size:.95rem;margin-top:1.5rem;text-decoration:none}
-.bs-site-footer{background:#0a1a2a;color:#fff;padding:3.5rem 2rem 2rem;font-family:'DM Sans',sans-serif}
-.bs-site-footer .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem}
-.bs-site-footer .footer-brand .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none}
-.bs-site-footer .footer-brand .nav-logo span{color:#f9a825}
-.bs-site-footer .footer-brand p{color:rgba(255,255,255,.8);font-size:.85rem;margin-top:.75rem;line-height:1.6;max-width:280px}
-.bs-site-footer h4{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#c8891e;margin-bottom:1rem}
-.bs-site-footer ul{list-style:none;padding:0;margin:0}.bs-site-footer li{margin-bottom:.5rem}
-.bs-site-footer a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.85rem}.bs-site-footer a:hover{color:#fff}
-.bs-site-footer .footer-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.8)}
-@media(max-width:600px){.bs-site-nav .nav-links{display:none !important}.bs-site-nav .mobile-menu{display:block}.bs-site-footer .footer-inner{grid-template-columns:1fr}.bs-site-footer .footer-bottom{flex-direction:column;gap:.5rem}}
-@media(max-width:900px){.bs-site-footer .footer-inner{grid-template-columns:1fr 1fr}}
 
 </style>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="bs-site-nav"><div class="nav-inner"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><ul class="nav-links">
-                <li><a href="/blockonomics/">Blockonomics <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a><div class="dd-divider"></div><a href="/onboarding/" class="dd-highlight">Take the Block Survey →</a></div></li>
-                <li><a href="#">Programs <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a><div class="dd-divider"></div><a href="/cc-system-diagram/">CC System Diagram</a></div></li>
-                <li><a href="/publications/">Publications <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><div class="dd-divider"></div><a href="/publications/" class="dd-highlight">All Publications →</a></div></li>
-                <li><a href="#">Get Involved <span class="dd-arrow">▾</span></a><div class="nav-dd"><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div></li>
-            </ul><a href="/onboarding/" class="nav-cta">Get Started →</a><button class="mobile-menu" id="mobileMenuBtn">☰</button></div></nav>
 
-    <div class="bs-mobile-panel" id="mobileNavPanel">
-        <button class="mobile-nav-close" id="mobileNavClose">✕</button>
-        <div class="m-section"><div class="m-label">Blockonomics</div><a href="/blockonomics/">The Framework</a><a href="/blockbudget/">Block Budget Map</a><a href="/block-budget/">Block Budget Data Explorer</a><a href="/lei-calculator/">Life Efficiency Index</a></div>
-        <div class="m-section"><div class="m-label">Programs</div><a href="/share/">Share Pools</a><a href="/food/">Beef Collective</a><a href="/credits/">Community Credits</a></div>
-        <div class="m-section"><div class="m-label">Publications</div><a href="/vancouver-housing-policy-analysis/">Vancouver Housing Policy</a><a href="/bill-m216-article/">Bill M216: Winners &amp; Losers</a><a href="/land-for-whom/">Land For Whom?</a><a href="/publications/">All Publications →</a></div>
-        <div class="m-section"><div class="m-label">Get Involved</div><a href="/about/">Our Story</a><a href="/become-host/">Become a Host</a><a href="/join-block/">Join Your Block</a><a href="/host-dashboard/">Host Dashboard</a></div>
-        <a href="/onboarding/" class="m-cta">Get Started →</a>
-    </div>
 
 <div class="page">
 
@@ -958,13 +904,7 @@ function resetResults() {
 updateLive();
 </script>
 
-    <footer class="bs-site-footer"><div class="footer-inner"><div class="footer-brand"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><p>Building neighbourhood economies across Vancouver, BC. A 3rd Way initiative — neither government programme nor corporate platform.</p></div><div><h4>Blockonomics</h4><ul><li><a href="/blockonomics/">The Framework</a></li><li><a href="/blockbudget/">Block Budget Map</a></li><li><a href="/lei-calculator/">LEI Calculator</a></li></ul><h4 style="margin-top:1.5rem;">Programs</h4><ul><li><a href="/share/">Share Pools</a></li><li><a href="/food/">Beef Collective</a></li><li><a href="/credits/">Community Credits</a></li></ul></div><div><h4>Publications</h4><ul><li><a href="/vancouver-housing-policy-analysis/">Housing Policy Analysis</a></li><li><a href="/bill-m216-article/">Bill M216 Analysis</a></li><li><a href="/land-for-whom/">Land For Whom?</a></li><li><a href="/publications/">All Publications</a></li></ul><h4 style="margin-top:1.5rem;">Tools</h4><ul><li><a href="/lei-calculator/">LEI Calculator</a></li><li><a href="/cc-system-diagram/">CC System Diagram</a></li></ul></div><div><h4>Get Involved</h4><ul><li><a href="/onboarding/">Join Your Block</a></li><li><a href="/become-host/">Become a Host</a></li><li><a href="/about/">Our Story</a></li><li><a href="/host-dashboard/">Host Dashboard</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Block Share · Vancouver, BC</span><span>A community initiative inspired by E.F. Schumacher's <em>Small is Beautiful</em></span></div></footer>
 
-    <script>
-    (function(){
-        var btn=document.getElementById('mobileMenuBtn'),panel=document.querySelector('.bs-mobile-panel'),close=panel?panel.querySelector('.mobile-nav-close'):null;
-        if(btn&&panel&&close){btn.addEventListener('click',function(){panel.classList.add('open')});close.addEventListener('click',function(){panel.classList.remove('open')});panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){panel.classList.remove('open')})});}
-    })();
-    </script>
+<script src="/bs-nav-footer.js"></script>
 </body>
 </html>

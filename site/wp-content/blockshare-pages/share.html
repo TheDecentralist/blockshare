@@ -22,16 +22,6 @@
         h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
 
         /* NAV */
-        nav{background:var(--forest);border-bottom:1px solid var(--w10);position:sticky;top:0;z-index:1000}
-        .nav-inner{max-width:1200px;margin:0 auto;padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center}
-        .nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff;text-decoration:none;letter-spacing:-.02em}
-        .nav-logo span{color:var(--gold)}
-        .nav-links{display:flex;gap:.15rem;list-style:none}
-        .nav-links a{color:var(--w60);text-decoration:none;font-size:.85rem;font-weight:500;padding:.45rem .85rem;border-radius:6px;transition:all .25s}
-        .nav-links a:hover,.nav-links a.active{color:#fff;background:var(--w10)}
-        .nav-cta{background:var(--gold);color:var(--forest);padding:.45rem 1.1rem;border-radius:6px;font-weight:600;font-size:.85rem;text-decoration:none;transition:all .25s}
-        .nav-cta:hover{background:var(--gold-light)}
-        .mobile-menu{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
 
         /* COMMON */
         .section{padding:5rem 2rem}
@@ -146,32 +136,17 @@
         .cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 
         /* FOOTER */
-        footer{background:#0a1a2a;color:#fff;padding:3.5rem 2rem 2rem}
-        .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem}
-        .footer-brand p{color:var(--w80);font-size:.85rem;margin-top:.75rem;line-height:1.6;max-width:280px}
-        footer h4{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:1rem}
-        footer ul{list-style:none}
-        footer li{margin-bottom:.5rem}
-        footer a{color:var(--w80);text-decoration:none;font-size:.85rem;transition:color .2s}
-        footer a:hover{color:#fff}
-        .footer-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid var(--w10);display:flex;justify-content:space-between;font-size:.75rem;color:var(--w80)}
 
-        /* RESPONSIVE */
-        @media(max-width:900px){
+        /* RESPONSIVE */@media(max-width:900px){
             .hero h1{font-size:2.4rem}
             .how-grid{grid-template-columns:repeat(2,1fr)}
             .principles{grid-template-columns:1fr}
             .savings-grid{grid-template-columns:1fr}
-            .footer-inner{grid-template-columns:1fr 1fr}
             .item-grid{grid-template-columns:repeat(2,1fr)}
-        }
-        @media(max-width:600px){
-            .nav-links{display:none}.mobile-menu{display:block}
+        }@media(max-width:600px){
             .hero h1{font-size:2rem}
             .hero-stats{flex-direction:column;gap:1rem}
             .how-grid{grid-template-columns:1fr}
-            .footer-inner{grid-template-columns:1fr}
-            .footer-bottom{flex-direction:column;gap:.5rem}
             .item-grid{grid-template-columns:1fr}
             .browse-header{flex-direction:column;align-items:flex-start}
             .pill{font-size:.78rem;padding:.38rem .85rem}
@@ -180,20 +155,6 @@
 </head>
 <body>
 
-<!-- NAV -->
-<nav><div class="nav-inner">
-    <a href="/bs-home/" class="nav-logo">Block<span>Share</span></a>
-    <ul class="nav-links">
-        <li><a href="/about/">About</a></li>
-        <li><a href="/share/" class="active">Share</a></li>
-        <li><a href="/food/">Food</a></li>
-        <li><a href="/credits/">Credits</a></li>
-        <li><a href="/become-host/">Hosts</a></li>
-        <li><a href="/blockonomics/">Blockonomics</a></li>
-    </ul>
-    <a href="/onboarding/" class="nav-cta">Get Started →</a>
-    <button class="mobile-menu" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'">☰</button>
-</div></nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -349,12 +310,6 @@
     </div>
 </section>
 
-<footer><div class="footer-inner">
-    <div class="footer-brand"><a href="/bs-home/" class="nav-logo">Block<span>Share</span></a><p>Building neighbourhood economies across Vancouver, BC.</p></div>
-    <div><h4>Programs</h4><ul><li><a href="/share/">Share Pools</a></li><li><a href="/food/">Beef Collective</a></li><li><a href="/credits/">Community Credyts</a></li><li><a href="/blockonomics/">Blockonomics</a></li></ul></div>
-    <div><h4>Get Involved</h4><ul><li><a href="/onboarding/">Join Your Block</a></li><li><a href="/become-host/">Become a Host</a></li><li><a href="/partners/">Business Partners</a></li></ul></div>
-    <div><h4>About</h4><ul><li><a href="/about/">Our Story</a></li><li><a href="/blockbudget/">Block Budget Map</a></li><li><a href="/host-dashboard/">Host Dashboard</a></li></ul></div>
-</div><div class="footer-bottom"><span>© 2026 Block Share · Vancouver, BC</span><span>Inspired by E.F. Schumacher's <em>Small is Beautiful</em></span></div></footer>
 
 <script>
 // ── Item data ──────────────────────────────────────────────────────────────────
@@ -468,5 +423,6 @@ function animateCount() {
 // Init
 render();
 </script>
+<script src="/bs-nav-footer.js"></script>
 </body>
 </html>
