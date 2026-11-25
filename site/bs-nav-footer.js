@@ -1,6 +1,6 @@
 /**
  * bs-nav-footer.js  ·  Block Share Global Navigation & Footer
- * Version 3.2  ·  Updated June 2026
+ * Version 3.3  ·  Updated November 2026 (single Block Budget entry; /block-budget/ is an alias of /blockbudget/)
  *
  * TWO USAGE PATTERNS — both work automatically, no config needed:
  *
@@ -172,7 +172,6 @@
           items: [
             { label: 'Policy Decoder Machine ↗',  slug: '_decoder',             href: DECODER,                          external: true },
             { label: 'Citizens Dashboard',         slug: 'citizens-dashboard',   href: BASE + '/citizens-dashboard/' },
-            { label: 'Block Budget Explorer',      slug: 'block-budget',         href: BASE + '/block-budget/' },
             { label: 'LEI / LTE Calculator',       slug: 'lei-calculator',       href: BASE + '/lei-calculator/' },
             { label: 'CC System Diagram',          slug: 'cc-system-diagram',    href: BASE + '/cc-system-diagram/' },
           ],
@@ -387,7 +386,6 @@
       <div class="bs-footer-heading">Tools</div>
       <a href="${DECODER}" target="_blank" rel="noopener">Policy Decoder ↗</a>
       <a href="${BASE}/citizens-dashboard/">Citizens Dashboard</a>
-      <a href="${BASE}/block-budget/">Block Budget Explorer</a>
       <a href="${BASE}/lei-calculator/">LEI Calculator</a>
       <a href="${BASE}/vancouver-housing-policy-analysis/">Housing Policy Analysis</a>
       <a href="${BASE}/cc-system-diagram/">CC System Diagram</a>
