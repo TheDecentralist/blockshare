@@ -1,6 +1,6 @@
 /**
  * bs-nav-footer.js  ·  Block Share Global Navigation & Footer
- * Version 3.6  ·  Updated November 2026 (About menu; pop-up, campaign and governance-experiment pages added; footer generated from the menu)
+ * Version 3.7  ·  Updated November 2026 (adds visitor-intent layout: Learn / Take Part / Tools; switch with LAYOUT)
  *
  * TWO USAGE PATTERNS — both work automatically, no config needed:
  *
@@ -38,7 +38,8 @@
   const DECODER = 'https://policy-decoder.blockshare.ca';
   const ROOT = 'https://blockshare.ca';
 
-  const NAV = [
+  /* LAYOUT A — organised by topic (v3.6). Kept so we can switch back by changing LAYOUT. */
+  const NAV_TOPIC = [
     /* ── Top-level singles ───────────────────────────────────────────────── */
     {
       label: 'Home',
@@ -219,6 +220,104 @@
     },
   ];
 
+  /* LAYOUT B — organised by visitor intent: Learn / Take part / Tools (v3.7). */
+  const NAV_INTENT = [
+    { label: 'Home', slug: 'bs-home', href: BASE + '/bs-home/', topLevel: true },
+    {
+      label: 'About', slug: 'about-menu', topLevel: true,
+      children: [
+        { groupLabel: 'About Block Share', items: [
+          { label: 'Our Story',    slug: 'about',                  href: BASE + '/about/' },
+          { label: 'Ward Stirrat', slug: 'ward-stirrat-biography', href: BASE + '/ward-stirrat-biography/' },
+          { label: 'Soft Launch',  slug: 'soft-launch',            href: BASE + '/soft-launch/' },
+        ] },
+      ],
+    },
+    {
+      label: 'Learn', slug: 'learn-menu', topLevel: true,
+      children: [
+        { groupLabel: 'Start Here', items: [
+          { label: '← All Publications', slug: 'publications', href: BASE + '/publications/', highlight: true },
+          { label: 'Blockonomics',       slug: 'blockonomics', href: BASE + '/blockonomics/' },
+          { label: 'The 3rd Way',        slug: 'third-way',    href: BASE + '/third-way/' },
+        ] },
+        { groupLabel: 'Land & Housing', items: [
+          { label: 'Little Mountain / Holborn',  slug: 'little-mountain-holborn', href: BASE + '/little-mountain-holborn/', badge: 'New' },
+          { label: 'Land for Whom',              slug: 'land-for-whom',           href: BASE + '/land-for-whom/' },
+          { label: 'Vancouver Housing Analysis', slug: 'vancouver-housing-policy-analysis', href: BASE + '/vancouver-housing-policy-analysis/' },
+          { label: 'Missing Pools (Aquatic)',    slug: 'missing-pools',           href: BASE + '/missing-pools/' },
+        ] },
+        { groupLabel: 'Economics & Systems', items: [
+          { label: 'Private Taxes',              slug: 'private-taxes',       href: BASE + '/private-taxes/' },
+          { label: 'Private Taxes (4-min read)', slug: 'private-taxes-short', href: BASE + '/private-taxes-short/' },
+          { label: 'The Fine Print',             slug: 'the-fine-print',      href: BASE + '/the-fine-print/' },
+          { label: 'Tale of Two Cycles',         slug: 'tale-of-two-cycles',  href: BASE + '/tale-of-two-cycles/' },
+          { label: 'Debt, Interest & GDP',       slug: 'debt-interest-death-of-gdp', href: BASE + '/debt-interest-death-of-gdp/' },
+        ] },
+        { groupLabel: 'Governance & Civic', items: [
+          { label: 'Unrepresented',             slug: 'unrepresented',             href: BASE + '/unrepresented/' },
+          { label: 'Bill M216 Analysis',        slug: 'bill-m216-article',         href: BASE + '/bill-m216-article/' },
+          { label: 'Why a Citizens Dashboard',  slug: 'citizen-dashboard-article', href: BASE + '/citizen-dashboard-article/' },
+        ] },
+      ],
+    },
+    {
+      label: 'Take Part', slug: 'take-part-menu', topLevel: true,
+      children: [
+        { groupLabel: 'Your Block', items: [
+          { label: 'Join Your Block',   slug: 'join-block',      href: BASE + '/join-block/', highlight: true },
+          { label: 'Find Your Block',   slug: 'find-your-block', href: BASE + '/find-your-block/' },
+          { label: 'Block Budget Map',  slug: 'blockbudget',     href: BASE + '/blockbudget/' },
+          { label: 'Become a Host',     slug: 'become-host',     href: BASE + '/become-host/' },
+          { label: 'Host Dashboard',    slug: 'host-dashboard',  href: BASE + '/host-dashboard/' },
+          { label: 'Block Share App',   slug: 'app',             href: BASE + '/app/' },
+          { label: 'Onboarding',        slug: 'onboarding',      href: BASE + '/onboarding/' },
+        ] },
+        { groupLabel: 'Economy', items: [
+          { label: 'Community Credits (MYCC)', slug: 'credits',             href: BASE + '/credits/' },
+          { label: 'Share Pool',               slug: 'share',               href: BASE + '/share/' },
+          { label: 'Buy Back Your Block',      slug: 'buy-back-your-block', href: BASE + '/buy-back-your-block/' },
+          { label: 'Restore to Own',           slug: 'restore-to-own',      href: BASE + '/restore-to-own/' },
+          { label: 'Pop-Up Community Shoppe',  slug: 'tpir-article',        href: BASE + '/tpir-article/' },
+          { label: 'Pop-Up Shoppe Strategy (working doc)', slug: 'tpir-collaboration', href: BASE + '/tpir-collaboration/' },
+        ] },
+        { groupLabel: 'Food & Land', items: [
+          { label: 'Beef Collective (Food)', slug: 'food',                 href: BASE + '/food/' },
+          { label: 'Food for Generations',   slug: 'food-for-generations', href: BASE + '/food-for-generations/' },
+          { label: 'Permanent Land Trust',   slug: 'land-trusts',          href: BASE + '/land-trusts/' },
+        ] },
+        { groupLabel: 'Campaigns & Education', items: [
+          { label: 'Save Our Pond',     slug: 'save-the-pond',     href: BASE + '/save-the-pond/' },
+          { label: 'Game of Towers',    slug: 'game-of-towers',    href: BASE + '/game-of-towers/' },
+          { label: 'Mobility for Life', slug: 'mobility-for-life', href: BASE + '/mobility-for-life/' },
+        ] },
+      ],
+    },
+    {
+      label: 'Tools', slug: 'tools-menu', topLevel: true,
+      children: [
+        { groupLabel: 'Interactive', items: [
+          { label: 'LEI / LTE Calculator', slug: 'lei-calculator',    href: BASE + '/lei-calculator/' },
+          { label: 'CC System Diagram',    slug: 'cc-system-diagram', href: BASE + '/cc-system-diagram/' },
+        ] },
+        { groupLabel: 'Governance Experiments', items: [
+          { label: 'Policy Decoder Machine ↗', slug: '_decoder',           href: DECODER, external: true },
+          { label: 'Citizens Dashboard',       slug: 'citizens-dashboard', href: BASE + '/citizens-dashboard/' },
+          { label: "People's Policy",          slug: 'peoples-policy',     href: BASE + '/peoples-policy/' },
+        ] },
+        { groupLabel: 'Analysis', items: [
+          { label: 'Micro-Asset Real Estate', slug: 'micro-asset-real-estate-example', href: BASE + '/micro-asset-real-estate-example/' },
+          { label: 'Buy-Back Calculator',     slug: 'micro-asset-buy-back',            href: BASE + '/micro-asset-buy-back/' },
+        ] },
+      ],
+    },
+    { label: 'Contact', slug: 'contact', href: BASE + '/contact/', topLevel: true },
+  ];
+
+  /* ── Pick the layout here: 'intent' (Learn / Take Part / Tools) or 'topic' (Platform / Programs / Research / Tools) ── */
+  const LAYOUT = 'intent';
+  const NAV = LAYOUT === 'topic' ? NAV_TOPIC : NAV_INTENT;
+
   /* ═══════════════════════════════════════════════════════════════════════════
      DETECT CURRENT PAGE
      ═══════════════════════════════════════════════════════════════════════════ */
@@ -376,11 +475,19 @@
     </div>`;
   }
   function footerCols() {
+    if (LAYOUT === 'topic') {
+      return [
+        footerCol('Platform', [navEntry('Home'), ...navItems('Platform')]),
+        footerCol('Programs', navItems('Programs')),
+        footerCol('Research', navItems('Research')),
+        footerCol('Tools',    navItems('Tools')),
+      ].join('\n\n    ');
+    }
     return [
-      footerCol('Platform', [navEntry('Home'), ...navItems('Platform')]),
-      footerCol('Programs', navItems('Programs')),
-      footerCol('Research', navItems('Research')),
-      footerCol('Tools',    navItems('Tools')),
+      footerCol('Block Share', [navEntry('Home'), ...navItems('About'), navEntry('Contact')]),
+      footerCol('Learn',       navItems('Learn')),
+      footerCol('Take Part',   navItems('Take Part')),
+      footerCol('Tools',       navItems('Tools')),
     ].join('\n\n    ');
   }
   function footerBottomLinks() {
