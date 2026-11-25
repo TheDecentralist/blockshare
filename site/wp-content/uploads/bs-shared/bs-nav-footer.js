@@ -1,6 +1,6 @@
 /**
  * bs-nav-footer.js  ·  Block Share Global Navigation & Footer
- * Version 3.3  ·  Updated November 2026 (single Block Budget entry; /block-budget/ is an alias of /blockbudget/)
+ * Version 3.4  ·  Updated November 2026 (single Block Budget entry; no nav/footer when a page is shown inside an iframe)
  *
  * TWO USAGE PATTERNS — both work automatically, no config needed:
  *
@@ -934,13 +934,17 @@ body { padding-top: 0 !important; }
        <meta name="bs-nav" content="skip">          (any page)
        <body data-bs-nav="skip">                    (any page)
      The /app/ slug is also excluded automatically (full React app UI).
+     Pages shown inside an iframe (window.self !== window.top) are skipped too.
      ═══════════════════════════════════════════════════════════════════════════ */
   function init() {
     const slug = currentSlug();
     const metaSkip = document.querySelector('meta[name="bs-nav"][content="skip"]');
     const bodySkip = document.body.dataset.bsNav === 'skip';
     const appSlugs = ['app', 'onboarding'];          /* full-screen app pages */
-    if (metaSkip || bodySkip || appSlugs.includes(slug)) return;
+    /* Embedded in an iframe (e.g. the map inside the homepage): no nav/footer */
+    let framed = false;
+    try { framed = window.self !== window.top; } catch (e) { framed = true; }
+    if (framed || metaSkip || bodySkip || appSlugs.includes(slug)) return;
     inject();
     bindEvents();
   }
