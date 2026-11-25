@@ -335,7 +335,8 @@
      BUILD DESKTOP DROPDOWN
      ═══════════════════════════════════════════════════════════════════════════ */
   function buildDropdown(groups) {
-    let html = '<div class="bs-dropdown">';
+    const cols = Math.min(groups.length, 5);
+    let html = `<div class="bs-dropdown" style="--bs-cols:${cols};--bs-drop-w:${cols >= 5 ? 1120 : 960}px">`;
     groups.forEach(group => {
       html += `<div class="bs-drop-group">`;
       html += `<div class="bs-drop-label">${group.groupLabel}</div>`;
@@ -619,51 +620,55 @@
 .bs-nav-item[aria-expanded="true"] .bs-caret,
 .bs-nav-item.bs-open .bs-caret { transform: rotate(180deg); }
 
-/* ─── DROPDOWN ────────────────────────────────────────────────────────────── */
+/* ─── DROPDOWN (horizontal mega-menu: one column per group, centred under the bar) ───── */
+.bs-nav-item { position: static; }
 .bs-dropdown {
   display: none;
   position: absolute;
-  top: calc(var(--bs-nav-h) + 0px);
-  left: 0;
-  min-width: 220px;
+  top: var(--bs-nav-h);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(var(--bs-drop-w, 960px), calc(100vw - 32px));
   background: var(--bs-dark);
   border: 1px solid rgba(255,255,255,0.1);
   border-top: 3px solid var(--bs-terra);
-  border-radius: 0 0 6px 6px;
-  box-shadow: 0 8px 28px rgba(0,0,0,.45);
-  padding: 10px 0 12px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 12px 36px rgba(0,0,0,.5);
+  padding: 22px 12px 24px;
   z-index: 9100;
-  /* For multi-column groups: flex wrap */
-  flex-wrap: wrap;
-  flex-direction: column;
 }
-.bs-nav-item.bs-open .bs-dropdown { display: flex; }
-
+.bs-nav-item.bs-open .bs-dropdown {
+  display: grid;
+  grid-template-columns: repeat(var(--bs-cols, 3), minmax(0, 1fr));
+  row-gap: 22px;
+}
 .bs-drop-group {
-  min-width: 180px;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 0 14px;
+  border-left: 1px solid rgba(255,255,255,0.08);
 }
-.bs-drop-group:last-child { border-bottom: none; }
+.bs-drop-group:first-child { border-left: none; }
 .bs-drop-label {
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .12em;
   color: var(--bs-gold);
-  padding: 6px 18px 4px;
+  padding: 0 8px 10px;
+  margin-bottom: 4px;
   font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .bs-drop-item {
   display: block;
-  padding: 7px 18px;
-  font-size: 13.5px;
-  color: #b0c8d8;
+  padding: 8px 8px;
+  font-size: 15px;
+  color: #c4d6e4;
   text-decoration: none;
+  border-radius: 5px;
   transition: background .12s, color .12s;
   line-height: 1.35;
 }
 .bs-drop-item:hover, .bs-drop-item.bs-active {
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.08);
   color: #fff;
 }
 .bs-drop-item.bs-hi {
@@ -681,35 +686,6 @@
   margin-left: 6px;
   vertical-align: middle;
   line-height: 1.6;
-}
-
-/* Research dropdown: wider, multi-column layout */
-.bs-nav-item[data-menu="3"] .bs-dropdown {
-  flex-direction: row;
-  min-width: 700px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.bs-nav-item[data-menu="3"] .bs-drop-group { min-width: 170px; }
-
-/* Tools dropdown: 2-col */
-.bs-nav-item[data-menu="4"] .bs-dropdown {
-  flex-direction: row;
-  min-width: 400px;
-}
-.bs-nav-item[data-menu="4"] .bs-drop-group { min-width: 190px; }
-
-/* Platform dropdown: 3-col */
-.bs-nav-item[data-menu="2"] .bs-dropdown {
-  flex-direction: row;
-  min-width: 540px;
-}
-.bs-nav-item[data-menu="2"] .bs-drop-group { min-width: 170px; }
-
-/* Programs dropdown: 3-col */
-.bs-nav-item[data-menu="3_prog"] .bs-dropdown {
-  flex-direction: row;
-  min-width: 560px;
 }
 
 /* ─── CTA BUTTON ──────────────────────────────────────────────────────────── */
@@ -896,9 +872,7 @@ body { padding-top: 0 !important; }
   .bs-nav-cta   { display: none; }
   .bs-hamburger { display: flex; margin-left: auto; }
   .bs-mob-drawer { display: block; }
-  .bs-nav-item[data-menu="2"] .bs-dropdown,
-  .bs-nav-item[data-menu="3"] .bs-dropdown,
-  .bs-nav-item[data-menu="4"] .bs-dropdown { display: none !important; }
+  .bs-dropdown { display: none !important; }
 
   .bs-footer-inner {
     grid-template-columns: 1fr 1fr;
