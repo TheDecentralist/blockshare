@@ -15,15 +15,6 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',system-ui,sans-serif;background:var(--navy);color:var(--cream);line-height:1.6}
-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
-  padding:.9rem 2rem;background:rgba(13,27,42,.96);backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(244,237,227,.07)}
-.nav-logo{font-family:'DM Serif Display',Georgia,serif;font-size:1.15rem;color:var(--cream);text-decoration:none}
-.nav-logo em{color:var(--gold);font-style:normal}
-.nav-links{display:flex;gap:1.25rem;align-items:center}
-.nav-links a{color:var(--dim);text-decoration:none;font-size:.82rem;transition:color .15s}
-.nav-links a:hover{color:var(--cream)}
-.nav-cta{background:var(--terra)!important;color:var(--cream)!important;padding:.38rem .95rem;border-radius:6px;font-weight:600!important}
 .hero{padding:5.5rem 1.5rem 4.5rem;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;
   background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(44,85,69,.35) 0%,transparent 70%);pointer-events:none}
@@ -112,13 +103,6 @@ input[type=number]{-moz-appearance:textfield}
   border-radius:6px;font-size:.76rem;font-weight:700;letter-spacing:.04em;cursor:default;
   white-space:nowrap;transition:all .15s;font-family:'DM Sans',system-ui,sans-serif;flex-shrink:0}
 #cbtn.ready{background:var(--gold);color:var(--navy);cursor:pointer}
-footer{border-top:1px solid rgba(244,237,227,.07);padding:2.5rem 1.5rem;text-align:center}
-.fl{font-family:'DM Serif Display',Georgia,serif;font-size:1.5rem;color:var(--cream);margin-bottom:.6rem}
-.fl em{color:var(--gold);font-style:normal}
-.flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:1.25rem;margin:.85rem 0}
-.flinks a{color:var(--dim);text-decoration:none;font-size:.8rem;transition:color .15s}
-.flinks a:hover{color:var(--gold)}
-.fcopy{color:var(--dim);font-size:.68rem;opacity:.55;margin-top:.85rem}
 /* ── NARRATIVE (Year in Review) ── */
 .narr{padding:4rem 1.5rem;border-top:1px solid rgba(244,237,227,.07)}
 .narr-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
@@ -173,7 +157,6 @@ section#support     { background: #0D1B2A }     /* navy — focused action */
 #whats-next .pj.ft  { background: #2C1E08; border-color: var(--gold) }
 #whats-next .pj .pj-d { color: #C5B99A }
 #whats-next .phase-summary { background: rgba(200,168,75,.13); border: 1px solid rgba(200,168,75,.3) }
-footer              { background: #060D18 }   /* near-black — proper end */
 /* Cards adapted to their section backgrounds */
 .narr .mc           { background: #183024; border-color: rgba(244,237,227,.1) }
 .narr .nl           { background: #1E3828; border: 1.5px solid rgba(200,168,75,.22);
@@ -254,8 +237,6 @@ footer              { background: #060D18 }   /* near-black — proper end */
 }
 @media(max-width:640px){
   body{overflow-x:hidden}
-  nav{padding:.75rem 1rem}
-  .nav-links a:not(.nav-cta){display:none}
   .hero{padding:4rem 1rem 3rem}
   .stats{gap:.4rem 1.5rem}
   .stat-n{font-size:1.75rem}
@@ -275,15 +256,6 @@ footer              { background: #060D18 }   /* near-black — proper end */
 </head>
 <body>
 
-<nav>
-  <a class="nav-logo" href="https://blockshare.ca">Block<em>Share</em></a>
-  <div class="nav-links">
-    <a href="https://app.blockshare.ca/about/">About</a>
-    <a href="https://app.blockshare.ca/publications/">Publications</a>
-    <a href="https://substack.com/@thedecentralistnet" target="_blank" rel="noopener">Substack</a>
-    <a class="nav-cta" href="#support">Support Your Block</a>
-  </div>
-</nav>
 
 <section class="hero">
   <div class="wrap">
@@ -631,21 +603,6 @@ footer              { background: #060D18 }   /* near-black — proper end */
   </div>
 </section>
 
-<footer>
-  <div class="fl">Block<em>Share</em></div>
-  <p style="color:var(--dim);font-size:.83rem;max-width:440px;margin:.5rem auto;line-height:1.65">
-    A civic technology platform for neighbourhood-scale economics.<br>Vancouver, BC · blockshare.ca
-  </p>
-  <div class="flinks">
-    <a href="https://blockshare.ca">Home</a>
-    <a href="https://app.blockshare.ca/about/">About</a>
-    <a href="https://app.blockshare.ca/publications/">Publications</a>
-    <a href="https://policy-decoder.blockshare.ca">Policy Decoder</a>
-    <a href="https://substack.com/@thedecentralistnet" target="_blank" rel="noopener">The Decentralist</a>
-    <a href="https://app.blockshare.ca/contact/">Contact</a>
-  </div>
-  <p class="fcopy">© 2026 Block Share · Ward Stirrat · Vancouver, BC</p>
-</footer>
 
 <script>
 function showTab(name,btn){
@@ -738,5 +695,6 @@ if (metricStack) {
   stackObs.observe(metricStack);
 }
 </script>
+<script src="/bs-nav-footer.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /**
  * bs-nav-footer.js  ·  Block Share Global Navigation & Footer
- * Version 3.4  ·  Updated November 2026 (single Block Budget entry; no nav/footer when a page is shown inside an iframe)
+ * Version 3.6  ·  Updated November 2026 (About menu; pop-up, campaign and governance-experiment pages added; footer generated from the menu)
  *
  * TWO USAGE PATTERNS — both work automatically, no config needed:
  *
@@ -48,9 +48,18 @@
     },
     {
       label: 'About',
-      slug: 'about',
-      href: BASE + '/about/',
+      slug: 'about-menu',
       topLevel: true,
+      children: [
+        {
+          groupLabel: 'About Block Share',
+          items: [
+            { label: 'Our Story',            slug: 'about',                   href: BASE + '/about/' },
+            { label: 'Ward Stirrat',         slug: 'ward-stirrat-biography',  href: BASE + '/ward-stirrat-biography/' },
+            { label: 'Soft Launch',          slug: 'soft-launch',             href: BASE + '/soft-launch/' },
+          ],
+        },
+      ],
     },
 
     /* ── PLATFORM ─────────────────────────────────────────────────────────── */
@@ -98,6 +107,8 @@
             { label: 'Share Pool',                slug: 'share',                href: BASE + '/share/' },
             { label: 'Buy Back Your Block',       slug: 'buy-back-your-block',  href: BASE + '/buy-back-your-block/' },
             { label: 'Restore to Own',            slug: 'restore-to-own',       href: BASE + '/restore-to-own/' },
+            { label: 'Pop-Up Community Shoppe',   slug: 'tpir-article',         href: BASE + '/tpir-article/' },
+            { label: 'Pop-Up Shoppe Strategy (working doc)', slug: 'tpir-collaboration', href: BASE + '/tpir-collaboration/' },
           ],
         },
         {
@@ -106,6 +117,12 @@
             { label: 'Beef Collective (Food)',    slug: 'food',                 href: BASE + '/food/' },
             { label: 'Food for Generations',      slug: 'food-for-generations', href: BASE + '/food-for-generations/' },
             { label: 'Permanent Land Trust',      slug: 'land-trusts',          href: BASE + '/land-trusts/' },
+          ],
+        },
+        {
+          groupLabel: 'Campaigns',
+          items: [
+            { label: 'Save Our Pond',             slug: 'save-the-pond',        href: BASE + '/save-the-pond/' },
           ],
         },
         {
@@ -144,6 +161,7 @@
           groupLabel: 'Economics & Systems',
           items: [
             { label: 'Private Taxes',             slug: 'private-taxes',        href: BASE + '/private-taxes/' },
+            { label: 'Private Taxes (4-min read)', slug: 'private-taxes-short', href: BASE + '/private-taxes-short/' },
             { label: 'The Fine Print',            slug: 'the-fine-print',       href: BASE + '/the-fine-print/' },
             { label: 'Tale of Two Cycles',        slug: 'tale-of-two-cycles',   href: BASE + '/tale-of-two-cycles/' },
             { label: 'The 3rd Way',               slug: 'third-way',            href: BASE + '/third-way/' },
@@ -170,10 +188,16 @@
         {
           groupLabel: 'Interactive',
           items: [
-            { label: 'Policy Decoder Machine ↗',  slug: '_decoder',             href: DECODER,                          external: true },
-            { label: 'Citizens Dashboard',         slug: 'citizens-dashboard',   href: BASE + '/citizens-dashboard/' },
             { label: 'LEI / LTE Calculator',       slug: 'lei-calculator',       href: BASE + '/lei-calculator/' },
             { label: 'CC System Diagram',          slug: 'cc-system-diagram',    href: BASE + '/cc-system-diagram/' },
+          ],
+        },
+        {
+          groupLabel: 'Governance Experiments',
+          items: [
+            { label: 'Policy Decoder Machine ↗',  slug: '_decoder',             href: DECODER,                          external: true },
+            { label: 'Citizens Dashboard',         slug: 'citizens-dashboard',   href: BASE + '/citizens-dashboard/' },
+            { label: "People's Policy",            slug: 'peoples-policy',       href: BASE + '/peoples-policy/' },
           ],
         },
         {
@@ -330,7 +354,41 @@
   </div>`;
   }
 
-  /* ═══════════════════════════════════════════════════════════════════════════
+    /* Footer columns are generated from NAV so the footer always matches the menu */
+  function footerLink(it) {
+    const label = it.label.replace(/^←\s*/, '').replace(/\s*↗$/, '');
+    const ext = it.external ? ' target="_blank" rel="noopener"' : '';
+    return `<a href="${it.href}"${ext}>${label}${it.external ? ' ↗' : ''}</a>`;
+  }
+  function navEntry(label) { return NAV.find(e => e.label === label); }
+  function navItems(label) {
+    const e = navEntry(label);
+    return e && e.children ? e.children.flatMap(g => g.items) : [];
+  }
+  function footerCol(heading, items) {
+    const seen = new Set();
+    const links = items
+      .filter(i => i.href && !seen.has(i.href) && seen.add(i.href))
+      .map(footerLink).join('\n      ');
+    return `<div class="bs-footer-col">
+      <div class="bs-footer-heading">${heading}</div>
+      ${links}
+    </div>`;
+  }
+  function footerCols() {
+    return [
+      footerCol('Platform', [navEntry('Home'), ...navItems('Platform')]),
+      footerCol('Programs', navItems('Programs')),
+      footerCol('Research', navItems('Research')),
+      footerCol('Tools',    navItems('Tools')),
+    ].join('\n\n    ');
+  }
+  function footerBottomLinks() {
+    return [...navItems('About'), navEntry('Contact')]
+      .map(footerLink).join('\n    <span class="bs-footer-sep">·</span>\n    ');
+  }
+
+/* ═══════════════════════════════════════════════════════════════════════════
      BUILD FOOTER HTML
      ═══════════════════════════════════════════════════════════════════════════ */
   function buildFooter() {
@@ -346,63 +404,14 @@
       </a>
     </div>
 
-    <div class="bs-footer-col">
-      <div class="bs-footer-heading">Platform</div>
-      <a href="${BASE}/bs-home/">Home</a>
-      <a href="${BASE}/about/">About</a>
-      <a href="${BASE}/blockonomics/">Blockonomics</a>
-      <a href="${BASE}/find-your-block/">Find Your Block</a>
-      <a href="${BASE}/blockbudget/">Block Budget Map</a>
-      <a href="${BASE}/app/">Community App</a>
-      <a href="${BASE}/contact/">Contact</a>
-    </div>
-
-    <div class="bs-footer-col">
-      <div class="bs-footer-heading">Programs</div>
-      <a href="${BASE}/credits/">Community Credits</a>
-      <a href="${BASE}/share/">Share Pool</a>
-      <a href="${BASE}/food/">Beef Collective</a>
-      <a href="${BASE}/buy-back-your-block/">Buy Back Your Block</a>
-      <a href="${BASE}/land-trusts/">Permanent Land Trust</a>
-      <a href="${BASE}/game-of-towers/">Game of Towers</a>
-      <a href="${BASE}/mobility-for-life/">Mobility for Life</a>
-      <a href="${BASE}/food-for-generations/">Food for Generations</a>
-      <a href="${BASE}/restore-to-own/">Restore to Own</a>
-    </div>
-
-    <div class="bs-footer-col">
-      <div class="bs-footer-heading">Research</div>
-      <a href="${BASE}/publications/">All Publications</a>
-      <a href="${BASE}/little-mountain-holborn/">Little Mountain / Holborn</a>
-      <a href="${BASE}/private-taxes/">Private Taxes</a>
-      <a href="${BASE}/the-fine-print/">The Fine Print</a>
-      <a href="${BASE}/land-for-whom/">Land for Whom</a>
-      <a href="${BASE}/third-way/">The 3rd Way</a>
-      <a href="${BASE}/unrepresented/">Unrepresented</a>
-      <a href="${BASE}/missing-pools/">Missing Pools</a>
-    </div>
-
-    <div class="bs-footer-col">
-      <div class="bs-footer-heading">Tools</div>
-      <a href="${DECODER}" target="_blank" rel="noopener">Policy Decoder ↗</a>
-      <a href="${BASE}/citizens-dashboard/">Citizens Dashboard</a>
-      <a href="${BASE}/lei-calculator/">LEI Calculator</a>
-      <a href="${BASE}/vancouver-housing-policy-analysis/">Housing Policy Analysis</a>
-      <a href="${BASE}/cc-system-diagram/">CC System Diagram</a>
-      <a href="${BASE}/become-host/">Become a Host</a>
-    </div>
+    ${footerCols()}
 
   </div>
 
   <div class="bs-footer-bottom">
     <span>© 2026 Block Share · <a href="${ROOT}">blockshare.ca</a></span>
     <span class="bs-footer-sep">·</span>
-    <a href="${BASE}/about/">About</a>
-    <span class="bs-footer-sep">·</span>
-    <a href="${BASE}/contact/">Contact</a>
-    <span class="bs-footer-sep">·</span>
-    <a href="${BASE}/ward-stirrat-biography/">Ward Stirrat</a>
-    <span class="bs-footer-sep">·</span>
+    ${footerBottomLinks()}
     <a href="https://thedecentralist.net" target="_blank" rel="noopener">The Decentralist ↗</a>
   </div>
 </footer>`;
