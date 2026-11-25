@@ -223,39 +223,6 @@
   /* LAYOUT B — organised by visitor intent: Learn / Take part / Tools (v3.7). */
   const NAV_INTENT = [
     {
-      label: 'Learn', slug: 'learn-menu', topLevel: true,
-      children: [
-        { groupLabel: 'Start Here', items: [
-          { label: '← All Publications', slug: 'publications', href: BASE + '/publications/', highlight: true },
-          { label: 'Blockonomics',       slug: 'blockonomics', href: BASE + '/blockonomics/' },
-          { label: 'The 3rd Way',        slug: 'third-way',    href: BASE + '/third-way/' },
-        ] },
-        { groupLabel: 'About Block Share', items: [
-          { label: 'Our Story',    slug: 'about',                  href: BASE + '/about/' },
-          { label: 'Ward Stirrat', slug: 'ward-stirrat-biography', href: BASE + '/ward-stirrat-biography/' },
-          { label: 'Soft Launch',  slug: 'soft-launch',            href: BASE + '/soft-launch/' },
-        ] },
-        { groupLabel: 'Land & Housing', items: [
-          { label: 'Little Mountain / Holborn',  slug: 'little-mountain-holborn', href: BASE + '/little-mountain-holborn/', badge: 'New' },
-          { label: 'Land for Whom',              slug: 'land-for-whom',           href: BASE + '/land-for-whom/' },
-          { label: 'Vancouver Housing Analysis', slug: 'vancouver-housing-policy-analysis', href: BASE + '/vancouver-housing-policy-analysis/' },
-          { label: 'Missing Pools (Aquatic)',    slug: 'missing-pools',           href: BASE + '/missing-pools/' },
-        ] },
-        { groupLabel: 'Economics & Systems', items: [
-          { label: 'Private Taxes',              slug: 'private-taxes',       href: BASE + '/private-taxes/' },
-          { label: 'Private Taxes (4-min read)', slug: 'private-taxes-short', href: BASE + '/private-taxes-short/' },
-          { label: 'The Fine Print',             slug: 'the-fine-print',      href: BASE + '/the-fine-print/' },
-          { label: 'Tale of Two Cycles',         slug: 'tale-of-two-cycles',  href: BASE + '/tale-of-two-cycles/' },
-          { label: 'Debt, Interest & GDP',       slug: 'debt-interest-death-of-gdp', href: BASE + '/debt-interest-death-of-gdp/' },
-        ] },
-        { groupLabel: 'Governance & Civic', items: [
-          { label: 'Unrepresented',             slug: 'unrepresented',             href: BASE + '/unrepresented/' },
-          { label: 'Bill M216 Analysis',        slug: 'bill-m216-article',         href: BASE + '/bill-m216-article/' },
-          { label: 'Why a Citizens Dashboard',  slug: 'citizen-dashboard-article', href: BASE + '/citizen-dashboard-article/' },
-        ] },
-      ],
-    },
-    {
       label: 'Take Part', slug: 'take-part-menu', topLevel: true,
       children: [
         { groupLabel: 'Your Block', items: [
@@ -302,6 +269,39 @@
         { groupLabel: 'Analysis', items: [
           { label: 'Micro-Asset Real Estate', slug: 'micro-asset-real-estate-example', href: BASE + '/micro-asset-real-estate-example/' },
           { label: 'Buy-Back Calculator',     slug: 'micro-asset-buy-back',            href: BASE + '/micro-asset-buy-back/' },
+        ] },
+      ],
+    },
+    {
+      label: 'Learn', slug: 'learn-menu', topLevel: true,
+      children: [
+        { groupLabel: 'Start Here', items: [
+          { label: '← All Publications', slug: 'publications', href: BASE + '/publications/', highlight: true },
+          { label: 'Blockonomics',       slug: 'blockonomics', href: BASE + '/blockonomics/' },
+          { label: 'The 3rd Way',        slug: 'third-way',    href: BASE + '/third-way/' },
+        ] },
+        { groupLabel: 'About Block Share', items: [
+          { label: 'Our Story',    slug: 'about',                  href: BASE + '/about/' },
+          { label: 'Ward Stirrat', slug: 'ward-stirrat-biography', href: BASE + '/ward-stirrat-biography/' },
+          { label: 'Soft Launch',  slug: 'soft-launch',            href: BASE + '/soft-launch/' },
+        ] },
+        { groupLabel: 'Land & Housing', items: [
+          { label: 'Little Mountain / Holborn',  slug: 'little-mountain-holborn', href: BASE + '/little-mountain-holborn/', badge: 'New' },
+          { label: 'Land for Whom',              slug: 'land-for-whom',           href: BASE + '/land-for-whom/' },
+          { label: 'Vancouver Housing Analysis', slug: 'vancouver-housing-policy-analysis', href: BASE + '/vancouver-housing-policy-analysis/' },
+          { label: 'Missing Pools (Aquatic)',    slug: 'missing-pools',           href: BASE + '/missing-pools/' },
+        ] },
+        { groupLabel: 'Economics & Systems', items: [
+          { label: 'Private Taxes',              slug: 'private-taxes',       href: BASE + '/private-taxes/' },
+          { label: 'Private Taxes (4-min read)', slug: 'private-taxes-short', href: BASE + '/private-taxes-short/' },
+          { label: 'The Fine Print',             slug: 'the-fine-print',      href: BASE + '/the-fine-print/' },
+          { label: 'Tale of Two Cycles',         slug: 'tale-of-two-cycles',  href: BASE + '/tale-of-two-cycles/' },
+          { label: 'Debt, Interest & GDP',       slug: 'debt-interest-death-of-gdp', href: BASE + '/debt-interest-death-of-gdp/' },
+        ] },
+        { groupLabel: 'Governance & Civic', items: [
+          { label: 'Unrepresented',             slug: 'unrepresented',             href: BASE + '/unrepresented/' },
+          { label: 'Bill M216 Analysis',        slug: 'bill-m216-article',         href: BASE + '/bill-m216-article/' },
+          { label: 'Why a Citizens Dashboard',  slug: 'citizen-dashboard-article', href: BASE + '/citizen-dashboard-article/' },
         ] },
       ],
     },
@@ -485,9 +485,9 @@
     }
     return [
       footerCol('Block Share', [HOME_LINK, ...aboutItems(), navEntry('Contact')]),
-      footerCol('Learn',       navItems('Learn')),
       footerCol('Take Part',   navItems('Take Part')),
       footerCol('Tools',       navItems('Tools')),
+      footerCol('Learn',       navItems('Learn')),
     ].join('\n\n    ');
   }
   function footerBottomLinks() {
